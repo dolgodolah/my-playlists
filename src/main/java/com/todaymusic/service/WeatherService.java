@@ -1,5 +1,8 @@
 package com.todaymusic.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.transaction.Transactional;
@@ -18,9 +21,40 @@ import org.springframework.web.util.UriBuilder;
 
 @Service
 public class WeatherService {
-	
 	@Transactional
 	public HashMap<String, String> getItemsFromApi() throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		int t = cal.get(Calendar.HOUR_OF_DAY);
+		int mTime = 0;
+		String mTime2 = null;
+		String mDate = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		
+		//현재 시간이 0시~0시59분이면 23시~23시59분으로
+		if (t==0) { 
+			cal.add(Calendar.DATE, -1);
+			cal.set(Calendar.HOUR_OF_DAY, 23);
+			Date date = cal.getTime();
+			mDate = sdf.format(date);
+			mTime = cal.get(Calendar.HOUR_OF_DAY);
+			mTime2=mTime+"00";
+		}
+		else
+		{
+			cal.set(Calendar.HOUR_OF_DAY, t);
+			Date date = cal.getTime();
+			mDate = sdf.format(date);
+			mTime = cal.get(Calendar.HOUR_OF_DAY);
+			if(mTime<=10) // 1030 -> 0900
+			{
+				mTime2 = "0"+(mTime-1)+"00";
+			}
+			else // 1830 -> 1700
+			{
+				mTime2 = (mTime-1)+"00";
+			}
+		}
+		
 		RestTemplate restTemplate = new RestTemplateBuilder().build();
 		String apiurl = "http://apis.data.go.kr";
 		DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory(apiurl);
@@ -32,8 +66,8 @@ public class WeatherService {
                 .queryParam("ServiceKey", "HBcnUdoF6rQ%2FdMzn3lAzaePET89TOJLA%2BcZ4h4cE34%2BLhNyplVyQqIhDZaehWm624XorqaFWyXtx0t%2Fo0AJKQQ%3D%3D")
                 .queryParam("nx", "60")
                 .queryParam("ny", "127")
-                .queryParam("base_date", "20210111")
-                .queryParam("base_time", "2300")
+                .queryParam("base_date", mDate)
+                .queryParam("base_time", mTime2)
                 .queryParam("dataType", "JSON")
                 .queryParam("numOfRows", "10");
 
