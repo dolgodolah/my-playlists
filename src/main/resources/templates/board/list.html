@@ -20,21 +20,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="text-center" th:each="post : ${postList}">
+        <tr class="text-center" th:each="music : ${musicList}">
             <th scope="row">
-                <span th:text="${post.id}"></span>
+            	<iframe id="player" type="text/html" width="320" height="180" th:src="${music}" frameborder="0">음악 영상</iframe>
             </th>
-            <td>
-                <a th:href="@{'/post/' + ${post.id}}">
-                    <span th:text="${post.title}"></span>
-                </a>
-            </td>
-            <td>
-                <span th:text="${post.author}"></span>
-            </td>
-            <td>
-                <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-            </td>
         </tr>
         </tbody>
     </table>
