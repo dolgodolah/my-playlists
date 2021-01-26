@@ -13,6 +13,7 @@ import com.todaymusic.dto.MusicDTO;
 
 @Service
 public class MusicService {
+	
 	private MusicRepository musicRepository;
 
 	public MusicService(MusicRepository musicRepository) {
@@ -26,12 +27,13 @@ public class MusicService {
 	
 	@Transactional
     public List<MusicDTO> getMusicList(String pty){
-    	//db에 있는 게시물 전부 찾아 boardList에 저장
-    	List<Music> musicList = musicRepository.findByPty(pty);
+    	
+    	List<Music> musicList = musicRepository.findByPty(pty);//db에 해당 pty 찾아서 musicList에 저장
     	//찾은 게시물을 담을 boardDTOList 생성
-    	List<MusicDTO> musicDTOList = new ArrayList<>();
+    	List<MusicDTO> musicDTOList = new ArrayList<>();//찾은 musicList들에 대한 정보를 담을 DTOList 생성
     	
     	for(Music music : musicList) {
+    		//유튜브 검색을 위한 정보만 필요하기 때문에 제목+가수명만 추출한다.
     		MusicDTO musicDTO = MusicDTO.builder()
     				.id(music.getId())
     				.title(music.getTitle())
