@@ -44,4 +44,14 @@ public class MusicService {
     	return musicDTOList;
     }
 	
+	@Transactional
+	public MusicDTO getMusic(Long id) {
+		Music music = musicRepository.findById(id).get();
+		MusicDTO musicDTO = MusicDTO.builder()
+				.id(music.getId())
+				.title(music.getTitle())
+				.artist(music.getArtist())
+				.build();
+		return musicDTO;
+	}
 }

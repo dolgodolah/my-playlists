@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.todaymusic.dto.MusicDTO;
@@ -41,26 +42,26 @@ public class BoardController {
 	
 
 	@GetMapping("/")
-	public String main(Model model) throws ParseException, IOException {
-		List<String> videoList = new ArrayList<String>();
+	public String main(Model model) throws ParseException{
 		HashMap<String, String> items = weatherService.getItemsFromApi();
 		List<MusicDTO> musicList = musicService.getMusicList("1");//items.get("PTY")
-		for(int i=0; i<musicList.size(); i++) {
-			videoList.add("http://www.youtube.com/embed/"+youtubeService.getVideoId(musicList.get(i).getTitle()+musicList.get(i).getArtist())+"?enablejsapi=1&origin=http://example.com");
-		}
-		System.out.println(videoList.get(0));
-		
-//		System.out.println(items);
-		model.addAttribute("pty", items.get("PTY"));
-		model.addAttribute("t1h", items.get("T1H"));
-		model.addAttribute("musicList",videoList);
-		
+		model.addAttribute("musicList",musicList);
 		return "board/list";
 	}
 	
 	@GetMapping("/post")
 	public String post() {
 		return "board/post";
+	}
+	
+	@GetMapping("/detail/{id}")
+	public String detail(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
+		MusicDTO musicDTO = musicService.getMusic(id);
+		model.addAttribute("music", musicDTO);
+		String videoURL;
+		videoURL = "http://www.youtube.com/embed/"+youtubeService.getVideoId(musicDTO.getTitle()+musicDTO.getArtist())+"?enablejsapi=1&origin=http://example.com";
+		model.addAttribute("videoURL",videoURL);
+		return "board/detail";
 	}
 	
 	@PostMapping("/post")
