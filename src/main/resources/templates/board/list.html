@@ -97,7 +97,19 @@ The above copyright notice and this permission notice shall be included in all c
         	<div class="col-auto">
             	<a class="btn btn-primary" th:href="@{/post}" role="button">글쓰기</a>
         	</div>
+        	
     	</div>
+    	<div class="col-md-6 ml-auto mr-auto text-center">
+        	<nav aria-label="Page navigation example">
+              <ul class="pagination col-md-6 ml-auto mr-auto text-center">
+              	<span th:each="pageNum : ${pageList}" th:inline="text">
+              		<li class="page-item">
+              			<a class="page-link" th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+					</li>
+				</span>
+              </ul>
+            </nav>
+       	</div>
       </div>
     </div>
     
