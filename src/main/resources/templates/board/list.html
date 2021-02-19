@@ -71,23 +71,24 @@ The above copyright notice and this permission notice shall be included in all c
         <table class="table">
         	<thead class="thead-light">
         	<tr class="text-center">
-            	<th scope="col">#</th>
             	<th scope="col">제목</th>
             	<th scope="col">아티스트</th>
+            	<th scope="col">추천</th>
         	</tr>
         	</thead>
         	<tbody>
         	<tr class="text-center" th:each="music : ${musicList}">
-            	<th scope="row">
-                	<span th:text="${music.id}"></span>
-            	</th>
+            	
             	<td>
-                	<a th:href="@{'/detail/' + ${music.id}}">
+            		<a th:href="@{'/detail/' + ${music.id}}">
                     	<span th:text="${music.title}"></span>
                 	</a>
             	</td>
             	<td>
                 	<span th:text="${music.artist}"></span>
+            	</td>
+            	<td>
+                	<span th:text="${music.like_count}"></span>
             	</td>
         	</tr>
         	</tbody>

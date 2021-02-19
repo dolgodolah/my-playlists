@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.todaymusic.dto.MusicDTO;
@@ -71,6 +72,12 @@ public class BoardController {
 		videoURL = "http://www.youtube.com/embed/"+youtubeService.getVideoId(musicDTO.getTitle()+musicDTO.getArtist())+"?enablejsapi=1&origin=http://example.com";
 		model.addAttribute("videoURL",videoURL);
 		return "board/detail";
+	}
+	
+	@PostMapping("/detail/{id}")
+	public String recommend(@PathVariable("id") Long id, Model model) {
+		musicService.setLikeCount(id);
+		return "redirect:/detail/{id}";
 	}
 	
 	@PostMapping("/post")

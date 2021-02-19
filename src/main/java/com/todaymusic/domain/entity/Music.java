@@ -10,8 +10,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Music {
@@ -31,13 +33,17 @@ public class Music {
 	@Column
 	private String t1h;
 	
+	@Column(columnDefinition = "bigint default 0", nullable = false)
+	private Long like_count;
+	
 	@Builder
-	public Music(Long id, String title, String artist, String pty, String t1h) {
+	public Music(Long id, String title, String artist, String pty, String t1h, Long like_count) {
 		this.id = id;
 		this.title = title;
 		this.artist = artist;
 		this.pty = pty;
 		this.t1h = t1h;
+		this.like_count = like_count;
 	}
 	
 }

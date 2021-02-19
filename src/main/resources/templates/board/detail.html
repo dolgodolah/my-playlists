@@ -58,6 +58,10 @@ The above copyright notice and this permission notice shall be included in all c
         <div class="col-md-6 ml-auto mr-auto text-center">
           <iframe id="player" type="text/html" width="480" height="270" th:src="${videoURL}" frameborder="0">음악 영상</iframe>
           <br />
+          <form th:action="@{'/detail/' + ${music.id}}" method="post">
+          	<button type="submit" class="btn btn-info btn-round"><i class="fa fa-heart"></i> 추천</button>
+          </form>
+          
         </div>
       </div>
       <br/>

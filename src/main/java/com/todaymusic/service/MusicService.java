@@ -45,6 +45,7 @@ public class MusicService {
     				.id(music.getId())
     				.title(music.getTitle())
     				.artist(music.getArtist())
+    				.like_count(music.getLike_count())
     				.build();
     		musicDTOList.add(musicDTO);
     	}
@@ -88,7 +89,15 @@ public class MusicService {
 				.id(music.getId())
 				.title(music.getTitle())
 				.artist(music.getArtist())
+				.like_count(music.getLike_count())
 				.build();
 		return musicDTO;
+	}
+	
+	@Transactional
+	public Long setLikeCount(Long id) {
+		Music music = musicRepository.findById(id).get();
+		music.setLike_count(music.getLike_count()+1);
+		return music.getId();
 	}
 }
