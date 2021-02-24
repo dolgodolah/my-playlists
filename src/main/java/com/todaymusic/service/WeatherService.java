@@ -62,14 +62,14 @@ public class WeatherService {
 
         UriBuilder uriBuilder = uriBuilderFactory.builder();
         uriBuilder
-                .path("/1360000/VilageFcstInfoService/getUltraSrtNcst")
+                .path("/1360000/VilageFcstInfoService/getUltraSrtFcst")
                 .queryParam("ServiceKey", "HBcnUdoF6rQ%2FdMzn3lAzaePET89TOJLA%2BcZ4h4cE34%2BLhNyplVyQqIhDZaehWm624XorqaFWyXtx0t%2Fo0AJKQQ%3D%3D")
                 .queryParam("nx", "60")
                 .queryParam("ny", "127")
                 .queryParam("base_date", mDate)
                 .queryParam("base_time", mTime2)
                 .queryParam("dataType", "JSON")
-                .queryParam("numOfRows", "10");
+                .queryParam("numOfRows", "50");
 
         ResponseEntity responseEntity = restTemplate.exchange(uriBuilder.build(), HttpMethod.GET, null, String.class);
         String response = (String) responseEntity.getBody();
@@ -85,18 +85,27 @@ public class WeatherService {
 		JSONArray parse_item = (JSONArray) parse_items.get("item");
         
 		String category;
-		String obsr_Value;
+		String fcstValue;
 		JSONObject weather;
 		HashMap<String, String> result = new HashMap<>();
 		
 		for(int i=0;i<parse_item.size();i++) {
 			//System.out.println(parse_item.get(i));
 			weather = (JSONObject) parse_item.get(i);
-			obsr_Value = (String)weather.get("obsrValue");
+			fcstValue = (String)weather.get("fcstValue");
 			category = (String)weather.get("category");
-			//System.out.println(category + obsr_Value);
-			result.put(category, obsr_Value);
+//			System.out.println(category + fcstValue);
+			result.put(category, fcstValue);
 		}
+//		System.out.println(result); //날씨예보 확인
+		
+		//- 하늘상태(SKY) 코드 : 맑음(1), 구름많음(3), 흐림(4)
+		//- 강수형태(PTY) 코드 : 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4), 빗방울(5), 빗방울/눈날림(6), 눈날림(7)	
+		//PTY==0 and SKY==1 : 날씨 맑을 때 듣기 좋은 음악 추천
+		//PTY==0 and SKY==3 : 구름많음..
+		//PTY==0 and SKY==4 : 흐림..
+		//PTY==1 or PTY==4 or PTY==5 : 비올 때 듣기 좋은 음악 추천
+		//PTY==2 or PTY==3 or PTY==6 or PTY==7
 		return result;
 	}
 
