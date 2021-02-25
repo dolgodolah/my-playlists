@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class MusicService {
 	}
 	
 	private static final int BLOCK_PAGE_NUM_COUNT = 3;
-	private static final int PAGE_POST_COUNT = 4;
+	private static final int PAGE_POST_COUNT = 5;
 	
 	@Transactional
 	public Long saveMusic(MusicDTO musicDTO) {
@@ -33,7 +34,7 @@ public class MusicService {
 	
 	@Transactional
 	public List<MusicDTO> getMusicList(Integer pageNum, String pty){
-		Page<Music> page = musicRepository.findByPty(pty, PageRequest.of(pageNum - 1, PAGE_POST_COUNT));
+		Page<Music> page = musicRepository.findByPty(pty, PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC,"likeCount")));
 //        Page<Music> page = musicRepository.findAll(PageRequest.of(pageNum - 1, PAGE_POST_COUNT));
 		List<Music> musicList = page.getContent();
 		List<MusicDTO> musicDTOList = new ArrayList<>();
@@ -45,7 +46,7 @@ public class MusicService {
     				.id(music.getId())
     				.title(music.getTitle())
     				.artist(music.getArtist())
-    				.like_count(music.getLike_count())
+    				.likeCount(music.getLikeCount())
     				.build();
     		musicDTOList.add(musicDTO);
     	}
@@ -89,7 +90,7 @@ public class MusicService {
 				.id(music.getId())
 				.title(music.getTitle())
 				.artist(music.getArtist())
-				.like_count(music.getLike_count())
+				.likeCount(music.getLikeCount())
 				.build();
 		return musicDTO;
 	}
@@ -97,7 +98,7 @@ public class MusicService {
 	@Transactional
 	public Long setLikeCount(Long id) {
 		Music music = musicRepository.findById(id).get();
-		music.setLike_count(music.getLike_count()+1);
+		music.setLikeCount(music.getLikeCount()+1);
 		return music.getId();
 	}
 }
