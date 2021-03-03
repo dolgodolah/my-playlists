@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +55,8 @@ public class BoardController {
 		model.addAttribute("musicList",musicList);
 		model.addAttribute("pageList", pageList);
 		
+
+		
 //		HashMap<String, String> items = weatherService.getItemsFromApi();
 //		List<MusicDTO> musicList = musicService.getMusicList("3");//items.get("PTY")
 //		model.addAttribute("musicList",musicList);
@@ -69,7 +73,7 @@ public class BoardController {
 		MusicDTO musicDTO = musicService.getMusic(id);
 		model.addAttribute("music", musicDTO);
 		String videoURL;
-		videoURL = "http://www.youtube.com/embed/"+youtubeService.getVideoId(musicDTO.getTitle()+musicDTO.getArtist())+"?enablejsapi=1&origin=http://example.com";
+		videoURL = "http://www.youtube.com/embed/"+youtubeService.getVideoId(musicDTO.getArtist()+musicDTO.getTitle())+"?enablejsapi=1&origin=http://example.com";
 		model.addAttribute("videoURL",videoURL);
 		return "board/detail";
 	}
@@ -77,6 +81,7 @@ public class BoardController {
 	@PostMapping("/detail/{id}")
 	public String recommend(@PathVariable("id") Long id, Model model) {
 		musicService.setLikeCount(id);
+//		model.addAttribute("check", check);
 		return "redirect:/detail/{id}";
 	}
 	

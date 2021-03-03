@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -33,8 +34,13 @@ public class Music {
 	@Column
 	private String t1h;
 	
-	@Column(columnDefinition = "bigint default 0", nullable = false)
+	@Column(columnDefinition = "bigint default 0")
 	private Long likeCount;
+	
+	@PrePersist
+	public void prePersist() {
+		this.likeCount=this.likeCount == null ? 0 : this.likeCount; //null값일 시 0으로 초기
+	}
 	
 	@Builder
 	public Music(Long id, String title, String artist, String pty, String t1h, Long likeCount) {

@@ -3,26 +3,36 @@ package com.todaymusic.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.todaymusic.domain.entity.LikeKey;
 import com.todaymusic.domain.entity.Music;
+import com.todaymusic.domain.repository.LikeRepository;
 import com.todaymusic.domain.repository.MusicRepository;
+import com.todaymusic.dto.LikeDTO;
 import com.todaymusic.dto.MusicDTO;
+
 
 @Service
 public class MusicService {
 	
 	private MusicRepository musicRepository;
+	private LikeRepository likeRepository;
 
-	public MusicService(MusicRepository musicRepository) {
+	public MusicService(MusicRepository musicRepository, LikeRepository likeRepository) {
 		this.musicRepository = musicRepository;
+		this.likeRepository = likeRepository;
 	}
+	
+	
 	
 	private static final int BLOCK_PAGE_NUM_COUNT = 3;
 	private static final int PAGE_POST_COUNT = 5;
@@ -96,9 +106,33 @@ public class MusicService {
 	}
 	
 	@Transactional
-	public Long setLikeCount(Long id) {
-		Music music = musicRepository.findById(id).get();
-		music.setLikeCount(music.getLikeCount()+1);
-		return music.getId();
+	public int setLikeCount(Long id) {
+		
+		//HttpServletRequest에 있는 getMemoteAddr() 메서드를 통해 userIp를 가져온다.
+		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String ip = req.getHeader("X-FORWARDED-FOR");
+		if (ip == null) ip = req.getRemoteAddr();
+		
+		//해당 음악(id)과 유저IP에 대한 객체 생성을 한다.
+		LikeKey likeKey = new LikeKey();
+		likeKey.setMusicId(id);
+		likeKey.setUserIp(ip);
+		
+		//like DB에 해당 음악에 대한 유저IP가 기록되어있는지 확인한다.
+		if (likeRepository.findByLikeKey(likeKey).isPresent() == false){
+			LikeDTO likeDTO = new LikeDTO();
+			likeDTO.setLikeKey(likeKey);
+			likeRepository.save(likeDTO.toEntity());
+			
+			Music music = musicRepository.findById(id).get();
+			music.setLikeCount(music.getLikeCount()+1);
+			//해당 음악에 처음 좋아요를 눌렀다면 1을 반환한다.
+			return 1;
+		}
+		else { 
+			//해당 음악에 좋아요를 누른 적이 있다면 -1을 반환한다.
+			return -1;
+		}
+		
 	}
 }
