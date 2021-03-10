@@ -7,12 +7,16 @@ import java.util.List;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.todaymusic.dto.MusicDTO;
 import com.todaymusic.service.MusicService;
@@ -40,22 +44,15 @@ public class BoardController {
 	
 
 	@GetMapping("/")
-	public String main(Model model, @RequestParam(value="page", defaultValue="1") Integer pageNum) throws ParseException{
+	public String main(Model model, @PageableDefault(size=5, sort="likeCount", direction=Sort.Direction.DESC) Pageable pageable) throws ParseException{
 		HashMap<String, String> items = weatherService.getItemsFromApi(); //공공데이터api로부터 날씨정보 얻어온다.
-	
-		List<MusicDTO> musicList = musicService.getMusicList(pageNum,"1");//items.get("PTY")
-		Integer[] pageList = musicService.getPageList(pageNum);
-		
-		model.addAttribute("musicList",musicList);
-		model.addAttribute("pageList", pageList);
-		
-
-		
-//		HashMap<String, String> items = weatherService.getItemsFromApi();
-//		List<MusicDTO> musicList = musicService.getMusicList("3");//items.get("PTY")
-//		model.addAttribute("musicList",musicList);
+			
+		model.addAttribute("musicList",musicService.getMusicList(pageable,"1")); //items.get("PTY")
+		model.addAttribute("previous",pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next",pageable.next().getPageNumber());
 		return "board/list";
 	}
+	
 	
 	@GetMapping("/post")
 	public String post() {
