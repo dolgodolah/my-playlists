@@ -31,8 +31,8 @@ public class Music {
 	@Column(length = 1, nullable = false)
 	private String pty;
 	
-	@Column
-	private String t1h;
+	@Column(length=1)
+	private String sky;
 	
 	@Column(columnDefinition = "bigint default 0")
 	private Long likeCount;
@@ -43,12 +43,12 @@ public class Music {
 	}
 	
 	@Builder
-	public Music(Long id, String title, String artist, String pty, String t1h, Long likeCount) {
+	public Music(Long id, String title, String artist, String pty, String sky, Long likeCount) {
 		this.id = id;
 		this.title = title;
 		this.artist = artist;
 		this.pty = pty;
-		this.t1h = t1h;
+		this.sky = sky;
 		this.likeCount = likeCount;
 	}
 	

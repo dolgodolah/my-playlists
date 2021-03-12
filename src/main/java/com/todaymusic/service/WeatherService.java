@@ -99,13 +99,13 @@ public class WeatherService {
 		}
 //		System.out.println(result); //날씨예보 확인
 		
-		//- 하늘상태(SKY) 코드 : 맑음(1), 구름많음(3), 흐림(4)
+		//- 하늘상태(SKY) 코드 : 맑음(1), 구름많음(3, 4로 정규화), 흐림(4)
 		//- 강수형태(PTY) 코드 : 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4), 빗방울(5), 빗방울/눈날림(6), 눈날림(7)	
 		//PTY==0 and SKY==1 : 날씨 맑을 때 듣기 좋은 음악 추천
-		//PTY==0 and SKY==3 : 구름많음..
+		//PTY==0 and (SKY==3 or SKY==4) : 구름많음..
 		//PTY==0 and SKY==4 : 흐림..
-		//PTY==1 or PTY==4 or PTY==5 : 비올 때 듣기 좋은 음악 추천
-		//PTY==2 or PTY==3 or PTY==6 or PTY==7
+		//PTY==1 or PTY==4 or PTY==5 : 비올 때 듣기 좋은 음악 추천(1로 정규화)
+		//PTY==2 or PTY==3 or PTY==6 or PTY==7(2로 정규화)
 		return result;
 	}
 

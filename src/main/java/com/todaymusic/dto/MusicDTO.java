@@ -17,7 +17,7 @@ public class MusicDTO {
 	private String title;
 	private String artist;
 	private String pty;
-	private String t1h;
+	private String sky;
 	private Long likeCount;
 	
 	public Music toEntity() {
@@ -26,19 +26,19 @@ public class MusicDTO {
 				.title(title)
 				.artist(artist)
 				.pty(pty)
-				.t1h(t1h)
+				.sky(sky)
 				.likeCount(likeCount)
 				.build();
 		return build;
 	}
 	
 	@Builder
-	public MusicDTO(Long id, String title, String artist, String pty, String t1h, Long likeCount) {
+	public MusicDTO(Long id, String title, String artist, String pty, String sky, Long likeCount) {
 		this.id = id;
 		this.title = title;
 		this.artist = artist;
 		this.pty = pty;
-		this.t1h = t1h;
+		this.sky = sky;
 		this.likeCount = likeCount;
 	}
 	

@@ -12,4 +12,5 @@ import com.todaymusic.domain.entity.Music;
 public interface MusicRepository extends JpaRepository<Music, Long>{
 //	List<Music> findByPty(String pty);
 	Page<Music> findByPty(String pty, Pageable pageable);
+	Page<Music> findBySky(String sky, Pageable pageable);
 }
