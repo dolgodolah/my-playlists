@@ -43,19 +43,16 @@ public class MusicService {
 		if (pty.equals("0")) { //비나 눈이 오지 않은 채
 			if (sky.equals("1")) //맑으면
 				return musicRepository.findBySky("1", pageable);
-			
 			else //맑지 않으면(흐리거나 구름 많을 때)
 				return musicRepository.findBySky("4", pageable);
 		}
-			
-		else if (pty.equals("1") || pty.equals("4") || pty.equals("5")) //비올 때
-			return musicRepository.findByPty("1", pageable);
-		
-		else if (pty.equals("2") || pty.equals("3") || pty.equals("6")) //눈올 때
-			return musicRepository.findByPty("2", pageable);
-		
-		else
-			return musicRepository.findAll(pageable);
+		else {
+			if (pty.equals("1")||pty.equals("4")||pty.equals("5")) //비올 때
+				return musicRepository.findByPty("1",pageable);
+			else if(pty.equals("2")||pty.equals("3")||pty.equals("6")) //눈올 때
+				return musicRepository.findByPty("2", pageable);
+			else return musicRepository.findAll(pageable);
+		}
 		
 	}
 	

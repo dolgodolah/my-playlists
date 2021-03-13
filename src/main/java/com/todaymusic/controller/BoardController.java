@@ -44,10 +44,10 @@ public class BoardController {
 	
 
 	@GetMapping("/")
-	public String main(Model model, @PageableDefault(size=20, sort="likeCount", direction=Sort.Direction.DESC) Pageable pageable) throws ParseException{
+	public String main(Model model, @PageableDefault(size=10, sort="likeCount", direction=Sort.Direction.DESC) Pageable pageable) throws ParseException{
 		HashMap<String, String> items = weatherService.getItemsFromApi(); //공공데이터api로부터 날씨정보 얻어온다.
-		
-		model.addAttribute("musicList",musicService.getMusicList(pageable,"1",items.get("SKY"))); //items.get("PTY"),itmes.get("SKY")
+//		System.out.println(items.get("PTY")+items.get("SKY"));
+		model.addAttribute("musicList",musicService.getMusicList(pageable,items.get("PTY"),items.get("SKY"))); //items.get("PTY"),itmes.get("SKY")
 		model.addAttribute("previous",pageable.previousOrFirst().getPageNumber());
 		model.addAttribute("next",pageable.next().getPageNumber());
 		return "board/list";

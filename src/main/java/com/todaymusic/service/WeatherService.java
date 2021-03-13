@@ -95,7 +95,11 @@ public class WeatherService {
 			fcstValue = (String)weather.get("fcstValue");
 			category = (String)weather.get("category");
 //			System.out.println(category + fcstValue);
-			result.put(category, fcstValue);
+			
+			//6시간 이후 날씨 정보까지 1시간 단위로 받아오기 때문에 현재시간으로부터 가장 가까운 시간의 관측값을 result에 넣는다.
+			if (result.containsKey(category)==false) {
+				result.put(category, fcstValue);
+			}
 		}
 //		System.out.println(result); //날씨예보 확인
 		
