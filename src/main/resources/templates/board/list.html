@@ -104,7 +104,7 @@ The above copyright notice and this permission notice shall be included in all c
         	<nav aria-label="Page navigation example">
               <ul class="pagination col-md-6 ml-auto mr-auto text-center">
               	<li class="page-item"><a class="page-link" th:href="@{'/?page=' + ${previous}}">이전</a></li>
-              	<li class="page-item"><a class="page-link" th:href="@{'/?page=' + ${next}}">다음</a></li>
+              	<li th:classappend="${musicList.last} ? 'disabled'" class="page-item"><a class="page-link" th:href="@{'/?page=' + ${next}}">다음</a></li>
               </ul>
             </nav>
        	</div>
