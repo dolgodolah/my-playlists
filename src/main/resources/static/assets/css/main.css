@@ -1,0 +1,148 @@
+@import url('https://cdn.jsdelivr.net/npm/font-kopub@1.0/kopubdotum.min.css');
+body {
+    font-family: 'KoPub Dotum';
+    background-color: #2A373A;
+}
+
+.center {
+    width: 70%;
+    margin: auto;
+}
+
+.app {
+    background-color: #17202A;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.menu {
+    padding: 0 20px;
+    border-radius: 8px 8px 0 0;
+    background-color: #212F3D;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    /* box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2), 0 10px 10px 0 rgba(0, 0, 0, 0.24); */
+}
+
+.menu ul:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.menu li {
+    float: left;
+}
+
+.active {
+    color: blue;
+    background-color: #17202A;
+}
+
+.menu a {
+    /* font-family: 'KoPub Dotum'; */
+    font-size: 15px;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+.menu li a:hover:not(.active) {
+    background-color: #17202A;
+}
+
+.app button {
+    display: inline-block;
+    width: 60%;
+    margin: 20px 0 20px;
+    /* margin-bottom: 20px; */
+    /* font-family: 'KoPub Dotum'; */
+    text-transform: uppercase;
+    outline: 0;
+    background: none;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 15px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.app .list {
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 60%;
+    font-family: 'KoPub Dotum';
+    text-transform: uppercase;
+    outline: 0;
+    background: none;
+    border: 0;
+    padding: 15px 0;
+    color: #FFFFFF;
+    font-size: 18px;
+    /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24); */
+    text-decoration: none;
+}
+
+.bgImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+}
+
+.search {
+    padding-left: 20px;
+    text-align: center;
+}
+
+.fa {
+    color: white;
+}
+
+span {
+    font-family: "KoPub Dotum";
+    color: white;
+}
+
+.search-input {
+    background-color: #212F3D;
+    width: 56%;
+    outline: 0;
+    border-radius: 3px;
+    border: 1px solid #212F3D;
+    margin: 10px 0;
+    padding: 10px 12px;
+}
+
+.fa-search {
+    position: relative;
+    right: 50px;
+    /* margin: 0; */
+}
+
+.add {
+    padding-left: 20px;
+    text-align: center;
+}
+
+.title-input {
+    background-color: #212F3D;
+    width: 56%;
+    outline: 0;
+    border-radius: 3px;
+    border: none;
+    margin: 10px 0;
+    padding: 10px 12px;
+}

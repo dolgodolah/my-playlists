@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Today Music</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="mac-btn" id="mac-btn1"></div>
+        <div class="mac-btn" id="mac-btn2"></div>
+        <div class="mac-btn" id="mac-btn3"></div>
+    </header>
+
+
+    <section class="center">
+        <div class="app">
+            <div class="menu">
+                <ul>
+                    <li><a class="active" href="#">내 플레이리스트</a></li>
+                    <li>
+                        <a href="#">다른 플레이리스트</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="add">
+                <form method="POST">
+                    <input type="text" name="title" class="title-input" placeholder="플레이리스트 제목을 입력하세요.">
+                    <br>
+                    <input type="radio" name="visibility" value="public"><i class="fa fa-book"><span> Public : 이 플레이리스트를 누구나 볼 수 있습니다.</span></i>
+
+                    <br>
+                    <input type="radio" name="visibility" value="private"><i class="fa fa-lock"></i><span> Private : 자신과 공유받은 사람만 볼 수 있습니다.</span>
+
+                    <button class="addlist-button" type="submit">추가</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="../assets/js/bg.js"></script>
+</body>

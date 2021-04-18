@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Today Music</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="mac-btn" id="mac-btn1"></div>
+        <div class="mac-btn" id="mac-btn2"></div>
+        <div class="mac-btn" id="mac-btn3"></div>
+    </header>
+
+    <div class="login-page">
+        <div class="form">
+            <form class="login-form" action="/login" method="post">
+                <input class="id" type="text" placeholder="아이디">
+                <input class="pass" type="password" placeholder="비밀번호">
+                <button type="submit">로그인</button>
+            </form>
+            <form action="/join" method="get">
+            	<button type="submit">회원가입</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+    <script src="../assets/js/bg.js"></script>
+</body>
