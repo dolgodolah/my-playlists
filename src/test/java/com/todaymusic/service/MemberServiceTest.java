@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.todaymusic.domain.Member;
@@ -23,6 +24,7 @@ class MemberServiceTest {
 	 * given, when, then이 Test의 기본 구조이다.
 	 */
 	@Test
+//	@Rollback(false)
 	public void 회원가입() throws Exception{
 		//given
 		Member member = new Member();
@@ -40,6 +42,18 @@ class MemberServiceTest {
 	
 	@Test
 	public void 중복_회원_예외() throws Exception{
+		Member member1 = new Member();
+		member1.setUsername("dolgodolah");
+		member1.setPassword("1234");
+		
+		Member member2 = new Member();
+		member2.setUsername("dolgodolah");
+		member2.setPassword("432");
+		
+		memberService.join(member1);
+		assertThrows(IllegalStateException.class, ()->{
+			memberService.join(member2);
+		});
 		
 	}
 

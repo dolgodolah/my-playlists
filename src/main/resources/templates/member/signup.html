@@ -17,19 +17,17 @@
 
     <div class="login-page">
         <div class="form">
-            <form class="login-form" action="/login" th:object="${memberForm}" method="post">
-                <input class="id" th:field="*{username}" type="text" placeholder="USERNAME">
-             	<p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+            <form class="login-form" th:object="${member}" action="/signup" method="post">
+                <input class="id" th:field="*{username}" type="text" placeholder="USERNAME"
+                	th:class="${#fields.hasErrors('username')}? 'id fieldError' : 'id'">
+                <p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                 <br>
-                <input class="password" th:field="*{password}" type="password" placeholder="PASSWORD">
+                <input class="password" th:field="*{password}" type="password" placeholder="PASSWORD"
+                	th:class="${#fields.hasErrors('password')}? 'password fieldError' : 'password'">
                 <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+               	
                 
-                <p class="error-message" th:text="${inval}"></p>
-                
-                <button type="submit">로그인</button>
-            </form>
-            <form action="/signup" method="get">
-            	<button type="submit">회원가입</button>
+                <button type="submit">제출하기</button>
             </form>
         </div>
     </div>
@@ -37,5 +35,6 @@
 
 
 
+    <script src="../assets/js/header.js"></script>
     <script src="../assets/js/bg.js"></script>
 </body>

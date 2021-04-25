@@ -1,6 +1,8 @@
 package com.todaymusic.service;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +30,21 @@ public class MemberService {
 	}
 	
 	/*
-	 * 동시에 같은 username의 값이 들어오면 해당 로직을 통과할 수 있다.
+	 * 동시에 같은 username의 값이 들어오면 validateDuplicateMember 로직을 통과할 수 있다.
 	 * 그러니 DB 제약조건인 unique를 통해 중복 회원을 최종적으로 처리해야한다.
 	 */
 	private void validateDuplicateMember(Member member) {
 		if (memberRepository.findByUsername(member.getUsername()).isPresent()) {
 			throw new IllegalStateException("이미 존재하는 닉네임입니다.");
 		}
+	}
+	
+	public boolean login(Member member) {
+		Optional<Member> result = memberRepository.findByUsername(member.getUsername());
+		if (result.isPresent() && result.get().getPassword().equals(member.getPassword()))
+			return true;
+		else
+			return false;
 	}
 	
 }
