@@ -10,15 +10,16 @@ body {
 }
 
 .app {
-    background-color: #17202A;
+    background-color: hsl(212, 29%, 13%, 0.8);
     text-align: center;
     border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .menu {
     padding: 0 20px;
     border-radius: 8px 8px 0 0;
-    background-color: #212F3D;
+    background-color: hsl(210, 30%, 18%, 0.8);
 }
 
 .menu ul {
@@ -38,12 +39,10 @@ body {
 }
 
 .active {
-    color: blue;
     background-color: #17202A;
 }
 
 .menu a {
-    /* font-family: 'KoPub Dotum'; */
     font-size: 15px;
     display: block;
     color: white;
@@ -117,11 +116,11 @@ span {
 }
 
 .search-input {
-    background-color: #212F3D;
+    background-color: white;
     width: 56%;
     outline: 0;
     border-radius: 3px;
-    border: 1px solid #212F3D;
+    border: 1px solid white;
     margin: 10px 0;
     padding: 10px 12px;
 }

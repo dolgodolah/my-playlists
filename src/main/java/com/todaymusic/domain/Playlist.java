@@ -34,6 +34,7 @@ import lombok.Setter;
 public class Playlist {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="playlist_id")
 	private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -53,7 +54,7 @@ public class Playlist {
 	private LocalDateTime createdAt;
 	
 	@LastModifiedDate
-	private LocalDateTime updateAt;
+	private LocalDateTime updatedAt;
 
 	
 	//==연관관계 편의 메서드==//
@@ -70,7 +71,7 @@ public class Playlist {
 	@Override
 	public String toString() {
 		return "Playlist [id=" + id + ", member=" + member + ", title=" + title + ", visibility=" + visibility
-				+ ", createdAt=" + createdAt + ", updateAt=" + updateAt + "]";
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 
 

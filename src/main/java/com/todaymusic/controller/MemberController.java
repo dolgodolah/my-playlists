@@ -30,10 +30,24 @@ public class MemberController {
 		this.memberService = memberService;
 		this.playlistService=playlistService;
 	}
+	
+	@GetMapping("/")
+	public String main(HttpSession session, Model model) {
+		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
+		if (loginMember != null) {
+			return "playlist/mylist";
+		}
+		model.addAttribute("memberForm", new MemberForm());
+		return "member/login";
+	}
 
 	
 	@GetMapping("/login")
-	public String login(Model model) {
+	public String login(HttpSession session, Model model) {
+		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
+		if (loginMember != null) {
+			return "playlist/mylist";
+		}
 		model.addAttribute("memberForm",new MemberForm());
 		return "member/login";
 	}
@@ -61,7 +75,7 @@ public class MemberController {
 			model.addAttribute("inval", "가입되지 않은 유저이거나, 잘못된 비밀번호입니다.");
 			return "member/login";
 		}else {
-			session.setAttribute("id", member.getId());
+			session.setAttribute("MEMBER", memberForm);
 			return "redirect:/";
 		}
 		
@@ -79,7 +93,13 @@ public class MemberController {
 			return "member/signup";
 		}
 		memberService.join(member);
-		return "redirect:mylist";
+		return "redirect:/";
+	}
+	
+	@GetMapping("/signout")
+	public String signout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 	
 }

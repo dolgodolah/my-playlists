@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 .login-page {
     width: 80%;
-    padding: 8% 0 0;
+    /* padding: 8% 0 0; */
     margin: auto;
 }
 
@@ -9,7 +9,7 @@
     /* position: relative;
     z-index: 1;
     margin: 0 auto 100px; */
-    padding: 45px;
+    padding: 0 0 20px 0;
     text-align: center;
 }
 
@@ -24,7 +24,6 @@
     width: 60%;
     border: 0;
     border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-    
     padding: 15px;
     font-size: 18px;
     color: white;
@@ -42,20 +41,21 @@
     color: white;
 }
 
-.id.fieldError{
-	border-bottom: 2px solid rgba(255, 0, 0, 0.6);
+.id.fieldError {
+    border-bottom: 2px solid rgba(255, 0, 0, 0.6);
 }
 
-.password.fieldError{
-	border-bottom: 2px solid rgba(255, 0, 0, 0.6);
+.password.fieldError {
+    border-bottom: 2px solid rgba(255, 0, 0, 0.6);
 }
 
-.error-message{
-	
-	color:white;
+.error-message {
+    color: white;
+    margin:10px 0 0 0;
 }
 
-.form button {
+
+/* .form button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
@@ -68,8 +68,8 @@
     -webkit-transition: all 0.3 ease;
     transition: all 0.3 ease;
     cursor: pointer;
-    margin-top:10px;
-}
+    margin-top: 10px;
+} */
 
 .form button:hover,
 .form button:active,

@@ -19,7 +19,11 @@ public class Song {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="song_id")
 	private Long id;
+	
+	@Column
+	private String title;
 	
 	@Column
 	private String url;
