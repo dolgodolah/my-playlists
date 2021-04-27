@@ -4,6 +4,8 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +31,9 @@ public class PlaylistService {
 	
 
 	@Transactional
-	public List<Playlist> findPlaylist(Member member) {
-		return playlistRepository.findByMemberId(member.getId());
+	public Page<Playlist> findMylist(Pageable pageable, Member member) {
+		return playlistRepository.findByMemberId(pageable, member.getId());
+		
 	}
 	
 

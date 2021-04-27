@@ -19,7 +19,7 @@
         <div class="app">
             <div class="menu">
                 <ul>
-                    <li><a class="active" href="#">내 플레이리스트</a></li>
+                    <li><a class="active" th:href="@{/mylist}">내 플레이리스트</a></li>
                     <li><a href="#">다른 플레이리스트</a></li>
                     <li><a th:href=@{/signout}>로그아웃</a></li>
                 </ul>
@@ -29,9 +29,15 @@
                     <input type="text" class="search-input" placeholder="내 플레이리스트 검색">
 
                 </form>
-                <button>+</button>
-                <a href="#" class="list"><span>플레이리스트 제목</span></a>
-                <a href="#" class="list"><span>플레이리스트 제목</span></a>
+                <a th:href="@{/mylist/add}" class="add-button">+</a>
+                <div th:each="list:${lists}">
+                	<a th:href="@{'/mylist/'+${list.id}}" class="list"><span th:text="${list.title}"></span></a>
+                </div>
+                <!-- 
+                	<a href="#" class="list"><span>플레이리스트 제목</span></a>
+                	<a href="#" class="list"><span>플레이리스트 제목</span></a>
+                 -->
+                
             </div>
 
 

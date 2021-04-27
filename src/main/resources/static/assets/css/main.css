@@ -74,6 +74,28 @@ body {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
+.app .add-button {
+    text-decoration: none;
+    display: inline-block;
+    width: 60%;
+    margin: 20px 0 20px;
+    /* margin-bottom: 20px; */
+    /* font-family: 'KoPub Dotum'; */
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 15px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.app .add-button:hover,
+.app .add-button:active,
+.app .add-button:focus {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
 .app .list {
     margin-bottom: 10px;
     display: inline-block;
@@ -88,6 +110,12 @@ body {
     font-size: 18px;
     /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24); */
     text-decoration: none;
+}
+
+.app .list:hover,
+.app .list:active,
+.app .list:focus {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .bgImage {
@@ -137,7 +165,7 @@ span {
 }
 
 .title-input {
-    background-color: #212F3D;
+    background-color: white;
     width: 56%;
     outline: 0;
     border-radius: 3px;

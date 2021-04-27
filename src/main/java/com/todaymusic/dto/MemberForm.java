@@ -3,6 +3,7 @@ package com.todaymusic.dto;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
 

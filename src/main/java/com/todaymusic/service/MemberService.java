@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.todaymusic.domain.Member;
+import com.todaymusic.dto.MemberForm;
 import com.todaymusic.repository.MemberRepository;
 
 @Service
@@ -35,7 +36,7 @@ public class MemberService {
 	 */
 	private void validateDuplicateMember(Member member) {
 		if (memberRepository.findByUsername(member.getUsername()).isPresent()) {
-			throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+			throw new IllegalStateException("이미 존재하는 유저명입니다.");
 		}
 	}
 	
@@ -45,6 +46,11 @@ public class MemberService {
 			return true;
 		else
 			return false;
+	}
+	
+	public Member findMember(MemberForm memberForm) {
+		Member member = memberRepository.findByUsername(memberForm.getUsername()).get();
+		return member;
 	}
 	
 }
