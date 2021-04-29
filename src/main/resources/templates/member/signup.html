@@ -14,39 +14,27 @@
         <div class="mac-btn" id="mac-btn2"></div>
         <div class="mac-btn" id="mac-btn3"></div>
     </header>
-	<section class="center">
-        <div class="app">
-            <div class="menu">
-                <ul>
-                    <li><a th:href="@{/login}">로그인</a></li>
-                    <li><a class="active" th:href="@{/signup}">회원가입</a></li>
-                </ul>
-            </div>
-            <div class="login-page">
-		        <div class="form">
-		            <form class="login-form" th:object="${member}" action="/signup" method="post">
-		                <input class="id" th:field="*{username}" type="text" placeholder="USERNAME"
-		                	th:class="${#fields.hasErrors('username')}? 'id fieldError' : 'id'">
-		                <p class="error-message" th:if="${inval}" th:text="${inval}"></p>
-		                <p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
-		                <br>
-		                <input class="password" th:field="*{password}" type="password" placeholder="PASSWORD"
-		                	th:class="${#fields.hasErrors('password')}? 'password fieldError' : 'password'">
-		                <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-		               	
-		                
-		                <button type="submit">제출하기</button>
-		            </form>
-		        </div>
-		    </div>
-            
-    	</div>
-    </section>
+	<div class="menu">
+        <ul>
+            <li><a th:href="@{/login}">로그인</a></li>
+            <li><a class="active" th:href="@{/signup}">회원가입</a></li>
+        </ul>
+    </div>
+
+
+    <div class="login-page">
+        <div class="form">
+            <form class="login-form" action="/signup" th:object="${member}" method="post">
+                <input class="id" type="text" placeholder="USERNAME" th:field="*{username}" th:class="${#fields.hasErrors('username')?'id fieldError' : 'id'}">
+                <p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors=*{username}></p>
+                <p th:if="${inval}" th:text="${inval}"></p>
+                <input class="password" type="password" placeholder="PASSWORD" th:field="*{password}" th:class="${#fields.hasErrors('password')?'password fieldError' : 'password'}">
+                <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                <br>
+                <button type="submit">제출하기</button>
+            </form>
+        </div>
+    </div>
     
-
-
-
-
-    <script src="../assets/js/header.js"></script>
     <script src="../assets/js/bg.js"></script>
 </body>

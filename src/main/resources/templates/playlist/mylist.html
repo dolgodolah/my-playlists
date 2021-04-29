@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
+
 <head>
     <title>Today Music</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
@@ -15,36 +16,69 @@
         <div class="mac-btn" id="mac-btn3"></div>
     </header>
 
-    <section class="center">
-        <div class="app">
-            <div class="menu">
-                <ul>
-                    <li><a class="active" th:href="@{/mylist}">내 플레이리스트</a></li>
-                    <li><a href="#">다른 플레이리스트</a></li>
-                    <li><a th:href=@{/signout}>로그아웃</a></li>
-                </ul>
-            </div>
+    <div class="container clearfix">
+        <div class="people-list" id="people-list">
             <div class="search">
-                <form method="POST">
-                    <input type="text" class="search-input" placeholder="내 플레이리스트 검색">
-
-                </form>
-                <a th:href="@{/mylist/add}" class="add-button">+</a>
-                <div th:each="list:${lists}">
-                	<a th:href="@{'/mylist/'+${list.id}}" class="list"><span th:text="${list.title}"></span></a>
-                </div>
-                <!-- 
-                	<a href="#" class="list"><span>플레이리스트 제목</span></a>
-                	<a href="#" class="list"><span>플레이리스트 제목</span></a>
-                 -->
-                
+            	<form method="get" action="/mylist/search">
+            		<input type="text" placeholder="검색" name="keyword">
+            	</form>
             </div>
+            <a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            <ul class="list">
+                <li class="clearfix" th:each="playlist:${playlists}">
+                    <a th:href="@{'/mylist/'+${playlist.id}}">
+                        <div class="about">
+                            <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
+                            <div class="status" th:text="${#temporals.format(playlist.updatedAt,'yy-MM-dd HH:mm')}"></div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+			<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
+        </div>
 
+        <div class="chat">
+            <div class="chat-header clearfix">
+                <div class="chat-about">
+                    <div class="chat-with">Chat with Vincent Porter</div>
+                    <div class="chat-num-messages">already 1 902 messages</div>
+                </div>
+                <a href="#"><i class="fa fa-plus"></i></a>
+            </div>
+            <!-- end chat-header -->
+
+            <div class="chat-history">
+                <ul>
+                    <li>
+                        <div class="message-data">
+                            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
+                            <span class="message-data-time">10:20 AM, Today</span>
+                        </div>
+                        <div class="message my-message">
+                            Actually everything was fine. I'm very excited to show this to our team.
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- end chat-history -->
+
+            <div class="chat-message clearfix">
+                <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
+
+                <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+                <i class="fa fa-file-image-o"></i>
+
+                <button>Send</button>
+
+            </div>
+            <!-- end chat-message -->
 
         </div>
-    </section>
+        <!-- end chat -->
 
-
+    </div>
+    <!-- end container -->
 
     <script src="../assets/js/bg.js"></script>
 </body>

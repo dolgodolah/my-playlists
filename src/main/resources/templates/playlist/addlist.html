@@ -15,33 +15,26 @@
         <div class="mac-btn" id="mac-btn3"></div>
     </header>
 
-
-    <section class="center">
-        <div class="app">
-            <div class="menu">
-                <ul>
-                    <li><a class="active" th:href="@{/mylist}">내 플레이리스트</a></li>
-                    <li><a href="#">다른 플레이리스트</a></li>
-                    <li><a th:href=@{/signout}>로그아웃</a></li>
-                </ul>
-            </div>
-            <div class="add">
-                <form th:object="${playlist}" action="/mylist/add" method="post">
-                    <input type="text" th:field="*{title}" class="title-input" placeholder="플레이리스트 제목을 입력하세요.">
+    <div class="container clearfix">
+        <div class="list-form">
+            <form method="post" th:object="${playlist}" action="/mylist/add">
+                <div class="form-group">
+                    <input type="text" th:field="*{title}" class="title" placeholder="플레이리스트 제목을 입력하세요.">
+                </div>
+                <div class="visibility">
+                    <input type="radio" th:field="*{visibility}" value="true" checked="checked"><i class="fa fa-book"></i><span> Public : 이 플레이리스트를 누구나 볼 수 있습니다.</span>
                     <br>
-                    <input type="radio" th:field="*{visibility}" th:value="true"><i class="fa fa-book"></i><span> Public : 이 플레이리스트를 누구나 볼 수 있습니다.</span>
-
-                    <br>
-                    <input type="radio" th:field="*{visibility}" th:value="false"><i class="fa fa-lock"></i><span> Private : 자신과 공유받은 사람만 볼 수 있습니다.</span>
-
-                    <button class="addlist-button" type="submit">추가</button>
-                </form>
-            </div>
+                    <input type="radio" th:field="*{visibility}" value="false"><i class="fa fa-lock"></i><span> Private : 자신과 공유받은 사람만 볼 수 있습니다.</span>
+                </div>
+                <div>
+                    <a class="btn" th:href="@{/mylist}">취소</a>
+                    <button class="btn" type="submit">완료</button>
+                </div>
+            </form>
         </div>
-    </section>
 
-
-
+    </div>
+    <!-- end container -->
 
     <script src="../assets/js/bg.js"></script>
 </body>

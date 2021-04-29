@@ -13,19 +13,20 @@
     text-align: center;
 }
 
-.signup-form {
-    margin-top: 35px;
+.menu {
+    position: absolute;
+    padding: 5px 0 0 100px;
 }
 
 .form input {
-    font-family: "Roboto", sans-serif;
+    font-family: 'KoPub Dotum';
     outline: 0;
     background: none;
     width: 60%;
     border: 0;
     border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     padding: 15px;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
 }
 
@@ -51,28 +52,19 @@
 
 .error-message {
     color: white;
-    margin:10px 0 0 0;
+    margin: 10px 0 0 0;
+    font-size:14px;
 }
 
-
-/* .form button {
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
+.login-page button {
     background: none;
-    width: 60%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 18px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
+    color: #fff;
+    border: 2px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    margin: 15px 0 0 0;
+    font-family: 'KoPub Dotum';
     cursor: pointer;
-    margin-top: 10px;
-} */
-
-.form button:hover,
-.form button:active,
-.form button:focus {
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }

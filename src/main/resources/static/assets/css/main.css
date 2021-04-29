@@ -2,120 +2,12 @@
 body {
     font-family: 'KoPub Dotum';
     background-color: #2A373A;
+    padding: 0 0 10px 0;
 }
 
-.center {
-    width: 70%;
-    margin: auto;
-}
-
-.app {
-    background-color: hsl(212, 29%, 13%, 0.8);
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.menu {
-    padding: 0 20px;
-    border-radius: 8px 8px 0 0;
-    background-color: hsl(210, 30%, 18%, 0.8);
-}
-
-.menu ul {
-    list-style-type: none;
-    padding: 0;
-    /* box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2), 0 10px 10px 0 rgba(0, 0, 0, 0.24); */
-}
-
-.menu ul:after {
-    content: '';
-    display: block;
-    clear: both;
-}
-
-.menu li {
-    float: left;
-}
-
-.active {
-    background-color: #17202A;
-}
-
-.menu a {
-    font-size: 15px;
-    display: block;
+a {
+    text-decoration: none;
     color: white;
-    text-align: center;
-    padding: 8px 12px;
-    text-decoration: none;
-}
-
-.menu li a:hover:not(.active) {
-    background-color: #17202A;
-}
-
-.app button {
-    display: inline-block;
-    width: 60%;
-    margin: 20px 0 20px;
-    /* margin-bottom: 20px; */
-    /* font-family: 'KoPub Dotum'; */
-    text-transform: uppercase;
-    outline: 0;
-    background: none;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 15px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
-    cursor: pointer;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.app .add-button {
-    text-decoration: none;
-    display: inline-block;
-    width: 60%;
-    margin: 20px 0 20px;
-    /* margin-bottom: 20px; */
-    /* font-family: 'KoPub Dotum'; */
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 15px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
-    cursor: pointer;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.app .add-button:hover,
-.app .add-button:active,
-.app .add-button:focus {
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.app .list {
-    margin-bottom: 10px;
-    display: inline-block;
-    width: 60%;
-    font-family: 'KoPub Dotum';
-    text-transform: uppercase;
-    outline: 0;
-    background: none;
-    border: 0;
-    padding: 15px 0;
-    color: #FFFFFF;
-    font-size: 18px;
-    /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24); */
-    text-decoration: none;
-}
-
-.app .list:hover,
-.app .list:active,
-.app .list:focus {
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .bgImage {
@@ -129,47 +21,266 @@ body {
     -webkit-filter: blur(10px);
 }
 
-.search {
-    padding-left: 20px;
-    text-align: center;
-}
-
-.fa {
-    color: white;
-}
-
 span {
     font-family: "KoPub Dotum";
     color: white;
 }
 
-.search-input {
-    background-color: white;
-    width: 56%;
-    outline: 0;
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 0 auto;
+    width: 900px;
+    background: hsl(212, 29%, 13%, 0.8);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 5px;
+}
+
+.active {
+    background-color: #17202A;
+}
+
+.people-list li:hover:not(.active) {
+    background-color: #17202A;
+}
+
+.people-list {
+    height: 520px;
+    width: 260px;
+    float: left;
+}
+
+.people-list .search {
+    padding: 20px;
+}
+
+.people-list input {
     border-radius: 3px;
-    border: 1px solid white;
-    margin: 10px 0;
-    padding: 10px 12px;
+    border: none;
+    padding: 10px;
+    background: white;
+    outline: 0;
+    width: 100%;
+    font-size: 14px;
 }
 
-.fa-search {
-    position: relative;
-    right: 50px;
-    /* margin: 0; */
+.people-list ul {
+	height:360px;
+    padding: 0px;
 }
 
-.add {
-    padding-left: 20px;
+.people-list ul li {
+    padding: 10px;
+}
+
+.people-list .about {
+    float: left;
+}
+
+.people-list .status {
+	font-size:14px;
+    color: #92959E;
+}
+
+.people-list .fa-plus {
+    float: right;
+    color: #D8DADF;
+    font-size: 20px;
+    margin-top: 12px;
+    transition: all ease 0.5s;
+}
+
+.people-list .fa-plus:hover {
+    transform: rotate(90deg);
+}
+
+.add-btn {
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 4px;
+    margin: 0 0 0 75px;
+}
+
+.logout-btn {
+	padding:15px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.chat {
+    background-color: #17202A;
+    height: 520px;
+    width: 640px;
+    float: left;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #434651;
+}
+
+.chat .chat-header {
+    padding: 20px;
+    border-bottom: 2px solid white;
+}
+
+.chat .chat-header .chat-about {
+    float: left;
+    padding-left: 10px;
+    margin-top: 6px;
+}
+
+.chat .chat-header .chat-with {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.chat .chat-header .chat-num-messages {
+    color: #92959E;
+}
+
+.chat .chat-header .fa-plus {
+    float: right;
+    color: #D8DADF;
+    font-size: 20px;
+    margin-top: 12px;
+    transition: all ease 0.5s;
+}
+
+.chat .chat-header .fa-plus:hover {
+    transform: rotate(180deg);
+}
+
+.chat .chat-history {
+    padding: 30px 30px 20px;
+    border-bottom: 2px solid white;
+    /* overflow-y: scroll; */
+    /* height: 575px; */
+}
+
+.chat .chat-message {
+    padding: 30px;
+}
+
+.chat .chat-message textarea {
+    width: 100%;
+    border: none;
+    padding: 10px 20px;
+    font: 14px/22px "Lato", Arial, sans-serif;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    resize: none;
+}
+
+.chat .chat-message .fa-file-o,
+.chat .chat-message .fa-file-image-o {
+    font-size: 16px;
+    color: gray;
+    cursor: pointer;
+}
+
+.chat .chat-message button {
+    float: right;
+    color: #94C2ED;
+    font-size: 16px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: #F2F5F8;
+}
+
+.chat .chat-message button:hover {
+    color: #75b1e8;
+}
+
+.online,
+.offline,
+.me {
+    margin-right: 3px;
+    font-size: 10px;
+}
+
+.online {
+    color: #86BB71;
+}
+
+.offline {
+    color: #E38968;
+}
+
+.me {
+    color: #94C2ED;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.float-right {
+    float: right;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+.list-form {
+    padding: 50px;
     text-align: center;
 }
 
-.title-input {
-    background-color: white;
-    width: 56%;
-    outline: 0;
+.list-form .visibility {
+    margin: 20px 0 0 0;
+}
+
+.list-form .title {
     border-radius: 3px;
     border: none;
-    margin: 10px 0;
-    padding: 10px 12px;
+    padding: 10px;
+    background: white;
+    outline: 0;
+    width: 60%;
+    font-size: 14px;
+}
+
+.list-form button {
+    background: none;
+    color: #fff;
+    border: 2px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    margin: 15px 0 0 0;
+    font-family: 'KoPub Dotum';
+    cursor: pointer;
+}
+
+.list-form a {
+    background: none;
+    color: #fff;
+    border: 2px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    margin: 15px 0 0 0;
+    font-family: 'KoPub Dotum';
 }
