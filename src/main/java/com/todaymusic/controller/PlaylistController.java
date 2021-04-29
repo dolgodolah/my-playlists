@@ -1,5 +1,6 @@
 package com.todaymusic.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,8 +67,7 @@ public class PlaylistController {
 		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
 		if (loginMember!=null) {
 			Member member = memberService.findMember(loginMember);
-			model.addAttribute("lists", playlistService.findMylist(pageable, member));
-			
+			model.addAttribute("playlists", playlistService.findMylist(pageable, member));
 			return "playlist/mylist";
 		}
 		model.addAttribute("memberForm", new MemberForm());
@@ -76,6 +76,13 @@ public class PlaylistController {
 	
 	@GetMapping("/mylist/{id}")
 	public String detail() {
-		return "mylist/detail";
+		return "playlist/detail";
+	}
+	
+	
+	@GetMapping("/mylist/search")
+	public String search(Model model, String keyword, @PageableDefault(size=5, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
+		model.addAttribute("playlists",playlistService.search(pageable, keyword));
+		return "playlist/search";
 	}
 }

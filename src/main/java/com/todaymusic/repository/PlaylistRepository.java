@@ -10,4 +10,5 @@ import com.todaymusic.domain.Playlist;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
 	Page<Playlist> findByMemberId(Pageable pageable, Long memberId);
+	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
 }
