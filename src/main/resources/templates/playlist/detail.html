@@ -42,7 +42,31 @@
         </div>
 
         <div class="chat">
-           
+            <div class="chat-header clearfix">
+                <div class="chat-about">
+                    <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
+                    <div class="chat-num-messages" th:text=${playlist.description}>해당 플레이리스트 설명(20자 이내)</div>
+                </div>
+                <a th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+            </div>
+            <!-- end chat-header -->
+
+            <div class="chat-history">
+                <ul>
+                    <li>
+                        <div class="message-data">
+                            <span class="message-data-name">유튜브 영상 프레임</span>
+                            <span class="message-data-time">10:20 AM, Today</span>
+                        </div>
+                        <div class="message my-message">
+                            글 내용?
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- end chat-history -->
+
 
         </div>
         <!-- end chat -->

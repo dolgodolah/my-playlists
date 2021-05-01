@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -44,8 +46,14 @@ public class Playlist {
 	@OneToMany(mappedBy="playlist")
 	private List<Song> songs = new ArrayList<>();
 	
-	@Column(nullable=false)
+	@Column
+	@Size(max=15, message = "최대 15자까지 가능합니다.")
+	@NotBlank(message="플레이리스트 제목을 입력해주세요.")
 	private String title;
+	
+	@Column
+	@Size(max=30, message = "최대 30자까지 가능합니다.")
+	private String description;
 	
 	@Column(nullable=false)
 	private boolean visibility;

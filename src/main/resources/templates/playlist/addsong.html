@@ -42,6 +42,36 @@
         </div>
 
         <div class="chat">
+            <div class="chat-header clearfix">
+                <div class="chat-about">
+                    <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
+                    <div class="chat-num-messages" th:text=${playlist.description}>해당 플레이리스트 설명(20자 이내)</div>
+                </div>
+                <a th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+            </div>
+            <!-- end chat-header -->
+
+            <div class="chat-history">
+            	<div class="search">
+            		<form method="get" th:action="@{'/mylist/' + ${playlist.id} + '/youtube_search'}">
+            			<input type="text" placeholder="노래 제목 검색" name="search">
+            		</form>
+            	</div>
+                <div class="message-data">
+            		<div class="result" th:each="video:${result}">
+            			<div class="thumbnail"><img th:src="${video.thumbnail}"></div>
+           				<div class="title" th:text="${video.title}"></div>
+           				<div class="add">
+	           				<form method="post" th:action="@{'/mylist/' + ${playlist.id} + '/add/' + ${video.videoId}}">
+	           					<button class="add-btn">추가</button>
+	           				</form>
+           				</div>
+           				
+            		</div>
+                </div>
+            </div>
+            <!-- end chat-history -->
+
            
 
         </div>
@@ -50,5 +80,5 @@
     </div>
     <!-- end container -->
 
-    <script src="../assets/js/bg.js"></script>
+    <script src="../../assets/js/bg.js"></script>
 </body>

@@ -43,6 +43,10 @@ public class PlaylistService {
 		return playlistRepository.findByTitleContaining(pageable, keyword);
 	}
 	
+	public Playlist getPlaylist(Long id) {
+		return playlistRepository.findById(id).get();
+	}
+	
 
 
 }

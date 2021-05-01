@@ -44,7 +44,7 @@ span {
     background-color: #17202A;
 }
 
-.people-list li:hover:not(.active) {
+.people-list .clearfix:hover:not(.active) {
     background-color: #17202A;
 }
 
@@ -68,13 +68,13 @@ span {
     font-size: 14px;
 }
 
-.people-list ul {
-	height:360px;
+.people-list .list {
+	height:320px;
     padding: 0px;
 }
 
-.people-list ul li {
-    padding: 10px;
+.people-list .clearfix {
+    padding: 10px 15px 10px 20px;
 }
 
 .people-list .about {
@@ -94,16 +94,21 @@ span {
     transition: all ease 0.5s;
 }
 
-.people-list .fa-plus:hover {
-    transform: rotate(90deg);
-}
-
-.add-btn {
+.people-list .add-btn {
     border: 1px solid;
     border-radius: 3px;
     font-size: 14px;
     padding: 4px;
     margin: 0 0 0 75px;
+}
+
+.pagination{
+	padding:10px;
+	text-align:center;
+}
+
+.page-link{
+	padding:0px 10px 0px 10px;
 }
 
 .logout-btn {
@@ -119,12 +124,13 @@ span {
     float: left;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    color: #434651;
+    color: white;
 }
 
 .chat .chat-header {
     padding: 20px;
     border-bottom: 2px solid white;
+    height:83px;
 }
 
 .chat .chat-header .chat-about {
@@ -133,13 +139,15 @@ span {
     margin-top: 6px;
 }
 
-.chat .chat-header .chat-with {
-    font-weight: bold;
-    font-size: 16px;
+.chat .chat-header .chat-num-messages {
+    font-style:italic;
+    font-size: 14px;
+    margin-top:1px;
 }
 
-.chat .chat-header .chat-num-messages {
-    color: #92959E;
+.chat .chat-header .chat-with {
+	font-size:18px;
+	font-weight:bold;
 }
 
 .chat .chat-header .fa-plus {
@@ -156,9 +164,9 @@ span {
 
 .chat .chat-history {
     padding: 30px 30px 20px;
-    border-bottom: 2px solid white;
-    /* overflow-y: scroll; */
-    /* height: 575px; */
+    /*border-bottom: 2px solid white;*/
+    overflow-y: scroll;
+    height: 437px;
 }
 
 .chat .chat-message {
@@ -241,23 +249,42 @@ ul {
     list-style: none;
 }
 
+.form-group{
+	padding:10px;
+}
+
 .list-form {
     padding: 50px;
     text-align: center;
 }
+
 
 .list-form .visibility {
     margin: 20px 0 0 0;
 }
 
 .list-form .title {
-    border-radius: 3px;
-    border: none;
-    padding: 10px;
-    background: white;
+    font-family: 'KoPub Dotum';
     outline: 0;
+    background: none;
     width: 60%;
+    border: 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 5px;
     font-size: 14px;
+    color: white;
+}
+
+.list-form .description{
+	font-family: 'KoPub Dotum';
+    outline: 0;
+    background: none;
+    width: 60%;
+    border: 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 5px;
+    font-size: 14px;
+    color: white;
 }
 
 .list-form button {
@@ -283,4 +310,61 @@ ul {
     padding: 6px;
     margin: 15px 0 0 0;
     font-family: 'KoPub Dotum';
+}
+
+.fa{
+	color:white;
+}
+
+
+
+.chat-history input {
+    border-radius: 3px;
+    border: none;
+    padding: 10px;
+    background: white;
+    outline: 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+
+.result{
+	margin-top:10px;
+	width:563px;
+	height:100px;
+}
+
+.result .thumbnail{
+	width:120px;
+	float:left;
+}
+
+.result .title{
+	width:350px;
+	height:90px;
+	padding:20px;
+	float:left;
+}
+
+.result .add{
+	float:left;
+	width:90px;
+	height:90px;
+	padding:30px;
+}
+
+
+.result button{
+	background: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 4px;
+    margin: 0px;
+    font-family: 'KoPub Dotum';
+    cursor: pointer;
+    width:50px;
 }

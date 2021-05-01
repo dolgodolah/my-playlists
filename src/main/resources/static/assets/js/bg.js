@@ -5,7 +5,7 @@ const test = document.querySelector(".login-form");
 
 function paintImage(imgNumber) {
     const image = new Image();
-    image.src = `../assets/images/${imgNumber + 1}.jpg`;
+    image.src = `/assets/images/${imgNumber + 1}.jpg`;
     image.classList.add("bgImage");
 
     //append -> 뒤에 추가, prepend -> 맨앞에 추가
