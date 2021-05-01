@@ -24,9 +24,6 @@ public class Song {
 	private Long id;
 	
 	@Column
-	private String title;
-	
-	@Column
 	private String url;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

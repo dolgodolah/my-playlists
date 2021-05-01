@@ -8,12 +8,12 @@ import com.todaymusic.domain.Song;
 import com.todaymusic.repository.SongRepository;
 
 @Service
-public class SongSerivce {
+public class SongService {
 	
 	private SongRepository musicRepository;
 
 	@Autowired
-	public SongSerivce(SongRepository musicRepository) {
+	public SongService(SongRepository musicRepository) {
 		this.musicRepository = musicRepository;
 	}
 	
