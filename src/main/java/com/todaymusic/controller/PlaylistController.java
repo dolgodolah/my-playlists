@@ -23,13 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.todaymusic.domain.Member;
+import com.todaymusic.domain.User;
+import com.todaymusic.config.auth.dto.SessionUser;
 import com.todaymusic.domain.Playlist;
 import com.todaymusic.domain.Song;
-import com.todaymusic.dto.MemberForm;
 import com.todaymusic.dto.YoutubeForm;
-import com.todaymusic.repository.MemberRepository;
-import com.todaymusic.service.MemberService;
+import com.todaymusic.service.UserService;
 import com.todaymusic.service.PlaylistService;
 import com.todaymusic.service.SongService;
 import com.todaymusic.service.YoutubeService;
@@ -38,29 +37,42 @@ import com.todaymusic.service.YoutubeService;
 public class PlaylistController {
 	
 	PlaylistService playlistService;
-	MemberService memberService;
+	UserService userService;
 	YoutubeService youtubeService;
 	SongService songService;
 	HttpSession session;
 	
 	@Autowired
-	public PlaylistController(PlaylistService playlistService, MemberService memberService, YoutubeService youtubeService, SongService songService, HttpSession session) {
+	public PlaylistController(PlaylistService playlistService, UserService userService, YoutubeService youtubeService, SongService songService, HttpSession session) {
 		this.playlistService = playlistService;
-		this.memberService = memberService;
+		this.userService = userService;
 		this.youtubeService = youtubeService;
 		this.songService = songService;
 		this.session = session;
 	}
 	
+	@GetMapping("/mylist")
+	public String playlist(Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user!=null) {
+			model.addAttribute("playlists", playlistService.findMylist(pageable, userService.findUser(user)));
+			
+			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+			model.addAttribute("next", pageable.next().getPageNumber());
+			
+			return "playlist/mylist";
+		}
+		return "index";
+	}
+	
 	@GetMapping("/mylist/add")
 	public String add(Model model) {
-		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
-		if (loginMember!=null) {
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user!=null) {
 			model.addAttribute("playlist", new Playlist());
 			return "playlist/addlist";
 		}
-		model.addAttribute("memberForm", new MemberForm());
-		return "member/login";
+		return "index";
 		
 	}
 	
@@ -70,36 +82,21 @@ public class PlaylistController {
 		if (result.hasErrors()) {
 			return "playlist/addlist";
 		}
-		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
-		Member member = memberService.findMember(loginMember);
-		playlist.setMember(member);
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		
+		playlist.setMember(userService.findUser(user));
 		playlistService.addPlaylist(playlist);
 		return "redirect:/mylist";
 	}
 
 
-	@GetMapping("/mylist")
-	public String playlist(Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
-		if (loginMember!=null) {
-			Member member = memberService.findMember(loginMember);
-			model.addAttribute("playlists", playlistService.findMylist(pageable, member));
-			
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
-			
-			return "playlist/mylist";
-		}
-		model.addAttribute("memberForm", new MemberForm());
-		return "member/login";
-	}
+	
 	
 	@GetMapping("/mylist/{id}")
 	public String detail(@PathVariable("id") Long id, Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
-		if (loginMember!=null) {
-			Member member = memberService.findMember(loginMember);
-			model.addAttribute("playlists", playlistService.findMylist(pageable, member));
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user!=null) {
+			model.addAttribute("playlists", playlistService.findMylist(pageable, userService.findUser(user)));
 			
 			Playlist playlist = playlistService.getPlaylist(id);
 			model.addAttribute("playlist",playlist);
@@ -111,8 +108,7 @@ public class PlaylistController {
 			
 			return "playlist/detail";
 		}
-		model.addAttribute("memberForm",new MemberForm());
-		return "member/login";
+		return "user/login";
 	}
 	
 	
@@ -125,13 +121,13 @@ public class PlaylistController {
 	
 	@GetMapping("/mylist/{id}/add")
 	public String addsong(@PathVariable("id") Long id, Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
-		if (loginMember!=null) {
-			Member member = memberService.findMember(loginMember);
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user!=null) {
+			
 			/*
 			 * 페이징 처리
 			 */
-			model.addAttribute("playlists", playlistService.findMylist(pageable, member));
+			model.addAttribute("playlists", playlistService.findMylist(pageable, userService.findUser(user)));
 			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 			model.addAttribute("next", pageable.next().getPageNumber());
 			
@@ -144,19 +140,17 @@ public class PlaylistController {
 
 			return "playlist/addsong";
 		}
-		model.addAttribute("memberForm",new MemberForm());
-		return "member/login";
+		return "index";
 	}
 	
 	@GetMapping("/mylist/{id}/youtube_search")
 	public String youtubeSearch(@PathVariable("id") Long id, String search, Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) throws IOException, ParseException {
-		MemberForm loginMember = (MemberForm) session.getAttribute("MEMBER");
-		if (loginMember!=null) {
-			Member member = memberService.findMember(loginMember);
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user!=null) {
 			/*
 			 * 페이징 처리
 			 */
-			model.addAttribute("playlists", playlistService.findMylist(pageable, member));
+			model.addAttribute("playlists", playlistService.findMylist(pageable, userService.findUser(user)));
 			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 			model.addAttribute("next", pageable.next().getPageNumber());
 			
@@ -175,14 +169,12 @@ public class PlaylistController {
 			
 			return "playlist/addsong";
 		}
-		model.addAttribute("memberForm",new MemberForm());
-		return "member/login";
+		return "index";
 	}
 	
+	@Transactional
 	@PostMapping("/mylist/{id}/add/{videoId}")
 	public String addSong(@PathVariable("id") Long id, @PathVariable("videoId") String videoId, Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		System.out.println(id);
-		System.out.println(videoId);
 		Playlist playlist = playlistService.getPlaylist(id);
 		Song song = new Song();
 		song.setUrl(videoId);

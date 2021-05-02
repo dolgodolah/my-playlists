@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Today Music</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
@@ -13,54 +14,22 @@
         <div class="mac-btn" id="mac-btn2"></div>
         <div class="mac-btn" id="mac-btn3"></div>
     </header>
-    <section class="center">
-        <div class="app">
-            <div class="menu">
-                <ul>
-                    <li><a class="active" href="#">로그인</a></li>
-                </ul>
-            </div>
-            <div class="login-page">
-                <div class="form">
-                    <form class="login-form" action="/login" method="post">
-                        <input class="id" type="text" placeholder="USERNAME">
-                        <input class="password" type="password" placeholder="PASSWORD">
-                        <button type="submit">로그인</button>
-                    </form>
-                    <form action="/signup" method="get">
-                        <button type="submit">회원가입</button>
-                    </form>
-                </div>
-            </div>
+
+	<!-- 
+    <div class="menu">
+        <ul>
+            <li><a class="active" th:href="@{/login}">로그인</a></li>
+            <li><a th:href="@{/signup}">회원가입</a></li>
+        </ul>
+    </div>
+    -->
 
 
+    <div class="login-page">
+        <div class="form">
+        	<a href="/oauth2/authorization/google">구글 계정으로 시작</a>
         </div>
-    </section>
+    </div>
 
-    <script>
-        const body = document.querySelector("body");
-        const IMG_NUMBER = 5;
-
-
-        function paintImage(imgNumber) {
-            const image = new Image();
-            image.src = `assets/images/${imgNumber + 1}.jpg`;
-            image.classList.add("bgImage");
-
-            //append -> 뒤에 추가, prepend -> 맨앞에 추가
-            body.prepend(image)
-        }
-
-        function generateRandom() {
-            const number = Math.floor(Math.random() * IMG_NUMBER);
-            return number;
-        }
-
-        function init() {
-            const randomNumber = generateRandom();
-            paintImage(randomNumber);
-        }
-
-        init();
-    </script>
+    <script src="/assets/js/bg.js"></script>
 </body>

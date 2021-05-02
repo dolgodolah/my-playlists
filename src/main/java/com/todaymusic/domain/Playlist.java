@@ -2,6 +2,7 @@ package com.todaymusic.domain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,14 +41,14 @@ public class Playlist {
 	private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="member_id")
-	private Member member;
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@OneToMany(mappedBy="playlist")
 	private List<Song> songs = new ArrayList<>();
 	
 	@Column
-	@Size(max=15, message = "최대 15자까지 가능합니다.")
+	@Size(max=30, message = "최대 30자까지 가능합니다.")
 	@NotBlank(message="플레이리스트 제목을 입력해주세요.")
 	private String title;
 	
@@ -66,9 +67,9 @@ public class Playlist {
 
 	
 	//==연관관계 편의 메서드==//
-	public void setMember(Member member) {
-		this.member = member;
-		member.getPlaylists().add(this);
+	public void setMember(User user) {
+		this.user = user;
+		user.getPlaylists().add(this);
 	}
 	
 	public void addSong(Song song) {
@@ -76,14 +77,5 @@ public class Playlist {
 		song.setPlaylist(this);
 	}
 	
-	@Override
-	public String toString() {
-		return "Playlist [id=" + id + ", member=" + member + ", title=" + title + ", visibility=" + visibility
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-	}
-
-
-
-
 
 }

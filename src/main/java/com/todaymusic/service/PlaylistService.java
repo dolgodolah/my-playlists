@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.todaymusic.domain.Member;
+import com.todaymusic.domain.User;
 import com.todaymusic.domain.Playlist;
 import com.todaymusic.domain.Song;
 import com.todaymusic.repository.PlaylistRepository;
@@ -34,8 +34,8 @@ public class PlaylistService {
 		return playlistRepository.save(playlist).getId();	}
 	
 	@Transactional
-	public Page<Playlist> findMylist(Pageable pageable, Member member) {
-		return playlistRepository.findByMemberId(pageable, member.getId());
+	public Page<Playlist> findMylist(Pageable pageable, User user) {
+		return playlistRepository.findByUserId(pageable, user.getId());
 		
 	}
 	

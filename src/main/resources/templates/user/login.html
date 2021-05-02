@@ -25,6 +25,8 @@
 
     <div class="login-page">
         <div class="form">
+        	<a href="/oauth2/authorization/google">Google Login</a>
+        	<!--
             <form class="login-form" action="/login" method="post" th:object="${memberForm}">
                 <input class="id" th:field="*{username}" type="text" placeholder="USERNAME" th:class="${#fields.hasErrors('username')? 'id fieldError' : 'id'}">
                 <p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
@@ -36,6 +38,7 @@
                 <br>
                 <button type="submit">로그인</button>
             </form>
+            -->
         </div>
     </div>
 

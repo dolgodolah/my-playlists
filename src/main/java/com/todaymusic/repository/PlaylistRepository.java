@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.todaymusic.domain.Playlist;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
-	Page<Playlist> findByMemberId(Pageable pageable, Long memberId);
+	Page<Playlist> findByUserId(Pageable pageable, Long userId);
 	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
 }

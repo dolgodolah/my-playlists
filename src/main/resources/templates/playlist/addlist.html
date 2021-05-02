@@ -30,7 +30,7 @@
             <form method="post" th:object="${playlist}" action="/mylist/add">
                 <div class="form-group">
                 	<span>플레이리스트 제목 (필수)</span>
-                    <input type="text" th:field="*{title}" class="title" placeholder="플레이리스트 제목을 입력하세요. (15자 이내)" th:class="${#fields.hasErrors('title')? 'title fieldError' : 'title'}">
+                    <input type="text" th:field="*{title}" class="title" placeholder="플레이리스트 제목을 입력하세요. (30자 이내)" th:class="${#fields.hasErrors('title')? 'title fieldError' : 'title'}">
                 </div>
                 <div class="form-group">
                 	<span>설명 (옵션)</span>

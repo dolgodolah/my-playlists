@@ -38,7 +38,7 @@
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
             </div>
-			<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
+			<a class="logout-btn" href="/logout" role="button">로그아웃</a>
         </div>
 
         <div class="chat">

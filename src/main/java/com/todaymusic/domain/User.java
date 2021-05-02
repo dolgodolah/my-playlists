@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import com.todaymusic.config.auth.OAuthAttributes.OAuthAttributesBuilder;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -24,29 +28,43 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Member {
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="member_id")
+	@Column(name="user_id")
 	private Long id;
 	
 	@Column
-	@NotBlank(message="유저명을 입력해주세요.")
-	private String username;
+	private String name;
+	
+//	@Column(nullable=false)
+//	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$", message = "비밀번호는 영문자와 특수문자를 포함한 숫자 8자 이상 입력해주세요.")
+//	private String password;
 	
 	@Column(nullable=false)
-	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$", message = "비밀번호는 영문자와 특수문자를 포함한 숫자 8자 이상 입력해주세요.")
-	private String password;
+	private String email;
+
 	
-//	이 관계의 주인은 Playlist에 있고, Playlist에서 member라는 변수로 참조하고 있다.
-	@OneToMany(mappedBy="member")
+	/*
+	 * 이 관계의 주인은 Playlist에 있고, Playlist에서 member라는 변수로 참조하고 있다.
+	 */
+	@OneToMany(mappedBy="user")
 	private List<Playlist> playlists = new ArrayList<>();
 
-	@Override
-	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", password=" + password + "]";
+
+	@Builder
+	public User(String name, String email) {
+		this.name = name;
+		this.email = email;
 	}
+	
+	public User update(String name) {
+		this.name=name;
+		return this;
+	}
+
+
 
 	
 	
