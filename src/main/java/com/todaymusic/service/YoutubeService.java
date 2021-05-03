@@ -62,6 +62,8 @@ public class YoutubeService {
 			thumbnail = (JSONObject)thumbnails.get("default");
 			thumbnailUrl = (String)thumbnail.get("url");
 			YoutubeForm youtubeForm = new YoutubeForm();
+			
+			title=replace(title);
 			youtubeForm.setTitle(title);
 			youtubeForm.setVideoId(videoId);
 			youtubeForm.setThumbnail(thumbnailUrl);
@@ -70,5 +72,13 @@ public class YoutubeService {
 		
 		
 		return list;
+	}
+	
+	public String replace(String title) {
+		title=title.replaceAll("&#39;", "'");
+		title=title.replaceAll("&lt;", "<");
+		title=title.replaceAll("&gt;", ">");
+		title=title.replaceAll("&quot;", "\"");
+		return title;
 	}
 }

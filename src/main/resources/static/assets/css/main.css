@@ -69,7 +69,7 @@ span {
 }
 
 .people-list .list {
-	height:320px;
+	height:325px;
     padding: 0px;
 }
 
@@ -94,12 +94,15 @@ span {
     transition: all ease 0.5s;
 }
 
+.people-list .menu-btn{
+	text-align:center;
+}
+
 .people-list .add-btn {
     border: 1px solid;
     border-radius: 3px;
     font-size: 14px;
     padding: 4px;
-    margin: 0 0 0 75px;
 }
 
 .pagination{
@@ -166,44 +169,10 @@ span {
     padding: 30px 30px 20px;
     /*border-bottom: 2px solid white;*/
     overflow-y: scroll;
+    text-align:center;
     height: 437px;
 }
 
-.chat .chat-message {
-    padding: 30px;
-}
-
-.chat .chat-message textarea {
-    width: 100%;
-    border: none;
-    padding: 10px 20px;
-    font: 14px/22px "Lato", Arial, sans-serif;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    resize: none;
-}
-
-.chat .chat-message .fa-file-o,
-.chat .chat-message .fa-file-image-o {
-    font-size: 16px;
-    color: gray;
-    cursor: pointer;
-}
-
-.chat .chat-message button {
-    float: right;
-    color: #94C2ED;
-    font-size: 16px;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    background: #F2F5F8;
-}
-
-.chat .chat-message button:hover {
-    color: #75b1e8;
-}
 
 .online,
 .offline,

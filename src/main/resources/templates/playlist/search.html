@@ -23,7 +23,10 @@
             		<input type="text" placeholder="검색" name="keyword">
             	</form>
             </div>
-            <a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            <div class="menu-btn">
+            	<a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            </div>
+            
             <ul class="list">
                 <li class="clearfix" th:each="playlist:${playlists}">
                     <a th:href="@{'/mylist/'+${playlist.id}}">

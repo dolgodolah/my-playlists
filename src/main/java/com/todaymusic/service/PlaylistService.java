@@ -34,7 +34,7 @@ public class PlaylistService {
 		return playlistRepository.save(playlist).getId();	}
 	
 	@Transactional
-	public Page<Playlist> findMylist(Pageable pageable, User user) {
+	public Page<Playlist> findMyPlaylists(Pageable pageable, User user) {
 		return playlistRepository.findByUserId(pageable, user.getId());
 		
 	}

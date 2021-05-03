@@ -23,13 +23,16 @@
             		<input type="text" placeholder="검색" name="keyword">
             	</form>
             </div>
-            <a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            <div class="menu-btn">
+            	<a class="add-btn" th:href="@{/mylist}">뒤로</a>
+            </div>
+            
             <ul class="list">
-                <li class="clearfix" th:each="playlist:${playlists}">
-                    <a th:href="@{'/mylist/'+${playlist.id}}">
+                <li class="clearfix" th:each="song:${songs}">
+                    <a th:href="@{'/mylist/'+${song.id}}">
                         <div class="about">
-                            <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
-                            <div class="status" th:text="${#temporals.format(playlist.updatedAt,'yy-MM-dd HH:mm')}"></div>
+                            <div class="name" th:text="${song.title}">노래 제목</div>
+                            <div class="status" th:text="${#temporals.format(song.createdAt,'yy-MM-dd HH:mm')}"></div>
                         </div>
                     </a>
                 </li>
@@ -40,6 +43,9 @@
             </div>
 			<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
         </div>
+        
+        
+        
 
         <div class="chat">
             <div class="chat-header clearfix">
@@ -58,11 +64,11 @@
             		</form>
             	</div>
                 <div class="message-data">
-            		<div class="result" th:each="video:${result}">
-            			<div class="thumbnail"><img th:src="${video.thumbnail}"></div>
-           				<div class="title" th:text="${video.title}"></div>
+            		<div class="result" th:each="song:${result}">
+            			<div class="thumbnail"><img th:src="${song.thumbnail}"></div>
+           				<div class="title" th:text="${song.title}"></div>
            				<div class="add">
-	           				<form method="post" th:action="@{'/mylist/' + ${playlist.id} + '/add/' + ${video.videoId}}">
+	           				<form method="post" th:action="@{'/mylist/' + ${playlist.id} + '/add/' + ${song.title} +'/' + ${song.videoId}}">
 	           					<button class="add-btn">추가</button>
 	           				</form>
            				</div>
@@ -80,5 +86,5 @@
     </div>
     <!-- end container -->
 
-    <script src="../../assets/js/bg.js"></script>
+    <script src="/assets/js/bg.js"></script>
 </body>

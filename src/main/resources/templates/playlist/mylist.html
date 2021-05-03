@@ -23,7 +23,9 @@
             		<input type="text" placeholder="검색" name="keyword">
             	</form>
             </div>
-            <a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            <div class="menu-btn">
+            	<a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            </div>
             <ul class="list">
                 <li class="clearfix" th:each="playlist:${playlists}">
                     <a th:href="@{'/mylist/'+${playlist.id}}">
@@ -38,7 +40,7 @@
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
             </div>
-			<a class="logout-btn" href="/logout" role="button">로그아웃</a>
+			<a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
         </div>
 
         <div class="chat">

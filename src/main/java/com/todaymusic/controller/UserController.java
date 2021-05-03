@@ -17,14 +17,11 @@ import com.todaymusic.service.PlaylistService;
 @Controller
 public class UserController {
 	
-	private UserService userService;
-	private PlaylistService playlistService;
-	private HttpSession session;
+
+	private final HttpSession session;
 	
 	@Autowired
-	public UserController(UserService userService, PlaylistService playlistService, HttpSession session) {
-		this.userService = userService;
-		this.playlistService=playlistService;
+	public UserController(HttpSession session) {
 		this.session=session;
 	}
 	
