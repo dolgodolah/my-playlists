@@ -1,4 +1,4 @@
-package com.todaymusic.controller;
+package com.myplaylists.controller;
 
 
 
@@ -9,10 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.todaymusic.config.auth.dto.SessionUser;
-
-import com.todaymusic.service.UserService;
-import com.todaymusic.service.PlaylistService;
+import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.service.PlaylistService;
+import com.myplaylists.service.UserService;
 
 @Controller
 public class UserController {

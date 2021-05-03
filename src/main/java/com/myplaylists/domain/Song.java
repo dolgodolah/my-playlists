@@ -1,4 +1,4 @@
-package com.todaymusic.domain;
+package com.myplaylists.domain;
 
 import java.time.LocalDateTime;
 

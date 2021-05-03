@@ -1,4 +1,4 @@
-package com.todaymusic.service;
+package com.myplaylists.service;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.todaymusic.domain.User;
-import com.todaymusic.domain.Playlist;
-import com.todaymusic.domain.Song;
-import com.todaymusic.repository.PlaylistRepository;
-import com.todaymusic.repository.SongRepository;
+import com.myplaylists.domain.Playlist;
+import com.myplaylists.domain.Song;
+import com.myplaylists.domain.User;
+import com.myplaylists.repository.PlaylistRepository;
+import com.myplaylists.repository.SongRepository;
 
 @Service
 public class PlaylistService {

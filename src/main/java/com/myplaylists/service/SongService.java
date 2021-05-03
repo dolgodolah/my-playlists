@@ -1,4 +1,4 @@
-package com.todaymusic.service;
+package com.myplaylists.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.todaymusic.domain.Playlist;
-import com.todaymusic.domain.Song;
-import com.todaymusic.repository.SongRepository;
+import com.myplaylists.domain.Playlist;
+import com.myplaylists.domain.Song;
+import com.myplaylists.repository.SongRepository;
 
 @Service
 public class SongService {

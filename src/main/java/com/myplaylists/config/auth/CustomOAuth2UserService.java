@@ -1,4 +1,4 @@
-package com.todaymusic.config.auth;
+package com.myplaylists.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,9 +10,9 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.todaymusic.config.auth.dto.SessionUser;
-import com.todaymusic.domain.User;
-import com.todaymusic.repository.UserRepository;
+import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.domain.User;
+import com.myplaylists.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;

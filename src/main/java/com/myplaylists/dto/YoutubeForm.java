@@ -1,4 +1,4 @@
-package com.todaymusic.dto;
+package com.myplaylists.dto;
 
 import lombok.Getter;
 import lombok.Setter;

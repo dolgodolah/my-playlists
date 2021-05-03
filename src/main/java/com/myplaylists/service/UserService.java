@@ -1,4 +1,4 @@
-package com.todaymusic.service;
+package com.myplaylists.service;
 
 
 import java.util.Optional;
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.todaymusic.config.auth.dto.SessionUser;
-import com.todaymusic.domain.User;
-import com.todaymusic.repository.UserRepository;
+import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.domain.User;
+import com.myplaylists.repository.UserRepository;
 
 @Service
 @Transactional

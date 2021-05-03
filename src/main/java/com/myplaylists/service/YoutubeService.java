@@ -1,4 +1,4 @@
-package com.todaymusic.service;
+package com.myplaylists.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
-import com.todaymusic.dto.YoutubeForm;
+import com.myplaylists.dto.YoutubeForm;
 
 @Service
 public class YoutubeService {

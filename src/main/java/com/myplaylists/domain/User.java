@@ -1,4 +1,4 @@
-package com.todaymusic.domain;
+package com.myplaylists.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.todaymusic.config.auth.OAuthAttributes.OAuthAttributesBuilder;
+import com.myplaylists.config.auth.OAuthAttributes.OAuthAttributesBuilder;
 
 import lombok.Builder;
 import lombok.Getter;

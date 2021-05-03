@@ -1,10 +1,10 @@
-package com.todaymusic.config.auth.dto;
+package com.myplaylists.config.auth.dto;
 
 import lombok.Getter;
 
 import java.io.Serializable;
 
-import com.todaymusic.domain.User;
+import com.myplaylists.domain.User;
 
 @Getter
 public class SessionUser implements Serializable {

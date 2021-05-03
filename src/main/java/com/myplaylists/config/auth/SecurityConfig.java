@@ -1,4 +1,4 @@
-package com.todaymusic.config.auth;
+package com.myplaylists.config.auth;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

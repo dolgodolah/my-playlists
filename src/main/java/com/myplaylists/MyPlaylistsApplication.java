@@ -1,18 +1,18 @@
-package com.todaymusic;
+package com.myplaylists;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.todaymusic.domain.User;
-import com.todaymusic.domain.Playlist;
+import com.myplaylists.domain.Playlist;
+import com.myplaylists.domain.User;
 
 @EnableJpaAuditing
 @SpringBootApplication
-public class TodayMusicApplication {
+public class MyPlaylistsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TodayMusicApplication.class, args);
+		SpringApplication.run(MyPlaylistsApplication.class, args);
 	}
 
 }

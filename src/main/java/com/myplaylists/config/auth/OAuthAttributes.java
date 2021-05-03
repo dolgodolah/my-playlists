@@ -1,11 +1,11 @@
-package com.todaymusic.config.auth;
+package com.myplaylists.config.auth;
 
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
 
-import com.todaymusic.domain.User;
+import com.myplaylists.domain.User;
 
 @Getter
 public class OAuthAttributes {

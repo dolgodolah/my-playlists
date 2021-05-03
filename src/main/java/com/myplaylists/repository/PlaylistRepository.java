@@ -1,4 +1,4 @@
-package com.todaymusic.repository;
+package com.myplaylists.repository;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.todaymusic.domain.Playlist;
+import com.myplaylists.domain.Playlist;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
 	Page<Playlist> findByUserId(Pageable pageable, Long userId);

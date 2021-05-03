@@ -1,4 +1,4 @@
-package com.todaymusic.controller;
+package com.myplaylists.controller;
 
 import java.io.IOException;
 import java.util.Date;
@@ -24,15 +24,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.todaymusic.domain.User;
-import com.todaymusic.config.auth.dto.SessionUser;
-import com.todaymusic.domain.Playlist;
-import com.todaymusic.domain.Song;
-import com.todaymusic.dto.YoutubeForm;
-import com.todaymusic.service.UserService;
-import com.todaymusic.service.PlaylistService;
-import com.todaymusic.service.SongService;
-import com.todaymusic.service.YoutubeService;
+import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.domain.Playlist;
+import com.myplaylists.domain.Song;
+import com.myplaylists.domain.User;
+import com.myplaylists.dto.YoutubeForm;
+import com.myplaylists.service.PlaylistService;
+import com.myplaylists.service.SongService;
+import com.myplaylists.service.UserService;
+import com.myplaylists.service.YoutubeService;
 
 @Controller
 public class PlaylistController {
