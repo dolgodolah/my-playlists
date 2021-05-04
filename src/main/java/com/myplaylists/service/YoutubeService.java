@@ -13,19 +13,21 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.myplaylists.dto.YoutubeForm;
 
 @Service
 public class YoutubeService {
+	@Value("${youtube.api.key}")
+	private String apiKey;
 	
 	public List<YoutubeForm> search(String search) throws IOException, ParseException {
 		String apiurl = "https://www.googleapis.com/youtube/v3/search";
-		apiurl += "?key=AIzaSyCh8po8zIqwbllXzP5P3_gsHi_7292StBs";
+		apiurl += "?key=" + apiKey;
 		apiurl += "&part=snippet&type=video&maxResults=5&videoEmbeddable=true";
 		apiurl += "&q="+URLEncoder.encode(search,"UTF-8");
-		
 		URL url = new URL(apiurl);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -79,9 +81,10 @@ public class YoutubeService {
 		title=title.replaceAll("&lt;", "<");
 		title=title.replaceAll("&gt;", ">");
 		title=title.replaceAll("&quot;", "\"");
-		title=title.replaceAll("/", " ");
+		title=title.replaceAll("/", "");
 		title=title.replaceAll("\\]", "'");
 		title=title.replaceAll("\\[", "'");
+		title=title.replaceAll("&amp;", "&");
 		return title;
 	}
 }
