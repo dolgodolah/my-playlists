@@ -20,7 +20,7 @@
         <div class="people-list" id="people-list">
             <div class="search">
             	<form method="get" action="/mylist/search">
-            		<input type="text" placeholder="검색" name="keyword">
+            		<input type="text" placeholder="플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
@@ -37,7 +37,13 @@
                     </a>
                 </li>
             </ul>
-			<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
+            <div class="pagination">
+	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
+	            <a class="fa fa-home" th:href="@{/mylist}"></a>
+	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
+	           	<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
+            </div>
+			
         </div>
 
         <div class="chat">

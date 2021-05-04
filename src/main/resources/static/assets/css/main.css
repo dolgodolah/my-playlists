@@ -54,6 +54,18 @@ span {
     float: left;
 }
 
+/* SCROLL */
+::-webkit-scrollbar { width: 4px; }
+/* 스크롤바의 width */
+::-webkit-scrollbar-track { background-color: hsl(212, 29%, 13%, 0.2); }
+/* 스크롤바의 전체 배경색 */
+::-webkit-scrollbar-thumb { 
+    background: linear-gradient(to bottom, hsl(212, 29%, 13%, 0.8), hsl(212, 29%, 13%, 0.8)); 
+}
+/* 스크롤바 색 */
+::-webkit-scrollbar-button { display: none; }
+/* 위 아래 버튼 (버튼 없애기를 함) */
+
 .people-list .search {
     padding: 20px;
 }
@@ -69,8 +81,9 @@ span {
 }
 
 .people-list .list {
-	height:325px;
+	height:365px;
     padding: 0px;
+    overflow-y:scroll;
 }
 
 .people-list .clearfix {
@@ -106,7 +119,7 @@ span {
 }
 
 .pagination{
-	padding:10px;
+	padding:0px;
 	text-align:center;
 }
 
@@ -121,12 +134,10 @@ span {
 }
 
 .chat {
-    background-color: #17202A;
+    background-color: hsl(212, 29%, 13%, 0.2);
     height: 520px;
     width: 640px;
     float: left;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
     color: white;
 }
 

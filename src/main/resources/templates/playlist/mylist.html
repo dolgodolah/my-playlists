@@ -20,11 +20,12 @@
         <div class="people-list" id="people-list">
             <div class="search">
             	<form method="get" action="/mylist/search">
-            		<input type="text" placeholder="검색" name="keyword">
+            		<input type="text" placeholder="플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
             	<a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            	
             </div>
             <ul class="list">
                 <li class="clearfix" th:each="playlist:${playlists}">
@@ -38,9 +39,11 @@
             </ul>
             <div class="pagination">
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
+	            <a class="fa fa-home" th:href="@{/mylist}"></a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
+	           	<a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
             </div>
-			<a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
+			
         </div>
 
         <div class="chat">

@@ -40,8 +40,9 @@
             <div class="pagination">
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
+	           	<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
+	         
             </div>
-			<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
         </div>
 
         <div class="chat">
@@ -115,5 +116,32 @@
         }*/
         
     </script>
-    <script src="/assets/js/bg.js"></script>
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+    	const body = document.querySelector("body");
+		const IMG_NUMBER = 5;
+		const now1 = /*[[${now}]]*/
+		function paintImage(imgNumber) {
+		    const image = new Image();
+		    image.src = `https://i.ytimg.com/vi/${now1}/mqdefault.jpg`;
+		    image.classList.add("bgImage");
+		
+		    //append -> 뒤에 추가, prepend -> 맨앞에 추가
+		    body.prepend(image)
+		}
+		
+		function generateRandom() {
+		    const number = Math.floor(Math.random() * IMG_NUMBER);
+		    return number;
+		}
+		
+		
+		function init() {
+		    const randomNumber = generateRandom();
+		    paintImage(randomNumber);
+		}
+		
+		init();
+		/*]]*/
+    </script>
 </body>

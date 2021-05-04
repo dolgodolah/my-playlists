@@ -38,6 +38,9 @@ public class User {
 	@Column
 	private String name;
 	
+	@Column
+	private String nickname;
+	
 //	@Column(nullable=false)
 //	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$", message = "비밀번호는 영문자와 특수문자를 포함한 숫자 8자 이상 입력해주세요.")
 //	private String password;
@@ -54,9 +57,10 @@ public class User {
 
 
 	@Builder
-	public User(String name, String email) {
+	public User(String name, String email, String nickname) {
 		this.name = name;
 		this.email = email;
+		this.nickname = nickname;
 	}
 	
 	public User update(String name) {

@@ -23,7 +23,7 @@ public class YoutubeService {
 	public List<YoutubeForm> search(String search) throws IOException, ParseException {
 		String apiurl = "https://www.googleapis.com/youtube/v3/search";
 		apiurl += "?key=AIzaSyCh8po8zIqwbllXzP5P3_gsHi_7292StBs";
-		apiurl += "&part=snippet&type=video&maxResults=3&videoEmbeddable=true";
+		apiurl += "&part=snippet&type=video&maxResults=5&videoEmbeddable=true";
 		apiurl += "&q="+URLEncoder.encode(search,"UTF-8");
 		
 		URL url = new URL(apiurl);
@@ -63,7 +63,7 @@ public class YoutubeService {
 			thumbnailUrl = (String)thumbnail.get("url");
 			YoutubeForm youtubeForm = new YoutubeForm();
 			
-			title=replace(title);
+			title=titleReplace(title);
 			youtubeForm.setTitle(title);
 			youtubeForm.setVideoId(videoId);
 			youtubeForm.setThumbnail(thumbnailUrl);
@@ -74,11 +74,14 @@ public class YoutubeService {
 		return list;
 	}
 	
-	public String replace(String title) {
+	public String titleReplace(String title) {
 		title=title.replaceAll("&#39;", "'");
 		title=title.replaceAll("&lt;", "<");
 		title=title.replaceAll("&gt;", ">");
 		title=title.replaceAll("&quot;", "\"");
+		title=title.replaceAll("/", " ");
+		title=title.replaceAll("\\]", "'");
+		title=title.replaceAll("\\[", "'");
 		return title;
 	}
 }

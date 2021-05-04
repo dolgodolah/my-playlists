@@ -1,7 +1,6 @@
 const body = document.querySelector("body");
 const IMG_NUMBER = 5;
 
-const test = document.querySelector(".login-form");
 
 function paintImage(imgNumber) {
     const image = new Image();

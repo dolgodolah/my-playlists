@@ -36,7 +36,7 @@ public class Song {
 	private String title;
 	
 	@Column
-	private String url;
+	private String videoId;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="playlist_id")
@@ -44,12 +44,5 @@ public class Song {
 	
 	@CreatedDate
 	private LocalDateTime createdAt;
-
-	@Override
-	public String toString() {
-		return "Song [id=" + id + ", title=" + title + ", url=" + url + ", playlist=" + playlist + "]";
-	}
-
-	
 	
 }

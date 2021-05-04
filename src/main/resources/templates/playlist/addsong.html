@@ -20,7 +20,7 @@
         <div class="people-list" id="people-list">
             <div class="search">
             	<form method="get" action="/mylist/search">
-            		<input type="text" placeholder="검색" name="keyword">
+            		<input type="text" placeholder="플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
@@ -40,8 +40,8 @@
             <div class="pagination">
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
+	           	<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
             </div>
-			<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
         </div>
         
         
@@ -68,8 +68,8 @@
             			<div class="thumbnail"><img th:src="${song.thumbnail}"></div>
            				<div class="title" th:text="${song.title}"></div>
            				<div class="add">
-	           				<form method="post" th:action="@{'/mylist/' + ${playlist.id} + '/add/' + ${song.title} +'/' + ${song.videoId}}">
-	           					<button class="add-btn">추가</button>
+	           				<form method="post" th:action="@{'/mylist/' + ${playlist.id} + '/' + ${song.title} +'/' + ${song.videoId}}">
+	           					<button class="add-btn" type="submit">추가</button>
 	           				</form>
            				</div>
            				
