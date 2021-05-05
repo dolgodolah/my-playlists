@@ -37,7 +37,6 @@ span {
     width: 900px;
     background: hsl(212, 29%, 13%, 0.8);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    border-radius: 5px;
 }
 
 .active {

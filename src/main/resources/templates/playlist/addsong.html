@@ -29,7 +29,7 @@
             
             <ul class="list">
                 <li class="clearfix" th:each="song:${songs}">
-                    <a th:href="@{'/mylist/'+${song.id}}">
+                    <a th:href="@{'/mylist/' + ${playlist.id} + '/' + ${song.id}}">
                         <div class="about">
                             <div class="name" th:text="${song.title}">노래 제목</div>
                             <div class="status" th:text="${#temporals.format(song.createdAt,'yy-MM-dd HH:mm')}"></div>
@@ -38,9 +38,7 @@
                 </li>
             </ul>
             <div class="pagination">
-	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
-	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
-	           	<a class="logout-btn" th:href="@{/signout}">로그아웃</a>
+	           	<a class="logout-btn" th:href="@{/logout}">로그아웃</a>
             </div>
         </div>
         

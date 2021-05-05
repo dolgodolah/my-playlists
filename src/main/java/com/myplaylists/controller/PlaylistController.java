@@ -99,19 +99,15 @@ public class PlaylistController {
 
 
 	@GetMapping("/mylist/{playlistId}")
-	public String detail(@PathVariable("playlistId") Long playlistId, Model model, @PageableDefault(size=15, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable) {
+	public String detail(@PathVariable("playlistId") Long playlistId, Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
 			
 			
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			model.addAttribute("playlist",playlist);
-			model.addAttribute("songs", songService.findSongs(pageable,playlist));
+			model.addAttribute("songs", songService.findSongs(playlist));
 			
-			
-
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
 			
 			return "playlist/detail";
 		}
@@ -120,7 +116,7 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/mylist/{playlistId}/add")
-	public String addsong(@PathVariable("playlistId") Long id, Model model, @PageableDefault(size=15, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable) {
+	public String addsong(@PathVariable("playlistId") Long id, Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
 			
@@ -129,9 +125,7 @@ public class PlaylistController {
 			 */
 			Playlist playlist = playlistService.getPlaylist(id);
 			model.addAttribute("playlist",playlist);
-			model.addAttribute("songs", songService.findSongs(pageable,playlist));
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
+			model.addAttribute("songs", songService.findSongs(playlist));
 
 
 			return "playlist/addsong";
@@ -141,7 +135,7 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/mylist/{playlistId}/youtube_search")
-	public String youtubeSearch(@PathVariable("playlistId") Long playlistId, String search, Model model, @PageableDefault(size=15, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable) throws IOException, ParseException {
+	public String youtubeSearch(@PathVariable("playlistId") Long playlistId, String search, Model model) throws IOException, ParseException {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
 			/*
@@ -149,9 +143,7 @@ public class PlaylistController {
 			 */
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			model.addAttribute("playlist",playlist);
-			model.addAttribute("songs", songService.findSongs(pageable,playlist));
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
+			model.addAttribute("songs", songService.findSongs(playlist));
 	
 			
 			/*
@@ -179,7 +171,7 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/mylist/{playlistId}/{songId}")
-	public String playSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model, @PageableDefault(size=15, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable) {
+	public String playSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
 			
@@ -190,9 +182,7 @@ public class PlaylistController {
 			Song song = songService.getSong(songId);
 			model.addAttribute("playlist",playlist);
 			model.addAttribute("now",song.getVideoId());
-			model.addAttribute("songs", songService.findSongs(pageable,playlist));
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
+			model.addAttribute("songs", songService.findSongs(playlist));
 
 
 			return "playlist/playsong";

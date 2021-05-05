@@ -50,7 +50,7 @@ public class User {
 
 	
 	/*
-	 * 이 관계의 주인은 Playlist에 있고, Playlist에서 member라는 변수로 참조하고 있다.
+	 * 이 관계의 주인은 Playlist에 있고, Playlist에서 user라는 변수로 참조하고 있다.
 	 */
 	@OneToMany(mappedBy="user")
 	private List<Playlist> playlists = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.myplaylists.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,8 +27,12 @@ public class SongService {
 		return songRepository.save(song).getId();
 	}
 	
-	public Page<Song> findSongs(Pageable pageable, Playlist playlist){
-		return songRepository.findByPlaylistId(pageable, playlist.getId());
+//	public Page<Song> findSongs(Pageable pageable, Playlist playlist){
+//		return songRepository.findByPlaylistId(pageable, playlist.getId());
+//	}
+	
+	public List<Song> findSongs(Playlist playlist){
+		return songRepository.findByPlaylistId(playlist.getId());
 	}
 	
 	public Song getSong(Long id) {
