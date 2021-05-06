@@ -5,9 +5,13 @@ package com.myplaylists.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.myplaylists.config.auth.dto.SessionUser;
 import com.myplaylists.service.PlaylistService;
@@ -18,10 +22,14 @@ public class UserController {
 	
 
 	private final HttpSession session;
+	private final UserService userService;
+	private final PlaylistService playlistService;
 	
 	@Autowired
-	public UserController(HttpSession session) {
+	public UserController(HttpSession session, UserService userService, PlaylistService playlistService) {
 		this.session=session;
+		this.userService = userService;
+		this.playlistService=playlistService;
 	}
 	
 	@GetMapping("/")
@@ -31,6 +39,29 @@ public class UserController {
 			return "redirect:/mylist";
 		}
 		return "index";
+	}
+	
+	@GetMapping("/myinfo")
+	public String myinfo(Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user != null) {
+			model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, userService.findUser(user)));
+			
+			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+			model.addAttribute("next", pageable.next().getPageNumber());
+			
+			
+			model.addAttribute("user", userService.findUser(user));
+			return "user/myinfo";
+		}
+		return "index";
+	}
+	
+	@PostMapping("/myinfo")
+	public String updateMyinfo(String nickname) {
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		userService.updateUser(user,nickname);
+		return "redirect:/mylist";
 	}
 
 

@@ -9,6 +9,12 @@
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
 
+<style>
+	.readonly{
+		background-color:#3a4c66;
+	}
+</style>
+
 <body>
     <header>
         <div class="mac-btn" id="mac-btn1"></div>
@@ -48,9 +54,36 @@
         </div>
 
         <div class="chat">
-        	<div class="chat-header clearfix"></div>
-            <!-- end chat-header -->
-           
+           <div class="chat-header clearfix">
+                <div class="chat-about">
+                    <div class="chat-with">내 정보</div>
+                    <div class="chat-num-messages">닉네임을 설정하지 않으면 연동시킨 구글 이름이 사용되므로 유의해주세요.</div>
+                </div>
+            </div>
+            
+            <div class="chat-history">
+            	<form method="post" action="/myinfo">
+            		<div class="form-group">
+            			<label>구글 이메일</label>
+	            		<input class="form-control readonly" type="text" th:placeholder="${user.email}" readonly>
+            		</div>
+            		<div class="form-group">
+            			<label>구글 이름</label>
+            			<input class="form-control readonly" type="text" th:placeholder="${user.name}" readonly>
+            		</div>
+            		<div class="form-group">
+            			<label>닉네임</label>
+            			<input th:if="${user.nickname==null}" class="form-control" name="nickname" type="text" placeholder="닉네임을 입력해주세요">
+            			<input th:unless="${user.nickname==null}" class="form-control" name="nickname" type="text" th:value="${user.nickname}">
+            		</div>
+            		<div class="form-group">
+	            		<button type="submit">수정</button>
+            		</div>
+	            	
+	            	
+            	</form>
+            	
+            </div>
 
         </div>
         <!-- end chat -->

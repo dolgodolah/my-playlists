@@ -26,4 +26,10 @@ public class UserService {
 		return user;
 	}
 	
+	public Long updateUser(SessionUser sessionUser,String nickname) {
+		User user = userRepository.findByEmail(sessionUser.getEmail()).get();
+		user.setNickname(nickname);
+		userRepository.save(user);
+		return user.getId();
+	}
 }
