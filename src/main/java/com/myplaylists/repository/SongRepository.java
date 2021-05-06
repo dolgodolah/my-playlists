@@ -10,5 +10,5 @@ import com.myplaylists.domain.Song;
 
 public interface SongRepository extends JpaRepository<Song, Long>{
 //	Page<Song> findByPlaylistId(Pageable pageable, Long playlistId);
-	List<Song> findByPlaylistId(Long playlistId);
+	List<Song> findByPlaylistIdOrderByCreatedAtDesc(Long playlistId);
 }

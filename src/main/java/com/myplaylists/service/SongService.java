@@ -32,7 +32,7 @@ public class SongService {
 //	}
 	
 	public List<Song> findSongs(Playlist playlist){
-		return songRepository.findByPlaylistId(playlist.getId());
+		return songRepository.findByPlaylistIdOrderByCreatedAtDesc(playlist.getId());
 	}
 	
 	public Song getSong(Long id) {
