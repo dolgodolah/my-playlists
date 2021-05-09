@@ -54,7 +54,17 @@
             <!-- end chat-header -->
 
             <div class="chat-history">
-            	<div id="player"></div>
+            	<div class="player">
+            		<div id="player"></div>
+            	</div>
+            	<div>
+            		<a class="btn" th:href="@{'/mylist/'+${playlist.id}+'/update/'+${nowSong.id}}">수정</a>
+            		<form class="delete-btn" th:action="@{'/mylist/'+${playlist.id}+'/'+${nowSong.id}}" method="post">
+            			<input type="hidden" name="_method" value="delete"/>
+            			<button type="submit">삭제</button>
+            		</form>
+            	</div>
+            	
             </div>
         </div>
     </div>
@@ -71,7 +81,7 @@
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         var player;
-        var now = /*[[${now}]]*/
+        var now = /*[[${nowSong.videoId}]]*/
 		
 			
 		
@@ -118,10 +128,10 @@
     	/*<![CDATA[*/
     	const body = document.querySelector("body");
 		const IMG_NUMBER = 5;
-		const now1 = /*[[${now}]]*/
+		
 		function paintImage(imgNumber) {
 		    const image = new Image();
-		    image.src = `https://i.ytimg.com/vi/${now1}/mqdefault.jpg`;
+		    image.src = `https://i.ytimg.com/vi/${now}/mqdefault.jpg`;
 		    image.classList.add("bgImage");
 		
 		    //append -> 뒤에 추가, prepend -> 맨앞에 추가

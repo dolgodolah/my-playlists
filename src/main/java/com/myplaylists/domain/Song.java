@@ -38,7 +38,7 @@ public class Song {
 	@Column
 	private String videoId;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="playlist_id")
 	private Playlist playlist;
 	

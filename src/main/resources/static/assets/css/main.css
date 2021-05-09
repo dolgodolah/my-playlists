@@ -178,19 +178,20 @@ span {
     height: 437px;
 }
 
-.chat .chat-history button{
+.add button{
+	width:40px;
 	background: none;
     color: #fff;
     border: 1px solid;
     border-radius: 3px;
     font-size: 14px;
     outline: none;
-    padding: 4px;
+    padding: 6px;
     margin: 0px;
     font-family: 'KoPub Dotum';
-    cursor: pointer;
-    width:50px;
+    cursor:pointer
 }
+
 
 
 .online,
@@ -275,30 +276,7 @@ ul {
     color: white;
 }
 
-.list-form button {
-    background: none;
-    color: #fff;
-    border: 1px solid;
-    border-radius: 3px;
-    font-size: 14px;
-    outline: none;
-    padding: 6px;
-    margin: 15px 0 0 0;
-    font-family: 'KoPub Dotum';
-    cursor: pointer;
-}
 
-.list-form a {
-    background: none;
-    color: #fff;
-    border: 1px solid;
-    border-radius: 3px;
-    font-size: 14px;
-    outline: none;
-    padding: 6px;
-    margin: 15px 0 0 0;
-    font-family: 'KoPub Dotum';
-}
 
 .fa{
 	color:white;
@@ -347,4 +325,40 @@ label{
 	display:flex;
 	padding:5px;
 	font-size:14px;
+}
+
+
+.btn{
+	background: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    margin: 15px 0 0 0;
+    font-family: 'KoPub Dotum';
+}
+
+.delete-btn{
+	display:contents;
+	cursor:pointer;
+}
+
+button{
+	background: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    margin: 15px 0 0 0;
+    font-family: 'KoPub Dotum';
+    cursor: pointer;
+}
+
+
+.player{
+	height:300px;
 }

@@ -58,7 +58,7 @@
             <div class="chat-history">
             	<div class="search">
             		<form method="get" th:action="@{'/mylist/' + ${playlist.id} + '/youtube_search'}">
-            			<input type="text" placeholder="노래 제목 검색" name="search">
+            			<input type="text" placeholder="노래 제목 검색" name="search" autocomplete="off">
             		</form>
             	</div>
                 <div class="message-data">
@@ -67,10 +67,9 @@
            				<div class="title" th:text="${song.title}"></div>
            				<div class="add">
 	           				<form method="post" th:action="@{'/mylist/' + ${playlist.id} + '/' + ${song.title} +'/' + ${song.videoId}}">
-	           					<button class="add-btn" type="submit">추가</button>
+	           					<button type="submit">추가</button>
 	           				</form>
            				</div>
-           				
             		</div>
                 </div>
             </div>

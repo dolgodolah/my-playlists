@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>내플리스 MyPlaylists</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="mac-btn" id="mac-btn1"></div>
+        <div class="mac-btn" id="mac-btn2"></div>
+        <div class="mac-btn" id="mac-btn3"></div>
+    </header>
+
+    <div class="container clearfix">
+        <div class="people-list" id="people-list">
+            <div class="search">
+            	<form method="get" action="/mylist/search">
+            		<input type="text" placeholder="플레이리스트 검색" name="keyword">
+            	</form>
+            </div>
+            <div class="menu-btn">
+            	<a class="add-btn" th:href="@{/mylist}">뒤로</a>
+            </div>
+            
+            <ul class="list">
+                <li class="clearfix" th:each="song:${songs}">
+                    <a th:href="@{'/mylist/'+${playlist.id}+'/'+${song.id}}">
+                        <div class="about">
+                            <div class="name" th:text="${song.title}">노래 제목</div>
+                            <div class="status" th:text="${#temporals.format(song.createdAt,'yy-MM-dd HH:mm')}"></div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="pagination">
+	           	<a class="logout-btn" th:href="@{/logout}">로그아웃</a>
+	         
+            </div>
+        </div>
+
+        <div class="chat">
+            <div class="chat-header clearfix">
+                <div class="chat-about">
+                    <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
+                    <div class="chat-num-messages" th:text=${playlist.description}>해당 플레이리스트 설명(20자 이내)</div>
+                </div>
+                <a th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+            </div>
+            <!-- end chat-header -->
+
+            <div class="chat-history">
+            	<form method="post" th:action="@{'/mylist/'+${playlist.id}+'/update/'+${nowSong.id}}">
+            		<input type="hidden" name="_method" value="put"/>
+            		<div class="form-group">
+            			<label>제목</label>
+            			<input class="form-control" name="title" type="text" th:value="${nowSong.title}">
+            		</div>
+            		<div class="form-group">
+            			<button type="submit">수정</button>
+            		</div>
+            	</form>
+            	
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+    </script>
+</body>

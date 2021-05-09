@@ -18,9 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -71,7 +73,7 @@ public class PlaylistController {
 	@GetMapping("/mylist/search")
 	public String search(Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
 		model.addAttribute("playlists",playlistService.search(pageable, keyword));
-		return "playlist/search";
+		return "playlist/searchPlaylist";
 	}
 	
 	@GetMapping("/mylist/add")
@@ -79,7 +81,7 @@ public class PlaylistController {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
 			model.addAttribute("playlist", new Playlist());
-			return "playlist/addlist";
+			return "playlist/addPlaylist";
 		}
 		return "index";
 		
@@ -88,7 +90,7 @@ public class PlaylistController {
 	@PostMapping("/mylist/add")
 	public String add(@Valid Playlist playlist, BindingResult result) {
 		if (result.hasErrors()) {
-			return "playlist/addlist";
+			return "playlist/addPlaylist";
 		}
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		
@@ -128,7 +130,7 @@ public class PlaylistController {
 			model.addAttribute("songs", songService.findSongs(playlist));
 
 
-			return "playlist/addsong";
+			return "playlist/addSong";
 		}
 		return "index";
 	}
@@ -152,7 +154,7 @@ public class PlaylistController {
 			List<YoutubeForm> result = youtubeService.search(search);
 			model.addAttribute("result", result);
 			
-			return "playlist/addsong";
+			return "playlist/addSong";
 		}
 		return "index";
 	}
@@ -181,13 +183,46 @@ public class PlaylistController {
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			Song song = songService.getSong(songId);
 			model.addAttribute("playlist",playlist);
-			model.addAttribute("now",song.getVideoId());
+			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
 
 
-			return "playlist/playsong";
+			return "playlist/playSong";
 		}
 		return "index";
-		
+	}
+	
+	@GetMapping("/mylist/{playlistId}/update/{songId}")
+	public String updateSong(Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user != null) {
+			/*
+			 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
+			 */
+			Playlist playlist = playlistService.getPlaylist(playlistId);
+			Song song = songService.getSong(songId);
+			model.addAttribute("playlist",playlist);
+			model.addAttribute("nowSong",song);
+			model.addAttribute("songs", songService.findSongs(playlist));
+			
+			return "playlist/updateSong";
+		}
+		return "index";
+	}
+	
+	@PutMapping("/mylist/{playlistId}/update/{songId}")
+	public String updateSong(String title, @PathVariable("songId") Long songId) {
+		Song song = songService.getSong(songId);
+		songService.updateSong(song, title);
+		return "redirect:/mylist/{playlistId}";
+	}
+	
+	
+	
+	@DeleteMapping("/mylist/{playlistId}/{songId}")
+	public String deleteSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
+		Song song = songService.getSong(songId);
+		songService.deleteSong(song);
+		return "redirect:/mylist/{playlistId}";
 	}
 }
