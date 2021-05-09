@@ -24,6 +24,7 @@
             	</form>
             </div>
             <div class="menu-btn">
+            	
             	<a class="add-btn" th:href="@{/mylist}">뒤로</a>
             </div>
             
@@ -49,7 +50,12 @@
                     <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
                     <div class="chat-num-messages" th:text=${playlist.description}>해당 플레이리스트 설명(20자 이내)</div>
                 </div>
+                <form th:action="@{'/mylist/'+${playlist.id}}" method="post">
+            		<input type="hidden" name="_method" value="delete"/>
+            		<button class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
+            	</form>
                 <a th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+                
             </div>
             <!-- end chat-header -->
 

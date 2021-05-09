@@ -98,13 +98,6 @@ span {
     color: #92959E;
 }
 
-.people-list .fa-plus {
-    float: right;
-    color: #D8DADF;
-    font-size: 20px;
-    margin-top: 12px;
-    transition: all ease 0.5s;
-}
 
 .people-list .menu-btn{
 	text-align:center;
@@ -114,7 +107,7 @@ span {
     border: 1px solid;
     border-radius: 3px;
     font-size: 14px;
-    padding: 4px;
+    padding: 6px;
 }
 
 .pagination{
@@ -163,7 +156,21 @@ span {
     color: #D8DADF;
     font-size: 20px;
     margin-top: 12px;
+    margin-right: 30px;
     transition: all ease 0.5s;
+}
+
+.chat .chat-header .fa-trash{
+	float: right;
+    color: #D8DADF;
+    font-size: 20px;
+    margin-top: 12px;
+    transition: all ease 0.5s;
+}
+
+.trash-button{
+	display:contents;
+	cursor:pointer;
 }
 
 .chat .chat-header .fa-plus:hover {
@@ -177,6 +184,8 @@ span {
     text-align:center;
     height: 437px;
 }
+
+
 
 .add button{
 	width:40px;
@@ -340,12 +349,24 @@ label{
     font-family: 'KoPub Dotum';
 }
 
-.delete-btn{
+.delete-form{
 	display:contents;
-	cursor:pointer;
 }
 
-button{
+.delete-form button{
+	background: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    margin: 15px 0 0 0;
+    font-family: 'KoPub Dotum';
+    cursor: pointer;
+}
+
+.add-form button{
 	background: none;
     color: #fff;
     border: 1px solid;

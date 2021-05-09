@@ -40,11 +40,11 @@ public class Playlist {
 	@Column(name="playlist_id")
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@OneToMany(mappedBy="playlist")
+	@OneToMany(mappedBy="playlist", cascade = CascadeType.ALL)
 	private List<Song> songs = new ArrayList<>();
 	
 	@Column

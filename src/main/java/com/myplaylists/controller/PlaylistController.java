@@ -110,10 +110,16 @@ public class PlaylistController {
 			model.addAttribute("playlist",playlist);
 			model.addAttribute("songs", songService.findSongs(playlist));
 			
-			
 			return "playlist/detail";
 		}
 		return "user/login";
+	}
+	
+	@DeleteMapping("/mylist/{playlistId}")
+	public String deletePlaylist(@PathVariable("playlistId") Long playlistId) {
+		Playlist playlist = playlistService.getPlaylist(playlistId);
+		playlistService.deletePlaylist(playlist);
+		return "redirect:/mylist";
 	}
 	
 	

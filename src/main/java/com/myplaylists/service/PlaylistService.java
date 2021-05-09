@@ -39,6 +39,11 @@ public class PlaylistService {
 		
 	}
 	
+	@Transactional
+	public void deletePlaylist(Playlist playlist) {
+		playlistRepository.deleteById(playlist.getId());
+	}
+	
 	public Page<Playlist> search(Pageable pageable, String keyword){
 		return playlistRepository.findByTitleContaining(pageable, keyword);
 	}
