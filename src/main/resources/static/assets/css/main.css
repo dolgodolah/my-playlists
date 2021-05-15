@@ -32,6 +32,19 @@ span {
     box-sizing: border-box;
 }
 
+.login{
+	padding:20px;
+	text-align:center;
+}
+
+.login-btn {
+	text-align:center;
+	padding:20px;
+    margin: 0 auto;
+    background: hsl(212, 29%, 13%, 0.8);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
 .container {
     margin: 0 auto;
     width: 900px;
@@ -367,6 +380,19 @@ label{
 }
 
 .add-form button{
+	background: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    margin: 15px 0 0 0;
+    font-family: 'KoPub Dotum';
+    cursor: pointer;
+}
+
+.update-form button{
 	background: none;
     color: #fff;
     border: 1px solid;

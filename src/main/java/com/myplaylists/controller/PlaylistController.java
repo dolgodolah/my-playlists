@@ -172,7 +172,7 @@ public class PlaylistController {
 		song.setTitle(videoTitle);
 		song.setVideoId(videoId);
 		playlist.addSong(song);
-		songService.addSong(song);
+		songService.saveSong(song);
 		return "redirect:/mylist/{playlistId}";
 	}
 	
@@ -219,8 +219,9 @@ public class PlaylistController {
 	@PutMapping("/mylist/{playlistId}/update/{songId}")
 	public String updateSong(String title, @PathVariable("songId") Long songId) {
 		Song song = songService.getSong(songId);
-		songService.updateSong(song, title);
-		return "redirect:/mylist/{playlistId}";
+		song.update(title);
+		songService.saveSong(song);
+		return "redirect:/mylist/{playlistId}/{songId}";
 	}
 	
 	

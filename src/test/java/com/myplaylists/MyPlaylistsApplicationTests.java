@@ -1,10 +1,10 @@
-package com.todaymusic;
+package com.myplaylists;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TodayMusicApplicationTests {
+class MyPlaylistsApplicationTests {
 
 	@Test
 	void contextLoads() {

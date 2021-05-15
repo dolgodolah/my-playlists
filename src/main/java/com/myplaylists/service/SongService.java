@@ -23,19 +23,13 @@ public class SongService {
 	}
 	
 	@Transactional
-	public Long addSong(Song song) {
+	public Long saveSong(Song song) {
 		return songRepository.save(song).getId();
 	}
 	
 	@Transactional
 	public void deleteSong(Song song) {
 		songRepository.deleteById(song.getId());
-	}
-	
-	@Transactional
-	public Long updateSong(Song song, String title) {
-		song.setTitle(title);
-		return songRepository.save(song).getId();
 	}
 	
 //	public Page<Song> findSongs(Pageable pageable, Playlist playlist){
