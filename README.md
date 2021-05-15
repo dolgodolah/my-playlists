@@ -1,9 +1,9 @@
 # 내플리스(My Playlists)
-
+http://ec2-3-36-228-74.ap-northeast-2.compute.amazonaws.com:8080/
 
 ### :ok_person: 프로젝트 소개
 
-공부할 때, 비올 때, 놀러 갈 때 등 즐겨듣는 다양한 노래 플레이리스트들을 `내플리스`에 공유합니다.
+공부할 때, 비올 때, 놀러 갈 때 즐겨듣는 다양한 노래 플레이리스트들을 `내플리스`에 공유합니다.
 
 
 <img width="70%" src="https://user-images.githubusercontent.com/75430912/117034231-0e094c00-ad3e-11eb-8d89-58b51605bd4f.gif"/>
@@ -30,5 +30,7 @@
 `Spraing Data JPA`
 
 `Spring Security`
+
+`AWS EC2`
 
 
