@@ -33,10 +33,12 @@ public class PlaylistService {
 	public Long addPlaylist(Playlist playlist) {
 		return playlistRepository.save(playlist).getId();	}
 	
-	@Transactional
 	public Page<Playlist> findMyPlaylists(Pageable pageable, User user) {
 		return playlistRepository.findByUserId(pageable, user.getId());
-		
+	}
+	
+	public Page<Playlist> findAllPlaylists(Pageable pageable){
+		return playlistRepository.findByVisibility(pageable, false);
 	}
 	
 	@Transactional
@@ -44,8 +46,8 @@ public class PlaylistService {
 		playlistRepository.deleteById(playlist.getId());
 	}
 	
-	public Page<Playlist> search(Pageable pageable, String keyword){
-		return playlistRepository.findByTitleContaining(pageable, keyword);
+	public Page<Playlist> search(Pageable pageable, String keyword, Long userId){
+		return playlistRepository.findByTitleContainingAndUserId(pageable, keyword, userId);
 	}
 	
 	public Playlist getPlaylist(Long id) {

@@ -56,11 +56,14 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/mylist")
-	public String playlist(Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
+	public String mylist(Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, userService.findUser(user)));
+			Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, userService.findUser(user));
+			model.addAttribute("playlists", playlists);
 			
+			model.addAttribute("isFirst", playlists.isFirst());
+			model.addAttribute("isLast", playlists.isLast());
 			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 			model.addAttribute("next", pageable.next().getPageNumber());
 			
@@ -72,7 +75,15 @@ public class PlaylistController {
 	
 	@GetMapping("/mylist/search")
 	public String search(Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		model.addAttribute("playlists",playlistService.search(pageable, keyword));
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		Page<Playlist> playlists = playlistService.search(pageable,keyword, userService.findUser(user).getId());
+		
+		model.addAttribute("playlists", playlists);
+		
+		model.addAttribute("isFirst", playlists.isFirst());
+		model.addAttribute("isLast", playlists.isLast());
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
 		return "playlist/searchPlaylist";
 	}
 	
@@ -191,8 +202,8 @@ public class PlaylistController {
 			model.addAttribute("playlist",playlist);
 			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
-
-
+			
+			System.out.println(playlist.toString());
 			return "playlist/playSong";
 		}
 		return "index";
@@ -224,12 +235,29 @@ public class PlaylistController {
 		return "redirect:/mylist/{playlistId}/{songId}";
 	}
 	
-	
-	
 	@DeleteMapping("/mylist/{playlistId}/{songId}")
 	public String deleteSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
 		Song song = songService.getSong(songId);
 		songService.deleteSong(song);
 		return "redirect:/mylist/{playlistId}";
+	}
+	
+	
+	@GetMapping("/playlists")
+	public String playlists(@PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable,Model model) {
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user!=null) {
+			Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
+			
+			model.addAttribute("playlists", playlists);
+			
+			model.addAttribute("isFirst", playlists.isFirst());
+			model.addAttribute("isLast", playlists.isLast());
+			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+			model.addAttribute("next", pageable.next().getPageNumber());
+			return "playlist/playlists";
+		}
+		
+		return "index";
 	}
 }

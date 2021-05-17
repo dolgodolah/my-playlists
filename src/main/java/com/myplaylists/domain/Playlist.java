@@ -76,6 +76,5 @@ public class Playlist {
 		songs.add(song);
 		song.setPlaylist(this);
 	}
-	
 
 }

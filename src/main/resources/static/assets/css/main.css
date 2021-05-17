@@ -56,6 +56,11 @@ span {
     background-color: #17202A;
 }
 
+.disabled{
+	pointer-events:none;
+	color:#aaaaaa;
+}
+
 .people-list .clearfix:hover:not(.active) {
     background-color: #17202A;
 }
@@ -148,6 +153,7 @@ span {
 }
 
 .chat .chat-header .chat-about {
+	display:flex;
     float: left;
     padding-left: 10px;
     margin-top: 6px;
@@ -405,6 +411,18 @@ label{
     cursor: pointer;
 }
 
+.chat-about a{
+	background: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    margin:0 10px 0 0;
+    padding: 6px;
+    font-family: 'KoPub Dotum';
+    cursor: pointer;
+}
 
 .player{
 	height:300px;

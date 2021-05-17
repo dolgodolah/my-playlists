@@ -10,5 +10,6 @@ import com.myplaylists.domain.Playlist;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
 	Page<Playlist> findByUserId(Pageable pageable, Long userId);
-	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
+	Page<Playlist> findByTitleContainingAndUserId(Pageable pageable, String title, Long userId);
+	Page<Playlist> findByVisibility(Pageable pageable, boolean visibility);
 }

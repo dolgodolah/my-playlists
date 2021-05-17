@@ -37,9 +37,9 @@
                 	<input type="text" th:field="*{description}" class="description" placeholder="플레이리스트 설명을 입력하세요. (30자 이내)" th:class="${#fields.hasErrors('description')?'description fieldError':'description'}" autocomplete="off">
                 </div>
                 <div class="visibility">
-                    <input type="radio" th:field="*{visibility}" value="true"><i class="fa fa-book"></i><span> Public : 이 플레이리스트를 누구나 볼 수 있습니다.</span>
-                    <br>
-                    <input type="radio" th:field="*{visibility}" value="false"><i class="fa fa-lock"></i><span> Private : 자신과 공유받은 사람만 볼 수 있습니다.</span>
+                    <input type="radio" th:field="*{visibility}" value="false"><i class="fa fa-book"></i><span> Public : 이 플레이리스트를 누구나 볼 수 있습니다.</span>
+                	<br>
+                	<input type="radio" th:field="*{visibility}" value="true" checked><i class="fa fa-lock"></i><span> Private : 이 플레이리스트를 나만 볼 수 있습니다.</span>
                 </div>
                 <div>
                     <a class="btn" th:href="@{/mylist}">취소</a>
