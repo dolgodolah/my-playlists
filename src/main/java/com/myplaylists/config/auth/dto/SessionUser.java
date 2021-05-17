@@ -8,11 +8,13 @@ import com.myplaylists.domain.User;
 
 @Getter
 public class SessionUser implements Serializable {
-   private String name;
-   private String email;
+	private Long id;
+	private String name;
+	private String email;
 
-   public SessionUser(User user) {
-       this.name = user.getName();
-       this.email = user.getEmail();
-   }
+    public SessionUser(User user) {
+    	this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+    }
 }

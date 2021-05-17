@@ -52,9 +52,9 @@
                 </div>
                 <form th:action="@{'/mylist/'+${playlist.id}}" method="post">
             		<input type="hidden" name="_method" value="delete"/>
-            		<button class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
+            		<button th:if="${session.user.id==playlist.user.id}" class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
             	</form>
-                <a th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+                <a th:if="${session.user.id==playlist.user.id}" th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
                 
             </div>
             <!-- end chat-header -->

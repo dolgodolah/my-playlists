@@ -153,7 +153,6 @@ span {
 }
 
 .chat .chat-header .chat-about {
-	display:flex;
     float: left;
     padding-left: 10px;
     margin-top: 6px;
