@@ -1,5 +1,6 @@
 # 내플리스(My Playlists)
-http://ec2-3-36-228-74.ap-northeast-2.compute.amazonaws.com:8080/
+
+www.myplaylists.shop
 
 ### :ok_person: 프로젝트 소개
 
