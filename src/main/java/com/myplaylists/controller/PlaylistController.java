@@ -118,7 +118,9 @@ public class PlaylistController {
 			
 			
 			Playlist playlist = playlistService.getPlaylist(playlistId);
+			
 			model.addAttribute("playlist",playlist);
+			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("songs", songService.findSongs(playlist));
 			
 			return "playlist/detail";
@@ -144,6 +146,8 @@ public class PlaylistController {
 			 */
 			Playlist playlist = playlistService.getPlaylist(id);
 			model.addAttribute("playlist",playlist);
+			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
+
 			model.addAttribute("songs", songService.findSongs(playlist));
 
 
@@ -162,6 +166,7 @@ public class PlaylistController {
 			 */
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			model.addAttribute("playlist",playlist);
+			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("songs", songService.findSongs(playlist));
 	
 			
@@ -200,10 +205,10 @@ public class PlaylistController {
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			Song song = songService.getSong(songId);
 			model.addAttribute("playlist",playlist);
+			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
 			
-			System.out.println(playlist.toString());
 			return "playlist/playSong";
 		}
 		return "index";
@@ -219,6 +224,7 @@ public class PlaylistController {
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			Song song = songService.getSong(songId);
 			model.addAttribute("playlist",playlist);
+			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
 			

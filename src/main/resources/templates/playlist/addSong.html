@@ -49,7 +49,7 @@
             <div class="chat-header clearfix">
                 <div class="chat-about">
                     <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
-                    <div class="chat-num-messages" th:text=${playlist.description}>해당 플레이리스트 설명(20자 이내)</div>
+                    <div class="chat-num-messages" th:text="${author} + '의 플레이리스트'">해당 플레이리스트 만든 사람</div>
                 </div>
                 <form th:action="@{'/mylist/'+${playlist.id}}" method="post">
             		<input type="hidden" name="_method" value="delete"/>

@@ -165,6 +165,7 @@ span {
 }
 
 .chat .chat-header .chat-with {
+	font-family:"KoPub Dotum";
 	font-size:18px;
 	font-weight:bold;
 }
@@ -201,6 +202,13 @@ span {
     overflow-y: scroll;
     text-align:center;
     height: 437px;
+    font-family:"KoPub Dotum";
+}
+
+.chat .chat-history .chat-num-messages {
+	font-family:"KoPub Dotum";
+	font-size:18px;
+	font-weight:bold;
 }
 
 
@@ -312,6 +320,7 @@ ul {
 
 
 .chat-history input {
+	font-family: 'KoPub Dotum';
     border-radius: 3px;
     border: none;
     padding: 10px;

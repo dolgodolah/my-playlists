@@ -32,4 +32,13 @@ public class UserService {
 		userRepository.save(user);
 		return user.getId();
 	}
+	
+	public String getAuthor(Long userId) {
+		Optional<User> user = userRepository.findById(userId);
+		if (user.isPresent()) {
+			String nickname = user.get().getNickname();
+			return (nickname != null) ? nickname : user.get().getName();
+		}
+		return "알수없음";
+	}
 }

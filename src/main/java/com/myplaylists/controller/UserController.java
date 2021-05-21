@@ -3,6 +3,7 @@ package com.myplaylists.controller;
 
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -10,10 +11,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.domain.User;
+import com.myplaylists.dto.UserForm;
 import com.myplaylists.service.PlaylistService;
 import com.myplaylists.service.UserService;
 
@@ -45,22 +49,35 @@ public class UserController {
 	public String myinfo(Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user != null) {
-			model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, userService.findUser(user)));
+			User loginUser = userService.findUser(user);
+			model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, loginUser));
 			
 			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 			model.addAttribute("next", pageable.next().getPageNumber());
 			
-			
-			model.addAttribute("user", userService.findUser(user));
+			UserForm userForm = new UserForm();
+			userForm.setEmail(loginUser.getEmail());
+			userForm.setName(loginUser.getName());
+			userForm.setNickname(loginUser.getNickname());
+			model.addAttribute("userForm", userForm);
 			return "user/myinfo";
 		}
 		return "index";
 	}
 	
 	@PostMapping("/myinfo")
-	public String updateMyinfo(String nickname) {
+	public String updateMyinfo(@Valid UserForm userForm, BindingResult result, String nickname, Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
-		userService.updateUser(user,nickname);
+		if (result.hasErrors()) {
+			return "user/myinfo";
+		}
+		try {
+			userService.updateUser(user,nickname);
+		} catch (Exception e){
+			model.addAttribute("error", e.getMessage());
+			return "user/myinfo";
+		}
+		
 		return "redirect:/mylist";
 	}
 

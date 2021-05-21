@@ -13,6 +13,7 @@
 	.readonly{
 		background-color:#3a4c66;
 	}
+	
 </style>
 
 <body>
@@ -62,19 +63,19 @@
             </div>
             
             <div class="chat-history">
-            	<form method="post" action="/myinfo">
+            	<form class="update-form" method="post" action="/myinfo" th:object="${userForm}">
             		<div class="form-group">
             			<label>구글 이메일</label>
-	            		<input class="form-control readonly" type="text" th:placeholder="${user.email}" readonly>
+	            		<input class="form-control readonly" type="text" th:field="*{email}" readonly>
             		</div>
             		<div class="form-group">
             			<label>구글 이름</label>
-            			<input class="form-control readonly" type="text" th:placeholder="${user.name}" readonly>
+            			<input class="form-control readonly" type="text" th:field="*{name}" readonly>
             		</div>
             		<div class="form-group">
             			<label>닉네임</label>
-            			<input th:if="${user.nickname==null}" class="form-control" name="nickname" type="text" placeholder="닉네임을 입력해주세요">
-            			<input th:unless="${user.nickname==null}" class="form-control" name="nickname" type="text" th:value="${user.nickname}">
+            			<input class="form-control" name="nickname" type="text" th:field="*{nickname}" placeholder="닉네임을 입력해주세요">
+            			<p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></p>
             		</div>
             		<div class="form-group">
 	            		<button type="submit">수정</button>
