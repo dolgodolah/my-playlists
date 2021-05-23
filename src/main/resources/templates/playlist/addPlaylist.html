@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>내플리스 MyPlaylists</title>
+    <title>내플리스 - My Playlists</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -27,7 +27,7 @@
 
     <div class="container clearfix">
         <div class="list-form">
-            <form class="add-form" method="post" th:object="${playlist}" action="/mylist/add">
+            <form class="add-form" method="post" th:object="${playlist}" action="/playlist/add">
                 <div class="form-group">
                 	<span>플레이리스트 제목 (필수)</span>
                     <input type="text" th:field="*{title}" class="title" placeholder="플레이리스트 제목을 입력하세요. (30자 이내)" th:class="${#fields.hasErrors('title')? 'title fieldError' : 'title'}" autocomplete="off">
@@ -42,7 +42,7 @@
                 	<input type="radio" th:field="*{visibility}" value="true" checked><i class="fa fa-lock"></i><span> Private : 이 플레이리스트를 나만 볼 수 있습니다.</span>
                 </div>
                 <div>
-                    <a class="btn" th:href="@{/mylist}">취소</a>
+                    <a class="btn" href="javascript:history.back();">취소</a>
                     <button type="submit">완료</button>
                 </div>
             </form>

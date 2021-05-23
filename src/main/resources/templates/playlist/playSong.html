@@ -3,7 +3,7 @@
 
 
 <head>
-    <title>내플리스 MyPlaylists</title>
+    <title>내플리스 - My Playlists</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -19,17 +19,17 @@
     <div class="container clearfix">
         <div class="people-list" id="people-list">
             <div class="search">
-            	<form method="get" action="/mylist/search">
+            	<form method="get" action="/playlist/search">
             		<input type="text" placeholder="플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
-            	<a class="add-btn" th:href="@{/mylist}">뒤로</a>
+            	<a class="add-btn" href="javascript:history.back();">뒤로</a>
             </div>
             
             <ul class="list">
                 <li class="clearfix" th:each="song:${songs}">
-                    <a th:href="@{'/mylist/'+${playlist.id}+'/'+${song.id}}">
+                    <a th:href="@{'/playlist/'+${playlist.id}+'/'+${song.id}}">
                         <div class="about">
                             <div class="name" th:text="${song.title}">노래 제목</div>
                             <div class="status" th:text="${#temporals.format(song.createdAt,'yy-MM-dd HH:mm')}"></div>
@@ -38,8 +38,11 @@
                 </li>
             </ul>
             <div class="pagination">
-	           	<a class="logout-btn" th:href="@{/logout}">로그아웃</a>
-	         
+            	<a class="my-info" th:href="@{/myinfo}">내 정보</a>
+	            <a class="page-link disabled">◀</a>
+	            <a class="fa fa-home" th:href="@{/mylist}"></a>
+	           	<a class="page-link disabled">▶</a>
+	           	<a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
             </div>
         </div>
 
@@ -49,11 +52,14 @@
                     <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
                     <div class="chat-num-messages" th:text="${author} + '의 플레이리스트'">해당 플레이리스트 만든 사람</div>
                 </div>
-                <form th:action="@{'/mylist/'+${playlist.id}}" method="post">
+                <form th:action="@{'/playlist/'+${playlist.id}}" method="post">
             		<input type="hidden" name="_method" value="delete"/>
             		<button th:if="${session.user.id==playlist.user.id}" class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
             	</form>
-                <a th:if="${session.user.id==playlist.user.id}" th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+                <a th:if="${session.user.id==playlist.user.id}" th:href="@{'/playlist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+            	<form action="" method="post">
+                	<button class="star-button" type="submit"><i class="fa fa-star"></i></button>
+                </form>
             </div>
             <!-- end chat-header -->
 
@@ -62,8 +68,8 @@
             		<div id="player"></div>
             	</div>
             	<div>
-            		<a th:if="${session.user.id==playlist.user.id}" class="btn" th:href="@{'/mylist/'+${playlist.id}+'/update/'+${nowSong.id}}">수정</a>
-            		<form class="delete-form" th:action="@{'/mylist/'+${playlist.id}+'/'+${nowSong.id}}" method="post">
+            		<a th:if="${session.user.id==playlist.user.id}" class="btn" th:href="@{'/playlist/'+${playlist.id}+'/'+${nowSong.id}+'/update'}">수정</a>
+            		<form class="delete-form" th:action="@{'/playlist/'+${playlist.id}+'/'+${nowSong.id}}" method="post">
             			<input type="hidden" name="_method" value="delete"/>
             			<button th:if="${session.user.id==playlist.user.id}" type="submit">삭제</button>
             		</form>

@@ -3,7 +3,7 @@
 
 
 <head>
-    <title>내플리스 MyPlaylists</title>
+    <title>내플리스 - My Playlists</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -19,17 +19,17 @@
     <div class="container clearfix">
         <div class="people-list" id="people-list">
             <div class="search">
-            	<form method="get" action="/mylist/search">
+            	<form method="get" action="/playlist/search">
             		<input type="text" placeholder="플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
-            	<a class="add-btn" th:href="@{/mylist}">뒤로</a>
+            	<a class="add-btn" href="javascript:history.back();">뒤로</a>
             </div>
             
             <ul class="list">
                 <li class="clearfix" th:each="song:${songs}">
-                    <a th:href="@{'/mylist/'+${playlist.id}+'/'+${song.id}}">
+                    <a th:href="@{'/playlist/'+${playlist.id}+'/'+${song.id}}">
                         <div class="about">
                             <div class="name" th:text="${song.title}">노래 제목</div>
                             <div class="status" th:text="${#temporals.format(song.createdAt,'yy-MM-dd HH:mm')}"></div>
@@ -49,16 +49,19 @@
                     <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
                     <div class="chat-num-messages" th:text="${author} + '의 플레이리스트'">해당 플레이리스트 만든 사람</div>
                 </div>
-                <form th:action="@{'/mylist/'+${playlist.id}}" method="post">
+                <form th:action="@{'/playlist/'+${playlist.id}}" method="post">
             		<input type="hidden" name="_method" value="delete"/>
             		<button class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
             	</form>
-                <a th:href="@{'/mylist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+                <a th:href="@{'/playlist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
+            	<form action="" method="post">
+                	<button class="star-button" type="submit"><i class="fa fa-star"></i></button>
+                </form>
             </div>
             <!-- end chat-header -->
 
             <div class="chat-history">
-            	<form class="update-form" method="post" th:action="@{'/mylist/'+${playlist.id}+'/update/'+${nowSong.id}}">
+            	<form class="update-form" method="post" th:action="@{'/playlist/'+${playlist.id}+'/'+${nowSong.id}+'/update'}">
             		<input type="hidden" name="_method" value="put"/>
             		<div class="form-group">
             			<label>제목</label>
@@ -73,5 +76,34 @@
         </div>
     </div>
     <!-- end container -->
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+    	
+    	const body = document.querySelector("body");
+		const IMG_NUMBER = 5;
+		var now = /*[[${nowSong.videoId}]]*/
+		
+		function paintImage(imgNumber) {
+		    const image = new Image();
+		    image.src = `https://i.ytimg.com/vi/${now}/mqdefault.jpg`;
+		    image.classList.add("bgImage");
+		
+		    //append -> 뒤에 추가, prepend -> 맨앞에 추가
+		    body.prepend(image)
+		}
+		
+		function generateRandom() {
+		    const number = Math.floor(Math.random() * IMG_NUMBER);
+		    return number;
+		}
+		
+		
+		function init() {
+		    const randomNumber = generateRandom();
+		    paintImage(randomNumber);
+		}
+		
+		init();
+		/*]]*/
     </script>
 </body>

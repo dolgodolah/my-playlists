@@ -73,7 +73,7 @@ public class PlaylistController {
 		return "index";
 	}
 	
-	@GetMapping("/mylist/search")
+	@GetMapping("/playlist/search")
 	public String search(Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		Page<Playlist> playlists = playlistService.search(pageable,keyword, userService.findUser(user).getId());
@@ -87,7 +87,7 @@ public class PlaylistController {
 		return "playlist/searchPlaylist";
 	}
 	
-	@GetMapping("/mylist/add")
+	@GetMapping("/playlist/add")
 	public String add(Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
@@ -98,7 +98,7 @@ public class PlaylistController {
 		
 	}
 	
-	@PostMapping("/mylist/add")
+	@PostMapping("/playlist/add")
 	public String add(@Valid Playlist playlist, BindingResult result) {
 		if (result.hasErrors()) {
 			return "playlist/addPlaylist";
@@ -111,7 +111,7 @@ public class PlaylistController {
 	}
 
 
-	@GetMapping("/mylist/{playlistId}")
+	@GetMapping("/playlist/{playlistId}")
 	public String detail(@PathVariable("playlistId") Long playlistId, Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
@@ -128,7 +128,7 @@ public class PlaylistController {
 		return "user/login";
 	}
 	
-	@DeleteMapping("/mylist/{playlistId}")
+	@DeleteMapping("/playlist/{playlistId}")
 	public String deletePlaylist(@PathVariable("playlistId") Long playlistId) {
 		Playlist playlist = playlistService.getPlaylist(playlistId);
 		playlistService.deletePlaylist(playlist);
@@ -136,7 +136,7 @@ public class PlaylistController {
 	}
 	
 	
-	@GetMapping("/mylist/{playlistId}/add")
+	@GetMapping("/playlist/{playlistId}/add")
 	public String addsong(@PathVariable("playlistId") Long id, Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
@@ -157,7 +157,7 @@ public class PlaylistController {
 	}
 	
 	
-	@GetMapping("/mylist/{playlistId}/youtube_search")
+	@GetMapping("/playlist/{playlistId}/youtube_search")
 	public String youtubeSearch(@PathVariable("playlistId") Long playlistId, String search, Model model) throws IOException, ParseException {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
@@ -181,7 +181,7 @@ public class PlaylistController {
 		return "index";
 	}
 	
-	@PostMapping("/mylist/{playlistId}/{videoTitle}/{videoId}")
+	@PostMapping("/playlist/{playlistId}/{videoTitle}/{videoId}")
 	public String addSong(@PathVariable("playlistId") Long playlistId, @PathVariable("videoTitle") String videoTitle, @PathVariable("videoId") String videoId) {
 		Playlist playlist = playlistService.getPlaylist(playlistId);
 		Song song = new Song();
@@ -194,7 +194,7 @@ public class PlaylistController {
 	
 	
 	
-	@GetMapping("/mylist/{playlistId}/{songId}")
+	@GetMapping("/playlist/{playlistId}/{songId}")
 	public String playSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
@@ -214,7 +214,7 @@ public class PlaylistController {
 		return "index";
 	}
 	
-	@GetMapping("/mylist/{playlistId}/update/{songId}")
+	@GetMapping("/playlist/{playlistId}/{songId}/update")
 	public String updateSong(Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user != null) {
@@ -233,23 +233,23 @@ public class PlaylistController {
 		return "index";
 	}
 	
-	@PutMapping("/mylist/{playlistId}/update/{songId}")
+	@PutMapping("/playlist/{playlistId}/{songId}/update")
 	public String updateSong(String title, @PathVariable("songId") Long songId) {
 		Song song = songService.getSong(songId);
 		song.update(title);
 		songService.saveSong(song);
-		return "redirect:/mylist/{playlistId}/{songId}";
+		return "redirect:/playlist/{playlistId}/{songId}";
 	}
 	
-	@DeleteMapping("/mylist/{playlistId}/{songId}")
+	@DeleteMapping("/playlist/{playlistId}/{songId}")
 	public String deleteSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
 		Song song = songService.getSong(songId);
 		songService.deleteSong(song);
-		return "redirect:/mylist/{playlistId}";
+		return "redirect:/playlist/{playlistId}";
 	}
 	
 	
-	@GetMapping("/playlists")
+	@GetMapping("/all")
 	public String playlists(@PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable,Model model) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
 		if (user!=null) {
@@ -265,5 +265,11 @@ public class PlaylistController {
 		}
 		
 		return "index";
+	}
+	
+	@PostMapping("/playlist/{playlistId}/bookmark")
+	public String bookmark(@PathVariable("playlistId") Long playlistId) {
+		
+		return "playlist/{playlistId}/{songId}";
 	}
 }
