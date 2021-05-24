@@ -207,6 +207,10 @@ span {
 	cursor:pointer;
 }
 
+.bookmark::before{
+	color:yellow;
+}
+
 .chat .chat-header .fa-plus:hover {
     transform: rotate(180deg);
 }
@@ -251,17 +255,6 @@ span {
     font-size: 10px;
 }
 
-.online {
-    color: #86BB71;
-}
-
-.offline {
-    color: #E38968;
-}
-
-.me {
-    color: #94C2ED;
-}
 
 .align-left {
     text-align: left;

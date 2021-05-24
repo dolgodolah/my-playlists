@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.domain.Bookmark;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
 import com.myplaylists.domain.User;
@@ -76,7 +77,7 @@ public class PlaylistController {
 	@GetMapping("/playlist/search")
 	public String search(Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
 		SessionUser user = (SessionUser) session.getAttribute("user");
-		Page<Playlist> playlists = playlistService.search(pageable,keyword, userService.findUser(user).getId());
+		Page<Playlist> playlists = playlistService.search(pageable,keyword, userService.findUser(user));
 		
 		model.addAttribute("playlists", playlists);
 		
@@ -122,6 +123,7 @@ public class PlaylistController {
 			model.addAttribute("playlist",playlist);
 			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("songs", songService.findSongs(playlist));
+			model.addAttribute("isBookmark",playlistService.validateBookmark(user.getId(), playlistId).isPresent());
 			
 			return "playlist/detail";
 		}
@@ -208,6 +210,7 @@ public class PlaylistController {
 			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
+			model.addAttribute("isBookmark",playlistService.validateBookmark(user.getId(), playlistId).isPresent());
 			
 			return "playlist/playSong";
 		}
@@ -227,6 +230,7 @@ public class PlaylistController {
 			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
+			model.addAttribute("isBookmark",playlistService.validateBookmark(user.getId(), playlistId).isPresent());
 			
 			return "playlist/updateSong";
 		}
@@ -267,9 +271,42 @@ public class PlaylistController {
 		return "index";
 	}
 	
+	@ResponseBody
 	@PostMapping("/playlist/{playlistId}/bookmark")
-	public String bookmark(@PathVariable("playlistId") Long playlistId) {
+	public void bookmark(@PathVariable("playlistId") Long playlistId, User user) {
+		/*
+		 * 해당 플레이리스트가 이미 즐겨찾기 되어있는지 확인
+		 */
+		Optional<Bookmark> result = playlistService.validateBookmark(user.getId(), playlistId);
 		
-		return "playlist/{playlistId}/{songId}";
+		// 이미 즐겨찾기가 되어있으면 즐겨찾기 삭제
+		if (result.isPresent()) {
+			playlistService.deleteBookmark(result.get());
+		}
+		// 즐겨찾기가 되어있지 않으면 즐겨찾기 설정
+		else {
+			Bookmark bookmark = new Bookmark();
+			bookmark.setUser(user);
+			bookmark.setPlaylistId(playlistId);
+			playlistService.setBookmark(bookmark);
+		}
+	}
+	
+	@GetMapping("/bookmark")
+	public String bookmark(@PageableDefault(size=6, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
+		SessionUser user = (SessionUser) session.getAttribute("user");
+		if (user!=null) {
+			List<Playlist> playlists = playlistService.findBookmarkPlaylists(pageable, userService.findUser(user));
+			
+			model.addAttribute("playlists", playlists);
+
+//			model.addAttribute("isFirst", playlists.isFirst());
+//			model.addAttribute("isLast", playlists.isLast());
+			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+			model.addAttribute("next", pageable.next().getPageNumber());
+			return "playlist/bookmark";
+		}
+		
+		return "index";
 	}
 }

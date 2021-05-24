@@ -54,9 +54,7 @@
             		<button class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
             	</form>
                 <a th:href="@{'/playlist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
-            	<form action="" method="post">
-                	<button class="star-button" type="submit"><i class="fa fa-star"></i></button>
-                </form>
+                <button id="star-button" class="star-button"><i id="star" th:class="${isBookmark}?'fa fa-star bookmark' : 'fa fa-star'"></i></button>
             </div>
             <!-- end chat-header -->
 
@@ -76,14 +74,15 @@
         </div>
     </div>
     <!-- end container -->
+    
+    <!-- 백그라운드 설정 -->
     <script th:inline="javascript">
     	/*<![CDATA[*/
     	
     	const body = document.querySelector("body");
-		const IMG_NUMBER = 5;
 		var now = /*[[${nowSong.videoId}]]*/
 		
-		function paintImage(imgNumber) {
+		function paintImage() {
 		    const image = new Image();
 		    image.src = `https://i.ytimg.com/vi/${now}/mqdefault.jpg`;
 		    image.classList.add("bgImage");
@@ -92,18 +91,34 @@
 		    body.prepend(image)
 		}
 		
-		function generateRandom() {
-		    const number = Math.floor(Math.random() * IMG_NUMBER);
-		    return number;
-		}
-		
 		
 		function init() {
-		    const randomNumber = generateRandom();
-		    paintImage(randomNumber);
+		    paintImage();
 		}
 		
 		init();
 		/*]]*/
+    </script>
+    
+    <!-- 즐겨찾기 설정 -->
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+    	var user = /*[[${session.user}]]*/
+    	$('#star-button').on('click', function(){
+    		var playlistId = /*[[${playlist.id}]]*/
+    		
+    		$.ajax({
+    			url:`/playlist/${playlistId}/bookmark`,
+    			data:user,
+    			type:"POST",
+    			success:function(){
+    				document.getElementById('star').classList.toggle('bookmark');
+    			},
+    			error:function(){
+    				console.log("fail");
+    			}
+    		});
+    	});
+    	/*]]*/
     </script>
 </body>

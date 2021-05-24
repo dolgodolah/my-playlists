@@ -9,6 +9,7 @@
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
 
+
 <body>
     <header>
         <div class="mac-btn" id="mac-btn1"></div>
@@ -58,25 +59,39 @@
             		<button th:if="${session.user.id==playlist.user.id}" class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
             	</form>
                 <a th:if="${session.user.id==playlist.user.id}" th:href="@{'/playlist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
-                <form th:action="@{'/playlist/'+${playlist.id}+'/bookmark'}" method="post">
-                	<button class="star-button" type="submit"><i class="fa fa-star"></i></button>
-                </form>
-                
+                <button id="star-button" class="star-button"><i id="star" th:class="${isBookmark}?'fa fa-star bookmark' : 'fa fa-star'"></i></button>
             </div>
             <!-- end chat-header -->
-
             <div class="chat-history">
                 <div class="chat-num-messages" th:text=${playlist.description}>해당 플레이리스트 설명(20자 이내)</div>
 
             </div>
             <!-- end chat-history -->
-
-
         </div>
         <!-- end chat -->
-
     </div>
     <!-- end container -->
 
     <script src="/assets/js/bg.js"></script>
+    
+    <!-- 즐겨찾기 설정 -->
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+    	var user = /*[[${session.user}]]*/
+    	$('#star-button').on('click', function(){
+    		var playlistId = /*[[${playlist.id}]]*/
+    		$.ajax({
+    			url:`/playlist/${playlistId}/bookmark`,
+    			data:user,
+    			type:"POST",
+    			success:function(){
+    				document.getElementById('star').classList.toggle('bookmark');
+    			},
+    			error:function(){
+    				console.log("fail");
+    			}
+    		});
+    	});
+    	/*]]*/
+    </script>
 </body>

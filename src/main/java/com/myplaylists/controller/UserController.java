@@ -60,6 +60,8 @@ public class UserController {
 			userForm.setName(loginUser.getName());
 			userForm.setNickname(loginUser.getNickname());
 			model.addAttribute("userForm", userForm);
+			
+			System.out.println(loginUser.getBookmarks());
 			return "user/myinfo";
 		}
 		return "index";
