@@ -35,3 +35,19 @@ www.myplaylists.shop
 `AWS EC2`
 
 
+#
+
+
+### :mag:  DB 설계
+
+<img width="70%" src="https://user-images.githubusercontent.com/75430912/119460939-276c4980-bd7a-11eb-89a5-9c98ad3b6c4c.jpg"/>
+
+<img width="70%" src="https://user-images.githubusercontent.com/75430912/119460951-2c30fd80-bd7a-11eb-8d78-4e6212fee28b.jpg"/>
+
+<img width="70%" src="https://user-images.githubusercontent.com/75430912/119460955-2d622a80-bd7a-11eb-880a-6352567e150b.jpg"/>
+
+<img width="70%" src="https://user-images.githubusercontent.com/75430912/119460957-2dfac100-bd7a-11eb-94b6-5e01a99eb21a.jpg"/>
+
+
+
+
