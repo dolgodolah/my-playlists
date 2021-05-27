@@ -238,9 +238,10 @@ public class PlaylistController {
 	}
 	
 	@PutMapping("/playlist/{playlistId}/{songId}/update")
-	public String updateSong(String title, @PathVariable("songId") Long songId) {
+	public String updateSong(String title, String description, @PathVariable("songId") Long songId) {
 		Song song = songService.getSong(songId);
-		song.update(title);
+		song.update(title, description);
+		
 		songService.saveSong(song);
 		return "redirect:/playlist/{playlistId}/{songId}";
 	}

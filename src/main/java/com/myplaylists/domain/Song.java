@@ -48,8 +48,9 @@ public class Song {
 	@CreatedDate
 	private LocalDateTime createdAt;
 	
-	public void update(String title) {
+	public void update(String title, String description) {
 		this.title=title;
+		this.description=description;
 	}
 	
 }

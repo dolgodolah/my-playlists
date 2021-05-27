@@ -226,7 +226,7 @@ span {
 
 .chat .chat-history .chat-num-messages {
 	font-family:"KoPub Dotum";
-	font-size:18px;
+	font-size:14px;
 	font-weight:bold;
 }
 
@@ -244,15 +244,6 @@ span {
     margin: 0px;
     font-family: 'KoPub Dotum';
     cursor:pointer
-}
-
-
-
-.online,
-.offline,
-.me {
-    margin-right: 3px;
-    font-size: 10px;
 }
 
 
@@ -328,6 +319,16 @@ ul {
 
 
 .chat-history input {
+	font-family: 'KoPub Dotum';
+    border-radius: 3px;
+    border: none;
+    padding: 10px;
+    outline: 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+.chat-history textarea {
 	font-family: 'KoPub Dotum';
     border-radius: 3px;
     border: none;
@@ -441,5 +442,5 @@ label{
 }
 
 .player{
-	height:300px;
+	height:290px;
 }

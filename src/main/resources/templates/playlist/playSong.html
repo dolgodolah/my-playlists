@@ -62,9 +62,11 @@
             <!-- end chat-header -->
 
             <div class="chat-history">
+            	
             	<div class="player">
             		<div id="player"></div>
             	</div>
+            	<textarea th:if="${nowSong.description}" class="chat-num-messages" th:text="${nowSong.description}" readonly>해당 노래 설명(20자 이내)</textarea>
             	<div>
             		<a th:if="${session.user.id==playlist.user.id}" class="btn" th:href="@{'/playlist/'+${playlist.id}+'/'+${nowSong.id}+'/update'}">수정</a>
             		<form class="delete-form" name="deleteForm" th:action="@{'/playlist/'+${playlist.id}+'/'+${nowSong.id}}" method="post">
