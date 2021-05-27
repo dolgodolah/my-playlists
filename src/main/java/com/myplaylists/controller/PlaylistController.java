@@ -191,7 +191,7 @@ public class PlaylistController {
 		song.setVideoId(videoId);
 		playlist.addSong(song);
 		songService.saveSong(song);
-		return "redirect:/mylist/{playlistId}";
+		return "redirect:/playlist/{playlistId}";
 	}
 	
 	

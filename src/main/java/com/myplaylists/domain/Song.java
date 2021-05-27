@@ -38,6 +38,9 @@ public class Song {
 	@Column
 	private String videoId;
 	
+	@Column
+	private String description;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="playlist_id")
 	private Playlist playlist;

@@ -208,7 +208,7 @@ span {
 }
 
 .bookmark::before{
-	color:yellow;
+	color:greenyellow;
 }
 
 .chat .chat-header .fa-plus:hover {

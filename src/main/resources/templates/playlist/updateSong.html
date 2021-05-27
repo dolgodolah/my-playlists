@@ -51,7 +51,7 @@
                 </div>
                 <form th:action="@{'/playlist/'+${playlist.id}}" method="post">
             		<input type="hidden" name="_method" value="delete"/>
-            		<button class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
+            		<button name="deleteForm" class="trash-button" type="button"><i class="fa fa-trash"></i></button>
             	</form>
                 <a th:href="@{'/playlist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
                 <button id="star-button" class="star-button"><i id="star" th:class="${isBookmark}?'fa fa-star bookmark' : 'fa fa-star'"></i></button>
@@ -121,4 +121,5 @@
     	});
     	/*]]*/
     </script>
+    <script src="/assets/js/check.js"></script>
 </body>
