@@ -26,17 +26,17 @@
     <div class="container clearfix">
         <div class="people-list" id="people-list">
             <div class="search">
-            	<form method="get" action="/mylist/search">
+            	<form method="get" action="/playlist/search">
             		<input type="text" placeholder="플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
-            	<a class="add-btn" th:href="@{/mylist/add}">플레이리스트 추가</a>
+            	<a class="add-btn" th:href="@{/playlist/add}">플레이리스트 추가</a>
             	
             </div>
             <ul class="list">
                 <li class="clearfix" th:each="playlist:${playlists}">
-                    <a th:href="@{'/mylist/'+${playlist.id}}">
+                    <a th:href="@{'/playlist/'+${playlist.id}}">
                         <div class="about">
                             <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
                             <div class="status" th:text="${#temporals.format(playlist.updatedAt,'yy-MM-dd HH:mm')}"></div>
@@ -92,5 +92,5 @@
     </div>
     <!-- end container -->
 
-    <script src="../assets/js/bg.js"></script>
+    <script src="/assets/js/bg.js"></script>
 </body>
