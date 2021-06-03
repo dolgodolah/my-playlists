@@ -36,7 +36,9 @@ public class Bookmark {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	private Long playlistId;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="playlist_id")
+	private Playlist playlist;
 	
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -44,6 +46,10 @@ public class Bookmark {
 	public void setUser(User user) {
 		this.user=user;
 		user.getBookmarks().add(this);
+	}
+	
+	public void setPlaylist(Playlist playlist) {
+		this.playlist=playlist;
 	}
 	
 	

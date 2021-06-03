@@ -70,7 +70,7 @@ public class PlaylistService {
 	public List<Playlist> findBookmarkPlaylists(Pageable pageable, User user){
 		List<Bookmark> bookmarks = user.getBookmarks();
 		List<Playlist> playlists = new ArrayList<>();
-		bookmarks.forEach(bookmark -> playlists.add(getPlaylist(bookmark.getPlaylistId())));
+		bookmarks.forEach(bookmark -> playlists.add(bookmark.getPlaylist()));
 		return playlists;
 	}
 	

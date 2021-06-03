@@ -288,7 +288,7 @@ public class PlaylistController {
 		else {
 			Bookmark bookmark = new Bookmark();
 			bookmark.setUser(user);
-			bookmark.setPlaylistId(playlistId);
+			bookmark.setPlaylist(playlistService.getPlaylist(playlistId));
 			playlistService.setBookmark(bookmark);
 		}
 	}
