@@ -54,9 +54,9 @@
                     <div class="chat-with" th:text="${playlist.title}">해당 플레이리스트 제목</div>
                     <div class="chat-num-messages" th:text="${author} + '의 플레이리스트'">해당 플레이리스트 만든 사람</div>
                 </div>
-               	<form th:action="@{'/playlist/'+${playlist.id}}" method="post" name="deleteForm">
+               	<form th:action="@{'/playlist/'+${playlist.id}}" method="post" name="deletePlaylistForm">
             		<input type="hidden" name="_method" value="delete"/>
-            		<button th:if="${session.user.id==playlist.user.id}" class="trash-button" type="button" onclick="checkDeletion()"><i class="fa fa-trash"></i></button>
+            		<button th:if="${session.user.id==playlist.user.id}" class="trash-button" type="button" onclick="checkPlaylistDeletion()"><i class="fa fa-trash"></i></button>
             	</form>
                 <a th:if="${session.user.id==playlist.user.id}" th:href="@{'/playlist/'+${playlist.id} + '/add'}"><i class="fa fa-plus"></i></a>
                 <button id="star-button" class="star-button"><i id="star" th:class="${isBookmark}?'fa fa-star bookmark' : 'fa fa-star'"></i></button>
