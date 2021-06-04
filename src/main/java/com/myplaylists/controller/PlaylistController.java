@@ -32,6 +32,7 @@ import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
 import com.myplaylists.domain.User;
 import com.myplaylists.dto.YoutubeForm;
+import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
 import com.myplaylists.service.SongService;
 import com.myplaylists.service.UserService;
@@ -44,15 +45,17 @@ public class PlaylistController {
 	private final UserService userService;
 	private final YoutubeService youtubeService;
 	private final SongService songService;
+	private final BookmarkService bookmarkService;
 	private final HttpSession session;
 	
 	
 	@Autowired
-	public PlaylistController(PlaylistService playlistService, UserService userService, YoutubeService youtubeService, SongService songService, HttpSession session) {
+	public PlaylistController(PlaylistService playlistService, UserService userService, YoutubeService youtubeService, SongService songService, BookmarkService bookmarkService, HttpSession session, BookmarkService bookmarkService2) {
 		this.playlistService = playlistService;
 		this.userService = userService;
 		this.youtubeService = youtubeService;
 		this.songService = songService;
+		this.bookmarkService = bookmarkService;
 		this.session = session;
 	}
 	
@@ -123,7 +126,7 @@ public class PlaylistController {
 			model.addAttribute("playlist",playlist);
 			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("songs", songService.findSongs(playlist));
-			model.addAttribute("isBookmark",playlistService.validateBookmark(user.getId(), playlistId).isPresent());
+			model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
 			
 			return "playlist/detail";
 		}
@@ -210,7 +213,7 @@ public class PlaylistController {
 			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
-			model.addAttribute("isBookmark",playlistService.validateBookmark(user.getId(), playlistId).isPresent());
+			model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
 			
 			return "playlist/playSong";
 		}
@@ -230,7 +233,7 @@ public class PlaylistController {
 			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("nowSong",song);
 			model.addAttribute("songs", songService.findSongs(playlist));
-			model.addAttribute("isBookmark",playlistService.validateBookmark(user.getId(), playlistId).isPresent());
+			model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
 			
 			return "playlist/updateSong";
 		}
@@ -278,18 +281,18 @@ public class PlaylistController {
 		/*
 		 * 해당 플레이리스트가 이미 즐겨찾기 되어있는지 확인
 		 */
-		Optional<Bookmark> result = playlistService.validateBookmark(user.getId(), playlistId);
+		Optional<Bookmark> result = bookmarkService.validateBookmark(user.getId(), playlistId);
 		
 		// 이미 즐겨찾기가 되어있으면 즐겨찾기 삭제
 		if (result.isPresent()) {
-			playlistService.deleteBookmark(result.get());
+			bookmarkService.deleteBookmark(result.get());
 		}
 		// 즐겨찾기가 되어있지 않으면 즐겨찾기 설정
 		else {
 			Bookmark bookmark = new Bookmark();
 			bookmark.setUser(user);
 			bookmark.setPlaylist(playlistService.getPlaylist(playlistId));
-			playlistService.setBookmark(bookmark);
+			bookmarkService.setBookmark(bookmark);
 		}
 	}
 	

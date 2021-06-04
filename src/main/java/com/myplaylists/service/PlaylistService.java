@@ -59,13 +59,7 @@ public class PlaylistService {
 		return playlistRepository.findById(id).get();
 	}
 	
-	public Long setBookmark(Bookmark bookmark) {
-		return bookmarkRepository.save(bookmark).getId();
-	}
 	
-	public void deleteBookmark(Bookmark bookmark) {
-		bookmarkRepository.deleteById(bookmark.getId());
-	}
 	
 	public List<Playlist> findBookmarkPlaylists(Pageable pageable, User user){
 		List<Bookmark> bookmarks = user.getBookmarks();
@@ -74,9 +68,7 @@ public class PlaylistService {
 		return playlists;
 	}
 	
-	public Optional<Bookmark> validateBookmark(Long userId, Long playlistId) {
-		return bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId);
-	}
+	
 	
 
 
