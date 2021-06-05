@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.myplaylists.config.auth.LoginUser;
 import com.myplaylists.config.auth.dto.SessionUser;
 import com.myplaylists.domain.User;
 import com.myplaylists.dto.UserForm;
@@ -23,22 +24,17 @@ import com.myplaylists.service.UserService;
 
 @Controller
 public class UserController {
-	
-
-	private final HttpSession session;
 	private final UserService userService;
 	private final PlaylistService playlistService;
 	
 	@Autowired
-	public UserController(HttpSession session, UserService userService, PlaylistService playlistService) {
-		this.session=session;
+	public UserController(UserService userService, PlaylistService playlistService) {
 		this.userService = userService;
 		this.playlistService=playlistService;
 	}
 	
 	@GetMapping("/")
-	public String main(Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String main(Model model, @LoginUser SessionUser user) {
 		if (user != null) {
 			return "redirect:/mylist";
 		}
@@ -46,8 +42,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/myinfo")
-	public String myinfo(Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String myinfo(@LoginUser SessionUser user, Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
 		if (user != null) {
 			User loginUser = userService.findUser(user);
 			model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, loginUser));
@@ -68,8 +63,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/myinfo")
-	public String updateMyinfo(@Valid UserForm userForm, BindingResult result, String nickname, Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String updateMyinfo(@LoginUser SessionUser user, @Valid UserForm userForm, BindingResult result, String nickname, Model model) {
 		if (result.hasErrors()) {
 			return "user/myinfo";
 		}

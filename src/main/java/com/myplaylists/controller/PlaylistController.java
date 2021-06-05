@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myplaylists.config.auth.LoginUser;
 import com.myplaylists.config.auth.dto.SessionUser;
 import com.myplaylists.domain.Bookmark;
 import com.myplaylists.domain.Playlist;
@@ -45,9 +45,7 @@ public class PlaylistController {
 	private final UserService userService;
 	private final YoutubeService youtubeService;
 	private final SongService songService;
-	private final BookmarkService bookmarkService;
-	private final HttpSession session;
-	
+	private final BookmarkService bookmarkService;	
 	
 	@Autowired
 	public PlaylistController(PlaylistService playlistService, UserService userService, YoutubeService youtubeService, SongService songService, BookmarkService bookmarkService, HttpSession session, BookmarkService bookmarkService2) {
@@ -56,30 +54,24 @@ public class PlaylistController {
 		this.youtubeService = youtubeService;
 		this.songService = songService;
 		this.bookmarkService = bookmarkService;
-		this.session = session;
 	}
 	
 	@GetMapping("/mylist")
-	public String mylist(Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
-		if (user!=null) {
-			Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, userService.findUser(user));
-			model.addAttribute("playlists", playlists);
-			
-			model.addAttribute("isFirst", playlists.isFirst());
-			model.addAttribute("isLast", playlists.isLast());
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
-			
-			
-			return "playlist/mylist";
-		}
-		return "index";
+	public String mylist(Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable, @LoginUser SessionUser user) {
+		System.out.println(user.getEmail());
+		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, userService.findUser(user));
+		model.addAttribute("playlists", playlists);
+		
+		model.addAttribute("isFirst", playlists.isFirst());
+		model.addAttribute("isLast", playlists.isLast());
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		
+		return "playlist/mylist";
 	}
 	
 	@GetMapping("/playlist/search")
-	public String search(Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String search(@LoginUser SessionUser user, Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
 		Page<Playlist> playlists = playlistService.search(pageable,keyword, userService.findUser(user));
 		
 		model.addAttribute("playlists", playlists);
@@ -92,8 +84,7 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/playlist/add")
-	public String add(Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String add(Model model, @LoginUser SessionUser user) {
 		if (user!=null) {
 			model.addAttribute("playlist", new Playlist());
 			return "playlist/addPlaylist";
@@ -103,12 +94,10 @@ public class PlaylistController {
 	}
 	
 	@PostMapping("/playlist/add")
-	public String add(@Valid Playlist playlist, BindingResult result) {
+	public String add(@Valid Playlist playlist, BindingResult result, @LoginUser SessionUser user) {
 		if (result.hasErrors()) {
 			return "playlist/addPlaylist";
 		}
-		SessionUser user = (SessionUser) session.getAttribute("user");
-		
 		playlist.setMember(userService.findUser(user));
 		playlistService.addPlaylist(playlist);
 		return "redirect:/mylist";
@@ -116,21 +105,17 @@ public class PlaylistController {
 
 
 	@GetMapping("/playlist/{playlistId}")
-	public String detail(@PathVariable("playlistId") Long playlistId, Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String detail(@PathVariable("playlistId") Long playlistId, Model model, @LoginUser SessionUser user) {
 		if (user!=null) {
-			
-			
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			
 			model.addAttribute("playlist",playlist);
 			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 			model.addAttribute("songs", songService.findSongs(playlist));
 			model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
-			
 			return "playlist/detail";
 		}
-		return "user/login";
+		return "index";
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
@@ -142,8 +127,7 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/playlist/{playlistId}/add")
-	public String addsong(@PathVariable("playlistId") Long id, Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String addsong(@PathVariable("playlistId") Long id, Model model, @LoginUser SessionUser user) {
 		if (user!=null) {
 			
 			/*
@@ -163,8 +147,7 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/playlist/{playlistId}/youtube_search")
-	public String youtubeSearch(@PathVariable("playlistId") Long playlistId, String search, Model model) throws IOException, ParseException {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String youtubeSearch(@LoginUser SessionUser user, @PathVariable("playlistId") Long playlistId, String search, Model model) throws IOException, ParseException {
 		if (user!=null) {
 			/*
 			 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
@@ -200,8 +183,7 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/playlist/{playlistId}/{songId}")
-	public String playSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String playSong(@LoginUser SessionUser user, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
 		if (user!=null) {
 			
 			/*
@@ -221,8 +203,7 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/playlist/{playlistId}/{songId}/update")
-	public String updateSong(Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String updateSong(@LoginUser SessionUser user, Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
 		if (user != null) {
 			/*
 			 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
@@ -258,8 +239,7 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/all")
-	public String playlists(@PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable,Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String playlists(@LoginUser SessionUser user, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable,Model model) {
 		if (user!=null) {
 			Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
 			
@@ -297,8 +277,7 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/bookmark")
-	public String bookmark(@PageableDefault(size=6, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
-		SessionUser user = (SessionUser) session.getAttribute("user");
+	public String bookmark(@LoginUser SessionUser user, @PageableDefault(size=6, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
 		if (user!=null) {
 			List<Playlist> playlists = playlistService.findBookmarkPlaylists(pageable, userService.findUser(user));
 			
