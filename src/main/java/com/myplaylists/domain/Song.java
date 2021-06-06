@@ -50,7 +50,13 @@ public class Song {
 	
 	public void update(String title, String description) {
 		this.title=title;
-		this.description=description;
+		if(description.isBlank()) {
+			this.description=null;
+		}else {
+			this.description=description;
+		}
+		
+		
 	}
 	
 }

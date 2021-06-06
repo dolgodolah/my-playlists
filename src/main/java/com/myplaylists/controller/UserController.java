@@ -43,23 +43,18 @@ public class UserController {
 	
 	@GetMapping("/myinfo")
 	public String myinfo(@LoginUser SessionUser user, Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
-		if (user != null) {
-			User loginUser = userService.findUser(user);
-			model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, loginUser));
-			
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
-			
-			UserForm userForm = new UserForm();
-			userForm.setEmail(loginUser.getEmail());
-			userForm.setName(loginUser.getName());
-			userForm.setNickname(loginUser.getNickname());
-			model.addAttribute("userForm", userForm);
-			
-			System.out.println(loginUser.getBookmarks());
-			return "user/myinfo";
-		}
-		return "index";
+		User loginUser = userService.findUser(user);
+		model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, loginUser));
+		
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		
+		UserForm userForm = new UserForm();
+		userForm.setEmail(loginUser.getEmail());
+		userForm.setName(loginUser.getName());
+		userForm.setNickname(loginUser.getNickname());
+		model.addAttribute("userForm", userForm);			
+		return "user/myinfo";
 	}
 	
 	@PostMapping("/myinfo")

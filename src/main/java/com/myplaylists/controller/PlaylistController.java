@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -57,8 +58,7 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/mylist")
-	public String mylist(Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable, @LoginUser SessionUser user) {
-		System.out.println(user.getEmail());
+	public String mylist(@LoginUser SessionUser user,Model model, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
 		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, userService.findUser(user));
 		model.addAttribute("playlists", playlists);
 		
@@ -68,6 +68,8 @@ public class PlaylistController {
 		model.addAttribute("next", pageable.next().getPageNumber());
 		
 		return "playlist/mylist";
+		
+		
 	}
 	
 	@GetMapping("/playlist/search")
@@ -85,12 +87,8 @@ public class PlaylistController {
 	
 	@GetMapping("/playlist/add")
 	public String add(Model model, @LoginUser SessionUser user) {
-		if (user!=null) {
-			model.addAttribute("playlist", new Playlist());
-			return "playlist/addPlaylist";
-		}
-		return "index";
-		
+		model.addAttribute("playlist", new Playlist());
+		return "playlist/addPlaylist";
 	}
 	
 	@PostMapping("/playlist/add")
@@ -106,16 +104,14 @@ public class PlaylistController {
 
 	@GetMapping("/playlist/{playlistId}")
 	public String detail(@PathVariable("playlistId") Long playlistId, Model model, @LoginUser SessionUser user) {
-		if (user!=null) {
-			Playlist playlist = playlistService.getPlaylist(playlistId);
-			
-			model.addAttribute("playlist",playlist);
-			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
-			model.addAttribute("songs", songService.findSongs(playlist));
-			model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
-			return "playlist/detail";
-		}
-		return "index";
+		
+		Playlist playlist = playlistService.getPlaylist(playlistId);
+		
+		model.addAttribute("playlist",playlist);
+		model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
+		model.addAttribute("songs", songService.findSongs(playlist));
+		model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
+		return "playlist/detail";
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
@@ -128,45 +124,39 @@ public class PlaylistController {
 	
 	@GetMapping("/playlist/{playlistId}/add")
 	public String addsong(@PathVariable("playlistId") Long id, Model model, @LoginUser SessionUser user) {
-		if (user!=null) {
-			
-			/*
-			 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
-			 */
-			Playlist playlist = playlistService.getPlaylist(id);
-			model.addAttribute("playlist",playlist);
-			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
+		/*
+		 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
+		 */
+		Playlist playlist = playlistService.getPlaylist(id);
+		model.addAttribute("playlist",playlist);
+		model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
 
-			model.addAttribute("songs", songService.findSongs(playlist));
+		model.addAttribute("songs", songService.findSongs(playlist));
 
 
-			return "playlist/addSong";
-		}
-		return "index";
+		return "playlist/addSong";
 	}
 	
 	
 	@GetMapping("/playlist/{playlistId}/youtube_search")
 	public String youtubeSearch(@LoginUser SessionUser user, @PathVariable("playlistId") Long playlistId, String search, Model model) throws IOException, ParseException {
-		if (user!=null) {
-			/*
-			 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
-			 */
-			Playlist playlist = playlistService.getPlaylist(playlistId);
-			model.addAttribute("playlist",playlist);
-			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
-			model.addAttribute("songs", songService.findSongs(playlist));
-	
-			
-			/*
-			 * 유튜브검색서비스
-			 */
-			List<YoutubeForm> result = youtubeService.search(search);
-			model.addAttribute("result", result);
-			
-			return "playlist/addSong";
-		}
-		return "index";
+
+		/*
+		 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
+		 */
+		Playlist playlist = playlistService.getPlaylist(playlistId);
+		model.addAttribute("playlist",playlist);
+		model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
+		model.addAttribute("songs", songService.findSongs(playlist));
+
+		
+		/*
+		 * 유튜브검색서비스
+		 */
+		List<YoutubeForm> result = youtubeService.search(search);
+		model.addAttribute("result", result);
+		
+		return "playlist/addSong";
 	}
 	
 	@PostMapping("/playlist/{playlistId}/{videoTitle}/{videoId}")
@@ -184,41 +174,36 @@ public class PlaylistController {
 	
 	@GetMapping("/playlist/{playlistId}/{songId}")
 	public String playSong(@LoginUser SessionUser user, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
-		if (user!=null) {
-			
-			/*
-			 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
-			 */
-			Playlist playlist = playlistService.getPlaylist(playlistId);
-			Song song = songService.getSong(songId);
-			model.addAttribute("playlist",playlist);
-			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
-			model.addAttribute("nowSong",song);
-			model.addAttribute("songs", songService.findSongs(playlist));
-			model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
-			
-			return "playlist/playSong";
-		}
-		return "index";
+
+		/*
+		 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
+		 */
+		Playlist playlist = playlistService.getPlaylist(playlistId);
+		Song song = songService.getSong(songId);
+		model.addAttribute("playlist",playlist);
+		model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
+		model.addAttribute("nowSong",song);
+		model.addAttribute("songs", songService.findSongs(playlist));
+		model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
+		
+		return "playlist/playSong";
 	}
 	
 	@GetMapping("/playlist/{playlistId}/{songId}/update")
 	public String updateSong(@LoginUser SessionUser user, Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
-		if (user != null) {
-			/*
-			 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
-			 */
-			Playlist playlist = playlistService.getPlaylist(playlistId);
-			Song song = songService.getSong(songId);
-			model.addAttribute("playlist",playlist);
-			model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
-			model.addAttribute("nowSong",song);
-			model.addAttribute("songs", songService.findSongs(playlist));
-			model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
-			
-			return "playlist/updateSong";
-		}
-		return "index";
+		/*
+		 * 해당 플레이리스트 객체화 & 해당 플레이리스트의 노래 페이징 처리
+		 */
+		Playlist playlist = playlistService.getPlaylist(playlistId);
+		Song song = songService.getSong(songId);
+		model.addAttribute("playlist",playlist);
+		model.addAttribute("author",userService.getAuthor(playlist.getUser().getId()));
+		model.addAttribute("nowSong",song);
+		model.addAttribute("songs", songService.findSongs(playlist));
+		model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
+		
+		
+		return "playlist/updateSong";
 	}
 	
 	@PutMapping("/playlist/{playlistId}/{songId}/update")
@@ -240,19 +225,15 @@ public class PlaylistController {
 	
 	@GetMapping("/all")
 	public String playlists(@LoginUser SessionUser user, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable,Model model) {
-		if (user!=null) {
-			Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
-			
-			model.addAttribute("playlists", playlists);
-			
-			model.addAttribute("isFirst", playlists.isFirst());
-			model.addAttribute("isLast", playlists.isLast());
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
-			return "playlist/playlists";
-		}
+		Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
 		
-		return "index";
+		model.addAttribute("playlists", playlists);
+		
+		model.addAttribute("isFirst", playlists.isFirst());
+		model.addAttribute("isLast", playlists.isLast());
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		return "playlist/playlists";
 	}
 	
 	@ResponseBody
@@ -278,18 +259,14 @@ public class PlaylistController {
 	
 	@GetMapping("/bookmark")
 	public String bookmark(@LoginUser SessionUser user, @PageableDefault(size=6, sort="createdAt",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
-		if (user!=null) {
-			List<Playlist> playlists = playlistService.findBookmarkPlaylists(pageable, userService.findUser(user));
-			
-			model.addAttribute("playlists", playlists);
+		List<Playlist> playlists = playlistService.findBookmarkPlaylists(pageable, userService.findUser(user));
+		
+		model.addAttribute("playlists", playlists);
 
 //			model.addAttribute("isFirst", playlists.isFirst());
 //			model.addAttribute("isLast", playlists.isLast());
-			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-			model.addAttribute("next", pageable.next().getPageNumber());
-			return "playlist/bookmark";
-		}
-		
-		return "index";
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		return "playlist/bookmark";
 	}
 }
