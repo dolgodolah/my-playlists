@@ -72,9 +72,9 @@ public class PlaylistController {
 		
 	}
 	
-	@GetMapping("/playlist/search")
-	public String search(@LoginUser SessionUser user, Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
-		Page<Playlist> playlists = playlistService.search(pageable,keyword, userService.findUser(user));
+	@GetMapping("/mylist/search")
+	public String searchMylist(@LoginUser SessionUser user, Model model, String keyword, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable) {
+		Page<Playlist> playlists = playlistService.searchMylist(pageable,keyword, userService.findUser(user));
 		
 		model.addAttribute("playlists", playlists);
 		
@@ -82,7 +82,19 @@ public class PlaylistController {
 		model.addAttribute("isLast", playlists.isLast());
 		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 		model.addAttribute("next", pageable.next().getPageNumber());
-		return "playlist/searchPlaylist";
+		return "playlist/searchMylist";
+	}
+	
+	@GetMapping("/all/search")
+	public String searchAll(@LoginUser SessionUser user, Model model, String keyword, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
+		Page<Playlist> playlists = playlistService.searchAll(pageable, keyword);
+		model.addAttribute("playlists", playlists);
+		
+		model.addAttribute("isFirst", playlists.isFirst());
+		model.addAttribute("isLast", playlists.isLast());
+		model.addAttribute("previous",pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next",pageable.next().getPageNumber());
+		return "playlist/searchAll";
 	}
 	
 	@GetMapping("/playlist/add")

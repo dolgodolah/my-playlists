@@ -19,14 +19,14 @@
     <div class="container clearfix">
         <div class="people-list" id="people-list">
             <div class="search">
-            	<form method="get" action="/mylist/search">
-            		<input type="text" placeholder="내 플레이리스트 검색" name="keyword">
+            	<form method="get" action="/all/search">
+            		<input type="text" placeholder="모든 플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
             	<a class="add-btn" th:href="@{/playlist/add}">플레이리스트 추가</a>
-            	
             </div>
+            
             <ul class="list">
                 <li class="clearfix" th:each="playlist:${playlists}">
                     <a th:href="@{'/playlist/'+${playlist.id}}">
@@ -38,25 +38,29 @@
                 </li>
             </ul>
             <div class="pagination">
-            	<a class="my-info" th:href="@{/myinfo}">내 정보</a>
-	            <a th:class="${isFirst==true} ? 'page-link disabled' : 'page-link'" th:href="@{'?page=' + ${previous}}">◀</a>
+	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
 	            <a class="fa fa-home" th:href="@{/mylist}"></a>
-	           	<a th:class="${isLast==true} ? 'page-link disabled' : 'page-link'" th:href="@{'?page=' + ${next}}">▶</a>
-	           	<a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
+	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
+	           	<a class="logout-btn" th:href="@{/logout}">로그아웃</a>
             </div>
 			
         </div>
 
         <div class="chat">
-        	<div class="chat-header clearfix">
-        		<div class="chat-about">
-        			<a href="/mylist" style="background-color:hsl(212, 29%, 1%);">내 플레이리스트 보기</a>
-        			<a href="/all">모든 플레이리스트 보기</a>
+            <div class="chat-header clearfix">
+            	<div class="chat-about">
+        			<a href="/mylist">내 플레이리스트 보기</a>
+        			<a href="/all" style="background-color:hsl(212, 29%, 1%);">모든 플레이리스트 보기</a>
         			<a href="/bookmark">즐겨찾기 보기</a>
                 </div>
+            
                 
-        	</div>
+            </div>
+            <!-- end chat-header -->
+
         
+
+
         </div>
         <!-- end chat -->
 

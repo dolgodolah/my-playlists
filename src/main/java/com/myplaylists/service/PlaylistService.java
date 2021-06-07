@@ -51,8 +51,12 @@ public class PlaylistService {
 		playlistRepository.deleteById(playlist.getId());
 	}
 	
-	public Page<Playlist> search(Pageable pageable, String keyword, User user){
+	public Page<Playlist> searchMylist(Pageable pageable, String keyword, User user){
 		return playlistRepository.findByTitleContainingAndUserId(pageable, keyword, user.getId());
+	}
+	
+	public Page<Playlist> searchAll(Pageable pageable, String keyword){
+		return playlistRepository.findByTitleContaining(pageable, keyword);
 	}
 	
 	public Playlist getPlaylist(Long id) {
