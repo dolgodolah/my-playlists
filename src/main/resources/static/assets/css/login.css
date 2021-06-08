@@ -5,6 +5,23 @@
     margin: auto;
 }
 
+
+.login{
+	padding:20px;
+	text-align:center;
+}
+
+.login-btn {
+	width:185px;
+	display:block;
+	text-align:center;
+	padding:20px;
+    margin: 5px auto;
+    background: hsl(212, 29%, 13%, 0.8);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+
 .form {
     /* position: relative;
     z-index: 1;

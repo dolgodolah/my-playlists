@@ -27,10 +27,25 @@ public class OAuthAttributes {
    public static OAuthAttributes of(String registrationId,
                                     String userNameAttributeName,
                                     Map<String, Object> attributes) {
+	   if("kakao".equals(registrationId)) {
+		   return ofKakao("id", attributes);
+	   }
        return ofGoogle(userNameAttributeName, attributes);
    }
 
-   private static OAuthAttributes ofGoogle(String userNameAttributeName,
+   private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+	   Map<String,Object> response = (Map<String, Object>)attributes.get("kakao_account");
+	   Map<String, Object> profile = (Map<String, Object>) response.get("profile");
+	   return OAuthAttributes.builder()
+			   .name((String)profile.get("nickname"))
+			   .email((String)response.get("email"))
+			   .attributes(attributes)
+			   .nameAttributeKey(userNameAttributeName)
+			   .build();
+   }
+
+
+	private static OAuthAttributes ofGoogle(String userNameAttributeName,
                                            Map<String, Object> attributes) {
        return OAuthAttributes.builder()
                .name((String) attributes.get("name"))

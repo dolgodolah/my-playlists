@@ -58,18 +58,18 @@
            <div class="chat-header clearfix">
                 <div class="chat-about">
                     <div class="chat-with">내 정보</div>
-                    <div class="chat-num-messages">닉네임을 설정하지 않으면 연동시킨 구글 이름이 사용되므로 유의해주세요.</div>
+                    <div class="chat-num-messages">닉네임을 설정하지 않으면 연동시킨 계정의 이름이 사용되므로 유의해주세요.</div>
                 </div>
             </div>
             
             <div class="chat-history">
             	<form class="update-form" method="post" action="/myinfo" th:object="${userForm}">
             		<div class="form-group">
-            			<label>구글 이메일</label>
+            			<label>이메일</label>
 	            		<input class="form-control readonly" type="text" th:field="*{email}" readonly>
             		</div>
             		<div class="form-group">
-            			<label>구글 이름</label>
+            			<label>이름</label>
             			<input class="form-control readonly" type="text" th:field="*{name}" readonly>
             		</div>
             		<div class="form-group">
