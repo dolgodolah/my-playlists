@@ -14,7 +14,7 @@ www.myplaylists.shop
 
 ### :computer: 핵심 기능
 
-- `구글 로그인`으로 손쉽게 내플리스를 시작할 수 있습니다.
+- `구글 로그인`과 `카카오 로그인`으로 손쉽게 내플리스를 시작할 수 있습니다.
 
 - `내 플레이리스트 검색`과 `다른 사용자의 플레이리스트 검색`을 할 수 있습니다. 
 
@@ -39,8 +39,6 @@ www.myplaylists.shop
 
 
 ### :mag:  DB 설계
-
-<img width="70%" src="https://user-images.githubusercontent.com/75430912/120918575-14e5fe80-c6f0-11eb-98d3-a3b0aaaf9d59.jpg"/>
 
 <img width="70%" src="https://user-images.githubusercontent.com/75430912/119460951-2c30fd80-bd7a-11eb-8d78-4e6212fee28b.jpg"/>
 
