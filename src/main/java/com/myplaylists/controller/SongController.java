@@ -20,7 +20,6 @@ import java.util.List;
 public class SongController {
 
     private final PlaylistService playlistService;
-    private final UserService userService;
     private final SongService songService;
     private final BookmarkService bookmarkService;
     private final YoutubeService youtubeService;

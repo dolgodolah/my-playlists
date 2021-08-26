@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

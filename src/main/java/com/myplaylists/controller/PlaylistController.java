@@ -1,11 +1,8 @@
 package com.myplaylists.controller;
 
-import javax.servlet.http.HttpSession;
-
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.dto.PlaylistRequestDto;
 import com.myplaylists.dto.PlaylistResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,24 +10,17 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.myplaylists.dto.LoginUser;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
-import com.myplaylists.service.SongService;
-import com.myplaylists.service.UserService;
-import com.myplaylists.service.YoutubeService;
 
 @Controller
 public class PlaylistController {
 	
 	private final PlaylistService playlistService;
-	private final UserService userService;
-	private final YoutubeService youtubeService;
-	private final SongService songService;
 	private final BookmarkService bookmarkService;	
 	
 	@Autowired
