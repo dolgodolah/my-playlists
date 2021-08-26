@@ -3,6 +3,7 @@ package com.myplaylists.controller;
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.dto.PlaylistRequestDto;
 import com.myplaylists.dto.PlaylistResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,20 +19,12 @@ import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
 
 @Controller
+@RequiredArgsConstructor
 public class PlaylistController {
 	
 	private final PlaylistService playlistService;
 	private final BookmarkService bookmarkService;	
-	
-	@Autowired
-	public PlaylistController(PlaylistService playlistService, UserService userService, YoutubeService youtubeService, SongService songService, BookmarkService bookmarkService, HttpSession session, BookmarkService bookmarkService2) {
-		this.playlistService = playlistService;
-		this.userService = userService;
-		this.youtubeService = youtubeService;
-		this.songService = songService;
-		this.bookmarkService = bookmarkService;
-	}
-	
+
 	@GetMapping("/mylist")
 	public String viewMyPlaylist(@Login LoginUser user, Model model, @PageableDefault(size = 6, sort = "updatedAt",direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, user.getId());
@@ -63,8 +56,8 @@ public class PlaylistController {
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("isFirst", playlists.isFirst());
 		model.addAttribute("isLast", playlists.isLast());
-		model.addAttribute("previous",pageable.previousOrFirst().getPageNumber());
-		model.addAttribute("next",pageable.next().getPageNumber());
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
 		return "playlist/searchAll";
 	}
 	
