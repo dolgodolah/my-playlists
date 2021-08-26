@@ -2,9 +2,9 @@ package com.myplaylists.controller;
 
 
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.myplaylists.config.auth.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,8 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.myplaylists.config.auth.LoginUser;
-import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.dto.LoginUser;
 import com.myplaylists.domain.User;
 import com.myplaylists.dto.UserForm;
 import com.myplaylists.service.PlaylistService;
@@ -34,7 +33,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/")
-	public String main(Model model, @LoginUser SessionUser user) {
+	public String main(Model model, @Login LoginUser user) {
 		if (user != null) {
 			return "redirect:/mylist";
 		}
@@ -42,9 +41,9 @@ public class UserController {
 	}
 	
 	@GetMapping("/myinfo")
-	public String myinfo(@LoginUser SessionUser user, Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
+	public String myinfo(@Login LoginUser user, Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
 		User loginUser = userService.findUser(user);
-		model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, loginUser));
+		model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, loginUser.getId()));
 		
 		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 		model.addAttribute("next", pageable.next().getPageNumber());
@@ -58,12 +57,12 @@ public class UserController {
 	}
 	
 	@PostMapping("/myinfo")
-	public String updateMyinfo(@LoginUser SessionUser user, @Valid UserForm userForm, BindingResult result, String nickname, Model model) {
+	public String updateMyinfo(@Login LoginUser user, @Valid UserForm userForm, BindingResult result, String nickname, Model model) {
 		if (result.hasErrors()) {
 			return "user/myinfo";
 		}
 		try {
-			userService.updateUser(user,nickname);
+			userService.updateUserInfo(user.getId(), nickname);
 		} catch (Exception e){
 			model.addAttribute("error", e.getMessage());
 			return "user/myinfo";

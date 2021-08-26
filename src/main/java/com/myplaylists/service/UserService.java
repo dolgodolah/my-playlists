@@ -1,13 +1,11 @@
 package com.myplaylists.service;
 
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.dto.LoginUser;
 import com.myplaylists.domain.User;
 import com.myplaylists.repository.UserRepository;
 
@@ -20,25 +18,18 @@ public class UserService {
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	
-	public User findUser(SessionUser sessionUser) {
-		User user = userRepository.findByEmail(sessionUser.getEmail()).get();
+
+	public User getUser(Long userId) {
+		return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 사용자는 존재하지 않는 사용자입니다."));
+	}
+
+	public User findUser(LoginUser loginUser) {
+		User user = userRepository.findByEmail(loginUser.getEmail()).get();
 		return user;
 	}
 	
-	public Long updateUser(SessionUser sessionUser,String nickname) {
-		User user = userRepository.findByEmail(sessionUser.getEmail()).get();
-		user.setNickname(nickname);
-		userRepository.save(user);
-		return user.getId();
-	}
-	
-	public String getAuthor(Long userId) {
-		Optional<User> user = userRepository.findById(userId);
-		if (user.isPresent()) {
-			String nickname = user.get().getNickname();
-			return (nickname != null) ? nickname : user.get().getName();
-		}
-		return "알수없음";
+	public void updateUserInfo(Long userId, String nickname) {
+		User user = getUser(userId);
+		user.updateNickname(nickname);
 	}
 }

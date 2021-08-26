@@ -1,56 +1,31 @@
 package com.myplaylists.domain;
 
+import javax.persistence.*;
+
+
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import com.myplaylists.config.auth.OAuthAttributes.OAuthAttributesBuilder;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="user_id")
 	private Long id;
-	
-	@Column
+
 	private String name;
-	
-	@Column
+
 	private String nickname;
 
 	@Column(nullable=false)
 	private String email;
-	
-	/*
-	 * 이 관계의 주인은 Playlist에 있고, Playlist에서 user라는 변수로 참조하고 있다.
-	 */
-	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
-	private List<Playlist> playlists = new ArrayList<>();
 
-	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Bookmark> bookmarks = new ArrayList<>();
 
 	@Builder
@@ -59,10 +34,19 @@ public class User {
 		this.email = email;
 		this.nickname = nickname;
 	}
+
+	public void addBookmark(Bookmark bookmark) {
+		this.bookmarks.add(bookmark);
+		bookmark.setUser(this);
+	}
 	
-	public User update(String name) {
-		this.name=name;
+	public User updateName(String name) {
+		this.name = name;
 		return this;
+	}
+
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 	

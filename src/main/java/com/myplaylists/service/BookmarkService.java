@@ -2,6 +2,9 @@ package com.myplaylists.service;
 
 import java.util.Optional;
 
+import com.myplaylists.domain.Playlist;
+import com.myplaylists.domain.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,24 +14,34 @@ import com.myplaylists.repository.BookmarkRepository;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class BookmarkService {
 	
 	private final BookmarkRepository bookmarkRepository;
-	
-	@Autowired
-	public BookmarkService(BookmarkRepository bookmarkRepository) {
-		this.bookmarkRepository = bookmarkRepository;
+	private final UserService userService;
+	private final PlaylistService playlistService;
+
+	public void toggleBookmark(Long userId, Long playlistId) {
+		Optional<Bookmark> result = validateBookmark(userId, playlistId);
+		if (result.isPresent()) {
+			deleteBookmark(result.get());
+		}else {
+			User user = userService.getUser(userId);
+			Playlist playlist = playlistService.getPlaylist(playlistId);
+			Bookmark bookmark = Bookmark.builder()
+					.playlist(playlist)
+					.build();
+
+			user.addBookmark(bookmark);
+		}
 	}
 
-	public Long setBookmark(Bookmark bookmark) {
-		return bookmarkRepository.save(bookmark).getId();
-	}
-	
 	public void deleteBookmark(Bookmark bookmark) {
 		bookmarkRepository.deleteById(bookmark.getId());
 	}
 	
 	public Optional<Bookmark> validateBookmark(Long userId, Long playlistId) {
+
 		return bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId);
 	}
 

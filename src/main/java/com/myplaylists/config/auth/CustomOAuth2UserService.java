@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.dto.LoginUser;
 import com.myplaylists.domain.User;
 import com.myplaylists.repository.UserRepository;
 
@@ -35,7 +35,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
        User user = saveOrUpdate(attributes);
-       httpSession.setAttribute("user", new SessionUser(user));
+       httpSession.setAttribute("user", new LoginUser(user));
 
        return new DefaultOAuth2User(
                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
@@ -45,7 +45,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
    private User saveOrUpdate(OAuthAttributes attributes) {
        User user = memberRepository.findByEmail(attributes.getEmail())
-               .map(entity -> entity.update(attributes.getName()))
+               .map(entity -> entity.updateName(attributes.getName()))
                .orElse(attributes.toEntity());
 
        return memberRepository.save(user);

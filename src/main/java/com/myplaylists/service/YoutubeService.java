@@ -22,13 +22,14 @@ import com.myplaylists.dto.YoutubeForm;
 public class YoutubeService {
 	@Value("${youtube.api.key}")
 	private String apiKey;
+
+	private static String API_URL = "https://www.googleapis.com/youtube/v3/search";
 	
 	public List<YoutubeForm> search(String search) throws IOException, ParseException {
-		String apiurl = "https://www.googleapis.com/youtube/v3/search";
-		apiurl += "?key=" + apiKey;
-		apiurl += "&part=snippet&type=video&maxResults=5&videoEmbeddable=true";
-		apiurl += "&q="+URLEncoder.encode(search,"UTF-8");
-		URL url = new URL(apiurl);
+		API_URL += "?key=" + apiKey;
+		API_URL += "&part=snippet&type=video&maxResults=5&videoEmbeddable=true";
+		API_URL += "&q="+URLEncoder.encode(search,"UTF-8");
+		URL url = new URL(API_URL);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
 		

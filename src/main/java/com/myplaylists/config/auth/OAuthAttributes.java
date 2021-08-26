@@ -60,6 +60,7 @@ public class OAuthAttributes {
        return User.builder()
                .name(name)
                .email(email)
+               .nickname(name)
                .build();
    }
 }

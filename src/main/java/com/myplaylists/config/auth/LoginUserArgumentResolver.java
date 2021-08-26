@@ -9,7 +9,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.myplaylists.config.auth.dto.SessionUser;
+import com.myplaylists.dto.LoginUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,8 +24,8 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver{
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		boolean isLoginUserAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
-		boolean isUserClass = SessionUser.class.equals(parameter.getParameterType());
+		boolean isLoginUserAnnotation = parameter.getParameterAnnotation(Login.class) != null;
+		boolean isUserClass = LoginUser.class.equals(parameter.getParameterType());
 		return isLoginUserAnnotation && isUserClass;
 	}
 

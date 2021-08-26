@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -39,19 +40,14 @@ public class Bookmark {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="playlist_id")
 	private Playlist playlist;
-	
-	@CreatedDate
-	private LocalDateTime createdAt;
-	
-	public void setUser(User user) {
-		this.user=user;
-		user.getBookmarks().add(this);
+
+	@Builder
+	public Bookmark(Playlist playlist) {
+		this.playlist = playlist;
 	}
-	
+
 	public void setPlaylist(Playlist playlist) {
 		this.playlist=playlist;
 	}
-	
-	
-	
+
 }

@@ -2,9 +2,12 @@ package com.myplaylists.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.PlaylistRequestDto;
+import com.myplaylists.dto.PlaylistResponseDto;
+import com.myplaylists.exception.ApiException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,55 +15,61 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.myplaylists.domain.Bookmark;
 import com.myplaylists.domain.Playlist;
-import com.myplaylists.domain.Song;
 import com.myplaylists.domain.User;
-import com.myplaylists.repository.BookmarkRepository;
 import com.myplaylists.repository.PlaylistRepository;
-import com.myplaylists.repository.SongRepository;
+import org.springframework.util.StringUtils;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class PlaylistService {
 	
-	private PlaylistRepository playlistRepository;
-	private SongRepository songRepository;
-	private BookmarkRepository bookmarkRepository;
-	
-	
-	@Autowired
-	public PlaylistService(PlaylistRepository playlistRepository, SongRepository songRepository, BookmarkRepository bookmarkRepository) {
-		this.playlistRepository = playlistRepository;
-		this.songRepository = songRepository;
-		this.bookmarkRepository = bookmarkRepository;
-	}
-
+	private final PlaylistRepository playlistRepository;
+	private final UserService userService;
 
 	@Transactional
-	public Long addPlaylist(Playlist playlist) {
-		return playlistRepository.save(playlist).getId();	}
-	
-	public Page<Playlist> findMyPlaylists(Pageable pageable, User user) {
-		return playlistRepository.findByUserId(pageable, user.getId());
+	public PlaylistResponseDto addPlaylist(LoginUser loginUser, PlaylistRequestDto playlistRequestDto) {
+		String title = playlistRequestDto.getTitle();
+		if (!StringUtils.hasText(title)) {
+			throw new ApiException("플레이리스트 제목을 입력해주세요.");
+		}
+		if (title.length() > 30) {
+			throw new ApiException("최대 30자까지 가능합니다.");
+		}
+
+		User user = userService.getUser(loginUser.getId());
+		Playlist playlist = playlistRequestDto.toEntity(user);
+		return PlaylistResponseDto.of(playlistRepository.save(playlist));
 	}
-	
+
+	@Transactional(readOnly = true)
+	public Page<Playlist> findMyPlaylists(Pageable pageable, Long userId) {
+		return playlistRepository.findByUserId(pageable, userId);
+	}
+
+	@Transactional(readOnly = true)
 	public Page<Playlist> findAllPlaylists(Pageable pageable){
 		return playlistRepository.findByVisibility(pageable, false);
 	}
-	
-	public void deletePlaylist(Playlist playlist) {
-		playlistRepository.deleteById(playlist.getId());
+
+	@Transactional
+	public void deletePlaylist(Long playlistId) {
+		Playlist playlist = getPlaylist(playlistId);
+		playlistRepository.delete(playlist);
 	}
-	
-	public Page<Playlist> searchMylist(Pageable pageable, String keyword, User user){
-		return playlistRepository.findByTitleContainingAndUserId(pageable, keyword, user.getId());
+
+	@Transactional(readOnly = true)
+	public Page<Playlist> searchMylist(Pageable pageable, String keyword, Long userId){
+		return playlistRepository.findByTitleContainingAndUserId(pageable, keyword, userId);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public Page<Playlist> searchAll(Pageable pageable, String keyword){
 		return playlistRepository.findByTitleContaining(pageable, keyword);
 	}
-	
-	public Playlist getPlaylist(Long id) {
-		return playlistRepository.findById(id).get();
+
+	@Transactional(readOnly = true)
+	public Playlist getPlaylist(Long playlistId) {
+		return playlistRepository.findById(playlistId).orElseThrow(() -> new RuntimeException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다."));
 	}
 	
 	

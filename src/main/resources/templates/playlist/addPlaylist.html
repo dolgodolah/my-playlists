@@ -27,23 +27,23 @@
 
     <div class="container clearfix">
         <div class="list-form">
-            <form class="add-form" method="post" th:object="${playlist}" action="/playlist/add">
+            <form id="playlist-form" class="add-form">
                 <div class="form-group">
                 	<span>플레이리스트 제목 (필수)</span>
-                    <input type="text" th:field="*{title}" class="title" placeholder="플레이리스트 제목을 입력하세요. (30자 이내)" th:class="${#fields.hasErrors('title')? 'title fieldError' : 'title'}" autocomplete="off">
+                    <input type="text" class="title" id="title" placeholder="플레이리스트 제목을 입력하세요. (30자 이내)" autocomplete="off">
                 </div>
                 <div class="form-group">
                 	<span>설명 (옵션)</span>
-                	<input type="text" th:field="*{description}" class="description" placeholder="플레이리스트 설명을 입력하세요. (30자 이내)" th:class="${#fields.hasErrors('description')?'description fieldError':'description'}" autocomplete="off">
+                	<input type="text" class="description" id="description" placeholder="플레이리스트 설명을 입력하세요. (30자 이내)" autocomplete="off">
                 </div>
                 <div class="visibility">
-                    <input type="radio" th:field="*{visibility}" value="false"><i class="fa fa-book"></i><span> Public : 이 플레이리스트를 누구나 볼 수 있습니다.</span>
+                    <input type="radio" value="false" name="visibility"><i class="fa fa-book"></i><span> Public : 이 플레이리스트를 누구나 볼 수 있습니다.</span>
                 	<br>
-                	<input type="radio" th:field="*{visibility}" value="true" checked><i class="fa fa-lock"></i><span> Private : 이 플레이리스트를 나만 볼 수 있습니다.</span>
+                	<input type="radio" value="true" name="visibility" checked><i class="fa fa-lock"></i><span> Private : 이 플레이리스트를 나만 볼 수 있습니다.</span>
                 </div>
                 <div>
-                    <a class="btn" href="javascript:history.back();">취소</a>
-                    <button type="submit">완료</button>
+                    <a class="btn" href="/mylist">취소</a>
+                    <button id="submit_btn" type="button">완료</button>
                 </div>
             </form>
         </div>
@@ -52,4 +52,32 @@
     <!-- end container -->
 
     <script src="/assets/js/bg.js"></script>
+    <script>
+        $("#submit_btn").click(addPlaylist);
+
+        function addPlaylist() {
+            const title = $("#title").val();
+            const description = $("#description").val();
+            const visibility = $("input[name='visibility']:checked").val();
+            const playlistRequestDto = {
+                title: title,
+                description: description,
+                visibility: visibility
+            };
+            $.ajax({
+                url: "/playlist",
+                type: "POST",
+                data: JSON.stringify(playlistRequestDto),
+                dataType: "json",
+                contentType: "application/json",
+                success: function () {
+                    location.replace("/mylist");
+                },
+                error: function () {
+                    document.getElementById("title").classList.add("fieldError");
+                }
+            });
+        }
+
+    </script>
 </body>
