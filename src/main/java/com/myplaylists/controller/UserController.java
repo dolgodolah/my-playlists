@@ -30,14 +30,6 @@ public class UserController {
 		this.playlistService=playlistService;
 	}
 	
-	@GetMapping("/")
-	public String main(Model model, @Login LoginUser user) {
-		if (user != null) {
-			return "redirect:/mylist";
-		}
-		return "index";
-	}
-	
 	@GetMapping("/myinfo")
 	public String myinfo(@Login LoginUser user, Model model, @PageableDefault(size=6, sort="updatedAt", direction=Sort.Direction.DESC)Pageable pageable) {
 		User loginUser = userService.findUser(user);

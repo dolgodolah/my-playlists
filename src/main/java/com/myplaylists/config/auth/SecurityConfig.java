@@ -15,18 +15,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	   protected void configure(HttpSecurity http) throws Exception {
-	       http
-	               .csrf().disable()
-	               .headers().frameOptions().disable() 
-	               .and()
-	                   .authorizeRequests()
-	                   .antMatchers("/", "/assets/**").permitAll()
-	                   .anyRequest().authenticated()
-	               .and()
-	                   .logout()
-	                       .logoutSuccessUrl("/")
+				http.csrf().disable()
+						.headers().frameOptions().disable()
+					.and()
+
+						.authorizeRequests()
+	                   	.antMatchers("/login", "/assets/**").permitAll()
+	                   	.anyRequest().authenticated()
+					.and()
+	                   	.logout()
+						.logoutSuccessUrl("/")
 	               .and()
 	                   .oauth2Login()
+						.loginPage("/login")
 	                       .userInfoEndpoint()
 	                           .userService(customOAuth2UserService);
 	   }

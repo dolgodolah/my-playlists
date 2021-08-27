@@ -23,9 +23,17 @@ import com.myplaylists.service.PlaylistService;
 public class PlaylistController {
 	
 	private final PlaylistService playlistService;
-	private final BookmarkService bookmarkService;	
+	private final BookmarkService bookmarkService;
 
-	@GetMapping("/mylist")
+	@GetMapping("/")
+	public String main(@Login LoginUser user) {
+		if (user == null) {
+			return "redirect:/login";
+		}
+		return "playlist/mylist";
+	}
+
+	@GetMapping("/myplaylist")
 	public String viewMyPlaylist(@Login LoginUser user, Model model, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, user.getId());
 
