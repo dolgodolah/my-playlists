@@ -26,7 +26,7 @@ public class PlaylistController {
 	private final BookmarkService bookmarkService;	
 
 	@GetMapping("/mylist")
-	public String viewMyPlaylist(@Login LoginUser user, Model model, @PageableDefault(size = 6, sort = "updatedAt",direction = Sort.Direction.DESC) Pageable pageable) {
+	public String viewMyPlaylist(@Login LoginUser user, Model model, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, user.getId());
 
 		model.addAttribute("playlists", playlists);
@@ -39,7 +39,7 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/mylist/search")
-	public String viewMyPlaylistSearchResult(@Login LoginUser user, Model model, String keyword, @PageableDefault(size = 6, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String viewMyPlaylistSearchResult(@Login LoginUser user, Model model, String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.searchMylist(pageable, keyword, user.getId());
 		
 		model.addAttribute("playlists", playlists);
@@ -51,7 +51,7 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/all/search")
-	public String viewAllSearchResult(Model model, String keyword, @PageableDefault(size = 6, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String viewAllSearchResult(Model model, String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.searchAll(pageable, keyword);
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("isFirst", playlists.isFirst());
@@ -92,7 +92,7 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/all")
-	public String playlists(@Login LoginUser user, @PageableDefault(size=6, sort="updatedAt",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
+	public String playlists(@Login LoginUser user, @PageableDefault(size=6, sort="updatedDate",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
 		Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
 		
 		model.addAttribute("playlists", playlists);

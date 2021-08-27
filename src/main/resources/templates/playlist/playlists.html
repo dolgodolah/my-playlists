@@ -32,7 +32,7 @@
                     <a th:href="@{'/playlist/'+${playlist.id}}">
                         <div class="about">
                             <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
-                            <div class="status" th:text="${#temporals.format(playlist.updatedAt,'yy-MM-dd HH:mm')}"></div>
+                            <div class="status" th:text="${#temporals.format(playlist.updatedDate,'yy-MM-dd HH:mm')}"></div>
                         </div>
                     </a>
                 </li>
