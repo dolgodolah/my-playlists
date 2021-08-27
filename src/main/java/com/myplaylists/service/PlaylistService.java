@@ -36,7 +36,7 @@ public class PlaylistService {
 			throw new ApiException("최대 30자까지 가능합니다.");
 		}
 
-		User user = userService.getUser(loginUser.getId());
+		User user = userService.getUserEntity(loginUser.getId());
 		Playlist playlist = playlistRequestDto.toEntity(user);
 		return PlaylistResponseDto.of(playlistRepository.save(playlist));
 	}

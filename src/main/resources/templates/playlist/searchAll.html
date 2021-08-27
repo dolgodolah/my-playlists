@@ -24,7 +24,7 @@
             	</form>
             </div>
             <div class="menu-btn">
-            	<a class="add-btn" th:href="@{/playlist/add}">플레이리스트 추가</a>
+            	<a class="add-btn" th:href="@{/playlist}">플레이리스트 추가</a>
             </div>
             
             <ul class="list">
@@ -32,14 +32,15 @@
                     <a th:href="@{'/playlist/'+${playlist.id}}">
                         <div class="about">
                             <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
-                            <div class="status" th:text="${#temporals.format(playlist.updatedAt,'yy-MM-dd HH:mm')}"></div>
+                            <div class="status" th:text="${#temporals.format(playlist.updatedDate,'yy-MM-dd HH:mm')}"></div>
                         </div>
                     </a>
                 </li>
             </ul>
             <div class="pagination">
+                <a class="my-info" th:href="@{/me}">내 정보</a>
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
-	            <a class="fa fa-home" th:href="@{/mylist}"></a>
+	            <a class="fa fa-home" th:href="@{/}"></a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
 	           	<a class="logout-btn" th:href="@{/logout}">로그아웃</a>
             </div>
@@ -49,21 +50,14 @@
         <div class="chat">
             <div class="chat-header clearfix">
             	<div class="chat-about">
-        			<a href="/mylist">내 플레이리스트 보기</a>
+        			<a href="/">내 플레이리스트 보기</a>
         			<a href="/all" style="background-color:hsl(212, 29%, 1%);">모든 플레이리스트 보기</a>
         			<a href="/bookmark">즐겨찾기 보기</a>
                 </div>
-            
-                
             </div>
             <!-- end chat-header -->
-
-        
-
-
         </div>
         <!-- end chat -->
-
     </div>
     <!-- end container -->
 

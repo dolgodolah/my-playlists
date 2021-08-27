@@ -25,7 +25,7 @@ public class BookmarkService {
 		if (result.isPresent()) {
 			deleteBookmark(result.get());
 		}else {
-			User user = userService.getUser(userId);
+			User user = userService.getUserEntity(userId);
 			Playlist playlist = playlistService.getPlaylist(playlistId);
 			Bookmark bookmark = Bookmark.builder()
 					.playlist(playlist)

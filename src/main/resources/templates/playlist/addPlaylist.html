@@ -42,7 +42,7 @@
                 	<input type="radio" value="true" name="visibility" checked><i class="fa fa-lock"></i><span> Private : 이 플레이리스트를 나만 볼 수 있습니다.</span>
                 </div>
                 <div>
-                    <a class="btn" href="/mylist">취소</a>
+                    <a class="btn" href="/">취소</a>
                     <button id="submit_btn" type="button">완료</button>
                 </div>
             </form>
@@ -71,7 +71,7 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function () {
-                    location.replace("/mylist");
+                    location.replace("/");
                 },
                 error: function () {
                     document.getElementById("title").classList.add("fieldError");

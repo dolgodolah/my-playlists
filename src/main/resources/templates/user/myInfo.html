@@ -13,6 +13,9 @@
 	.readonly{
 		background-color:#3a4c66;
 	}
+    .form-control.fieldError {
+        border: 1.5px solid rgba(255, 0, 0, 0.9);
+    }
 	
 </style>
 
@@ -27,7 +30,7 @@
         <div class="people-list" id="people-list">
             <div class="search">
             	<form method="get" action="/playlist/search">
-            		<input type="text" placeholder="플레이리스트 검색" name="keyword">
+            		<input type="text" placeholder="내 플레이리스트 검색" name="keyword">
             	</form>
             </div>
             <div class="menu-btn">
@@ -39,15 +42,15 @@
                     <a th:href="@{'/playlist/'+${playlist.id}}">
                         <div class="about">
                             <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
-                            <div class="status" th:text="${#temporals.format(playlist.updatedAt,'yy-MM-dd HH:mm')}"></div>
+                            <div class="status" th:text="${#temporals.format(playlist.updatedDate,'yy-MM-dd HH:mm')}"></div>
                         </div>
                     </a>
                 </li>
             </ul>
             <div class="pagination">
-            	<a class="my-info" th:href="@{/myinfo}">내 정보</a>
+            	<a class="my-info" th:href="@{/me}">내 정보</a>
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
-	            <a class="fa fa-home" th:href="@{/mylist}"></a>
+	            <a class="fa fa-home" th:href="@{/}"></a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
 	           	<a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
             </div>
@@ -63,34 +66,65 @@
             </div>
             
             <div class="chat-history">
-            	<form class="update-form" method="post" action="/myinfo" th:object="${userForm}">
+            	<form id="myInfo-form" class="update-form">
             		<div class="form-group">
             			<label>이메일</label>
-	            		<input class="form-control readonly" type="text" th:field="*{email}" readonly>
+	            		<input id="email" class="form-control readonly" type="text" readonly>
             		</div>
             		<div class="form-group">
             			<label>이름</label>
-            			<input class="form-control readonly" type="text" th:field="*{name}" readonly>
+            			<input id="name" class="form-control readonly" type="text" readonly>
             		</div>
             		<div class="form-group">
             			<label>닉네임</label>
-            			<input class="form-control" name="nickname" type="text" th:field="*{nickname}" placeholder="닉네임을 입력해주세요">
-            			<p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></p>
+            			<input id="nickname" class="form-control" name="nickname" type="text" placeholder="닉네임을 입력해주세요">
+            			<p id="nickname-error"></p>
             		</div>
             		<div class="form-group">
-	            		<button type="submit">수정</button>
+	            		<button id="submit_btn" type="button">수정</button>
             		</div>
-	            	
-	            	
             	</form>
-            	
             </div>
-
         </div>
         <!-- end chat -->
-
     </div>
     <!-- end container -->
-
     <script src="/assets/js/bg.js"></script>
+    <script>
+        getMyInfo();
+        $("#submit_btn").click(updateMyInfo);
+
+        function getMyInfo() {
+            $.get("myInfo", function (response) {
+                $("#email").val(response.email);
+                $("#name").val(response.name);
+                $("#nickname").val(response.nickname);
+            })
+        }
+
+        function updateMyInfo() {
+            const email = $("#email").val();
+            const name = $("#name").val();
+            const nickname = $("#nickname").val();
+            const userDto = {
+                email: email,
+                name: name,
+                nickname: nickname
+            }
+            $.ajax({
+                url: "/myInfo",
+                type: "POST",
+                data: JSON.stringify(userDto),
+                dataType: "json",
+                contentType: "application/json",
+                success: function () {
+                    location.replace("/");
+                },
+                error: function (response) {
+                    document.getElementById("nickname").classList.add("fieldError");
+                    $("#nickname-error").text(response.responseJSON.message);
+                }
+            })
+        }
+    </script>
 </body>

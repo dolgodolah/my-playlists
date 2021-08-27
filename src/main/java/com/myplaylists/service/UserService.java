@@ -1,35 +1,38 @@
 package com.myplaylists.service;
 
 
+import com.myplaylists.dto.UserDto;
+import com.myplaylists.exception.ApiException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myplaylists.dto.LoginUser;
 import com.myplaylists.domain.User;
 import com.myplaylists.repository.UserRepository;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class UserService {
 	
 	private final UserRepository userRepository;
-	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
 
-	public User getUser(Long userId) {
+	@Transactional(readOnly = true)
+	public User getUserEntity(Long userId) {
 		return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 사용자는 존재하지 않는 사용자입니다."));
 	}
 
-	public User findUser(LoginUser loginUser) {
-		User user = userRepository.findByEmail(loginUser.getEmail()).get();
-		return user;
+	public UserDto getUserDto(Long userId) {
+		return UserDto.of(getUserEntity(userId));
 	}
-	
-	public void updateUserInfo(Long userId, String nickname) {
-		User user = getUser(userId);
-		user.updateNickname(nickname);
+
+	@Transactional
+	public UserDto updateUserInfo(Long userId, UserDto userDto) {
+		if (userDto.getNickname().isEmpty()) {
+			throw new ApiException("닉네임을 입력하지 않았습니다.");
+		}
+		User user = getUserEntity(userId);
+		user.updateNickname(userDto.getNickname());
+		return UserDto.of(user);
 	}
 }

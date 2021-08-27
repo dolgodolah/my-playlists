@@ -24,7 +24,7 @@
             	</form>
             </div>
             <div class="menu-btn">
-            	<a class="add-btn" th:href="@{/playlist/add}">플레이리스트 추가</a>
+            	<a class="add-btn" th:href="@{/playlist}">플레이리스트 추가</a>
             </div>
             
             <ul class="list">
@@ -38,8 +38,9 @@
                 </li>
             </ul>
             <div class="pagination">
+                <a class="my-info" th:href="@{/me}">내 정보</a>
 	            <a class="page-link" th:href="@{'?page=' + ${previous}}">◀</a>
-	            <a class="fa fa-home" th:href="@{/mylist}"></a>
+	            <a class="fa fa-home" th:href="@{/}"></a>
 	           	<a class="page-link" th:href="@{'?page=' + ${next}}">▶</a>
 	           	<a class="logout-btn" th:href="@{/logout}">로그아웃</a>
             </div>
@@ -49,7 +50,7 @@
         <div class="chat">
             <div class="chat-header clearfix">
             	<div class="chat-about">
-        			<a href="/mylist" style="background-color:hsl(212, 29%, 1%);">내 플레이리스트 보기</a>
+        			<a href="/" style="background-color:hsl(212, 29%, 1%);">내 플레이리스트 보기</a>
         			<a href="/all">모든 플레이리스트 보기</a>
         			<a href="/bookmark">즐겨찾기 보기</a>
                 </div>

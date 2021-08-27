@@ -26,26 +26,20 @@ public class PlaylistController {
 	private final BookmarkService bookmarkService;
 
 	@GetMapping("/")
-	public String main(@Login LoginUser user) {
+	public String main(@Login LoginUser user, Model model, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		if (user == null) {
 			return "redirect:/login";
 		}
-		return "playlist/mylist";
-	}
 
-	@GetMapping("/myplaylist")
-	public String viewMyPlaylist(@Login LoginUser user, Model model, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, user.getId());
-
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("isFirst", playlists.isFirst());
 		model.addAttribute("isLast", playlists.isLast());
 		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 		model.addAttribute("next", pageable.next().getPageNumber());
-		
 		return "playlist/mylist";
 	}
-	
+
 	@GetMapping("/mylist/search")
 	public String viewMyPlaylistSearchResult(@Login LoginUser user, Model model, String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.searchMylist(pageable, keyword, user.getId());

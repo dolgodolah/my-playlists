@@ -30,8 +30,8 @@ public class BookmarkController {
     }
 
     @GetMapping("/bookmark")
-    public String bookmark(@Login LoginUser user, @PageableDefault(size=6, sort="createdAt",direction= Sort.Direction.DESC) Pageable pageable, Model model) {
-        User loginUser = userService.getUser(user.getId());
+    public String bookmark(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable, Model model) {
+        User loginUser = userService.getUserEntity(user.getId());
         model.addAttribute("playlists", loginUser.getBookmarks());
 
         model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());

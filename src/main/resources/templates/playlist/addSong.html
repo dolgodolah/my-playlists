@@ -32,13 +32,17 @@
                     <a th:href="@{'/playlist/' + ${playlist.id} + '/' + ${song.id}}">
                         <div class="about">
                             <div class="name" th:text="${song.title}">노래 제목</div>
-                            <div class="status" th:text="${#temporals.format(song.createdAt,'yy-MM-dd HH:mm')}"></div>
+                            <div class="status" th:text="${#temporals.format(song.createdDate,'yy-MM-dd HH:mm')}"></div>
                         </div>
                     </a>
                 </li>
             </ul>
             <div class="pagination">
-	           	<a class="logout-btn" th:href="@{/logout}">로그아웃</a>
+                <a class="my-info" th:href="@{/me}">내 정보</a>
+                <a class="page-link disabled">◀</a>
+                <a class="fa fa-home" th:href="@{/}"></a>
+                <a class="page-link disabled">▶</a>
+                <a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
             </div>
         </div>
         
