@@ -66,32 +66,110 @@
 
             <div class="chat-history">
             	<div class="search">
-            		<form method="get" th:action="@{'/playlist/' + ${playlist.id} + '/youtube_search'}">
-            			<input type="text" placeholder="노래 제목 검색" name="keyword" autocomplete="off">
+            		<form id="search-form">
+            			<input id="keyword" type="text" placeholder="노래 제목 검색" name="keyword" autocomplete="off">
             		</form>
             	</div>
+                <p id="error-message"></p>
                 <div class="message-data">
-            		<div class="result" th:each="song:${result}">
-            			<div class="thumbnail"><img th:src="${song.thumbnail}"></div>
-           				<div class="title" th:text="${song.title}"></div>
-           				<div class="add">
-	           				<form method="post" th:action="@{'/playlist/' + ${playlist.id} + '/' + ${song.title} +'/' + ${song.videoId}}">
-	           					<button type="submit">추가</button>
-	           				</form>
-           				</div>
-            		</div>
+
                 </div>
             </div>
             <!-- end chat-history -->
-
-           
-
         </div>
         <!-- end chat -->
-
     </div>
     <!-- end container -->
 
     <script src="/assets/js/bg.js"></script>
     <script src="/assets/js/check.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const playlistId = /*[[${playlist.id}]]*/
+            /* ]]> */
+        $("#search-form").submit(search);
+
+        function search(event) {
+            event.preventDefault();
+            const keyword = $("#keyword").val();
+            $.ajax({
+                url: "/youtube_search?keyword=" + keyword,
+                type: "GET",
+                success: function (response) {
+                    var searchResult = "";
+                    $(response).each(function (idx, song) {
+                        searchResult += `
+                        <div class="result">
+                            <div class="thumbnail"><img src=${song.thumbnail}></div>
+                            <div class="title">${song.title}</div>
+                            <div class="add">
+                                <form class="song-form${idx}" method="post" action="/song">
+                                      <input type="hidden" id="title${idx}" name="title" value="${song.title}">
+                                      <input type="hidden" id="videoId${idx}" name="videoId" value="${song.videoId}">
+                                    <button type="button">추가</button>
+                                </form>
+                            </div>
+                        </div>
+                        `
+                    })
+                    $(".message-data").html(searchResult);
+                    $(".song-form0").click(function () {
+                        const title = $("#title0").val();
+                        const videoId = $("#videoId0").val();
+
+                        addSong(title, videoId);
+                    })
+                    $(".song-form1").click(function () {
+                        const title = $("#title1").val();
+                        const videoId = $("#videoId1").val();
+
+                        addSong(title, videoId);
+                    })
+                    $(".song-form2").click(function () {
+                        const title = $("#title2").val();
+                        const videoId = $("#videoId2").val();
+
+                        addSong(title, videoId);
+                    })
+                    $(".song-form3").click(function () {
+                        const title = $("#title3").val();
+                        const videoId = $("#videoId3").val();
+
+                        addSong(title, videoId);
+                    })
+                    $(".song-form4").click(function () {
+                        const title = $("#title4").val();
+                        const videoId = $("#videoId4").val();
+
+                        addSong(title, videoId);
+                    })
+                },
+                error: function (response) {
+                    $("#error-message").text(response.responseJSON.message);
+                }
+            })
+        }
+
+        function addSong(title, videoId) {
+            const songRequestDto = {
+                playlistId: playlistId,
+                title: title,
+                videoId: videoId
+            }
+            $.ajax({
+                url: "/song",
+                type: "POST",
+                data: JSON.stringify(songRequestDto),
+                dataType: "json",
+                contentType: "application/json",
+                success: function () {
+                    location.replace("/playlist/" + playlistId);
+                },
+                error: function (response) {
+                    $("#error-message").text(response.responseJSON.message);
+                }
+            })
+        }
+
+    </script>
 </body>

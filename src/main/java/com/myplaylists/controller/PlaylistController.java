@@ -75,11 +75,9 @@ public class PlaylistController {
 		return ResponseEntity.ok(playlistResponseDto);
 	}
 
-
 	@GetMapping("/playlist/{playlistId}")
 	public String viewPlaylistDetail(@PathVariable("playlistId") Long playlistId, Model model, @Login LoginUser user) {
 		Playlist playlist = playlistService.getPlaylist(playlistId);
-		
 		model.addAttribute("playlist", playlist);
 		model.addAttribute("author", playlist.getUser().getNickname());
 		model.addAttribute("songs", playlist.getSongs());
@@ -96,9 +94,7 @@ public class PlaylistController {
 	@GetMapping("/all")
 	public String playlists(@Login LoginUser user, @PageableDefault(size=6, sort="updatedDate",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
 		Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
-		
 		model.addAttribute("playlists", playlists);
-		
 		model.addAttribute("isFirst", playlists.isFirst());
 		model.addAttribute("isLast", playlists.isLast());
 		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());

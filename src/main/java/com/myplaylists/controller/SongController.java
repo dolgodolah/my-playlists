@@ -4,10 +4,13 @@ import com.myplaylists.config.auth.Login;
 import com.myplaylists.dto.LoginUser;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
+import com.myplaylists.dto.SongRequestDto;
+import com.myplaylists.dto.SongResponseDto;
 import com.myplaylists.dto.YoutubeForm;
 import com.myplaylists.service.*;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,24 +38,16 @@ public class SongController {
         return "playlist/addSong";
     }
 
-    @GetMapping("/playlist/{playlistId}/youtube_search")
-    public String youtubeSearch(@Login LoginUser user, @PathVariable("playlistId") Long playlistId, String keyword, Model model) throws IOException, ParseException {
-        Playlist playlist = playlistService.getPlaylist(playlistId);
-        model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getUser().getNickname());
-        model.addAttribute("songs", playlist.getSongs());
-
-        List<YoutubeForm> songs = youtubeService.search(keyword);
-        model.addAttribute("result", songs);
-
-        return "playlist/addSong";
+    @ResponseBody
+    @GetMapping("/youtube_search")
+    public ResponseEntity<List<YoutubeForm>> youtubeSearch(@Login LoginUser user, @RequestParam String keyword) throws IOException, ParseException {
+        return ResponseEntity.ok(youtubeService.search(keyword));
     }
 
-    @PostMapping("/playlist/{playlistId}/{title}/{videoId}")
-    public String addSong(@PathVariable("playlistId") Long playlistId, @PathVariable("title") String title, @PathVariable("videoId") String videoId) {
-        Playlist playlist = playlistService.getPlaylist(playlistId);
-        songService.addSong(playlist, title, videoId);
-        return "redirect:/playlist/{playlistId}";
+    @ResponseBody
+    @PostMapping("/song")
+    public ResponseEntity<SongResponseDto> addSong(@RequestBody SongRequestDto songRequestDto) {
+        return ResponseEntity.ok(songService.addSong(songRequestDto));
     }
 
     @GetMapping("/playlist/{playlistId}/{songId}")

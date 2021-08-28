@@ -2,6 +2,9 @@ package com.myplaylists.service;
 
 import java.util.List;
 
+import com.myplaylists.dto.SongRequestDto;
+import com.myplaylists.dto.SongResponseDto;
+import com.myplaylists.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,15 +18,17 @@ import com.myplaylists.repository.SongRepository;
 public class SongService {
 	
 	private final SongRepository songRepository;
+	private final PlaylistService playlistService;
 
 	@Transactional
-	public void addSong(Playlist playlist, String title, String videoId) {
+	public SongResponseDto addSong(SongRequestDto songRequestDto) {
 		Song song = Song.builder()
-				.title(title)
-				.videoId(videoId)
+				.title(songRequestDto.getTitle())
+				.videoId(songRequestDto.getVideoId())
 				.build();
+		Playlist playlist = playlistService.getPlaylist(Long.valueOf(songRequestDto.getPlaylistId()));
 		playlist.addSong(song);
-		songRepository.save(song);
+		return SongResponseDto.of(songRepository.save(song));
 	}
 
 	@Transactional

@@ -78,14 +78,14 @@ public class YoutubeService {
 	}
 	
 	public String titleReplace(String title) {
-		title=title.replaceAll("&#39;", "'");
+		title=title.replaceAll("&#39;", "");
 		title=title.replaceAll("&lt;", "<");
 		title=title.replaceAll("&gt;", ">");
-		title=title.replaceAll("&quot;", "\"");
+		title=title.replaceAll("&quot;", "");
 		title=title.replaceAll("/", "");
-		title=title.replaceAll("\\]", "'");
-		title=title.replaceAll("\\[", "'");
-		title=title.replaceAll("&amp;", "&");
+		title=title.replaceAll("\\]", "");
+		title=title.replaceAll("\\[", "");
+		title=title.replaceAll("&amp;", "");
 		return title;
 	}
 }
