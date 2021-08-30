@@ -19,7 +19,7 @@
     <div class="container clearfix">
         <div class="people-list" id="people-list">
             <div class="search">
-            	<form method="get" action="/mylist/search">
+            	<form method="get" action="/search">
             		<input type="text" placeholder="내 플레이리스트 검색" name="keyword">
             	</form>
             </div>
@@ -32,7 +32,7 @@
                     <a th:href="@{'/playlist/'+${playlist.id}}">
                         <div class="about">
                             <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
-                            <div class="status" th:text="${#temporals.format(playlist.updatedAt,'yy-MM-dd HH:mm')}"></div>
+                            <div class="status" th:text="${#temporals.format(playlist.updatedDate,'yy-MM-dd HH:mm')}"></div>
                         </div>
                     </a>
                 </li>

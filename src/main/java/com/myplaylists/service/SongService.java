@@ -46,11 +46,6 @@ public class SongService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Song> getSongs(Playlist playlist){
-		return songRepository.findAllByPlaylistOrderByIdDesc(playlist);
-	}
-
-	@Transactional(readOnly = true)
 	public Song getSong(Long songId) {
 		return songRepository.findById(songId).orElseThrow(() -> new RuntimeException("해당 곡은 삭제되었거나 존재하지 않는 곡입니다."));
 	}

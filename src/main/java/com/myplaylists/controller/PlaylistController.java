@@ -40,7 +40,7 @@ public class PlaylistController {
 		return "playlist/mylist";
 	}
 
-	@GetMapping("/mylist/search")
+	@GetMapping("/search")
 	public String viewMyPlaylistSearchResult(@Login LoginUser user, Model model, String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.searchMylist(pageable, keyword, user.getId());
 		
@@ -92,7 +92,7 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/all")
-	public String playlists(@Login LoginUser user, @PageableDefault(size=6, sort="updatedDate",direction=Sort.Direction.DESC)Pageable pageable, Model model) {
+	public String playlists(@Login LoginUser user, @PageableDefault(size=6, sort="updatedDate", direction=Sort.Direction.DESC)Pageable pageable, Model model) {
 		Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("isFirst", playlists.isFirst());
