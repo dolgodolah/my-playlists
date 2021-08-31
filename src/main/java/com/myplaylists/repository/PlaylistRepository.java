@@ -13,6 +13,7 @@ import java.util.List;
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
 	List<Playlist> findAllByUser(Pageable pageable, User user);
 	long countAllByUser(User user);
+	long countAllByVisibility(boolean visibility);
 	Page<Playlist> findByUserId(Pageable pageable, Long userId);
 	Page<Playlist> findByTitleContainingAndUserId(Pageable pageable, String title, Long userId);
 	List<Playlist> findByVisibility(Pageable pageable, boolean visibility);

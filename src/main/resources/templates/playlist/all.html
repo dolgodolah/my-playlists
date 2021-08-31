@@ -27,23 +27,13 @@
             	<a class="add-btn" th:href="@{/playlist}">플레이리스트 추가</a>
             	
             </div>
-            <ul class="list">
-                <li class="clearfix" th:each="playlist:${playlists}">
-                    <a th:href="@{'/playlist/'+${playlist.id}}">
-                        <div class="about">
-                            <div class="name" th:text="${playlist.title}">플레이리스트 제목</div>
-                            <div class="status" th:text="${#temporals.format(playlist.updatedDate,'yy-MM-dd HH:mm')}"></div>
-                        </div>
-                    </a>
-                </li>
+            <ul id="playlists" class="list">
+
             </ul>
-            <div class="pagination">
-            	<a class="my-info" th:href="@{/me}">내 정보</a>
-	            <a th:class="${isFirst==true} ? 'page-link disabled' : 'page-link'" th:href="@{'?page=' + ${previous}}">◀</a>
-	            <a class="fa fa-home" th:href="@{/}"></a>
-	           	<a th:class="${isLast==true} ? 'page-link disabled' : 'page-link'" th:href="@{'?page=' + ${next}}">▶</a>
-	           	<a class="logout-btn" th:href="@{/logout}" role="button">로그아웃</a>
+            <div id="pagination" class="pagination">
+
             </div>
+
 			
         </div>
 
@@ -64,4 +54,53 @@
     <!-- end container -->
 
     <script src="/assets/js/bg.js"></script>
+    <script>
+        const offset = 6;
+        getAllPlaylists(0);
+        function getAllPlaylists(page) {
+            $.get("/my-playlists-size?visibility=false", function (myPlaylistsSize) {
+                $.ajax({
+                    type: "GET",
+                    url: "/all-playlists",
+                    data: "page=" + page + "&visibility=false",
+                    success: function(response) {
+                        var playlistsHtml = "";
+                        $(response).each(function(idx, playlist) {
+                            playlistsHtml += `
+                        <li class="clearfix">
+                            <a href="/playlist/${playlist.playlistId}">
+                                <div class="about">
+                                    <div class="name">${playlist.title}</div>
+                                    <div class="status">${playlist.description}</div>
+                                </div>
+                            </a>
+                        </li>
+                        `
+                        });
+                        $("#playlists").html(playlistsHtml)
+                    }
+                })
+
+                const previousClass = page * offset == 0 ? "page-link disabled" : "page-link";
+                const nextClass = (page + 1) * offset >= myPlaylistsSize ? "page-link disabled" : "page-link";
+                const paginationHtml = `
+                        <a class="my-info" href="/me">내 정보</a>
+                        <a id="previous" class="${previousClass}" href="#">◀</a>
+                        <a class="fa fa-home" href="/"></a>
+                        <a id="next" class="${nextClass}" href="#">▶</a>
+                        <a class="logout-btn" href="/logout" role="button">로그아웃</a>
+                        `
+                $("#pagination").html(paginationHtml)
+
+                $("#next").click(function() {
+                    getAllPlaylists(page + 1)
+                })
+                $("#previous").click(function () {
+                    getAllPlaylists(page - 1)
+                })
+            })
+
+
+        }
+    </script>
 </body>

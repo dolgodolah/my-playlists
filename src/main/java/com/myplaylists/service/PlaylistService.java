@@ -58,11 +58,16 @@ public class PlaylistService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<PlaylistResponseDto> findAllPlaylists(Pageable pageable){
-		List<Playlist> playlists = playlistRepository.findByVisibility(pageable, false)
+	public List<PlaylistResponseDto> findAllPlaylists(Pageable pageable, boolean visibility){
+		List<Playlist> playlists = playlistRepository.findByVisibility(pageable, visibility);
 		return playlists.stream()
 				.map(PlaylistResponseDto::of)
 				.collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public Long getAllPlaylistsSize(boolean visibility) {
+		return playlistRepository.countAllByVisibility(visibility);
 	}
 
 	@Transactional

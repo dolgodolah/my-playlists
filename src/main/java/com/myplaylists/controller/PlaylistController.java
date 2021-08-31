@@ -36,10 +36,15 @@ public class PlaylistController {
 	public ResponseEntity<Long> getMyPlaylistsSize(@Login LoginUser user) {
 		return ResponseEntity.ok(playlistService.getMyPlaylistsSize(user.getId()));
 	}
-	
+
 	@GetMapping("/all-playlists")
-	public ResponseEntity<List<PlaylistResponseDto>> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
-		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable));
+	public ResponseEntity<List<PlaylistResponseDto>> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam boolean visibility) {
+		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable, visibility));
+	}
+
+	@GetMapping("/all-playlists-size")
+	public ResponseEntity<Long> getAllPlaylistsSize(@RequestParam boolean visibility) {
+		return ResponseEntity.ok(playlistService.getAllPlaylistsSize(visibility));
 	}
 
 	@PostMapping("/playlist")
