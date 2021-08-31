@@ -2,6 +2,7 @@ package com.myplaylists.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.myplaylists.dto.LoginUser;
 import com.myplaylists.dto.PlaylistRequestDto;
@@ -42,13 +43,26 @@ public class PlaylistService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Playlist> findMyPlaylists(Pageable pageable, Long userId) {
-		return playlistRepository.findByUserId(pageable, userId);
+	public List<PlaylistResponseDto> findMyPlaylists(Pageable pageable, Long userId) {
+		User user = userService.getUserEntity(userId);
+		List<Playlist> playlists = playlistRepository.findAllByUser(pageable, user);
+		return playlists.stream()
+				.map(PlaylistResponseDto::of)
+				.collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Playlist> findAllPlaylists(Pageable pageable){
-		return playlistRepository.findByVisibility(pageable, false);
+	public Long getMyPlaylistsSize(Long userId) {
+		User user = userService.getUserEntity(userId);
+		return playlistRepository.countAllByUser(user);
+	}
+
+	@Transactional(readOnly = true)
+	public List<PlaylistResponseDto> findAllPlaylists(Pageable pageable){
+		List<Playlist> playlists = playlistRepository.findByVisibility(pageable, false)
+		return playlists.stream()
+				.map(PlaylistResponseDto::of)
+				.collect(Collectors.toList());
 	}
 
 	@Transactional
