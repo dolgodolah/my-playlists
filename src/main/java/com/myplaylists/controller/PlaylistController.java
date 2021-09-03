@@ -4,17 +4,13 @@ import com.myplaylists.config.auth.Login;
 import com.myplaylists.dto.PlaylistRequestDto;
 import com.myplaylists.dto.PlaylistResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.myplaylists.dto.LoginUser;
-import com.myplaylists.domain.Playlist;
 import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
 
@@ -25,7 +21,6 @@ import java.util.List;
 public class PlaylistController {
 	
 	private final PlaylistService playlistService;
-	private final BookmarkService bookmarkService;
 
 	@GetMapping("/my-playlists")
 	public ResponseEntity<List<PlaylistResponseDto>> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
