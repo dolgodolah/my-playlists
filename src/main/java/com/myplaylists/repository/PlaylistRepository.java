@@ -16,6 +16,6 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
 	long countAllByVisibility(boolean visibility);
 	Page<Playlist> findByUserId(Pageable pageable, Long userId);
 	Page<Playlist> findByTitleContainingAndUserId(Pageable pageable, String title, Long userId);
-	List<Playlist> findByVisibility(Pageable pageable, boolean visibility);
+	Page<Playlist> findByVisibility(Pageable pageable, boolean visibility);
 	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
 }

@@ -2,7 +2,6 @@ package com.myplaylists.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.myplaylists.dto.LoginUser;
 import com.myplaylists.dto.PlaylistDto;
@@ -46,35 +45,14 @@ public class PlaylistService {
 	@Transactional(readOnly = true)
 	public PlaylistsDto findMyPlaylists(Pageable pageable, Long userId) {
 		User user = userService.getUserEntity(userId);
-
 		Page<Playlist> playlists = playlistRepository.findAllByUser(pageable, user);
-		List<PlaylistDto> playlistDtoList = playlists.stream()
-				.map(PlaylistDto::of)
-				.collect(Collectors.toList());
-
-		return PlaylistsDto.builder()
-				.playlists(playlistDtoList)
-				.isLast(playlists.isLast())
-				.build();
+		return PlaylistsDto.of(playlists);
 	}
 
 	@Transactional(readOnly = true)
-	public Long getMyPlaylistsSize(Long userId) {
-		User user = userService.getUserEntity(userId);
-		return playlistRepository.countAllByUser(user);
-	}
-
-	@Transactional(readOnly = true)
-	public List<PlaylistDto> findAllPlaylists(Pageable pageable, boolean visibility){
-		List<Playlist> playlists = playlistRepository.findByVisibility(pageable, visibility);
-		return playlists.stream()
-				.map(PlaylistDto::of)
-				.collect(Collectors.toList());
-	}
-
-	@Transactional(readOnly = true)
-	public Long getAllPlaylistsSize(boolean visibility) {
-		return playlistRepository.countAllByVisibility(visibility);
+	public PlaylistsDto findAllPlaylists(Pageable pageable){
+		Page<Playlist> playlists = playlistRepository.findByVisibility(pageable, true);
+		return PlaylistsDto.of(playlists);
 	}
 
 	@Transactional
@@ -106,9 +84,4 @@ public class PlaylistService {
 		bookmarks.forEach(bookmark -> playlists.add(bookmark.getPlaylist()));
 		return playlists;
 	}
-	
-	
-	
-
-
 }

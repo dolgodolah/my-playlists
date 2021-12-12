@@ -1,7 +1,7 @@
-function getMyPlaylists(page) {
+function getPlaylists(page, url) {
     $.ajax({
         type: "GET",
-        url: "/my-playlists",
+        url: url,
         data: "page=" + page,
         success: function (response) {
             let playlistsHtml = "";
@@ -31,13 +31,11 @@ function getMyPlaylists(page) {
             $("#pagination").html(paginationHtml)
 
             $("#next").click(function () {
-                getMyPlaylists(page + 1)
+                getPlaylists(page + 1, url)
             })
             $("#previous").click(function () {
-                getMyPlaylists(page - 1)
+                getPlaylists(page - 1, url)
             })
         }
     })
 }
-
-getMyPlaylists(0);

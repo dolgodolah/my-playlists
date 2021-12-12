@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import com.myplaylists.dto.LoginUser;
 import com.myplaylists.service.PlaylistService;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 public class PlaylistController {
@@ -28,13 +26,8 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/all-playlists")
-	public ResponseEntity<List<PlaylistDto>> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam boolean visibility) {
-		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable, visibility));
-	}
-
-	@GetMapping("/all-playlists-size")
-	public ResponseEntity<Long> getAllPlaylistsSize(@RequestParam boolean visibility) {
-		return ResponseEntity.ok(playlistService.getAllPlaylistsSize(visibility));
+	public ResponseEntity<PlaylistsDto> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable));
 	}
 
 	@PostMapping("/playlist")
