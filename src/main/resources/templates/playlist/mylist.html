@@ -52,51 +52,51 @@
     <!-- end container -->
 
     <script src="/assets/js/bg.js"></script>
-    <script>
-        const offset = 6;
-        getMyPlaylists(0);
-        function getMyPlaylists(page) {
-            $.get("/my-playlists-size", function (myPlaylistsSize) {
-                $.ajax({
-                    type: "GET",
-                    url: "/my-playlists",
-                    data: "page=" + page,
-                    success: function(response) {
-                        var playlistsHtml = "";
-                        $(response).each(function(idx, playlist) {
-                            playlistsHtml += `
-                        <li class="clearfix">
-                            <a href="/playlist/${playlist.playlistId}">
-                                <div class="about">
-                                    <div class="name">${playlist.title}</div>
-                                    <div class="status">${playlist.description}</div>
-                                </div>
-                            </a>
-                        </li>
-                        `
-                        });
-                        $("#playlists").html(playlistsHtml)
-                    }
-                })
+    <script src="/assets/js/myPlaylists.js"></script>
+<!--    <script>-->
+<!--        getMyPlaylists(0);-->
 
-                const previousClass = page * offset == 0 ? "page-link disabled" : "page-link";
-                const nextClass = (page + 1) * offset >= myPlaylistsSize ? "page-link disabled" : "page-link";
-                const paginationHtml = `
-                        <a class="my-info" href="/me">내 정보</a>
-                        <a id="previous" class="${previousClass}" href="#">◀</a>
-                        <a class="fa fa-home" href="/"></a>
-                        <a id="next" class="${nextClass}" href="#">▶</a>
-                        <a class="logout-btn" href="/logout" role="button">로그아웃</a>
-                        `
-                $("#pagination").html(paginationHtml)
+<!--        function getMyPlaylists(page) {-->
+<!--            $.ajax({-->
+<!--                type: "GET",-->
+<!--                url: "/my-playlists",-->
+<!--                data: "page=" + page,-->
+<!--                success: function (response) {-->
+<!--                    let playlistsHtml = "";-->
+<!--                    $(response).each(function (idx, playlist) {-->
+<!--                        playlistsHtml += `-->
+<!--                        <li class="clearfix">-->
+<!--                            <a href="/playlist/${playlist.playlistId}">-->
+<!--                                <div class="about">-->
+<!--                                    <div class="name">${playlist.title}</div>-->
+<!--                                    <div class="status">${playlist.description}</div>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                    `-->
+<!--                    });-->
+<!--                    $("#playlists").html(playlistsHtml)-->
+<!--                },-->
+<!--                error: function(response) {-->
+<!--                    getMyPlaylists(page - 1);-->
+<!--                }-->
+<!--            })-->
+<!--            const previousClass = page === 0 ? "page-link disabled" : "page-link";-->
+<!--            const paginationHtml = `-->
+<!--                <a class="my-info" href="/me">내 정보</a>-->
+<!--                <a id="previous" class="${previousClass}">◀</a>-->
+<!--                <a class="fa fa-home" href="/"></a>-->
+<!--                <a id="next" class="page-link">▶</a>-->
+<!--                <a class="logout-btn" href="/logout" role="button">로그아웃</a>-->
+<!--                `-->
+<!--            $("#pagination").html(paginationHtml)-->
 
-                $("#next").click(function() {
-                    getMyPlaylists(page + 1)
-                })
-                $("#previous").click(function () {
-                    getMyPlaylists(page - 1)
-                })
-            })
-        }
-    </script>
+<!--            $("#next").click(function () {-->
+<!--                getMyPlaylists(page + 1)-->
+<!--            })-->
+<!--            $("#previous").click(function () {-->
+<!--                getMyPlaylists(page - 1)-->
+<!--            })-->
+<!--        }-->
+<!--    </script>-->
 </body>

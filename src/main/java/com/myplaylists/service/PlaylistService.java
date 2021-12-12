@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.PlaylistDto;
 import com.myplaylists.dto.PlaylistRequestDto;
-import com.myplaylists.dto.PlaylistResponseDto;
+import com.myplaylists.dto.PlaylistsDto;
 import com.myplaylists.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class PlaylistService {
 	private final UserService userService;
 
 	@Transactional
-	public PlaylistResponseDto addPlaylist(LoginUser loginUser, PlaylistRequestDto playlistRequestDto) {
+	public PlaylistDto addPlaylist(LoginUser loginUser, PlaylistRequestDto playlistRequestDto) {
 		String title = playlistRequestDto.getTitle();
 		if (!StringUtils.hasText(title)) {
 			throw new ApiException("플레이리스트 제목을 입력해주세요.");
@@ -39,16 +40,22 @@ public class PlaylistService {
 
 		User user = userService.getUserEntity(loginUser.getId());
 		Playlist playlist = playlistRequestDto.toEntity(user);
-		return PlaylistResponseDto.of(playlistRepository.save(playlist));
+		return PlaylistDto.of(playlistRepository.save(playlist));
 	}
 
 	@Transactional(readOnly = true)
-	public List<PlaylistResponseDto> findMyPlaylists(Pageable pageable, Long userId) {
+	public PlaylistsDto findMyPlaylists(Pageable pageable, Long userId) {
 		User user = userService.getUserEntity(userId);
-		List<Playlist> playlists = playlistRepository.findAllByUser(pageable, user);
-		return playlists.stream()
-				.map(PlaylistResponseDto::of)
+
+		Page<Playlist> playlists = playlistRepository.findAllByUser(pageable, user);
+		List<PlaylistDto> playlistDtoList = playlists.stream()
+				.map(PlaylistDto::of)
 				.collect(Collectors.toList());
+
+		return PlaylistsDto.builder()
+				.playlists(playlistDtoList)
+				.isLast(playlists.isLast())
+				.build();
 	}
 
 	@Transactional(readOnly = true)
@@ -58,10 +65,10 @@ public class PlaylistService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<PlaylistResponseDto> findAllPlaylists(Pageable pageable, boolean visibility){
+	public List<PlaylistDto> findAllPlaylists(Pageable pageable, boolean visibility){
 		List<Playlist> playlists = playlistRepository.findByVisibility(pageable, visibility);
 		return playlists.stream()
-				.map(PlaylistResponseDto::of)
+				.map(PlaylistDto::of)
 				.collect(Collectors.toList());
 	}
 

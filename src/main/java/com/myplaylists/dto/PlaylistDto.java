@@ -1,27 +1,22 @@
 package com.myplaylists.dto;
 
 import com.myplaylists.domain.Playlist;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class PlaylistResponseDto {
+@Getter
+public class PlaylistDto {
     private Long playlistId;
     private String title;
     private String description;
     private LocalDateTime updatedDate;
     private boolean visibility;
 
-    public static PlaylistResponseDto of(Playlist playlist) {
-        return PlaylistResponseDto.builder()
+    public static PlaylistDto of(Playlist playlist) {
+        return PlaylistDto.builder()
                 .playlistId(playlist.getId())
                 .title(playlist.getTitle())
                 .description(playlist.getDescription())

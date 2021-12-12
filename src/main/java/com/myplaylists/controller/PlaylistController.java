@@ -1,8 +1,9 @@
 package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
+import com.myplaylists.dto.PlaylistDto;
 import com.myplaylists.dto.PlaylistRequestDto;
-import com.myplaylists.dto.PlaylistResponseDto;
+import com.myplaylists.dto.PlaylistsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.myplaylists.dto.LoginUser;
-import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
 
 import java.util.List;
@@ -23,17 +23,12 @@ public class PlaylistController {
 	private final PlaylistService playlistService;
 
 	@GetMapping("/my-playlists")
-	public ResponseEntity<List<PlaylistResponseDto>> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+	public ResponseEntity<PlaylistsDto> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		return ResponseEntity.ok(playlistService.findMyPlaylists(pageable, user.getId()));
 	}
 
-	@GetMapping("/my-playlists-size")
-	public ResponseEntity<Long> getMyPlaylistsSize(@Login LoginUser user) {
-		return ResponseEntity.ok(playlistService.getMyPlaylistsSize(user.getId()));
-	}
-
 	@GetMapping("/all-playlists")
-	public ResponseEntity<List<PlaylistResponseDto>> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam boolean visibility) {
+	public ResponseEntity<List<PlaylistDto>> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam boolean visibility) {
 		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable, visibility));
 	}
 
@@ -43,9 +38,9 @@ public class PlaylistController {
 	}
 
 	@PostMapping("/playlist")
-	public ResponseEntity<PlaylistResponseDto> addPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto, @Login LoginUser loginUser) {
-		PlaylistResponseDto playlistResponseDto = playlistService.addPlaylist(loginUser, playlistRequestDto);
-		return ResponseEntity.ok(playlistResponseDto);
+	public ResponseEntity<PlaylistDto> addPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto, @Login LoginUser loginUser) {
+		PlaylistDto playlistDto = playlistService.addPlaylist(loginUser, playlistRequestDto);
+		return ResponseEntity.ok(playlistDto);
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
