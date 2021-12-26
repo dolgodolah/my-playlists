@@ -1,10 +1,12 @@
 package com.myplaylists.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.myplaylists.dto.SongRequestDto;
 import com.myplaylists.dto.SongResponseDto;
 import com.myplaylists.exception.ApiException;
+import com.myplaylists.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,7 @@ import com.myplaylists.repository.SongRepository;
 public class SongService {
 	
 	private final SongRepository songRepository;
-	private final PlaylistService playlistService;
+	private final PlaylistRepository playlistRepository;
 
 	@Transactional
 	public SongResponseDto addSong(SongRequestDto songRequestDto) {
@@ -26,7 +28,7 @@ public class SongService {
 				.title(songRequestDto.getTitle())
 				.videoId(songRequestDto.getVideoId())
 				.build();
-		Playlist playlist = playlistService.getPlaylist(Long.valueOf(songRequestDto.getPlaylistId()));
+		Playlist playlist = playlistRepository.findById(Long.valueOf(songRequestDto.getPlaylistId())).orElseThrow(() -> new ApiException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다."));
 		playlist.addSong(song);
 		return SongResponseDto.of(songRepository.save(song));
 	}

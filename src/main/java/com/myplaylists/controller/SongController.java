@@ -1,12 +1,9 @@
 package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
-import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.*;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
-import com.myplaylists.dto.SongRequestDto;
-import com.myplaylists.dto.SongResponseDto;
-import com.myplaylists.dto.YoutubeForm;
 import com.myplaylists.service.*;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -29,10 +26,10 @@ public class SongController {
 
 
     @GetMapping("/playlist/{playlistId}/add")
-    public String viewSongSearchForm(@PathVariable("playlistId") Long playlistId, Model model) {
-        Playlist playlist = playlistService.getPlaylist(playlistId);
+    public String viewSongSearchForm(@Login LoginUser user, @PathVariable("playlistId") Long playlistId, Model model) {
+        PlaylistDto playlist = playlistService.findPlaylist(user.getId(), playlistId);
         model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getUser().getNickname());
+        model.addAttribute("author", playlist.getAuthor());
         model.addAttribute("songs", playlist.getSongs());
 
         return "playlist/addSong";
@@ -52,26 +49,26 @@ public class SongController {
 
     @GetMapping("/playlist/{playlistId}/{songId}")
     public String playSong(@Login LoginUser user, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
-        Playlist playlist = playlistService.getPlaylist(playlistId);
+        PlaylistDto playlist = playlistService.findPlaylist(user.getId(), playlistId);
         Song song = songService.getSong(songId);
         model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getUser().getNickname());
+        model.addAttribute("author", playlist.getAuthor());
         model.addAttribute("nowSong", song);
         model.addAttribute("songs", playlist.getSongs());
-        model.addAttribute("isBookmark", bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
+        model.addAttribute("isBookmark", playlist.isBookmark());
 
         return "playlist/playSong";
     }
 
     @GetMapping("/playlist/{playlistId}/{songId}/update")
     public String viewSongForm(@Login LoginUser user, Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
-        Playlist playlist = playlistService.getPlaylist(playlistId);
+        PlaylistDto playlist = playlistService.findPlaylist(user.getId(), playlistId);
         Song song = songService.getSong(songId);
         model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getUser().getNickname());
+        model.addAttribute("author", playlist.getAuthor());
         model.addAttribute("nowSong", song);
         model.addAttribute("songs", playlist.getSongs());
-        model.addAttribute("isBookmark",bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
+        model.addAttribute("isBookmark", playlist.isBookmark());
 
         return "playlist/updateSong";
     }

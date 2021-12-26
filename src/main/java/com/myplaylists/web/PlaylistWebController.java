@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class PlaylistWebController {
 
     private final PlaylistService playlistService;
-    private final BookmarkService bookmarkService;
 
     @GetMapping("/")
     public String main(@Login LoginUser user) {
@@ -40,16 +39,6 @@ public class PlaylistWebController {
     @GetMapping("/playlist")
     public String viewPlaylistAddForm() {
         return "playlist/addPlaylist";
-    }
-
-    @GetMapping("/playlist/{playlistId}")
-    public String viewPlaylistDetail(@PathVariable("playlistId") Long playlistId, Model model, @Login LoginUser user) {
-        Playlist playlist = playlistService.getPlaylist(playlistId);
-        model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getUser().getNickname());
-        model.addAttribute("songs", playlist.getSongs());
-        model.addAttribute("isBookmark", bookmarkService.validateBookmark(user.getId(), playlistId).isPresent());
-        return "playlist/detail";
     }
 
     @GetMapping("/search")

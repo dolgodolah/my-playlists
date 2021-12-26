@@ -26,6 +26,7 @@ public class PlaylistService {
 	
 	private final PlaylistRepository playlistRepository;
 	private final UserService userService;
+	private final BookmarkService bookmarkService;
 
 	@Transactional
 	public PlaylistDto addPlaylist(LoginUser loginUser, PlaylistRequestDto playlistRequestDto) {
@@ -57,7 +58,7 @@ public class PlaylistService {
 
 	@Transactional
 	public void deletePlaylist(Long playlistId) {
-		Playlist playlist = getPlaylist(playlistId);
+		Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new RuntimeException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다."));
 		playlistRepository.delete(playlist);
 	}
 
@@ -72,12 +73,15 @@ public class PlaylistService {
 	}
 
 	@Transactional(readOnly = true)
-	public Playlist getPlaylist(Long playlistId) {
-		return playlistRepository.findById(playlistId).orElseThrow(() -> new RuntimeException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다."));
+	public PlaylistDto findPlaylist(Long userId, Long playlistId) {
+		Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new RuntimeException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다."));
+		boolean isBookmark = bookmarkService.validateBookmark(userId, playlistId).isPresent();
+
+		PlaylistDto playlistDto = PlaylistDto.of(playlist);
+		playlistDto.setBookmark(isBookmark);
+		return playlistDto;
 	}
-	
-	
-	
+
 	public List<Playlist> findBookmarkPlaylists(Pageable pageable, User user){
 		List<Bookmark> bookmarks = user.getBookmarks();
 		List<Playlist> playlists = new ArrayList<>();
