@@ -9,10 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.myplaylists.dto.LoginUser;
 import com.myplaylists.service.PlaylistService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +31,16 @@ public class PlaylistController {
 	@GetMapping("/all-playlists")
 	public ResponseEntity<PlaylistsDto> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable));
+	}
+
+	@GetMapping("/bookmark")
+	public String findBookmarkedPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable, Model model) {
+		List<PlaylistDto> bookmarkedPlaylists = playlistService.findBookmarkedPlaylists(user.getId(), pageable);
+		model.addAttribute("playlists", bookmarkedPlaylists);
+
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		return "playlist/bookmark";
 	}
 
 	@PostMapping("/playlist")
