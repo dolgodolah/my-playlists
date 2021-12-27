@@ -1,6 +1,7 @@
 package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
+import com.myplaylists.domain.User;
 import com.myplaylists.dto.PlaylistDto;
 import com.myplaylists.dto.PlaylistRequestDto;
 import com.myplaylists.dto.PlaylistsDto;
@@ -41,6 +42,12 @@ public class PlaylistController {
 		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 		model.addAttribute("next", pageable.next().getPageNumber());
 		return "playlist/bookmark";
+	}
+
+	@ResponseBody
+	@PostMapping("/playlist/{playlistId}/bookmark")
+	public void toggleBookmark(@PathVariable("playlistId") Long playlistId, User user) {
+		playlistService.toggleBookmark(user.getId(), playlistId);
 	}
 
 	@PostMapping("/playlist")

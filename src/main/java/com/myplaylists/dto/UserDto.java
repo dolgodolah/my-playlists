@@ -1,7 +1,5 @@
 package com.myplaylists.dto;
 
-import javax.validation.constraints.NotBlank;
-
 import com.myplaylists.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -11,41 +11,40 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myplaylists.domain.Bookmark;
 import com.myplaylists.repository.BookmarkRepository;
 
+import java.util.Optional;
+
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BookmarkService {
 
-	private final PlaylistService playlistService;
-	private final UserService userService;
 	private final BookmarkRepository bookmarkRepository;
 
-	public void toggleBookmark(Long userId, Long playlistId) {
-		bookmarkRepository.findAllByUserId(userId).stream()
-			.filter(bookmark -> bookmark.getPlaylist().getId().equals(playlistId))
-			.findAny()
-			.ifPresentOrElse(this::deleteBookmark, () -> addBookmark(userId, playlistId));
+	@Transactional(readOnly = true)
+	public Optional<Bookmark> findAllByUserId(Long userId) {
+		return bookmarkRepository.findAllByUserId(userId);
 	}
 
+	@Transactional(readOnly = true)
 	public Page<Bookmark> findByUserId(Long userId, Pageable pageable) {
 		return bookmarkRepository.findByUserId(pageable, userId);
 	}
 
-	public void deleteBookmark(Bookmark bookmark) {
-		bookmarkRepository.deleteById(bookmark.getId());
+	@Transactional
+	public void deleteBookmark(Long bookmarkId) {
+		bookmarkRepository.deleteById(bookmarkId);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public boolean checkBookmark(Long userId, Long playlistId) {
 		return bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId).isPresent();
 	}
 
-	private void addBookmark(Long userId, Long playlistId) {
-		User user = userService.findUserOrElseThrow(userId);
-		Playlist playlist = playlistService.findPlaylistOrElseThrow(playlistId);
+	public void addBookmark(User user, Playlist playlist) {
 		Bookmark bookmark = Bookmark.builder()
 				.playlist(playlist)
+				.user(user)
 				.build();
-		user.addBookmark(bookmark);
-	}
 
+		bookmarkRepository.save(bookmark);
+	}
 }

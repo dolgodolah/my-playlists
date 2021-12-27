@@ -11,5 +11,6 @@ import com.myplaylists.domain.Bookmark;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long>{
 	Page<Bookmark> findByUserId(Pageable pageable, Long userId);
 	Optional<Bookmark> findByUserIdAndPlaylistId(Long UserId, Long PlaylistId);
+	Optional<Bookmark> findAllByUserId(Long userId);
 
 }

@@ -2,7 +2,6 @@ package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.dto.*;
-import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
 import com.myplaylists.service.*;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ public class SongController {
 
     private final PlaylistService playlistService;
     private final SongService songService;
-    private final BookmarkService bookmarkService;
     private final YoutubeService youtubeService;
 
 

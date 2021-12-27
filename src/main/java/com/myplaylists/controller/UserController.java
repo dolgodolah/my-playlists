@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.myplaylists.dto.LoginUser;
-import com.myplaylists.domain.User;
 import com.myplaylists.dto.UserDto;
 import com.myplaylists.service.PlaylistService;
 import com.myplaylists.service.UserService;
@@ -41,7 +40,7 @@ public class UserController {
 	@ResponseBody
 	@GetMapping("/myInfo")
 	public ResponseEntity<UserDto> getMyInfo(@Login LoginUser user) {
-		return ResponseEntity.ok(userService.getUserDto(user.getId()));
+		return ResponseEntity.ok(userService.findByUserId(user.getId()));
 	}
 
 	@ResponseBody
