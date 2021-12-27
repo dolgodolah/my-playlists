@@ -39,8 +39,9 @@ public class Bookmark {
 	private Playlist playlist;
 
 	@Builder
-	public Bookmark(Playlist playlist) {
+	public Bookmark(Playlist playlist, User user) {
 		this.playlist = playlist;
+		this.user = user;
 	}
 
 	public void setPlaylist(Playlist playlist) {

@@ -25,19 +25,11 @@ public class User {
 	@Column(nullable=false)
 	private String email;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Bookmark> bookmarks = new ArrayList<>();
-
 	@Builder
 	public User(String name, String email, String nickname) {
 		this.name = name;
 		this.email = email;
 		this.nickname = nickname;
-	}
-
-	public void addBookmark(Bookmark bookmark) {
-		this.bookmarks.add(bookmark);
-		bookmark.setUser(this);
 	}
 	
 	public User updateName(String name) {
