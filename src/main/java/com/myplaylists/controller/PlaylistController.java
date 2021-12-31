@@ -25,12 +25,12 @@ public class PlaylistController {
 	private final PlaylistService playlistService;
 
 	@GetMapping("/my-playlists")
-	public ResponseEntity<PlaylistsDto> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+	public ResponseEntity<PlaylistsDto> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6) Pageable pageable) {
 		return ResponseEntity.ok(playlistService.findMyPlaylists(pageable, user.getId()));
 	}
 
 	@GetMapping("/all-playlists")
-	public ResponseEntity<PlaylistsDto> getAllPlaylists(@PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+	public ResponseEntity<PlaylistsDto> getAllPlaylists(@PageableDefault(size = 6) Pageable pageable) {
 		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable));
 	}
 

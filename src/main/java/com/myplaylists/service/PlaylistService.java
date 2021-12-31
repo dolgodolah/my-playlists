@@ -48,7 +48,7 @@ public class PlaylistService {
 	@Transactional(readOnly = true)
 	public PlaylistsDto findMyPlaylists(Pageable pageable, Long userId) {
 		User user = userService.findUserOrElseThrow(userId);
-		Page<Playlist> playlists = playlistRepository.findAllByUser(pageable, user);
+		Page<Playlist> playlists = playlistRepository.findAllByUserOrderByUpdatedDateDesc(pageable, user);
 		return PlaylistsDto.of(playlists);
 	}
 
