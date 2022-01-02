@@ -12,9 +12,6 @@ import java.util.List;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
 	Page<Playlist> findAllByUserOrderByUpdatedDateDesc(Pageable pageable, User user);
-	long countAllByUser(User user);
-	long countAllByVisibility(boolean visibility);
-	Page<Playlist> findByUserId(Pageable pageable, Long userId);
 	Page<Playlist> findByTitleContainingAndUserId(Pageable pageable, String title, Long userId);
 	Page<Playlist> findByVisibility(Pageable pageable, boolean visibility);
 	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
