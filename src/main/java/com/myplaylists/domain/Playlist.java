@@ -56,8 +56,9 @@ public class Playlist extends BaseTime {
 	}
 
 	public void addSong(Song song) {
-		this.songs.add(song);
 		song.setPlaylist(this);
+		song.setUserId(this.getUser().getId());
+		this.songs.add(song);
 	}
 
 	@Override

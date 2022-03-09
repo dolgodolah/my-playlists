@@ -10,4 +10,5 @@ public class SongRequestDto {
     private String playlistId;
     private String title;
     private String videoId;
+    private String description;
 }
