@@ -39,12 +39,29 @@ public class PlaylistController {
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
-	public void deletePlaylist(@PathVariable("playlistId") Long playlistId) {
 		playlistService.deletePlaylist(playlistId);
 	}
 
-	@PostMapping("/playlist/{playlistId}/bookmark")
-	public void toggleBookmark(@PathVariable("playlistId") Long playlistId, User user) {
+	@GetMapping("/bookmark")
+	public ResponseEntity<PlaylistsDto> getBookmarkPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable) {
+		BookmarksDto bookmarks = BookmarksDto.of(bookmarkService.findByUserId(user.getId(), pageable));
+		return ResponseEntity.ok(PlaylistsDto.of(bookmarks));
+	}
+
+	@PostMapping("/bookmark")
+	public void toggleBookmark(@Login LoginUser user, @PathVariable("playlistId") Long playlistId) {
+		bookmarkService.toggleBookmark(user.getId(), playlistId);
+	}
+
+	@GetMapping("/playlist/search")
+	public ResponseEntity<PlaylistsDto> searchMyPlaylists(@Login LoginUser user, String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<Playlist> playlists = playlistService.searchMyPlaylists(pageable, keyword, user.getId());
+		return ResponseEntity.ok(PlaylistsDto.of(playlists));
+	}
+
 		playlistService.toggleBookmark(user.getId(), playlistId);
+	public ResponseEntity<PlaylistsDto> searchAllPlaylists(String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<Playlist> playlists = playlistService.searchAll(pageable, keyword);
+		return ResponseEntity.ok(PlaylistsDto.of(playlists));
 	}
 }

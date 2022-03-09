@@ -1,5 +1,6 @@
 package com.myplaylists.dto;
 
+import com.myplaylists.domain.Bookmark;
 import com.myplaylists.domain.Playlist;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +23,18 @@ public class PlaylistsDto {
         return PlaylistsDto.builder()
                 .playlists(playlistDtoList)
                 .isLast(playlists.isLast())
+                .build();
+    }
+
+    public static PlaylistsDto of(BookmarksDto bookmarksDto) {
+        List<PlaylistDto> playlistDtoList = bookmarksDto.getBookmarks().stream()
+                .map(Bookmark::getPlaylist)
+                .map(PlaylistDto::of)
+                .collect(Collectors.toList());
+
+        return PlaylistsDto.builder()
+                .playlists(playlistDtoList)
+                .isLast(bookmarksDto.isLast())
                 .build();
     }
 }

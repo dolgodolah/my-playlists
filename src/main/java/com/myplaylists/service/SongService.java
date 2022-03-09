@@ -1,14 +1,9 @@
 package com.myplaylists.service;
 
-import java.util.List;
-import java.util.Optional;
 
 import com.myplaylists.dto.LoginUser;
-import com.myplaylists.dto.PlaylistsDto;
 import com.myplaylists.dto.SongRequestDto;
-import com.myplaylists.dto.SongResponseDto;
 import com.myplaylists.exception.ApiException;
-import com.myplaylists.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +25,7 @@ public class SongService {
 				.title(songRequestDto.getTitle())
 				.videoId(songRequestDto.getVideoId())
 				.build();
-		Playlist playlist = playlistService.findPlaylistOrElseThrow(Long.valueOf(songRequestDto.getPlaylistId()));
+		Playlist playlist = playlistService.findPlaylist(Long.valueOf(songRequestDto.getPlaylistId()));
 		playlist.addSong(song);
 		return songRepository.save(song);
 	}

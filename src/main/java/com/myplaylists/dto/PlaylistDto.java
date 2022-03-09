@@ -37,7 +37,20 @@ public class PlaylistDto {
                 .build();
     }
 
-    public void setBookmark(boolean bookmark) {
-        isBookmark = bookmark;
+    public static PlaylistDto of(Playlist playlist, boolean isBookmark) {
+        List<SongResponseDto> songs = playlist.getSongs().stream()
+                .map(SongResponseDto::of)
+                .collect(Collectors.toList());
+
+        return PlaylistDto.builder()
+                .playlistId(playlist.getId())
+                .title(playlist.getTitle())
+                .description(playlist.getDescription())
+                .updatedDate(playlist.getUpdatedDate())
+                .visibility(playlist.isVisibility())
+                .author(playlist.getUser().getNickname())
+                .songs(songs)
+                .isBookmark(isBookmark)
+                .build();
     }
 }

@@ -18,6 +18,8 @@ import java.util.Optional;
 public class BookmarkService {
 
 	private final BookmarkRepository bookmarkRepository;
+	private final UserService userService;
+	private final PlaylistService playlistService;
 
 	@Transactional(readOnly = true)
 	public Optional<Bookmark> findAllByUserId(Long userId) {
@@ -46,5 +48,20 @@ public class BookmarkService {
 				.build();
 
 		bookmarkRepository.save(bookmark);
+	}
+
+	@Transactional
+	public void toggleBookmark(Long userId, Long playlistId) {
+		User user = userService.findUserOrElseThrow(userId);
+		Playlist playlist = playlistService.findPlaylist(playlistId);
+
+		findAllByUserId(userId).stream()
+				.filter(bookmark -> bookmark.getPlaylist().equals(playlist))
+				.findAny()
+				.ifPresentOrElse(bookmark -> {
+					deleteBookmark(bookmark.getId());
+				}, () -> {
+					addBookmark(user, playlist);
+				});
 	}
 }

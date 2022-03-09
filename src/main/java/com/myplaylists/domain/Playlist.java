@@ -15,12 +15,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.myplaylists.exception.ApiException;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 @Getter
 @Setter
@@ -49,6 +52,14 @@ public class Playlist extends BaseTime {
 
 	@Builder
 	public Playlist(User user, String title, String description, boolean visibility) {
+		if (!StringUtils.hasText(title)) {
+			throw new ApiException("플레이리스트 제목을 입력해주세요.");
+		}
+
+		if (title.length() > 30) {
+			throw new ApiException("플레이리스트 제목은 최대 30자까지 가능합니다.");
+		}
+
 		this.user = user;
 		this.title = title;
 		this.description = description;
@@ -59,6 +70,19 @@ public class Playlist extends BaseTime {
 		song.setPlaylist(this);
 		song.setUserId(this.getUser().getId());
 		this.songs.add(song);
+	}
+
+	public boolean isSameUser(Long userId) {
+		return getUser().getId() == userId;
+	}
+
+	/**
+	 * 해당 유저가 추가한 플레이리스트가 맞는지 검증
+	 */
+	public void validateUser(Long userId) {
+		if (!isSameUser(userId)) {
+			throw new ApiException("잘못된 요청입니다.");
+		}
 	}
 
 	@Override

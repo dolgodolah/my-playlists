@@ -2,6 +2,7 @@ package com.myplaylists.web;
 
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.PlaylistsDto;
 import com.myplaylists.service.PlaylistService;
 import com.myplaylists.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class UserWebController {
 
     @GetMapping("/me")
     public String myInfo(@Login LoginUser user, Model model, @PageableDefault(size=6, sort="updatedDate", direction= Sort.Direction.DESC) Pageable pageable) {
-        model.addAttribute("playlists", playlistService.findMyPlaylists(pageable, user.getId()));
+        model.addAttribute("playlists", PlaylistsDto.of(playlistService.findMyPlaylists(pageable, user.getId())));
         model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
         model.addAttribute("next", pageable.next().getPageNumber());
         return "user/myInfo";
