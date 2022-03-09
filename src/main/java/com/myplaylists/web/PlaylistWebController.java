@@ -3,6 +3,7 @@ package com.myplaylists.web;
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.PlaylistDto;
 import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -62,5 +65,15 @@ public class PlaylistWebController {
         model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
         model.addAttribute("next", pageable.next().getPageNumber());
         return "playlist/searchAll";
+    }
+
+    @GetMapping("/bookmark")
+    public String findBookmarkedPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable, Model model) {
+        List<PlaylistDto> bookmarkedPlaylists = playlistService.findBookmarkedPlaylists(user.getId(), pageable);
+        model.addAttribute("playlists", bookmarkedPlaylists);
+
+        model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+        model.addAttribute("next", pageable.next().getPageNumber());
+        return "playlist/bookmark";
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class SongController {
 
@@ -22,64 +22,23 @@ public class SongController {
     private final SongService songService;
     private final YoutubeService youtubeService;
 
-
-    @GetMapping("/playlist/{playlistId}/add")
-    public String viewSongSearchForm(@Login LoginUser user, @PathVariable("playlistId") Long playlistId, Model model) {
-        PlaylistDto playlist = playlistService.findPlaylist(user.getId(), playlistId);
-        model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getAuthor());
-        model.addAttribute("songs", playlist.getSongs());
-
-        return "playlist/addSong";
-    }
-
-    @ResponseBody
     @GetMapping("/youtube_search")
     public ResponseEntity<List<YoutubeForm>> youtubeSearch(@Login LoginUser user, @RequestParam String keyword) throws IOException, ParseException {
         return ResponseEntity.ok(youtubeService.search(keyword));
     }
 
-    @ResponseBody
     @PostMapping("/song")
     public ResponseEntity<SongResponseDto> addSong(@RequestBody SongRequestDto songRequestDto) {
         return ResponseEntity.ok(songService.addSong(songRequestDto));
     }
 
-    @GetMapping("/playlist/{playlistId}/{songId}")
-    public String playSong(@Login LoginUser user, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
-        PlaylistDto playlist = playlistService.findPlaylist(user.getId(), playlistId);
-        Song song = songService.getSong(songId);
-        model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getAuthor());
-        model.addAttribute("nowSong", song);
-        model.addAttribute("songs", playlist.getSongs());
-        model.addAttribute("isBookmark", playlist.isBookmark());
-
-        return "playlist/playSong";
+    @PutMapping("/song/{songId}")
+    public void updateSong(@RequestBody SongRequestDto songRequestDto, @PathVariable("songId") Long songId) {
+        songService.updateSong(songId, songRequestDto);
     }
 
-    @GetMapping("/playlist/{playlistId}/{songId}/update")
-    public String viewSongForm(@Login LoginUser user, Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
-        PlaylistDto playlist = playlistService.findPlaylist(user.getId(), playlistId);
-        Song song = songService.getSong(songId);
-        model.addAttribute("playlist", playlist);
-        model.addAttribute("author", playlist.getAuthor());
-        model.addAttribute("nowSong", song);
-        model.addAttribute("songs", playlist.getSongs());
-        model.addAttribute("isBookmark", playlist.isBookmark());
-
-        return "playlist/updateSong";
-    }
-
-    @PutMapping("/playlist/{playlistId}/{songId}/update")
-    public String updateSong(String title, String description, @PathVariable("songId") Long songId) {
-        songService.updateSong(songId, title, description);
-        return "redirect:/playlist/{playlistId}/{songId}";
-    }
-
-    @DeleteMapping("/playlist/{playlistId}/{songId}")
-    public String deleteSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
+    @DeleteMapping("/song/{songId}")
+    public void deleteSong(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
         songService.deleteSong(songId);
-        return "redirect:/playlist/{playlistId}";
     }
 }

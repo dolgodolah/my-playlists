@@ -2,21 +2,15 @@ package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.domain.User;
-import com.myplaylists.dto.PlaylistDto;
-import com.myplaylists.dto.PlaylistRequestDto;
-import com.myplaylists.dto.PlaylistsDto;
+import com.myplaylists.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.myplaylists.dto.LoginUser;
 import com.myplaylists.service.PlaylistService;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,22 +28,6 @@ public class PlaylistController {
 		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable));
 	}
 
-	@GetMapping("/bookmark")
-	public String findBookmarkedPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable, Model model) {
-		List<PlaylistDto> bookmarkedPlaylists = playlistService.findBookmarkedPlaylists(user.getId(), pageable);
-		model.addAttribute("playlists", bookmarkedPlaylists);
-
-		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-		model.addAttribute("next", pageable.next().getPageNumber());
-		return "playlist/bookmark";
-	}
-
-	@ResponseBody
-	@PostMapping("/playlist/{playlistId}/bookmark")
-	public void toggleBookmark(@PathVariable("playlistId") Long playlistId, User user) {
-		playlistService.toggleBookmark(user.getId(), playlistId);
-	}
-
 	@PostMapping("/playlist")
 	public ResponseEntity<PlaylistDto> addPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto, @Login LoginUser loginUser) {
 		return ResponseEntity.ok(playlistService.addPlaylist(loginUser, playlistRequestDto));
@@ -61,10 +39,12 @@ public class PlaylistController {
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
-	public String deletePlaylist(@PathVariable("playlistId") Long playlistId) {
+	public void deletePlaylist(@PathVariable("playlistId") Long playlistId) {
 		playlistService.deletePlaylist(playlistId);
-		return "redirect:/mylist";
 	}
 
-
+	@PostMapping("/playlist/{playlistId}/bookmark")
+	public void toggleBookmark(@PathVariable("playlistId") Long playlistId, User user) {
+		playlistService.toggleBookmark(user.getId(), playlistId);
+	}
 }
