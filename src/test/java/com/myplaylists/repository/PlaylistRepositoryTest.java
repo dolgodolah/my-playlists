@@ -37,7 +37,7 @@ class PlaylistRepositoryTest {
     private User user;
 
     @BeforeEach
-    void savePlaylist() {
+    void saveUser() {
         user = User.builder()
                 .name(USER_NAME)
                 .nickname(USER_NICKNAME)
