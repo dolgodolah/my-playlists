@@ -12,28 +12,28 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 public class PlaylistsDto {
-    private List<PlaylistDto> playlists;
+    private List<PlaylistResponseDto> playlists;
     private boolean isLast;
 
     public static PlaylistsDto of(Page<Playlist> playlists) {
-        List<PlaylistDto> playlistDtoList = playlists.stream()
-                .map(PlaylistDto::of)
+        List<PlaylistResponseDto> playlistResponseDtoList = playlists.stream()
+                .map(PlaylistResponseDto::of)
                 .collect(Collectors.toList());
 
         return PlaylistsDto.builder()
-                .playlists(playlistDtoList)
+                .playlists(playlistResponseDtoList)
                 .isLast(playlists.isLast())
                 .build();
     }
 
     public static PlaylistsDto of(BookmarksDto bookmarksDto) {
-        List<PlaylistDto> playlistDtoList = bookmarksDto.getBookmarks().stream()
+        List<PlaylistResponseDto> playlistResponseDtoList = bookmarksDto.getBookmarks().stream()
                 .map(Bookmark::getPlaylist)
-                .map(PlaylistDto::of)
+                .map(PlaylistResponseDto::of)
                 .collect(Collectors.toList());
 
         return PlaylistsDto.builder()
-                .playlists(playlistDtoList)
+                .playlists(playlistResponseDtoList)
                 .isLast(bookmarksDto.isLast())
                 .build();
     }

@@ -1,7 +1,6 @@
 package com.myplaylists.dto;
 
 import com.myplaylists.domain.Playlist;
-import com.myplaylists.domain.Song;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Builder
 @Getter
-public class PlaylistDto {
+public class PlaylistResponseDto {
     private Long playlistId;
     private String title;
     private String description;
@@ -21,12 +20,12 @@ public class PlaylistDto {
     private List<SongResponseDto> songs;
     private boolean isBookmark;
 
-    public static PlaylistDto of(Playlist playlist) {
+    public static PlaylistResponseDto of(Playlist playlist) {
         List<SongResponseDto> songs = playlist.getSongs().stream()
                 .map(SongResponseDto::of)
                 .collect(Collectors.toList());
 
-        return PlaylistDto.builder()
+        return PlaylistResponseDto.builder()
                 .playlistId(playlist.getId())
                 .title(playlist.getTitle())
                 .description(playlist.getDescription())
@@ -37,12 +36,12 @@ public class PlaylistDto {
                 .build();
     }
 
-    public static PlaylistDto of(Playlist playlist, boolean isBookmark) {
+    public static PlaylistResponseDto of(Playlist playlist, boolean isBookmark) {
         List<SongResponseDto> songs = playlist.getSongs().stream()
                 .map(SongResponseDto::of)
                 .collect(Collectors.toList());
 
-        return PlaylistDto.builder()
+        return PlaylistResponseDto.builder()
                 .playlistId(playlist.getId())
                 .title(playlist.getTitle())
                 .description(playlist.getDescription())

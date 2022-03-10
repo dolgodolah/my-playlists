@@ -1,10 +1,13 @@
 package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
-import com.myplaylists.domain.User;
+import com.myplaylists.domain.Playlist;
 import com.myplaylists.dto.*;
+import com.myplaylists.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +32,16 @@ public class PlaylistController {
 	}
 
 	@PostMapping("/playlist")
-	public ResponseEntity<PlaylistDto> addPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto, @Login LoginUser loginUser) {
-		return ResponseEntity.ok(playlistService.addPlaylist(loginUser, playlistRequestDto));
+	public ResponseEntity<PlaylistResponseDto> addPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto, @Login LoginUser loginUser) {
+		Playlist playlist = playlistService.addPlaylist(loginUser, playlistRequestDto);
+		return ResponseEntity.ok(PlaylistResponseDto.of(playlist));
 	}
 
 	@GetMapping("/playlist/{playlistId}")
-	public ResponseEntity<PlaylistDto> getPlaylistDetail(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
-		return ResponseEntity.ok(playlistService.findPlaylist(user.getId(), playlistId));
+	public ResponseEntity<PlaylistResponseDto> getPlaylistDetail(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
+		Playlist playlist = playlistService.findPlaylist(playlistId);
+		boolean isBookmark = bookmarkService.checkBookmark(user.getId(), playlistId);
+		return ResponseEntity.ok(PlaylistResponseDto.of(playlist, isBookmark));
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
