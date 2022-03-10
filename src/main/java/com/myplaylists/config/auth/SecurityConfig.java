@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.and()
 					.authorizeRequests()
 					.antMatchers("/login", "/assets/**", "/swagger-resources/**", "/swagger-ui/**").permitAll()
-					.anyRequest().authenticated()
+//					.anyRequest().authenticated()
 				.and()
 					.logout()
 					.logoutSuccessUrl("/")
