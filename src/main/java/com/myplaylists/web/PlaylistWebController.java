@@ -65,7 +65,7 @@ public class PlaylistWebController {
         return "playlist/searchAll";
     }
 
-    @GetMapping("/bookmark")
+    @GetMapping("/bookmark/q")
     public String findBookmarkedPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable, Model model) {
         Page<Bookmark> bookmarkedPlaylists = bookmarkService.findByUserId(user.getId(), pageable);
         model.addAttribute("playlists", bookmarkedPlaylists);
