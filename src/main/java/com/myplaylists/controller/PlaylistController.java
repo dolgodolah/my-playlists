@@ -20,15 +20,18 @@ import com.myplaylists.service.PlaylistService;
 public class PlaylistController {
 	
 	private final PlaylistService playlistService;
+	private final BookmarkService bookmarkService;
 
 	@GetMapping("/my-playlists")
 	public ResponseEntity<PlaylistsDto> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6) Pageable pageable) {
-		return ResponseEntity.ok(playlistService.findMyPlaylists(pageable, user.getId()));
+		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, user.getId());
+		return ResponseEntity.ok(PlaylistsDto.of(playlists));
 	}
 
 	@GetMapping("/all-playlists")
 	public ResponseEntity<PlaylistsDto> getAllPlaylists(@PageableDefault(size = 6) Pageable pageable) {
-		return ResponseEntity.ok(playlistService.findAllPlaylists(pageable));
+		Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
+		return ResponseEntity.ok(PlaylistsDto.of(playlists));
 	}
 
 	@PostMapping("/playlist")
@@ -45,7 +48,8 @@ public class PlaylistController {
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
-		playlistService.deletePlaylist(playlistId);
+	public void deletePlaylist(@Login LoginUser user, @PathVariable("playlistId") Long playlistId) {
+		playlistService.deletePlaylist(user, playlistId);
 	}
 
 	@GetMapping("/bookmark")
@@ -65,7 +69,7 @@ public class PlaylistController {
 		return ResponseEntity.ok(PlaylistsDto.of(playlists));
 	}
 
-		playlistService.toggleBookmark(user.getId(), playlistId);
+	@GetMapping("/playlist/search-all")
 	public ResponseEntity<PlaylistsDto> searchAllPlaylists(String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.searchAll(pageable, keyword);
 		return ResponseEntity.ok(PlaylistsDto.of(playlists));
