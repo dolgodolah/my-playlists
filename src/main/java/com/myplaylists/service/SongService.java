@@ -12,6 +12,8 @@ import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
 import com.myplaylists.repository.SongRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SongService {
@@ -42,11 +44,15 @@ public class SongService {
 		songRepository.save(song);
 	}
 
-
 	@Transactional
 	public void deleteSong(LoginUser user, Long songId) {
 		Song song = getSong(songId);
 		song.validateUser(user.getUserId());
 		songRepository.delete(song);
+	}
+
+	public List<Song> findSongsByPlaylistId(Long playlistId) {
+		Playlist playlist = playlistService.findPlaylist(playlistId);
+		return songRepository.findSongsByPlaylist(playlist);
 	}
 }

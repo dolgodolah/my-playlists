@@ -39,4 +39,10 @@ public class SongController {
     public void deleteSong(@Login LoginUser user, @PathVariable("songId") Long songId) {
         songService.deleteSong(user, songId);
     }
+
+    @GetMapping("/songs")
+    public ResponseEntity<SongsDto> getSongsByPlaylistId(@Login LoginUser user, @RequestParam Long playlistId) {
+        List<Song> songs = songService.findSongsByPlaylistId(playlistId);
+        return ResponseEntity.ok(SongsDto.of(songs));
+    }
 }
