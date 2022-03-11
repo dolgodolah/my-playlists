@@ -38,7 +38,7 @@ public class SongService {
 	@Transactional
 	public void updateSong(LoginUser user, SongRequestDto songRequestDto, Long songId) {
 		Song song = getSong(songId);
-		song.updateSongDetail(songRequestDto, user.getId());
+		song.updateSongDetail(songRequestDto, user.getUserId());
 		songRepository.save(song);
 	}
 
@@ -46,7 +46,7 @@ public class SongService {
 	@Transactional
 	public void deleteSong(LoginUser user, Long songId) {
 		Song song = getSong(songId);
-		song.validateUser(user.getId());
+		song.validateUser(user.getUserId());
 		songRepository.delete(song);
 	}
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.myplaylists.dto.LoginUser;
 import com.myplaylists.dto.UserDto;
-import com.myplaylists.service.PlaylistService;
 import com.myplaylists.service.UserService;
 
 @RestController
@@ -18,11 +17,11 @@ public class UserController {
 
 	@GetMapping("/my-info")
 	public ResponseEntity<UserDto> getMyInfo(@Login LoginUser user) {
-		return ResponseEntity.ok(userService.findByUserId(user.getId()));
+		return ResponseEntity.ok(UserDto.of(userService.findByUserId(user.getUserId())));
 	}
 
 	@PostMapping("/my-info")
 	public ResponseEntity<UserDto> updateMyInfo(@Login LoginUser user, @RequestBody UserDto userDto) {
-		return ResponseEntity.ok(userService.updateUserInfo(user.getId(), userDto));
+		return ResponseEntity.ok(userService.updateUserInfo(user.getUserId(), userDto));
 	}
 }

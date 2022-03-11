@@ -83,7 +83,7 @@ class PlaylistRepositoryTest {
                         .build());
 
 
-        Optional<Playlist> result = playlistRepository.findByTitleContainingAndUserId(FIRST_PAGE, input, user.getId())
+        Optional<Playlist> result = playlistRepository.findByTitleContainingAndUser(FIRST_PAGE, input, user)
                 .stream().findAny();
 
         assertThat(result).isNotEmpty();

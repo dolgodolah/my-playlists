@@ -68,12 +68,12 @@ public class Playlist extends BaseTime {
 
 	public void addSong(Song song) {
 		song.setPlaylist(this);
-		song.setUserId(this.getUser().getId());
+		song.setUserId(this.getUser().getUserId());
 		this.songs.add(song);
 	}
 
 	public boolean isSameUser(Long userId) {
-		return getUser().getId() == userId;
+		return getUser().getUserId() == userId;
 	}
 
 	/**

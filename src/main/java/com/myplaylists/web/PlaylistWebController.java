@@ -44,7 +44,7 @@ public class PlaylistWebController {
 
     @GetMapping("/search")
     public String viewMyPlaylistSearchResult(@Login LoginUser user, Model model, String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Playlist> playlists = playlistService.searchMyPlaylists(pageable, keyword, user.getId());
+        Page<Playlist> playlists = playlistService.searchMyPlaylists(pageable, keyword, user.getUserId());
 
         model.addAttribute("playlists", playlists);
         model.addAttribute("isFirst", playlists.isFirst());
@@ -67,7 +67,7 @@ public class PlaylistWebController {
 
     @GetMapping("/bookmark/q")
     public String findBookmarkedPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable, Model model) {
-        Page<Bookmark> bookmarkedPlaylists = bookmarkService.findByUserId(user.getId(), pageable);
+        Page<Bookmark> bookmarkedPlaylists = bookmarkService.findByUserId(user.getUserId(), pageable);
         model.addAttribute("playlists", bookmarkedPlaylists);
 
         model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());

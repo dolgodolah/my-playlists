@@ -22,7 +22,7 @@ public class PlaylistService {
 
 	@Transactional
 	public Playlist addPlaylist(LoginUser loginUser, PlaylistRequestDto playlistRequestDto) {
-		User user = userService.findUserOrElseThrow(loginUser.getId());
+		User user = userService.findByUserId(loginUser.getUserId());
 		Playlist playlist = playlistRequestDto.toEntity(user);
 		return playlistRepository.save(playlist);
 
@@ -30,7 +30,7 @@ public class PlaylistService {
 
 	@Transactional(readOnly = true)
 	public Page<Playlist> findMyPlaylists(Pageable pageable, Long userId) {
-		User user = userService.findUserOrElseThrow(userId);
+		User user = userService.findByUserId(userId);
 		return playlistRepository.findAllByUserOrderByUpdatedDateDesc(pageable, user);
 	}
 
@@ -42,13 +42,14 @@ public class PlaylistService {
 	@Transactional
 	public void deletePlaylist(LoginUser user, Long playlistId) {
 		Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new ApiException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다."));
-		playlist.validateUser(user.getId());
+		playlist.validateUser(user.getUserId());
 		playlistRepository.delete(playlist);
 	}
 
 	@Transactional(readOnly = true)
 	public Page<Playlist> searchMyPlaylists(Pageable pageable, String keyword, Long userId){
-		return playlistRepository.findByTitleContainingAndUserId(pageable, keyword, userId);
+		User user = userService.findByUserId(userId);
+		return playlistRepository.findByTitleContainingAndUser(pageable, keyword, user);
 	}
 
 	@Transactional(readOnly = true)

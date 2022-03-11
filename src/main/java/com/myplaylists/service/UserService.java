@@ -17,12 +17,7 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	@Transactional(readOnly = true)
-	public UserDto findByUserId(Long userId) {
-		return UserDto.of(findUserOrElseThrow(userId));
-	}
-
-	@Transactional(readOnly = true)
-	public User findUserOrElseThrow(Long userId) {
+	public User findByUserId(Long userId) {
 		return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 사용자는 존재하지 않는 사용자입니다."));
 	}
 

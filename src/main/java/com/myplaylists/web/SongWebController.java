@@ -39,7 +39,7 @@ public class SongWebController {
         model.addAttribute("author", playlist.getUser().getNickname());
         model.addAttribute("nowSong", song);
         model.addAttribute("songs", playlist.getSongs());
-        model.addAttribute("isBookmark", bookmarkService.checkBookmark(user.getId(), playlistId));
+        model.addAttribute("isBookmark", bookmarkService.checkBookmark(user.getUserId(), playlistId));
 
         return "playlist/playSong";
     }
@@ -52,7 +52,7 @@ public class SongWebController {
         model.addAttribute("author", playlist.getUser().getNickname());
         model.addAttribute("nowSong", song);
         model.addAttribute("songs", playlist.getSongs());
-        model.addAttribute("isBookmark",bookmarkService.checkBookmark(user.getId(), playlistId));
+        model.addAttribute("isBookmark",bookmarkService.checkBookmark(user.getUserId(), playlistId));
 
         return "playlist/updateSong";
     }

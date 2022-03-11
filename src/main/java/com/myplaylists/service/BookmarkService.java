@@ -23,12 +23,14 @@ public class BookmarkService {
 
 	@Transactional(readOnly = true)
 	public Optional<Bookmark> findAllByUserId(Long userId) {
-		return bookmarkRepository.findAllByUserId(userId);
+		User user = userService.findByUserId(userId);
+		return bookmarkRepository.findAllByUser(user);
 	}
 
 	@Transactional(readOnly = true)
 	public Page<Bookmark> findByUserId(Long userId, Pageable pageable) {
-		return bookmarkRepository.findByUserId(pageable, userId);
+		User user = userService.findByUserId(userId);
+		return bookmarkRepository.findByUser(pageable, user);
 	}
 
 	@Transactional
@@ -38,7 +40,8 @@ public class BookmarkService {
 
 	@Transactional(readOnly = true)
 	public boolean checkBookmark(Long userId, Long playlistId) {
-		return bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId).isPresent();
+		User user = userService.findByUserId(userId);
+		return bookmarkRepository.findByUserAndPlaylistId(user, playlistId).isPresent();
 	}
 
 	public void addBookmark(User user, Playlist playlist) {
@@ -52,7 +55,7 @@ public class BookmarkService {
 
 	@Transactional
 	public void toggleBookmark(Long userId, Long playlistId) {
-		User user = userService.findUserOrElseThrow(userId);
+		User user = userService.findByUserId(userId);
 		Playlist playlist = playlistService.findPlaylist(playlistId);
 
 		findAllByUserId(userId).stream()

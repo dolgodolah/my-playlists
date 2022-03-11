@@ -9,9 +9,9 @@ import com.myplaylists.domain.User;
 
 @Getter
 public class LoginUser implements Serializable {
-	private Long id;
+	private Long userId;
 
     public LoginUser(User user) {
-    	this.id = user.getId();
+    	this.userId = user.getUserId();
     }
 }
