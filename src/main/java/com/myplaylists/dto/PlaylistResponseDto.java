@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,14 +18,9 @@ public class PlaylistResponseDto {
     private LocalDateTime updatedDate;
     private boolean visibility;
     private String author;
-    private List<SongResponseDto> songs;
     private boolean isBookmark;
 
     public static PlaylistResponseDto of(Playlist playlist) {
-        List<SongResponseDto> songs = playlist.getSongs().stream()
-                .map(SongResponseDto::of)
-                .collect(Collectors.toList());
-
         return PlaylistResponseDto.builder()
                 .playlistId(playlist.getId())
                 .title(playlist.getTitle())
@@ -32,15 +28,10 @@ public class PlaylistResponseDto {
                 .updatedDate(playlist.getUpdatedDate())
                 .visibility(playlist.isVisibility())
                 .author(playlist.getUser().getNickname())
-                .songs(songs)
                 .build();
     }
 
     public static PlaylistResponseDto of(Playlist playlist, boolean isBookmark) {
-        List<SongResponseDto> songs = playlist.getSongs().stream()
-                .map(SongResponseDto::of)
-                .collect(Collectors.toList());
-
         return PlaylistResponseDto.builder()
                 .playlistId(playlist.getId())
                 .title(playlist.getTitle())
@@ -48,7 +39,6 @@ public class PlaylistResponseDto {
                 .updatedDate(playlist.getUpdatedDate())
                 .visibility(playlist.isVisibility())
                 .author(playlist.getUser().getNickname())
-                .songs(songs)
                 .isBookmark(isBookmark)
                 .build();
     }
