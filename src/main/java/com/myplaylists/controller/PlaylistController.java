@@ -24,12 +24,6 @@ public class PlaylistController {
 	private final PlaylistService playlistService;
 	private final BookmarkService bookmarkService;
 
-	@GetMapping("/api/hello")
-	public HashMap hello() {
-		HashMap result = new HashMap();
-		result.put("message", "hi!");
-		return result;
-	}
 	@GetMapping("/my-playlists")
 	public ResponseEntity<PlaylistsDto> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6) Pageable pageable) {
 		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, user.getUserId());

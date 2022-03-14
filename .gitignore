@@ -39,3 +39,4 @@ out/
 .vscode/
 
 /frontend/node_modules/
+/frontend/.env

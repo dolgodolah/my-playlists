@@ -1,7 +1,33 @@
 import { Icon } from "@iconify/react";
+import {useEffect} from "react";
 
 const Login = () => {
-  const onSocialClick = () => {};
+  useEffect(() => {
+    window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY)
+  }, []);
+
+  const onSocialClick = () => {
+    window.Kakao.Auth.login({
+      success: function (result: any) {
+        fetch("/login/kakao", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            accessToken: result.access_token,
+          }),
+        })
+          .then(res => {
+              console.log(res)
+          //  메인페이지 redirect
+          })
+      },
+      fail: function (error: any) {
+        console.log(error);
+      }
+    });
+  };
   return (
     <>
       <div className="login__container">
