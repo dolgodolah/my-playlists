@@ -9,7 +9,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.auth.LoginUser;
 
 import lombok.RequiredArgsConstructor;
 

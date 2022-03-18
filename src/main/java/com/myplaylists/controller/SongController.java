@@ -3,6 +3,7 @@ package com.myplaylists.controller;
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.domain.Song;
 import com.myplaylists.dto.*;
+import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.service.*;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;

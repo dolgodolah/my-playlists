@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.UserDto;
 import com.myplaylists.service.UserService;
 

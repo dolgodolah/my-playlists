@@ -1,7 +1,7 @@
 package com.myplaylists.service;
 
 
-import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.SongRequestDto;
 import com.myplaylists.exception.ApiException;
 import lombok.RequiredArgsConstructor;

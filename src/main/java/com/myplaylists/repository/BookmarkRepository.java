@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.myplaylists.domain.Bookmark;
 
-public interface BookmarkRepository extends JpaRepository<Bookmark, Long>{
+public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 	Page<Bookmark> findByUser(Pageable pageable, User user);
 	Optional<Bookmark> findByUserAndPlaylistId(User user, Long PlaylistId);
 	Optional<Bookmark> findAllByUser(User user);

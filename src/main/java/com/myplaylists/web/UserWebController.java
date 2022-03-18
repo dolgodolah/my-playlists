@@ -1,10 +1,9 @@
 package com.myplaylists.web;
 
 import com.myplaylists.config.auth.Login;
-import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.PlaylistsDto;
 import com.myplaylists.service.PlaylistService;
-import com.myplaylists.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

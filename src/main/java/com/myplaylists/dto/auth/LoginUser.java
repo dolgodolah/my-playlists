@@ -1,4 +1,4 @@
-package com.myplaylists.dto;
+package com.myplaylists.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;

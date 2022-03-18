@@ -3,7 +3,7 @@ package com.myplaylists.web;
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.domain.Bookmark;
 import com.myplaylists.domain.Playlist;
-import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
 import lombok.RequiredArgsConstructor;

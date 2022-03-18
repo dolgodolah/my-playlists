@@ -3,7 +3,7 @@ package com.myplaylists.web;
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
-import com.myplaylists.dto.LoginUser;
+import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.service.BookmarkService;
 import com.myplaylists.service.PlaylistService;
 import com.myplaylists.service.SongService;
@@ -13,9 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
