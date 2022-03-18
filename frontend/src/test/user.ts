@@ -1,5 +1,3 @@
-export const isLoggedIn = true;
-
 export const user = {
   name: "홍길동",
   email: "qwer@qwer.qwe",

@@ -1,26 +1,38 @@
 import { Icon } from "@iconify/react";
 import { useEffect } from "react";
+import axios from "axios";
 
 const Login = () => {
   useEffect(() => {
     window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
   }, []);
 
+  const login = (response: any) => {
+    axios.post("/login/kakao", {
+      email: response.kakao_account.email,
+      name: response.kakao_account.profile.nickname,
+      attributes: response,
+    })
+        .then(function (response) {
+          window.location.href = "/"
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+  }
+
   const onSocialClick = () => {
     window.Kakao.Auth.login({
-      success: function (result: any) {
-        fetch("/login/kakao", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      success: function () {
+        window.Kakao.API.request({
+          url: "/v2/user/me",
+          success: function (response: any) {
+            login(response);
           },
-          body: JSON.stringify({
-            accessToken: result.access_token,
-          }),
-        }).then((res) => {
-          console.log(res);
-          //  메인페이지 redirect
-        });
+          fail: function (response: any) {
+            console.log(response)
+          }
+        })
       },
       fail: function (error: any) {
         console.log(error);
