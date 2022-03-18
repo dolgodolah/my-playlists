@@ -1,9 +1,8 @@
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
+import {PlaylistProps} from "../shared/Props";
 
-interface PlaylistProps {
-  playlist: Record<string, any>;
-}
+
 
 const Playlist = ({ playlist }: PlaylistProps) => {
   return (

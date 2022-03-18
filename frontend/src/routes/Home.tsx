@@ -3,7 +3,7 @@ import EditBox from "../components/EditBox";
 import PlayBox from "../components/PlayBox";
 import Playlist from "../components/Playlist";
 import PlaylistCategory from "../components/PlaylistCategory";
-import { PlaylistResponse } from "../test/user";
+import { playlists } from "../test/user";
 
 const Home = () => {
   const { pathname } = useLocation();
@@ -17,9 +17,9 @@ const Home = () => {
       </div>
       <div className="play-box__container--left">
         <div className="my-playlists__container">
-          {PlaylistResponse.map((playlist) => (
+          { playlists.map((playlist) => (
             <Playlist key={playlist.playlistId} playlist={playlist} />
-          ))}
+          )) }
         </div>
       </div>
       <div className="play-box__container--right"></div>

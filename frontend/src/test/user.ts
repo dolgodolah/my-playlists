@@ -1,12 +1,12 @@
 export const isLoggedIn = true;
 
-export const userObj = {
-  name: "hoon",
-  profileImage:
-    "https://firebasestorage.googleapis.com/v0/b/myplaylist-783c8.appspot.com/o/KakaoTalk_20210927_025101163.jpg?alt=media&token=4f3c0769-6a1b-40ee-a787-a4fd7e11487f",
+export const user = {
+  name: "홍길동",
+  email: "qwer@qwer.qwe",
+  nickname: "hoon",
 };
 
-export const PlaylistResponse = [
+export const playlists = [
   {
     author: "hoon",
     bookmark: false,
