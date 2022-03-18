@@ -12,16 +12,12 @@
 @import "./components/playBox.scss";
 @import "./components/playlist.scss";
 @import "./components/playlistCategory.scss";
-@import "./components/editBox.scss";
+//@import "./components/editBox.scss";
 
 // GlobalStyles
 body {
   width: 1200px;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+  margin: 50px auto 0 auto;
   background-color: #2a373a;
 }
 

@@ -1,0 +1,16 @@
+.my-playlists__container {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 45px 55px 45px 45px;
+  overflow: auto;
+}
+
+.my-playlists__container::-webkit-scrollbar {
+  width: 5px;
+}
+.my-playlists__container::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+}

@@ -1,0 +1,30 @@
+.category__container {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-top: 5px;
+}
+
+.category__link {
+  width: 150px;
+  font-size: 30px;
+  font-weight: 300;
+  color: white;
+  opacity: 0.2;
+}
+
+.isBright {
+  animation: bright 0.8s ease-in forwards;
+  @keyframes bright {
+    from {
+      opacity: 0.2;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

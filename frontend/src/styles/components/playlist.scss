@@ -1,0 +1,103 @@
+.playlist__container {
+  position: relative;
+  width: 300px;
+  height: 81px;
+  display: grid;
+  grid-template-columns: 230px 70px 300px;
+  overflow: hidden;
+}
+
+.playlist__container:hover {
+  .playlist__container--left {
+    animation: disappear 0.2s linear forwards;
+    @keyframes disappear {
+      to {
+        opacity: 0;
+      }
+    }
+  }
+  .playlist__container--right {
+    @include mixin-background-color($main-lighten-color, 0);
+  }
+  .playlist__container--right span,
+  div {
+    animation: playlist-right-content-translateX 0.4s linear forwards;
+    @keyframes playlist-right-content-translateX {
+      from {
+        z-index: 11;
+      }
+      to {
+        z-index: 11;
+        transform: translateX(-63px);
+      }
+    }
+  }
+  .hidden-background__container {
+    animation: hidden-content-translateX 0.4s linear forwards;
+    @keyframes hidden-content-translateX {
+      to {
+        transform: translateX(-300px);
+      }
+    }
+  }
+}
+
+.playlist__container--left {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-right: 10px;
+  .playlist__span--title {
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 16px;
+    overflow: hidden;
+  }
+  div {
+    margin-top: 3px;
+  }
+  .playlist__span--author,
+  .playlist__span--updatedDate {
+    font-size: 14px;
+    color: darken(white, 30%);
+  }
+  .playlist__span--author {
+    margin-top: 7px;
+    margin-left: 7px;
+  }
+}
+
+.playlist__container--right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @include mixin-background-color(black, 0.6);
+  span,
+  .playlist-icon__container {
+    color: white;
+  }
+  span {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .playlist-icon__container {
+    font-size: 20px;
+  }
+}
+
+.hidden-background__container {
+  width: 300px;
+  height: 81px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 22px;
+  @include mixin-background-color(black, 0.6);
+  span {
+    color: white;
+    font-size: 30px;
+    font-weight: 300;
+  }
+}

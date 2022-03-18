@@ -1,0 +1,105 @@
+.playlist__container {
+  position: relative;
+  width: 185px;
+  height: 140px;
+  display: grid;
+  grid-template-columns: 140px 45px 185px;
+  margin: 0px 40px 50px 40px;
+  border-radius: 15px;
+  @include mixin-background-color($main-lighten-color, 0.5);
+  box-shadow: 10px 10px 20px $main-shadow-color;
+  overflow: hidden;
+}
+
+.playlist__container:hover {
+  .playlist__container--left {
+    animation: disappear 0.2s linear forwards;
+    @keyframes disappear {
+      to {
+        opacity: 0;
+      }
+    }
+  }
+  .playlist__container--right {
+    @include mixin-background-color($main-lighten-color, 0);
+  }
+  .playlist__container--right span,
+  div {
+    animation: playlist-right-content-translateX 0.4s linear forwards;
+    @keyframes playlist-right-content-translateX {
+      from {
+        z-index: 11;
+      }
+      to {
+        z-index: 11;
+        transform: translateX(-45px);
+      }
+    }
+  }
+  .hidden-background__container {
+    animation: hidden-content-translateX 0.4s linear forwards;
+    @keyframes hidden-content-translateX {
+      to {
+        transform: translateX(-185px);
+      }
+    }
+  }
+}
+
+.playlist__container--left {
+  display: grid;
+  grid-template-rows: 75px 25px 20px;
+  padding: 15px;
+  padding-right: 10px;
+  .playlist__span--title {
+    color: white;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 24px;
+    overflow: hidden;
+  }
+  .playlist__span--author,
+  .playlist__span--updatedDate {
+    font-size: 14px;
+    color: darken(white, 30%);
+  }
+  .playlist__span--author {
+    margin-top: 7px;
+  }
+}
+
+.playlist__container--right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @include mixin-background-color(black, 0.6);
+  border-radius: 0px 15px 15px 0px;
+  span,
+  .playlist-icon__container {
+    color: white;
+  }
+  span {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .playlist-icon__container {
+    font-size: 23px;
+  }
+}
+
+.hidden-background__container {
+  width: 185px;
+  height: 140px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 50px;
+  border-radius: 15px;
+  @include mixin-background-color(black, 0.6);
+  span {
+    color: white;
+    font-size: 45px;
+    font-weight: 300;
+  }
+}

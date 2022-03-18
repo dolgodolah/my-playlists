@@ -1,0 +1,48 @@
+.play-box__container {
+  position: relative;
+  // border: solid tomato 1px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 100px 550px 50px;
+  grid-template-areas:
+    "header-left   header-right"
+    "content-left  content-right"
+    "footer  content-right";
+}
+
+.play-box__container .header__container {
+  grid-area: header-left;
+  @include mixin-background-color($main-background-color, 0.5);
+}
+
+.play-box__container .play-box__container--top {
+  grid-area: header-right;
+  @include mixin-background-color($main-background-color, 0.1);
+  border-bottom: 2px solid rgba($color: #fff, $alpha: 0.5);
+}
+
+.play-box__container .play-box__container--left {
+  grid-area: content-left;
+  @include mixin-background-color($main-background-color, 0.5);
+}
+
+.play-box__container .play-box__container--right {
+  grid-area: content-right;
+  @include mixin-background-color($main-background-color, 0.7);
+}
+.play-box__container .profile-menu__container--footer {
+  grid-area: footer;
+  @include mixin-background-color($main-background-color, 0.5);
+}
+
+.play-box__container--top {
+  position: relative;
+  padding: 25px;
+}
+
+.page-title__span {
+  color: white;
+  font-size: 22px;
+  font-weight: 300;
+}

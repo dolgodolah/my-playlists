@@ -1,0 +1,32 @@
+.category__container {
+  width: 55%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin-left: 5px;
+}
+
+.category__link {
+  font-size: 25px;
+  font-weight: 400;
+  color: white;
+  opacity: 0.2;
+  &:hover {
+    transform: scale(105%);
+  }
+}
+
+.isBright {
+  animation: bright 0.8s ease-in forwards;
+  @keyframes bright {
+    from {
+      opacity: 0.2;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
