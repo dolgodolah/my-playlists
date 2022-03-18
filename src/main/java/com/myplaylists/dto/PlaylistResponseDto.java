@@ -19,6 +19,7 @@ public class PlaylistResponseDto {
     private boolean visibility;
     private String author;
     private boolean isBookmark;
+    private int songCount;
 
     public static PlaylistResponseDto of(Playlist playlist) {
         return PlaylistResponseDto.builder()
@@ -28,6 +29,7 @@ public class PlaylistResponseDto {
                 .updatedDate(playlist.getUpdatedDate())
                 .visibility(playlist.isVisibility())
                 .author(playlist.getUser().getNickname())
+                .songCount(playlist.getSongCount())
                 .build();
     }
 
@@ -39,6 +41,7 @@ public class PlaylistResponseDto {
                 .updatedDate(playlist.getUpdatedDate())
                 .visibility(playlist.isVisibility())
                 .author(playlist.getUser().getNickname())
+                .songCount(playlist.getSongCount())
                 .isBookmark(isBookmark)
                 .build();
     }

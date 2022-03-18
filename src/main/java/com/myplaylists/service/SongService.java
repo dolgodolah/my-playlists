@@ -48,6 +48,9 @@ public class SongService {
 	public void deleteSong(LoginUser user, Long songId) {
 		Song song = getSong(songId);
 		song.validateUser(user.getUserId());
+
+		Playlist playlist = song.getPlaylist();
+		playlist.deleteSong(song);
 		songRepository.delete(song);
 	}
 

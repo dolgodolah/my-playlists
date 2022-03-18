@@ -47,8 +47,7 @@ public class Playlist extends BaseTime {
 	@Column(nullable = false)
 	private boolean visibility;
 
-	@OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL)
-	private List<Song> songs = new ArrayList<>();
+	private int songCount;
 
 	@Builder
 	public Playlist(User user, String title, String description, boolean visibility) {
@@ -64,12 +63,19 @@ public class Playlist extends BaseTime {
 		this.title = title;
 		this.description = description;
 		this.visibility = visibility;
+		this.songCount = 0;
 	}
 
 	public void addSong(Song song) {
 		song.setPlaylist(this);
 		song.setUserId(this.getUser().getUserId());
-		this.songs.add(song);
+		songCount++;
+	}
+
+	public void deleteSong(Song song) {
+		song.setPlaylist(null);
+		song.setUserId(null);
+		songCount--;
 	}
 
 	public boolean isSameUser(Long userId) {

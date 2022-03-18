@@ -13,6 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class SongWebController {
@@ -26,7 +30,7 @@ public class SongWebController {
         Playlist playlist = playlistService.findPlaylist(playlistId);
         model.addAttribute("playlist", playlist);
         model.addAttribute("author", playlist.getUser().getNickname());
-        model.addAttribute("songs", playlist.getSongs());
+        model.addAttribute("songs", Collections.emptyList());
 
         return "playlist/addSong";
     }
@@ -38,7 +42,7 @@ public class SongWebController {
         model.addAttribute("playlist", playlist);
         model.addAttribute("author", playlist.getUser().getNickname());
         model.addAttribute("nowSong", song);
-        model.addAttribute("songs", playlist.getSongs());
+        model.addAttribute("songs", Collections.emptyList());
         model.addAttribute("isBookmark", bookmarkService.checkBookmark(user.getUserId(), playlistId));
 
         return "playlist/playSong";
@@ -51,7 +55,7 @@ public class SongWebController {
         model.addAttribute("playlist", playlist);
         model.addAttribute("author", playlist.getUser().getNickname());
         model.addAttribute("nowSong", song);
-        model.addAttribute("songs", playlist.getSongs());
+        model.addAttribute("songs", Collections.emptyList());
         model.addAttribute("isBookmark",bookmarkService.checkBookmark(user.getUserId(), playlistId));
 
         return "playlist/updateSong";

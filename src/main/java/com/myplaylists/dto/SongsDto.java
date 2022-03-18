@@ -13,16 +13,6 @@ import java.util.stream.Collectors;
 public class SongsDto {
     private List<SongResponseDto> songs;
 
-    public static SongsDto of(Playlist playlist) {
-        List<SongResponseDto> songs = playlist.getSongs().stream()
-                .map(SongResponseDto::of)
-                .collect(Collectors.toList());
-
-        return SongsDto.builder()
-                .songs(songs)
-                .build();
-    }
-
     public static SongsDto of(List<Song> songs) {
         List<SongResponseDto> songsDto = songs.stream()
                 .map(SongResponseDto::of)
