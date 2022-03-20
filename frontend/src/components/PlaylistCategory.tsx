@@ -2,27 +2,31 @@ import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { PlaylistCategoryProps } from "../shared/Props";
 
-const PlaylistCategory = ({ pathname }: PlaylistCategoryProps) => {
+const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
   return (
     <div className="category__container">
       <Link
         to="/"
-        className={classNames("category__link", { isBright: pathname === "/" })}
+        className={classNames("category__link", {
+          isBright: page === "/"
+        })}
       >
         내 플레이리스트
       </Link>
       <Link
-        to="/all"
+        to="/"
+        state="allPlaylist"
         className={classNames("category__link", {
-          isBright: pathname === "/all",
+          isBright: page === "/allPlaylist",
         })}
       >
         모든 플레이리스트
       </Link>
       <Link
-        to="/bookmarks"
+        to="/"
+        state="bookmarks"
         className={classNames("category__link", {
-          isBright: pathname === "/bookmarks",
+          isBright: page === "/bookmarks",
         })}
       >
         즐겨찾기

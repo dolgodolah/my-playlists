@@ -6,14 +6,7 @@ import {PlaylistProps} from "../shared/Props";
 
 const Playlist = ({ playlist }: PlaylistProps) => {
   return (
-    <Link
-      to={`/playlist`}
-      state={{
-        path: "/playlistDetail",
-        pid: `${playlist.playlistId}`,
-      }}
-      className="playlist__link"
-    >
+    <Link to="/playlist" state="showSongs" className="playlist__link">
       <div className="playlist__container">
         <div className="playlist__container--left">
           <span className="playlist__span--title">{playlist.title}</span>

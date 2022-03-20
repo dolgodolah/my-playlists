@@ -23,7 +23,7 @@
 src
 ├── components
 ├── routes
-│   └── Home.tsx
+│   └── home.tsx
 ├── shared
 ├── store
 ├── styles

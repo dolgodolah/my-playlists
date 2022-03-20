@@ -1,24 +1,21 @@
 export interface PlayBoxProps {
-  children: React.ReactNode;
+  page: string
+  songs?: Array<SongProps>
+  playlists?: Array<PlaylistProps>
 }
 
 export interface PlaylistCategoryProps {
-  pathname: string;
+  page: string;
 }
 
 export interface EditBoxProps {
-  pathname: string;
+  page: string;
 }
 
 export interface PlaylistProps {
   playlist: Record<string, any>;
 }
 
-export interface PlaylistDetailProps {
-  playlistId: string;
-}
-
 export interface SongProps {
   song: Record<string, any>;
-  playlistId: string;
 }
