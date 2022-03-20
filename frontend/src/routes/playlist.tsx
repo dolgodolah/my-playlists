@@ -1,23 +1,58 @@
-import {useLocation} from "react-router-dom";
-import {PlaySong, SongBox} from "../components/PlayBox";
-import PlaylistCategory from "../components/PlaylistCategory";
-import EditBox from "../components/EditBox";
-import Song from "../components/Song"
-import {songs} from "../test/user";
+import { useLocation } from "react-router-dom";
+import PlayBox from "../components/PlayBox";
+import Song from "../components/Song";
+import { songs } from "../test/user";
 
 const Playlist = () => {
   const page = useLocation().state as string;
-
   const Render = () => {
     switch (page) {
       // 선택 플레이리스트 상세화면
       case "showSongs": {
-        return <SongBox page={page} songs={songs} />;
+        return (
+          <PlayBox
+            page={page}
+            top={
+              <span className="page-title__span">
+                {/*  플리 title, description */}
+              </span>
+            }
+            left={
+              <div className="my-playlists__container">
+                {songs?.map((song, index) => (
+                  <Song key={index} song={song} />
+                ))}
+              </div>
+            }
+            right={null}
+          />
+        );
       }
 
       // 선택 플레이리스트 노래 재생화면
       case "playSongs": {
-        return <PlaySong page={page} songs={songs} />;
+        return (
+          <PlayBox
+            page={page}
+            top={
+              <span className="page-title__span">
+                {/*  플리 title, description */}
+              </span>
+            }
+            left={
+              <div className="my-playlists__container">
+                {songs?.map((song, index) => (
+                  <Song key={index} song={song} />
+                ))}
+              </div>
+            }
+            right={
+              {
+                /* 유튜브 영상 위치 */
+              }
+            }
+          />
+        );
       }
 
       // 선택 플레이리스트 노래 제목 검색화면
@@ -30,10 +65,8 @@ const Playlist = () => {
         return null;
       }
     }
-
     return null;
-  }
-
+  };
   return Render();
 };
 

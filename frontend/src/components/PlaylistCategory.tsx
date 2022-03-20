@@ -8,7 +8,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
       <Link
         to="/"
         className={classNames("category__link", {
-          isBright: page === "/"
+          isBright: page === null,
         })}
       >
         내 플레이리스트
@@ -17,7 +17,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
         to="/"
         state="allPlaylist"
         className={classNames("category__link", {
-          isBright: page === "/allPlaylist",
+          isBright: page === "allPlaylist",
         })}
       >
         모든 플레이리스트
@@ -26,7 +26,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
         to="/"
         state="bookmarks"
         className={classNames("category__link", {
-          isBright: page === "/bookmarks",
+          isBright: page === "bookmarks",
         })}
       >
         즐겨찾기

@@ -1,7 +1,10 @@
+import { ReactNode } from "react";
+
 export interface PlayBoxProps {
-  page: string
-  songs?: Array<SongProps>
-  playlists?: Array<PlaylistProps>
+  page: string;
+  top: ReactNode;
+  left: ReactNode;
+  right: ReactNode;
 }
 
 export interface PlaylistCategoryProps {
