@@ -1,0 +1,24 @@
+.song__container {
+  position: relative;
+  width: 300px;
+  height: 81px;
+  overflow: hidden;
+  @extend .playlist__container--left;
+}
+
+.song__span--title {
+  @extend .playlist__span--title;
+}
+
+.song__span--createdDate {
+  @extend .playlist__span--updatedDate;
+}
+
+.song__container:hover {
+  animation: song_hover 0.4s linear forwards;
+  @keyframes song_hover {
+    to {
+      @include mixin-background-color(black, 0.5);
+    }
+  }
+}
