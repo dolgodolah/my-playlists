@@ -15,9 +15,10 @@ export interface PlaylistProps {
 }
 
 export interface PlaylistDetailProps {
-  pid: string;
+  playlistId: string;
 }
 
-export interface SongProps extends PlaylistDetailProps {
+export interface SongProps {
   song: Record<string, any>;
+  playlistId: string;
 }

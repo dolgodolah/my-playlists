@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { SongProps } from "../shared/Props";
 
-const Song = ({ song, pid }: SongProps) => {
+const Song = ({ song, playlistId }: SongProps) => {
   return (
     <Link
       to={`/playlist`}
       state={{
         path: "/song/detail",
-        pid: `${pid}`,
-        sid: `${song.videoid}`,
+        playlistId: `${playlistId}`,
+        songId: `${song.videoid}`,
       }}
       className="song__link"
     >
