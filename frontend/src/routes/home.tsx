@@ -16,13 +16,9 @@ const Home = () => {
       }
       left={
         page === "allPlaylist" ? (
-          {
-            /*모든 플레이리스트 */
-          }
+          <span> {/*모든 플레이리스트 */}</span>
         ) : page === "bookmarks" ? (
-          {
-            /*즐겨찾기한 플레이리스트 */
-          }
+          <span>{/*즐겨찾기한 플레이리스트 */}</span>
         ) : (
           <div className="my-playlists__container">
             {playlists?.map((playlist, index) => (

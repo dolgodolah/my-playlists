@@ -46,11 +46,7 @@ const Playlist = () => {
                 ))}
               </div>
             }
-            right={
-              {
-                /* 유튜브 영상 위치 */
-              }
-            }
+            right={<span>{/* 유튜브 영상 위치 */}</span>}
           />
         );
       }
