@@ -4,122 +4,67 @@ export const user = {
   nickname: "hoon",
 };
 
-export const playlists = [
+export const songs : Array<any> = [
+  {
+    createdDate: "2022년 3월 13일",
+    description: "기리보이의 찌질한 감성 노래",
+    title: "호구 - 기리보이",
+    videoId: "1sad12asxc",
+  },
+  {
+    createdDate: "2022년 3월 11일",
+    description: "기리보이의 하이텐션 노래",
+    title: "빈집 - 기리보이",
+    videoId: "31dasdj2xc",
+  },
+  {
+    createdDate: "2022년 3월 12일",
+    description: "산책하며 듣는 기리보이 노래",
+    title: "hook송 - 기리보이",
+    videoId: "kbamx9s2x1z",
+  },
+]
+
+export const playlists : Array<any> = [
   {
     author: "hoon",
     bookmark: false,
     description: "우울할 때 듣는 플리",
     playlistId: 255486129307,
-    songs: [
-      {
-        createdDate: "2022년 3월 13일",
-        description: "기리보이의 찌질한 감성 노래",
-        title: "기리보이 감성노래",
-        videoId: "1sad12asxc",
-      },
-      {
-        createdDate: "2022년 3월 11일",
-        description: "기리보이의 하이텐션 노래",
-        title: "기리보이 노래",
-        videoId: "31dasdj2xc",
-      },
-      {
-        createdDate: "2022년 3월 12일",
-        description: "산책하며 듣는 기리보이 노래",
-        title: "기리보이 산책",
-        videoId: "kbamx9s2x1z",
-      },
-    ],
     title: "기리보이 플리",
     updatedDate: "2022년 3월 14일",
     visibility: true,
+    songCount: 3,
   },
   {
     author: "hoon",
     bookmark: false,
     description: "우울할 때 듣는 플리",
     playlistId: 1,
-    songs: [
-      {
-        createdDate: "2022년 3월 13일",
-        description: "기리보이의 찌질한 감성 노래",
-        title: "기리보이 감성노래",
-        videoId: "1sad12asxc",
-      },
-      {
-        createdDate: "2022년 3월 11일",
-        description: "기리보이의 하이텐션 노래",
-        title: "기리보이 노래",
-        videoId: "31dasdj2xc",
-      },
-      {
-        createdDate: "2022년 3월 12일",
-        description: "산책하며 듣는 기리보이 노래",
-        title: "기리보이 산책",
-        videoId: "kbamx9s2x1z",
-      },
-    ],
     title: "기리보이 플리",
     updatedDate: "2022년 3월 14일",
     visibility: true,
+    songCount: 5,
   },
   {
     author: "hoon",
     bookmark: false,
     description: "우울할 때 듣는 플리",
     playlistId: 2,
-    songs: [
-      {
-        createdDate: "2022년 3월 13일",
-        description: "기리보이의 찌질한 감성 노래",
-        title: "기리보이 감성노래",
-        videoId: "1sad12asxc",
-      },
-      {
-        createdDate: "2022년 3월 11일",
-        description: "기리보이의 하이텐션 노래",
-        title: "기리보이 노래",
-        videoId: "31dasdj2xc",
-      },
-      {
-        createdDate: "2022년 3월 12일",
-        description: "산책하며 듣는 기리보이 노래",
-        title: "기리보이 산책",
-        videoId: "kbamx9s2x1z",
-      },
-    ],
     title: "기리보이 플리",
     updatedDate: "2022년 3월 14일",
     visibility: true,
+    songCount: 2,
   },
   {
     author: "hoon",
     bookmark: false,
     description: "우울할 때 듣는 플리",
     playlistId: 3,
-    songs: [
-      {
-        createdDate: "2022년 3월 13일",
-        description: "기리보이의 찌질한 감성 노래",
-        title: "기리보이 감성노래",
-        videoId: "1sad12asxc",
-      },
-      {
-        createdDate: "2022년 3월 11일",
-        description: "기리보이의 하이텐션 노래",
-        title: "기리보이 노래",
-        videoId: "31dasdj2xc",
-      },
-      {
-        createdDate: "2022년 3월 12일",
-        description: "산책하며 듣는 기리보이 노래",
-        title: "기리보이 산책",
-        videoId: "kbamx9s2x1z",
-      },
-    ],
     title: "기리보이 플리",
     updatedDate: "2022년 3월 14일",
     visibility: true,
+    songCount: 0,
   },
   // {
   //   author: "hoon",

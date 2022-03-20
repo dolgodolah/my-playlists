@@ -26,7 +26,7 @@ const Playlist = ({ playlist }: PlaylistProps) => {
         </div>
         <div className="playlist__container--right">
           <span className="playlist__span--amount">
-            {playlist.songs.length}
+            {playlist.songCount}
           </span>
           <div className="playlist-icon__container">
             <Icon icon="bxs:playlist" />
