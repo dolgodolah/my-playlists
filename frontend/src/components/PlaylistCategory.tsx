@@ -8,7 +8,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
       <Link
         to="/"
         className={classNames("category__link", {
-          isBright: page === null,
+          isBright: page === "myPlaylist",
         })}
       >
         내 플레이리스트

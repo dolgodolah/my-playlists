@@ -5,7 +5,7 @@ import PlaylistCategory from "../components/PlaylistCategory";
 import { playlists } from "../test/user";
 
 const Home = () => {
-  const page = useLocation().state as string;
+  const page = (useLocation().state as string) || "myPlaylist";
   return (
     <PlayBox
       page={page}
