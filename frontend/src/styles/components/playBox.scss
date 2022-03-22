@@ -46,3 +46,18 @@
   font-size: 22px;
   font-weight: 300;
 }
+
+.lists__container {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  padding-top: 35px;
+  overflow: hidden;
+}
+
+.lists__container::-webkit-scrollbar {
+  width: 5px;
+}
+.lists__container::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+}

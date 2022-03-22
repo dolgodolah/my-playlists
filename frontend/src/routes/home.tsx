@@ -9,22 +9,18 @@ const Home = () => {
   return (
     <PlayBox
       page={page}
-      top={
-        <span className="page-title__span">
-          <PlaylistCategory page={page} />
-        </span>
-      }
+      top={<PlaylistCategory page={page} />}
       left={
         page === "allPlaylist" ? (
-          <span> {/*모든 플레이리스트 */}</span>
+          <> {/*모든 플레이리스트 */}</>
         ) : page === "bookmarks" ? (
-          <span>{/*즐겨찾기한 플레이리스트 */}</span>
+          <>{/*즐겨찾기한 플레이리스트 */}</>
         ) : (
-          <div className="my-playlists__container">
+          <>
             {playlists?.map((playlist, index) => (
               <Playlist key={index} playlist={playlist} />
             ))}
-          </div>
+          </>
         )
       }
       right={null}

@@ -10,10 +10,12 @@ const PlayBox = ({ page, top, left, right }: PlayBoxProps) => {
     <div className="play-box__container">
       <Header />
       <div className="play-box__container--top">
-        {top}
+        <span className="page-title__span">{top}</span>
         <EditBox page={page} />
       </div>
-      <div className="play-box__container--left">{left}</div>
+      <div className="play-box__container--left">
+        <div className="lists__container">{left}</div>
+      </div>
       <div className="play-box__container--right">{right}</div>
       <ProfileMenu name={user.nickname} />
     </div>

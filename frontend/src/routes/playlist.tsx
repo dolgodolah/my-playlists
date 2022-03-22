@@ -12,17 +12,13 @@ const Playlist = () => {
         return (
           <PlayBox
             page={page}
-            top={
-              <span className="page-title__span">
-                {/*  플리 title, description */}
-              </span>
-            }
+            top={<>{/*  플리 title, description */}</>}
             left={
-              <div className="my-playlists__container">
+              <>
                 {songs?.map((song, index) => (
                   <Song key={index} song={song} />
                 ))}
-              </div>
+              </>
             }
             right={null}
           />
@@ -34,19 +30,15 @@ const Playlist = () => {
         return (
           <PlayBox
             page={page}
-            top={
-              <span className="page-title__span">
-                {/*  플리 title, description */}
-              </span>
-            }
+            top={<>{/*  플리 title, description */}</>}
             left={
-              <div className="my-playlists__container">
+              <>
                 {songs?.map((song, index) => (
                   <Song key={index} song={song} />
                 ))}
-              </div>
+              </>
             }
-            right={<span>{/* 유튜브 영상 위치 */}</span>}
+            right={<>{/* 유튜브 영상 위치 */}</>}
           />
         );
       }
