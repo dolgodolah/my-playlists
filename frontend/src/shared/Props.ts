@@ -22,3 +22,8 @@ export interface PlaylistProps {
 export interface SongProps {
   song: Record<string, any>;
 }
+
+export interface VideoProps {
+  description: string;
+  videoId: string;
+}

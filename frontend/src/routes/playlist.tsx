@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import PlayBox from "../components/PlayBox";
 import Song from "../components/Song";
+import YoutubeVideo from "../components/YoutubeVideo";
 import { songs } from "../test/user";
 
 const Playlist = () => {
@@ -38,7 +39,14 @@ const Playlist = () => {
                 ))}
               </>
             }
-            right={<>{/* 유튜브 영상 위치 */}</>}
+            right={
+              <>
+                <YoutubeVideo
+                  description={songs[0].description}
+                  videoId={songs[0].videoId}
+                />
+              </>
+            }
           />
         );
       }
