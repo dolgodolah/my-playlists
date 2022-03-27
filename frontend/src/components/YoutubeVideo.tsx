@@ -10,9 +10,11 @@ const YoutubeVideo = ({ description, videoId }: VideoProps) => {
         src={videoId}
       ></video>
       <div className="description__container--youtube">
-        <textarea className="description__textarea" readOnly>
-          {description}
-        </textarea>
+        <textarea
+          value={description}
+          className="description__textarea"
+          readOnly
+        />
       </div>
     </div>
   );
