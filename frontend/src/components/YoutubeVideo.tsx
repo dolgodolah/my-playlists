@@ -1,6 +1,6 @@
 import { VideoProps } from "../shared/Props";
 
-const YoutubeVideo = ({ description, videoId }: VideoProps) => {
+const YoutubeVideo = ({ description, videoId, thumbnail }: VideoProps) => {
   return (
     <div className="youtube__container">
       <video
@@ -14,6 +14,13 @@ const YoutubeVideo = ({ description, videoId }: VideoProps) => {
           value={description}
           className="description__textarea"
           readOnly
+        />
+      </div>
+      <div className="thumbnail__container--youtube">
+        <img
+          className="thumbnail__img--youtube"
+          src={thumbnail}
+          alt="youtube_thumbnail"
         />
       </div>
     </div>

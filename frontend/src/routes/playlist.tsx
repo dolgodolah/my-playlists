@@ -44,6 +44,7 @@ const Playlist = () => {
                 <YoutubeVideo
                   description={songs[0].description}
                   videoId={songs[0].videoId}
+                  thumbnail="youtube thumbnail"
                 />
               </>
             }

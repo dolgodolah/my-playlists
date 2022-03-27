@@ -24,6 +24,7 @@ export interface SongProps {
 }
 
 export interface VideoProps {
+  thumbnail: string;
   description: string;
   videoId: string;
 }
