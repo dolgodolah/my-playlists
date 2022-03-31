@@ -3,7 +3,13 @@ import { SongProps } from "../shared/Props";
 
 const Song = ({ song }: SongProps) => {
   return (
-    <Link to="/playlist" state="playSongs">
+    <Link
+      to="/playlist"
+      state={{
+        page: "playSongs",
+        songId: song.id,
+      }}
+    >
       <div className="song__container">
         <span className="song__span--title">{song.title}</span>
         <div>

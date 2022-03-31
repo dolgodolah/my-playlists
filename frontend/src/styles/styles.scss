@@ -13,6 +13,7 @@
 @import "./components/playlist.scss";
 @import "./components/playlistCategory.scss";
 @import "./components/song.scss";
+@import "./components/youtubeVideo.scss";
 
 // GlobalStyles
 body {
@@ -31,7 +32,8 @@ div {
 
 span,
 p,
-a {
+a,
+textarea {
   font-family: "KoPub Dotum";
 }
 
