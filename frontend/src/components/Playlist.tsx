@@ -1,12 +1,16 @@
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
-import {PlaylistProps} from "../shared/Props";
-
-
+import { PlaylistProps } from "../shared/Props";
 
 const Playlist = ({ playlist }: PlaylistProps) => {
   return (
-    <Link to="/playlist" state="showSongs" className="playlist__link">
+    <Link
+      to="/playlist"
+      state={{
+        page: "showSongs",
+      }}
+      className="playlist__link"
+    >
       <div className="playlist__container">
         <div className="playlist__container--left">
           <span className="playlist__span--title">{playlist.title}</span>
@@ -18,9 +22,7 @@ const Playlist = ({ playlist }: PlaylistProps) => {
           </div>
         </div>
         <div className="playlist__container--right">
-          <span className="playlist__span--amount">
-            {playlist.songCount}
-          </span>
+          <span className="playlist__span--amount">{playlist.songCount}</span>
           <div className="playlist-icon__container">
             <Icon icon="bxs:playlist" />
           </div>

@@ -7,6 +7,12 @@ export interface PlayBoxProps {
   right: ReactNode;
 }
 
+export interface StateProps {
+  page: string;
+  playlistId?: string;
+  songId?: string;
+}
+
 export interface PlaylistCategoryProps {
   page: string;
 }
@@ -24,7 +30,6 @@ export interface SongProps {
 }
 
 export interface VideoProps {
-  thumbnail: string;
   description: string;
-  videoId: string;
+  youtube: Record<string, any>;
 }

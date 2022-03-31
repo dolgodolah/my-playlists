@@ -2,10 +2,11 @@ import { useLocation } from "react-router-dom";
 import PlayBox from "../components/PlayBox";
 import Song from "../components/Song";
 import YoutubeVideo from "../components/YoutubeVideo";
-import { songs } from "../test/user";
+import { StateProps } from "../shared/Props";
+import { songs, youtubes } from "../test/user";
 
 const Playlist = () => {
-  const page = useLocation().state as string;
+  const { page, playlistId, songId } = useLocation().state as StateProps;
   const Render = () => {
     switch (page) {
       // 선택 플레이리스트 상세화면
@@ -28,6 +29,10 @@ const Playlist = () => {
 
       // 선택 플레이리스트 노래 재생화면
       case "playSongs": {
+        const songResponse = songs.find((song) => song.id === songId);
+        const youtubeResponse = youtubes.find(
+          (youtube) => youtube.videoId === songResponse.videoId
+        );
         return (
           <PlayBox
             page={page}
@@ -42,9 +47,8 @@ const Playlist = () => {
             right={
               <>
                 <YoutubeVideo
-                  description={songs[0].description}
-                  videoId={songs[0].videoId}
-                  thumbnail="youtube thumbnail"
+                  description={songResponse.description}
+                  youtube={youtubeResponse}
                 />
               </>
             }
