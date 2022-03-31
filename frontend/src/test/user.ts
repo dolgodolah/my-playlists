@@ -4,44 +4,26 @@ export const user = {
   nickname: "hoon",
 };
 
-export const youtubes: Array<any> = [
-  {
-    thumbnail: "thumbnail1",
-    title: "호구 - 기리보이",
-    videoId: "1sad12asxc",
-  },
-  {
-    thumbnail: "thumbnail2",
-    title: "빈집 - 기리보이",
-    videoId: "31dasdj2xc",
-  },
-  {
-    thumbnail: "thumbnail3",
-    title: "hook송 - 기리보이",
-    videoId: "kbamx9s2x1z",
-  },
-];
-
 export const songs: Array<any> = [
   {
     createdDate: "2022년 3월 13일",
     description: "기리보이의 찌질한 감성 노래",
     title: "호구 - 기리보이",
-    id: "312llda",
+    id: 1,
     videoId: "1sad12asxc",
   },
   {
     createdDate: "2022년 3월 11일",
     description: "기리보이의 하이텐션 노래",
     title: "빈집 - 기리보이",
-    id: "nn12xz2",
+    id: 2,
     videoId: "31dasdj2xc",
   },
   {
     createdDate: "2022년 3월 12일",
     description: "산책하며 듣는 기리보이 노래",
     title: "hook송 - 기리보이",
-    id: "85olx2",
+    id: 3,
     videoId: "kbamx9s2x1z",
   },
 ];

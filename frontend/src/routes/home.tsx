@@ -4,8 +4,12 @@ import Playlist from "../components/Playlist";
 import PlaylistCategory from "../components/PlaylistCategory";
 import { playlists } from "../test/user";
 
+interface StateProps {
+  page: string;
+}
+
 const Home = () => {
-  const page = (useLocation().state as string) || "myPlaylist";
+  const { page } = (useLocation().state as StateProps) || { page: "myPlaylist" };
   return (
     <PlayBox
       page={page}

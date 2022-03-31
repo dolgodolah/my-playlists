@@ -7,12 +7,6 @@ export interface PlayBoxProps {
   right: ReactNode;
 }
 
-export interface StateProps {
-  page: string;
-  playlistId?: string;
-  songId?: string;
-}
-
 export interface PlaylistCategoryProps {
   page: string;
 }
@@ -27,9 +21,4 @@ export interface PlaylistProps {
 
 export interface SongProps {
   song: Record<string, any>;
-}
-
-export interface VideoProps {
-  description: string;
-  youtube: Record<string, any>;
 }
