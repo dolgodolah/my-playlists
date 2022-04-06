@@ -37,7 +37,6 @@ const EditBox = ({ page }: EditBoxProps) => {
               state={{
                 page: "searchSong",
               }}
-              className="edit_box__link"
             >
               <Icon icon="carbon:music-add" />
             </Link>
@@ -53,7 +52,6 @@ const EditBox = ({ page }: EditBoxProps) => {
               state={{
                 page: "searchSong",
               }}
-              className="edit_box__link"
             >
               <Icon icon="carbon:music-add" />
             </Link>
