@@ -3,7 +3,6 @@ import { PlayBoxProps } from "../shared/Props";
 import { songs, user } from "../test/user";
 import Header from "./Header";
 import ProfileMenu from "./ProfileMenu";
-import EditBox from "./EditBox";
 
 const PlayBox = ({ page, top, left, right }: PlayBoxProps) => {
   return (
@@ -11,7 +10,6 @@ const PlayBox = ({ page, top, left, right }: PlayBoxProps) => {
       <Header />
       <div className="play-box__container--top">
         <span className="page-title__span">{top}</span>
-        <EditBox page={page} />
       </div>
       <div className="play-box__container--left">
         <div className="lists__container">{left}</div>

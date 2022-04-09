@@ -1,0 +1,21 @@
+.edit-box__container {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  svg {
+    cursor: pointer;
+    width: 50px;
+    font-size: 25px;
+    color: darken(white, 20%);
+    &:hover {
+      transform: scale(110%);
+    }
+  }
+}
+
+.isBookmarked {
+  color: greenyellow !important;
+}
