@@ -15,23 +15,18 @@
 
 .button__container--header {
   position: absolute;
-  right: 5px;
+  right: 10px;
   top: 5px;
   width: 30px;
 }
 
 .add__button--header {
   color: white;
-  font-size: 30px;
-}
-.back__button--header {
-  color: white;
-  font-size: 25px;
+  font-size: 37px;
 }
 
 .logo__container a:hover,
-.add__button--header:hover,
-.back__button--header:hover {
+.add__button--header:hover {
   color: darken(white, 40%);
 }
 
