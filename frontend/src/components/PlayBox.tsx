@@ -4,7 +4,7 @@ import { songs, user } from "../test/user";
 import Header from "./Header";
 import ProfileMenu from "./ProfileMenu";
 
-const PlayBox = ({ page, top, left, right }: PlayBoxProps) => {
+const PlayBox = ({ top, left, right }: PlayBoxProps) => {
   return (
     <div className="play-box__container">
       <Header />

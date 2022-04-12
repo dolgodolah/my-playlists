@@ -12,7 +12,6 @@ const Home = () => {
   const { page } = (useLocation().state as StateProps) || { page: "myPlaylist" };
   return (
     <PlayBox
-      page={page}
       top={<PlaylistCategory page={page} />}
       left={
         page === "allPlaylist" ? (

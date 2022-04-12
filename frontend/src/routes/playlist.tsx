@@ -18,7 +18,6 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            page={page}
             top={
               <>
                 {/*  플리 title, description */}
@@ -42,7 +41,6 @@ const Playlist = () => {
         const song = songs.find((song) => song.id === songId);
         return (
           <PlayBox
-            page={page}
             top={
               <>
                 {/*  플리 title, description */}
