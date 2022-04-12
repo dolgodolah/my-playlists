@@ -3,6 +3,7 @@ package com.myplaylists.controller;
 import com.myplaylists.config.auth.Login;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.dto.*;
+import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
