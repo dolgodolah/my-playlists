@@ -1,6 +1,5 @@
 package com.myplaylists.dto;
 
-import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.Song;
 import lombok.Builder;
 import lombok.Getter;
