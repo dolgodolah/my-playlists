@@ -7,6 +7,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
     <div className="category__container">
       <Link
         to="/"
+        state={{page: "myPlaylist"}}
         className={classNames("category__link", {
           isBright: page === "myPlaylist",
         })}
@@ -15,7 +16,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
       </Link>
       <Link
         to="/"
-        state="allPlaylist"
+        state={{page: "allPlaylist"}}
         className={classNames("category__link", {
           isBright: page === "allPlaylist",
         })}
@@ -24,7 +25,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
       </Link>
       <Link
         to="/"
-        state="bookmarks"
+        state={{page: "bookmarks"}}
         className={classNames("category__link", {
           isBright: page === "bookmarks",
         })}
