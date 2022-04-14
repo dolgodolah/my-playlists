@@ -18,13 +18,9 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            page={page}
-            top={
-              <>
-                {/*  플리 title, description */}
-                <EditBox />
-              </>
-            }
+            title={<> {/*  플리 title */}</>}
+            sub={<> {/*  플리 sub */}</>}
+            top={<EditBox />}
             left={
               <>
                 {songs?.map((song) => (
@@ -42,13 +38,9 @@ const Playlist = () => {
         const song = songs.find((song) => song.id === songId);
         return (
           <PlayBox
-            page={page}
-            top={
-              <>
-                {/*  플리 title, description */}
-                <EditBox />
-              </>
-            }
+            title={<> {/*  플리 title */}</>}
+            sub={<> {/*  플리 sub */}</>}
+            top={<EditBox />}
             left={
               <>
                 {songs?.map((song) => (

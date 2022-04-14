@@ -1,15 +1,17 @@
 import React from "react";
 import { PlayBoxProps } from "../shared/Props";
-import { songs, user } from "../test/user";
+import { user } from "../test/user";
 import Header from "./Header";
 import ProfileMenu from "./ProfileMenu";
 
-const PlayBox = ({ page, top, left, right }: PlayBoxProps) => {
+const PlayBox = ({ top, title, sub, left, right }: PlayBoxProps) => {
   return (
     <div className="play-box__container">
       <Header />
       <div className="play-box__container--top">
-        <span className="page-title__span">{top}</span>
+        <span className="page__span--title">{title}</span>
+        <span className="page__span--sub">{sub}</span>
+        {top}
       </div>
       <div className="play-box__container--left">
         <div className="lists__container">{left}</div>

@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
 
 export interface PlayBoxProps {
-  page: string;
   top: ReactNode;
+  title: ReactNode;
+  sub: ReactNode;
   left: ReactNode;
   right: ReactNode;
 }
