@@ -26,6 +26,22 @@
   padding: 10px;
 }
 
+.button__container--youtube {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 6px;
+    color: darken(white, 10%);
+    &:hover {
+      color: darken(white, 40%);
+    }
+  }
+}
+
 .thumbnail__container--youtube {
   position: absolute;
   left: 0;
