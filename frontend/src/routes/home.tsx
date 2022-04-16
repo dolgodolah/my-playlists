@@ -14,8 +14,6 @@ const Home = () => {
   };
   return (
     <PlayBox
-      title={null}
-      sub={null}
       top={<PlaylistCategory page={page} />}
       left={
         page === "allPlaylist" ? (
