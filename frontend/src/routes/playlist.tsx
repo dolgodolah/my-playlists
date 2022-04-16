@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import EditBox from "../components/EditBox";
 import PlayBox from "../components/PlayBox";
+import PlaylistDetail from "../components/PlaylistDetail";
 import Song from "../components/Song";
 import YoutubeVideo from "../components/YoutubeVideo";
 import { songs } from "../test/user";
@@ -18,9 +19,12 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            title={<> {/*  플리 title */}</>}
-            sub={<> {/*  플리 sub */}</>}
-            top={<EditBox />}
+            top={
+              <>
+                <PlaylistDetail />
+                <EditBox />
+              </>
+            }
             left={
               <>
                 {songs?.map((song) => (
@@ -38,9 +42,12 @@ const Playlist = () => {
         const song = songs.find((song) => song.id === songId);
         return (
           <PlayBox
-            title={<> {/*  플리 title */}</>}
-            sub={<> {/*  플리 sub */}</>}
-            top={<EditBox />}
+            top={
+              <>
+                <PlaylistDetail />
+                <EditBox />
+              </>
+            }
             left={
               <>
                 {songs?.map((song) => (
