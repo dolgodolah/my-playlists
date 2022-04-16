@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SongResponseDto {
+    private Long songId;
     private String title;
     private String videoId;
     private String description;
@@ -20,6 +21,7 @@ public class SongResponseDto {
 
     public static SongResponseDto of(Song song) {
         return SongResponseDto.builder()
+                .songId(song.getId())
                 .title(song.getTitle())
                 .videoId(song.getVideoId())
                 .description(song.getDescription())

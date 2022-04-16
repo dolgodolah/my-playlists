@@ -15,10 +15,5 @@
 }
 
 .song__container:hover {
-  animation: song_hover 0.4s linear forwards;
-  @keyframes song_hover {
-    to {
-      @include mixin-background-color(black, 0.5);
-    }
-  }
+  @include mixin-background-color($main-background-color, 0.5);
 }

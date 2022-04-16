@@ -12,15 +12,12 @@
   font-weight: 400;
   color: white;
   margin-bottom: 45px;
-  animation: appear__span 1s ease-out backwards;
+  animation: appear__span 0.8s linear 1 forwards;
+  animation-delay: 0.8s;
+  opacity: 0;
   @keyframes appear__span {
-    0% {
-      opacity: 0;
-      transform: translateY(120px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
+    to {
+      opacity: 0.9;
     }
   }
 }

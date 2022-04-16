@@ -1,13 +1,10 @@
 package com.myplaylists.dto;
 
-import lombok.*;
+import lombok.Getter;
 
-@Getter @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
 public class SongRequestDto {
-    private String playlistId;
+    private Long playlistId;
     private String title;
     private String videoId;
     private String description;

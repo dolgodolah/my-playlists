@@ -12,21 +12,12 @@
 .category__link {
   font-size: 25px;
   font-weight: 400;
-  color: white;
-  opacity: 0.2;
+  color: gray;
   &:hover {
     transform: scale(105%);
   }
 }
 
 .isBright {
-  animation: bright 0.8s ease-in forwards;
-  @keyframes bright {
-    from {
-      opacity: 0.2;
-    }
-    to {
-      opacity: 1;
-    }
-  }
+  color: white;
 }
