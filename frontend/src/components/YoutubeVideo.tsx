@@ -15,12 +15,13 @@ const YoutubeVideo = ({ song }: SongProps) => {
   };
   return (
     <div className="youtube__container">
-      <video
-        tabIndex={-1}
+      <iframe
+        title="youtube video player"
         className="youtube__video"
-        controlsList="nodownload"
-        src={song.videoId}
-      ></video>
+        src={`https://www.youtube.com/embed/${song.videoId}`}
+        frameBorder="0"
+        allowFullScreen
+      />
       <div className="description__container--youtube">
         <textarea
           className="description__textarea"
