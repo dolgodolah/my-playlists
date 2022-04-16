@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import EditBox from "../components/EditBox";
 import PlayBox from "../components/PlayBox";
+import PlaylistDetail from "../components/PlaylistDetail";
 import Song from "../components/Song";
 import YoutubeVideo from "../components/YoutubeVideo";
 import { songs } from "../test/user";
@@ -20,7 +21,7 @@ const Playlist = () => {
           <PlayBox
             top={
               <>
-                {/*  플리 title, description */}
+                <PlaylistDetail />
                 <EditBox />
               </>
             }
@@ -43,7 +44,7 @@ const Playlist = () => {
           <PlayBox
             top={
               <>
-                {/*  플리 title, description */}
+                <PlaylistDetail />
                 <EditBox />
               </>
             }

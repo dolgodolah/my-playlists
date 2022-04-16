@@ -9,7 +9,9 @@ interface StateProps {
 }
 
 const Home = () => {
-  const { page } = (useLocation().state as StateProps) || { page: "myPlaylist" };
+  const { page } = (useLocation().state as StateProps) || {
+    page: "myPlaylist",
+  };
   return (
     <PlayBox
       top={<PlaylistCategory page={page} />}

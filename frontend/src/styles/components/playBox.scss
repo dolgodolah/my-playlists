@@ -39,12 +39,9 @@
 .play-box__container--top {
   position: relative;
   padding: 25px;
-}
-
-.page-title__span {
-  color: white;
-  font-size: 22px;
-  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .lists__container {
