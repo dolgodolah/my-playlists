@@ -33,7 +33,9 @@ src
 │   ├── PlayBox.tsx
 │   ├── Playlist.tsx
 │   ├── PlaylistCategory.tsx
+│   ├── PlaylistDetail.tsx
 │   ├── ProfileMenu.tsx
+│   ├── SearchSongs.tsx
 │   ├── Song.tsx
 │   └── YoutubeVideo.tsx
 ├── routes
@@ -45,10 +47,13 @@ src
 ├── store
 ├── styles
 │   ├── components
+│   │   ├── editBox.scss
 │   │   ├── header.scss
 │   │   ├── playBox.scss
 │   │   ├── playlist.scss
 │   │   ├── playlistCategory.scss
+│   │   ├── playlistDetail.scss
+│   │   ├── searchSongs.scss
 │   │   ├── song.scss
 │   │   └── youtubeVideo.scss
 │   ├── config
@@ -111,6 +116,12 @@ src
     <td>/playlist</td>
     <td>선택 플레이리스트 상세화면</td>
     <td>선택한 플레이리스트에 수록된 노래들을 보여준다.</td>
+    <td></td>
+  </tr>
+    <tr>
+    <td>/playlist</td>
+    <td>선택 플레이리스트 노래 재생화면</td>
+    <td>노래(유튜브 영상)를 재생한다.</td>
     <td></td>
   </tr>
 </table>

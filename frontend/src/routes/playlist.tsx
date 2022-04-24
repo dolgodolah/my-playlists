@@ -5,6 +5,7 @@ import PlaylistDetail from "../components/PlaylistDetail";
 import Song from "../components/Song";
 import YoutubeVideo from "../components/YoutubeVideo";
 import { songs } from "../test/user";
+import SearchSongs from "../components/SearchSongs";
 
 interface StateProps {
   page: string;
@@ -62,7 +63,24 @@ const Playlist = () => {
 
       // 선택 플레이리스트 노래 제목 검색화면
       case "searchSong": {
-        return null;
+        return (
+          <PlayBox
+            top={
+              <>
+                <PlaylistDetail />
+                <EditBox />
+              </>
+            }
+            left={
+              <>
+                {songs?.map((song) => (
+                  <Song key={song.id} song={song} />
+                ))}
+              </>
+            }
+            right={<SearchSongs />}
+          />
+        );
       }
     }
     return null;
