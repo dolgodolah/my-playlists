@@ -46,30 +46,6 @@ class PlaylistRepositoryTest {
         userRepository.save(user);
     }
 
-    @DisplayName("해당 유저의 모든 플레이리스트를 업데이트 최신 순으로 조회")
-    @Test
-    void findAllByUserOrderByUpdatedDateDesc() {
-        for (int i = 0; i < MAX_SIZE; i++) {
-            playlistRepository.save(
-                    Playlist.builder()
-                            .user(user)
-                            .title(PLAYLIST_TITLE)
-                            .description(PLAYLIST_DESCRIPTION)
-                            .visibility(PUBLIC)
-                            .build());
-        }
-
-        Page<Playlist> result = playlistRepository.findAllByUserOrderByUpdatedDateDesc(FIRST_PAGE, user);
-        Playlist first = result.stream().findFirst().get();
-        Playlist last = result.stream().skip(MAX_SIZE - 1).findFirst().get();
-
-        assertThat(first.getUpdatedDate()).isAfter(last.getUpdatedDate());
-        assertThat(first.getUser()).isEqualTo(user);
-        assertThat(first.getTitle()).isEqualTo(PLAYLIST_TITLE);
-        assertThat(first.getDescription()).isEqualTo(PLAYLIST_DESCRIPTION);
-        assertThat(first.isVisibility()).isTrue();
-    }
-
     @DisplayName("검색어에 포함되는 해당 유저의 플레이리스트 조회")
     @ParameterizedTest
     @ValueSource(strings = {"코딩", "코딩하면서", "노래", "듣기 좋은 노래", "코딩하면서 듣기 좋은 노래"})

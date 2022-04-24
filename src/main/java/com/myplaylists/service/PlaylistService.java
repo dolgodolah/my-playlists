@@ -31,7 +31,7 @@ public class PlaylistService {
 	@Transactional(readOnly = true)
 	public Page<Playlist> findMyPlaylists(Pageable pageable, Long userId) {
 		User user = userService.findByUserId(userId);
-		return playlistRepository.findAllByUserOrderByUpdatedDateDesc(pageable, user);
+		return playlistRepository.findByUser(pageable, user);
 	}
 
 	@Transactional(readOnly = true)
