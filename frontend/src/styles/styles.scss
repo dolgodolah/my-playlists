@@ -17,6 +17,7 @@
 @import "./components/youtubeVideo.scss";
 @import "./components/playlistDetail.scss";
 @import "./components/searchSongs.scss";
+@import "./components/songResult.scss";
 
 // GlobalStyles
 body {
@@ -29,7 +30,8 @@ body {
   background-color: #2a373a;
 }
 
-div {
+div,
+input {
   box-sizing: border-box;
 }
 
