@@ -42,4 +42,8 @@ public class PlaylistResponseDto {
                 .isBookmark(isBookmark)
                 .build();
     }
+
+    public void setBookmark(boolean bookmark) {
+        isBookmark = bookmark;
+    }
 }

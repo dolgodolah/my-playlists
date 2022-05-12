@@ -1,12 +1,10 @@
 package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
-import com.myplaylists.domain.Playlist;
 import com.myplaylists.dto.*;
 import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -44,8 +42,8 @@ public class PlaylistController {
 	@GetMapping("/playlist/{playlistId}")
 	public ResponseEntity<PlaylistResponseDto> getPlaylistDetail(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
 		PlaylistResponseDto playlist = playlistService.findPlaylistById(playlistId);
-		boolean isBookmark = bookmarkService.checkBookmark(user.getUserId(), playlistId);
-		return ResponseEntity.ok(PlaylistResponseDto.of(playlist, isBookmark));
+		playlist.setBookmark(bookmarkService.checkBookmark(user.getUserId(), playlistId));
+		return ResponseEntity.ok(playlist);
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
