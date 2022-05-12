@@ -15,4 +15,5 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 	Page<Playlist> findByTitleContainingAndUser(Pageable pageable, String title, User user);
 	Page<Playlist> findByVisibility(Pageable pageable, boolean visibility);
 	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
+	Page<Playlist> findByVisibilityAndTitleContaining(Pageable pageable, boolean visibility, String title);
 }

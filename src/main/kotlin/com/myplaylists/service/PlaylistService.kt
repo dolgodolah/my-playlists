@@ -9,8 +9,6 @@ import com.myplaylists.repository.PlaylistRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.stream.Collectors
-import kotlin.streams.toList
 
 @Service
 @Transactional
@@ -65,8 +63,8 @@ class PlaylistService(
 
     @Transactional(readOnly = true)
     fun searchAllPlaylists(pageable: Pageable, keyword: String): PlaylistsDto {
-        val playlists = playlistRepository.findByTitleContaining(pageable, keyword)
-        return PlaylistsDto.of(playlists.stream().filter(Playlist::isVisibility).toList(), playlists.isLast)
+        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword)
+        return PlaylistsDto.of(playlists)
     }
 
     fun findPlaylistByIdOrElseThrow(playlistId: Long): Playlist =
