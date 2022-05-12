@@ -2,12 +2,15 @@ package com.myplaylists.service
 
 import com.myplaylists.domain.Playlist
 import com.myplaylists.dto.PlaylistRequestDto
+import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.dto.PlaylistsDto
 import com.myplaylists.exception.ApiException
 import com.myplaylists.repository.PlaylistRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors
+import kotlin.streams.toList
 
 @Service
 @Transactional
@@ -42,13 +45,13 @@ class PlaylistService(
     }
 
     @Transactional(readOnly = true)
-    fun findPlaylistById(playlistId: Long): Playlist {
-        return playlistRepository.findById(playlistId).orElseThrow { ApiException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
+    fun findPlaylistById(playlistId: Long): PlaylistResponseDto {
+        val playlist = findPlaylistByIdOrElseThrow(playlistId)
+        return PlaylistResponseDto.of(playlist)
     }
 
-    @Transactional
     fun deletePlaylist(userId: Long, playlistId: Long) {
-        val playlist = findPlaylistById(playlistId)
+        val playlist = findPlaylistByIdOrElseThrow(playlistId)
         playlist.validateUser(userId)
         playlistRepository.delete(playlist)
     }
@@ -63,6 +66,9 @@ class PlaylistService(
     @Transactional(readOnly = true)
     fun searchAllPlaylists(pageable: Pageable, keyword: String): PlaylistsDto {
         val playlists = playlistRepository.findByTitleContaining(pageable, keyword)
-        return PlaylistsDto.of(playlists)
+        return PlaylistsDto.of(playlists.stream().filter(Playlist::isVisibility).toList(), playlists.isLast)
     }
+
+    fun findPlaylistByIdOrElseThrow(playlistId: Long): Playlist =
+        playlistRepository.findById(playlistId).orElseThrow { ApiException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
 }

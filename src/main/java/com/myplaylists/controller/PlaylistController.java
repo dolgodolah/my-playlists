@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.myplaylists.service.PlaylistService;
 
-import java.util.HashMap;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -25,34 +23,35 @@ public class PlaylistController {
 	private final PlaylistService playlistService;
 	private final BookmarkService bookmarkService;
 
-	@GetMapping("/my-playlists")
+	@GetMapping("/my_playlists")
 	public ResponseEntity<PlaylistsDto> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6) Pageable pageable) {
-		Page<Playlist> playlists = playlistService.findMyPlaylists(pageable, user.getUserId());
-		return ResponseEntity.ok(PlaylistsDto.of(playlists));
+		PlaylistsDto playlists = playlistService.findMyPlaylists(user.getUserId(), pageable);
+		return ResponseEntity.ok(playlists);
 	}
 
-	@GetMapping("/all-playlists")
+	@GetMapping("/all_playlists")
 	public ResponseEntity<PlaylistsDto> getAllPlaylists(@PageableDefault(size = 6) Pageable pageable) {
-		Page<Playlist> playlists = playlistService.findAllPlaylists(pageable);
-		return ResponseEntity.ok(PlaylistsDto.of(playlists));
+		PlaylistsDto playlists = playlistService.findAllPlaylists(pageable);
+		return ResponseEntity.ok(playlists);
 	}
 
 	@PostMapping("/playlist")
-	public ResponseEntity<PlaylistResponseDto> addPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto, @Login LoginUser loginUser) {
-		Playlist playlist = playlistService.addPlaylist(loginUser, playlistRequestDto);
-		return ResponseEntity.ok(PlaylistResponseDto.of(playlist));
+	public ResponseEntity createPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto, @Login LoginUser user) {
+		playlistService.createPlaylist(user.getUserId(), playlistRequestDto);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/playlist/{playlistId}")
 	public ResponseEntity<PlaylistResponseDto> getPlaylistDetail(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
-		Playlist playlist = playlistService.findPlaylist(playlistId);
+		PlaylistResponseDto playlist = playlistService.findPlaylistById(playlistId);
 		boolean isBookmark = bookmarkService.checkBookmark(user.getUserId(), playlistId);
 		return ResponseEntity.ok(PlaylistResponseDto.of(playlist, isBookmark));
 	}
 	
 	@DeleteMapping("/playlist/{playlistId}")
-	public void deletePlaylist(@Login LoginUser user, @PathVariable("playlistId") Long playlistId) {
-		playlistService.deletePlaylist(user, playlistId);
+	public ResponseEntity deletePlaylist(@Login LoginUser user, @PathVariable("playlistId") Long playlistId) {
+		playlistService.deletePlaylist(user.getUserId(), playlistId);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/bookmark")
@@ -62,19 +61,20 @@ public class PlaylistController {
 	}
 
 	@PostMapping("/bookmark")
-	public void toggleBookmark(@Login LoginUser user, @PathVariable("playlistId") Long playlistId) {
+	public ResponseEntity toggleBookmark(@Login LoginUser user, @PathVariable("playlistId") Long playlistId) {
 		bookmarkService.toggleBookmark(user.getUserId(), playlistId);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/playlist/search")
 	public ResponseEntity<PlaylistsDto> searchMyPlaylists(@Login LoginUser user, String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Playlist> playlists = playlistService.searchMyPlaylists(pageable, keyword, user.getUserId());
-		return ResponseEntity.ok(PlaylistsDto.of(playlists));
+		PlaylistsDto playlists = playlistService.searchMyPlaylists(user.getUserId(), pageable, keyword);
+		return ResponseEntity.ok(playlists);
 	}
 
 	@GetMapping("/playlist/search-all")
 	public ResponseEntity<PlaylistsDto> searchAllPlaylists(String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Playlist> playlists = playlistService.searchAll(pageable, keyword);
-		return ResponseEntity.ok(PlaylistsDto.of(playlists));
+		PlaylistsDto playlists = playlistService.searchAllPlaylists(pageable, keyword);
+		return ResponseEntity.ok(playlists);
 	}
 }

@@ -56,7 +56,7 @@ public class BookmarkService {
 	@Transactional
 	public void toggleBookmark(Long userId, Long playlistId) {
 		User user = userService.findByUserId(userId);
-		Playlist playlist = playlistService.findPlaylist(playlistId);
+		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
 
 		findAllByUserId(userId).stream()
 				.filter(bookmark -> bookmark.getPlaylist().equals(playlist))

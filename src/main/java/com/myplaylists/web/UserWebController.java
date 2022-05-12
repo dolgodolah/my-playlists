@@ -20,7 +20,7 @@ public class UserWebController {
 
     @GetMapping("/me")
     public String myInfo(@Login LoginUser user, Model model, @PageableDefault(size=6, sort="updatedDate", direction= Sort.Direction.DESC) Pageable pageable) {
-        model.addAttribute("playlists", PlaylistsDto.of(playlistService.findMyPlaylists(pageable, user.getUserId())));
+        model.addAttribute("playlists", playlistService.findMyPlaylists(user.getUserId(), pageable));
         model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
         model.addAttribute("next", pageable.next().getPageNumber());
         return "user/myInfo";

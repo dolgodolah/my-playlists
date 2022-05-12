@@ -25,7 +25,7 @@ public class SongWebController {
 
     @GetMapping("/playlist/{playlistId}/add")
     public String viewSongSearchForm(@Login LoginUser user, @PathVariable("playlistId") Long playlistId, Model model) {
-        Playlist playlist = playlistService.findPlaylist(playlistId);
+        Playlist playlist = playlistService.findPlaylistById(playlistId);
         model.addAttribute("playlist", playlist);
         model.addAttribute("author", playlist.getUser().getNickname());
         model.addAttribute("songs", Collections.emptyList());
@@ -35,7 +35,7 @@ public class SongWebController {
 
     @GetMapping("/playlist/{playlistId}/{songId}")
     public String playSong(@Login LoginUser user, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId, Model model) {
-        Playlist playlist = playlistService.findPlaylist(playlistId);
+        Playlist playlist = playlistService.findPlaylistById(playlistId);
         Song song = songService.getSong(songId);
         model.addAttribute("playlist", playlist);
         model.addAttribute("author", playlist.getUser().getNickname());
@@ -48,7 +48,7 @@ public class SongWebController {
 
     @GetMapping("/playlist/{playlistId}/{songId}/update")
     public String viewSongForm(@Login LoginUser user, Model model, @PathVariable("playlistId") Long playlistId, @PathVariable("songId") Long songId) {
-        Playlist playlist = playlistService.findPlaylist(playlistId);
+        Playlist playlist = playlistService.findPlaylistById(playlistId);
         Song song = songService.getSong(songId);
         model.addAttribute("playlist", playlist);
         model.addAttribute("author", playlist.getUser().getNickname());
