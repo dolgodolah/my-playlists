@@ -30,6 +30,14 @@
 .play-box__container .play-box__container--right {
   grid-area: content-right;
   @include mixin-background-color($main-background-color, 0.7);
+  padding: 10px 60px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+  }
 }
 .play-box__container .profile-menu__container--footer {
   grid-area: footer;
