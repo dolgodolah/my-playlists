@@ -13,7 +13,7 @@ const PlayBox = ({ top, left, right }: PlayBoxProps) => {
         <div className="lists__container">{left}</div>
       </div>
       <div className="play-box__container--right">{right}</div>
-      <ProfileMenu name={user.nickname} />
+      <ProfileMenu user={user} />
     </div>
   );
 };
