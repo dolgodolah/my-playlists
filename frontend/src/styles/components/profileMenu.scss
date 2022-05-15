@@ -1,0 +1,18 @@
+.profile-menu__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0 25px;
+  }
+}
+
+.profile-menu__span--logout {
+  cursor: pointer;
+  &:hover {
+    color: darken(white, 40%);
+  }
+}
