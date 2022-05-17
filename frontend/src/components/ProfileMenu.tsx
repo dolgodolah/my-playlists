@@ -1,13 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
-interface UserProps {
-  user: Record<string, any>;
-}
-
-const ProfileMenu = ({ user }: UserProps) => {
+const ProfileMenu = () => {
   const navigate = useNavigate();
 
-  const onUserClick = () => {
+  const goToMe = () => {
     navigate("/me");
   };
   const logout = () => {
@@ -16,8 +12,8 @@ const ProfileMenu = ({ user }: UserProps) => {
   };
   return (
     <div className="profile-menu__container">
-      <span className="profile-menu__span" onClick={onUserClick}>
-        {user.nickname}
+      <span className="profile-menu__span" onClick={goToMe}>
+        내 정보
       </span>
       <span className="profile-menu__span--logout" onClick={logout}>
         로그아웃
