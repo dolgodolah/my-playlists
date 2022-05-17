@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Builder
 @Getter
@@ -12,7 +13,7 @@ public class PlaylistResponseDto {
     private Long playlistId;
     private String title;
     private String description;
-    private LocalDateTime updatedDate;
+    private String updatedDate;
     private boolean visibility;
     private String author;
     private boolean isBookmark;
@@ -23,7 +24,7 @@ public class PlaylistResponseDto {
                 .playlistId(playlist.getId())
                 .title(playlist.getTitle())
                 .description(playlist.getDescription())
-                .updatedDate(playlist.getUpdatedDate())
+                .updatedDate(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일").format(playlist.getUpdatedDate()))
                 .visibility(playlist.isVisibility())
                 .author(playlist.getUser().getNickname())
                 .songCount(playlist.getSongCount())
@@ -35,7 +36,7 @@ public class PlaylistResponseDto {
                 .playlistId(playlist.getId())
                 .title(playlist.getTitle())
                 .description(playlist.getDescription())
-                .updatedDate(playlist.getUpdatedDate())
+                .updatedDate(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일").format(playlist.getUpdatedDate()))
                 .visibility(playlist.isVisibility())
                 .author(playlist.getUser().getNickname())
                 .songCount(playlist.getSongCount())

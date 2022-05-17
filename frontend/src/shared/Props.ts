@@ -11,7 +11,14 @@ export interface PlaylistCategoryProps {
 }
 
 export interface PlaylistProps {
-  playlist: Record<string, any>;
+  author: string;
+  bookmark: boolean;
+  description: string;
+  playlistId: number;
+  title: string;
+  updatedDate: string;
+  visibility: boolean;
+  songCount: number;
 }
 
 export interface SongProps {

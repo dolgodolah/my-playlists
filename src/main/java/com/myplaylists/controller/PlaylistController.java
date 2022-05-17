@@ -23,6 +23,7 @@ public class PlaylistController {
 
 	@GetMapping("/my_playlists")
 	public ResponseEntity<PlaylistsDto> getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6) Pageable pageable) {
+		System.out.println(user.getUserId());
 		PlaylistsDto playlists = playlistService.findMyPlaylists(user.getUserId(), pageable);
 		return ResponseEntity.ok(playlists);
 	}
@@ -52,7 +53,7 @@ public class PlaylistController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/bookmark")
+	@GetMapping("/bookmarks")
 	public ResponseEntity<PlaylistsDto> getBookmarkPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable) {
 		BookmarksDto bookmarks = BookmarksDto.of(bookmarkService.findByUserId(user.getUserId(), pageable));
 		return ResponseEntity.ok(PlaylistsDto.of(bookmarks));
@@ -70,7 +71,7 @@ public class PlaylistController {
 		return ResponseEntity.ok(playlists);
 	}
 
-	@GetMapping("/playlist/search-all")
+	@GetMapping("/playlist/search_all")
 	public ResponseEntity<PlaylistsDto> searchAllPlaylists(String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		PlaylistsDto playlists = playlistService.searchAllPlaylists(pageable, keyword);
 		return ResponseEntity.ok(playlists);
