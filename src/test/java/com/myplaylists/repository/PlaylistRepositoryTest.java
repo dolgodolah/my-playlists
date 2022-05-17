@@ -104,7 +104,5 @@ class PlaylistRepositoryTest {
             assertThat(playlist.getDescription()).isEqualTo(PLAYLIST_DESCRIPTION);
             assertThat(playlist.isVisibility()).isTrue();
         });
-
-
     }
 }

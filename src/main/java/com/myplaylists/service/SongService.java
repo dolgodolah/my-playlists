@@ -27,7 +27,7 @@ public class SongService {
 				.title(songRequestDto.getTitle())
 				.videoId(songRequestDto.getVideoId())
 				.build();
-		Playlist playlist = playlistService.findPlaylistById(songRequestDto.getPlaylistId());
+		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(songRequestDto.getPlaylistId());
 		playlist.addSong(song);
 		return songRepository.save(song);
 	}
@@ -55,7 +55,7 @@ public class SongService {
 	}
 
 	public List<Song> findSongsByPlaylistId(Long playlistId) {
-		Playlist playlist = playlistService.findPlaylistById(playlistId);
+		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
 		return songRepository.findSongsByPlaylist(playlist);
 	}
 }

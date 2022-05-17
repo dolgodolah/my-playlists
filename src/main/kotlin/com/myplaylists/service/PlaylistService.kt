@@ -17,10 +17,10 @@ class PlaylistService(
     private val playlistRepository: PlaylistRepository
 ) {
 
-    fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto): Long {
+    fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
         val user = userService.findByUserId(userId)
         val playlist = playlistRequest.toEntity(user)
-        return playlistRepository.save(playlist).id
+        playlistRepository.save(playlist)
     }
 
     /**
