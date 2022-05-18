@@ -1,6 +1,5 @@
 import React from "react";
 import { PlayBoxProps } from "../shared/Props";
-import { user } from "../test/user";
 import Header from "./Header";
 import ProfileMenu from "./ProfileMenu";
 
@@ -13,7 +12,7 @@ const PlayBox = ({ top, left, right }: PlayBoxProps) => {
         <div className="lists__container">{left}</div>
       </div>
       <div className="play-box__container--right">{right}</div>
-      <ProfileMenu name={user.nickname} />
+      <ProfileMenu />
     </div>
   );
 };

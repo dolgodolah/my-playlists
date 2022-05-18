@@ -39,7 +39,7 @@
     background-color: #2f3542;
   }
 }
-.play-box__container .profile-menu__container--footer {
+.play-box__container .profile-menu__container {
   grid-area: footer;
   @include mixin-background-color($main-background-color, 0.5);
 }
