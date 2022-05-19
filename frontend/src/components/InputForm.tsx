@@ -46,24 +46,28 @@ export const AddPlaylistForm = () => {
           />
         </div>
         <div className="visibility-input__container">
-          <input
-            type="radio"
-            name="visibility"
-            value="public"
-            id="public"
-            checked={visibility === "public"}
-            onChange={changeVisibility}
-          />
-          <label htmlFor="public">공개</label>
-          <input
-            type="radio"
-            name="visibility"
-            value="private"
-            id="private"
-            checked={visibility === "private"}
-            onChange={changeVisibility}
-          />
-          <label htmlFor="private">비공개</label>
+          <div>
+            <input
+              type="radio"
+              name="visibility"
+              value="public"
+              id="public"
+              checked={visibility === "public"}
+              onChange={changeVisibility}
+            />
+            <label htmlFor="public">공개</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="visibility"
+              value="private"
+              id="private"
+              checked={visibility === "private"}
+              onChange={changeVisibility}
+            />
+            <label htmlFor="private">비공개</label>
+          </div>
         </div>
         <div className="submit__container">
           <input type="submit" value="플레이리스트 생성" />

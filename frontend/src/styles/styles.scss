@@ -18,6 +18,7 @@
 @import "./components/playlistDetail.scss";
 @import "./components/searchSongs.scss";
 @import "./components/profileMenu.scss";
+@import "./components/inputForm.scss";
 
 // GlobalStyles
 body {
@@ -38,7 +39,8 @@ input {
 span,
 p,
 a,
-textarea {
+textarea,
+input {
   font-family: "KoPub Dotum";
 }
 
