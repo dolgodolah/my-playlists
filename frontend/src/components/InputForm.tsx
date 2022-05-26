@@ -2,15 +2,15 @@ import { useCallback, useState } from "react";
 
 export const AddPlaylistForm = () => {
   const [playlistName, setPlaylistName] = useState("");
-  const [introduction, setIntroduction] = useState("");
+  const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState("public");
 
-  const chagePlaylistName = useCallback((e) => {
+  const changePlaylistName = useCallback((e) => {
     setPlaylistName(e.target.value);
   }, []);
 
   const changeIntroduction = useCallback((e) => {
-    setIntroduction(e.target.value);
+    setDescription(e.target.value);
   }, []);
 
   const changeVisibility = useCallback((e) => {
@@ -18,7 +18,7 @@ export const AddPlaylistForm = () => {
   }, []);
 
   const onSubmit = () => {
-    console.log(playlistName, introduction, visibility);
+    console.log(playlistName, description, visibility);
     alert(`${playlistName}플레이리스트 생성이 완료되었습니다.`);
   };
 
@@ -28,21 +28,23 @@ export const AddPlaylistForm = () => {
         <div className="name-input__container">
           <input
             value={playlistName}
-            onChange={chagePlaylistName}
+            onChange={changePlaylistName}
             type="text"
             placeholder="플레이리스트 이름"
             minLength={2}
             maxLength={20}
             className="name__input"
+            required
           />
         </div>
         <div className="description-textarea__container">
           <textarea
             className="description__textarea"
             placeholder="플레이리스트 소개"
-            value={introduction}
+            value={description}
             onChange={changeIntroduction}
             maxLength={150}
+            required
           />
         </div>
         <div className="visibility-input__container">
@@ -69,8 +71,8 @@ export const AddPlaylistForm = () => {
             <label htmlFor="private">비공개</label>
           </div>
         </div>
-        <div className="submit__container">
-          <input type="submit" value="플레이리스트 생성" />
+        <div className="button__container--inputForm">
+          <button type="submit">생성</button>
         </div>
       </form>
     </div>
