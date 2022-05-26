@@ -1,9 +1,12 @@
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AddPlaylistForm = () => {
   const [playlistName, setPlaylistName] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState("public");
+
+  const navigate = useNavigate();
 
   const changePlaylistName = useCallback((e) => {
     setPlaylistName(e.target.value);
@@ -16,6 +19,10 @@ export const AddPlaylistForm = () => {
   const changeVisibility = useCallback((e) => {
     setVisibility(e.target.value);
   }, []);
+
+  const pushPreviousPage = () => {
+    navigate(-1);
+  };
 
   const onSubmit = () => {
     console.log(playlistName, description, visibility);
@@ -72,6 +79,9 @@ export const AddPlaylistForm = () => {
           </div>
         </div>
         <div className="button__container--inputForm">
+          <button type="button" onClick={pushPreviousPage}>
+            취소
+          </button>
           <button type="submit">생성</button>
         </div>
       </form>
