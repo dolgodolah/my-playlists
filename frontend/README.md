@@ -30,6 +30,7 @@ src
 ├── components
 │   ├── EditBox.tsx
 │   ├── Header.tsx
+│   ├── InputForm.tsx
 │   ├── PlayBox.tsx
 │   ├── Playlist.tsx
 │   ├── PlaylistCategory.tsx
@@ -39,6 +40,7 @@ src
 │   ├── Song.tsx
 │   └── YoutubeVideo.tsx
 ├── routes
+│   ├── add.tsx
 │   ├── home.tsx
 │   ├── login.tsx
 │   └── playlist.tsx
@@ -49,10 +51,12 @@ src
 │   ├── components
 │   │   ├── editBox.scss
 │   │   ├── header.scss
+│   │   ├── inputForm.scss
 │   │   ├── playBox.scss
 │   │   ├── playlist.scss
 │   │   ├── playlistCategory.scss
 │   │   ├── playlistDetail.scss
+│   │   ├── profileMenu.scss
 │   │   ├── searchSongs.scss
 │   │   ├── song.scss
 │   │   └── youtubeVideo.scss
