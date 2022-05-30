@@ -1,7 +1,12 @@
 import { Icon } from "@iconify/react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [keyword, setKeyword] = useState("");
+  const onChangeKeyword = useCallback((e) => {
+    setKeyword(e.target.value);
+  }, []);
   return (
     <div className="header__container">
       <div className="logo__container">
@@ -20,6 +25,8 @@ const Header = () => {
             placeholder="플레이리스트 검색"
             name="keyword"
             className="search__input--header"
+            value={keyword}
+            onChange={onChangeKeyword}
           />
         </form>
       </div>
