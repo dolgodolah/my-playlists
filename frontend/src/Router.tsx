@@ -3,6 +3,7 @@ import Add from "./routes/add";
 import Home from "./routes/home";
 import Login from "./routes/login";
 import Playlist from "./routes/playlist";
+import Search from "./routes/search";
 
 const Router = () => {
   return (
@@ -12,6 +13,7 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/playlist" element={<Playlist />} />
         <Route path="/playlist/add" element={<Add />} />
+        <Route path="/search" element={<Search />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </BrowserRouter>
