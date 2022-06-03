@@ -20,12 +20,6 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            top={
-              <>
-                <PlaylistDetail />
-                <EditBox />
-              </>
-            }
             left={
               <>
                 {songs?.map((song) => (
@@ -33,7 +27,12 @@ const Playlist = () => {
                 ))}
               </>
             }
-            right={null}
+            right={
+              <>
+                <PlaylistDetail />
+                <EditBox />
+              </>
+            }
           />
         );
       }
@@ -43,12 +42,6 @@ const Playlist = () => {
         const song = songs.find((song) => song.id === songId);
         return (
           <PlayBox
-            top={
-              <>
-                <PlaylistDetail />
-                <EditBox />
-              </>
-            }
             left={
               <>
                 {songs?.map((song) => (
@@ -56,7 +49,14 @@ const Playlist = () => {
                 ))}
               </>
             }
-            right={<YoutubeVideo key={song.id} song={song} />}
+            right={
+              <>
+                <>
+                  <PlaylistDetail />
+                  <EditBox />
+                </>
+                <YoutubeVideo key={song.id} song={song} />
+              </>}
           />
         );
       }
@@ -65,12 +65,6 @@ const Playlist = () => {
       case "searchSong": {
         return (
           <PlayBox
-            top={
-              <>
-                <PlaylistDetail />
-                <EditBox />
-              </>
-            }
             left={
               <>
                 {songs?.map((song) => (
@@ -78,7 +72,15 @@ const Playlist = () => {
                 ))}
               </>
             }
-            right={<SearchSongs />}
+            right={
+              <>
+                <SearchSongs />
+                <>
+                <PlaylistDetail />
+                <EditBox />
+                </>
+              </>
+            }
           />
         );
       }

@@ -13,7 +13,6 @@ const Home = () => {
   };
   return (
     <PlayBox
-      top={<PlaylistCategory page={page} />}
       left={
         page === "allPlaylist" ? (
           <> {/*모든 플레이리스트 */}</>
@@ -25,7 +24,7 @@ const Home = () => {
           </>
         )
       }
-      right={null}
+      right={<PlaylistCategory page={page} />}
     />
   );
 };

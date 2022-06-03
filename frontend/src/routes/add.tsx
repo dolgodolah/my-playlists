@@ -5,13 +5,15 @@ import PlaylistDetail from "../components/PlaylistDetail";
 const Add = () => {
   return (
     <PlayBox
-      top={
+      left={null}
+      right={
         <>
-          <PlaylistDetail />
+          <>
+            <PlaylistDetail />
+          </>
+          <AddPlaylistForm />
         </>
       }
-      left={null}
-      right={<AddPlaylistForm />}
     />
   );
 };

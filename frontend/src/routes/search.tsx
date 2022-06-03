@@ -3,7 +3,7 @@ import Playlist from "../components/Playlist";
 
 const Search = () => {
   return (
-    <PlayBox top={null} left={<Playlist page={"search"} />} right={null} />
+    <PlayBox left={<Playlist page={"search"} />} right={null} />
   );
 };
 

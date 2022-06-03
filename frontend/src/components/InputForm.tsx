@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const AddPlaylistForm = () => {
@@ -24,9 +24,11 @@ export const AddPlaylistForm = () => {
     navigate(-1);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     console.log(playlistName, description, visibility);
     alert(`${playlistName}플레이리스트 생성이 완료되었습니다.`);
+    navigate("/")
   };
 
   return (
