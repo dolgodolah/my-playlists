@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import EditBox from "../components/EditBox";
 import PlayBox from "../components/PlayBox";
 import PlaylistDetail from "../components/PlaylistDetail";
 import Song from "../components/Song";
@@ -20,17 +19,10 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            left={
-              <>
-                {songs?.map((song) => (
-                  <Song key={song.id} song={song} />
-                ))}
-              </>
-            }
+            left={<Song />}
             right={
               <>
                 <PlaylistDetail />
-                <EditBox />
               </>
             }
           />
@@ -42,21 +34,13 @@ const Playlist = () => {
         const song = songs.find((song) => song.id === songId);
         return (
           <PlayBox
-            left={
-              <>
-                {songs?.map((song) => (
-                  <Song key={song.id} song={song} />
-                ))}
-              </>
-            }
+            left={<Song />}
             right={
               <>
-                <>
-                  <PlaylistDetail />
-                  <EditBox />
-                </>
+                <PlaylistDetail />
                 <YoutubeVideo key={song.id} song={song} />
-              </>}
+              </>
+            }
           />
         );
       }
@@ -65,20 +49,11 @@ const Playlist = () => {
       case "searchSong": {
         return (
           <PlayBox
-            left={
-              <>
-                {songs?.map((song) => (
-                  <Song key={song.id} song={song} />
-                ))}
-              </>
-            }
+            left={<Song />}
             right={
               <>
-                <SearchSongs />
-                <>
                 <PlaylistDetail />
-                <EditBox />
-                </>
+                <SearchSongs />
               </>
             }
           />

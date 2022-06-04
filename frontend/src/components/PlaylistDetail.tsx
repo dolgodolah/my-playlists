@@ -1,9 +1,12 @@
+import EditBox from "./EditBox";
+
 const PlaylistDetail = () => {
   return (
-    <>
-      <span className="page__span--title">{/*  플리 title */}</span>
-      <span className="page__span--sub">{/*  플리 sub */}</span>
-    </>
+    <div className="title__container">
+      <EditBox />
+      <span className="page__span--title">타이틀</span>
+      <span className="page__span--sub">부제목</span>
+    </div>
   );
 };
 

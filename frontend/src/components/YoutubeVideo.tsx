@@ -24,7 +24,7 @@ const YoutubeVideo = ({ song }: SongProps) => {
       />
       <div className="description__container--youtube">
         <textarea
-          className="description__textarea"
+          className="description__textarea--youtube"
           value={description}
           onChange={onChange}
         />

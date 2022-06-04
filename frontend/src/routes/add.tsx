@@ -8,9 +8,7 @@ const Add = () => {
       left={null}
       right={
         <>
-          <>
-            <PlaylistDetail />
-          </>
+          <PlaylistDetail />
           <AddPlaylistForm />
         </>
       }

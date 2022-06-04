@@ -38,28 +38,30 @@ const SearchSongs = () => {
           />
         </form>
       </div>
-      {songs.map((song: SongProps) => (
-        <div key={song.id} className="song-search-result__container">
-          <div>
-            <img
-              className="song-search-result__image"
-              src={`http://i.ytimg.com/vi/${song.videoId}/maxresdefault.jpg`}
-              alt="youtube_thumbnail"
-            />
+      <div className="search-songs-results__container">
+        {songs.map((song: SongProps) => (
+          <div key={song.id} className="search-song-result__container">
+            <div>
+              <img
+                className="song-search-result__image"
+                src={`http://i.ytimg.com/vi/${song.videoId}/maxresdefault.jpg`}
+                alt="youtube_thumbnail"
+              />
+            </div>
+            <div>
+              <span className="song-search-result__span">{song.title}</span>
+            </div>
+            <div>
+              <button
+                onClick={() => addSong(song)}
+                className="song-search-result__button"
+              >
+                추가
+              </button>
+            </div>
           </div>
-          <div>
-            <span className="song-search-result__span">{song.title}</span>
-          </div>
-          <div>
-            <button
-              onClick={() => addSong(song)}
-              className="song-search-result__button"
-            >
-              추가
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   );
 };

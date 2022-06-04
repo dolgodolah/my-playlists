@@ -1,10 +1,9 @@
 .edit-box__container {
   position: absolute;
-  bottom: 0;
+  top:32px;
   right: 10px;
   height: 100%;
   display: flex;
-  align-items: center;
   svg {
     cursor: pointer;
     width: 50px;

@@ -28,7 +28,7 @@ export const AddPlaylistForm = () => {
     e.preventDefault();
     console.log(playlistName, description, visibility);
     alert(`${playlistName}플레이리스트 생성이 완료되었습니다.`);
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -46,9 +46,9 @@ export const AddPlaylistForm = () => {
             required
           />
         </div>
-        <div className="description-textarea__container">
+        <div className="description-textarea__container--input">
           <textarea
-            className="description__textarea"
+            className="description__textarea--input"
             placeholder="플레이리스트 소개"
             value={description}
             onChange={changeIntroduction}

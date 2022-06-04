@@ -1,25 +1,10 @@
 .play-box__container {
-  // position: relative;
-  // border: solid tomato 1px;
   width: 100%;
   display: grid;
   grid-template-columns: 300px 900px;
-  grid-template-rows: 100px 565px 35px;
+  grid-template-rows: 700px;
   grid-template-areas:
-    "header-left   header-right"
-    "content-left  content-right"
-    "footer  content-right";
-}
-
-.play-box__container .header__container {
-  grid-area: header-left;
-  @include mixin-background-color($main-background-color, 0.5);
-}
-
-.play-box__container .play-box__container--top {
-  grid-area: header-right;
-  @include mixin-background-color($main-background-color, 0.7);
-  border-bottom: 2px solid rgba($color: #fff, $alpha: 0.9);
+    "content-left  content-right";
 }
 
 .play-box__container .play-box__container--left {
@@ -30,34 +15,60 @@
 .play-box__container .play-box__container--right {
   grid-area: content-right;
   @include mixin-background-color($main-background-color, 0.7);
-  padding: 10px 60px;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #2f3542;
-  }
-}
-.play-box__container .profile-menu__container {
-  grid-area: footer;
-  @include mixin-background-color($main-background-color, 0.5);
 }
 
-.play-box__container--top {
+.header__container {
   position: relative;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  height: 100px;
+  padding: 15px 0 0 0;
+}
+
+.logo__container {
+  width: 100%;
+  text-align: center;
+  font-size: 35px;
+  font-weight: 500;
+  a {
+    color: white;
+  }
+}
+
+.button__container--header {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  width: 30px;
+}
+
+.add__button--header {
+  color: white;
+  font-size: 37px;
+}
+
+.logo__container a:hover,
+.add__button--header:hover {
+  color: darken(white, 40%);
+}
+
+.search__input--header {
+  position: absolute;
+  left: 10px;
+  bottom: -15px;
+  border-radius: 3px;
+  border: none;
+  padding: 10px;
+  background: white;
+  outline: 0;
+  width: 93%;
+  font-size: 14px;
 }
 
 .lists__container {
   width: 100%;
-  height: auto;
-  max-height: 100%;
-  padding-top: 35px;
-  overflow: hidden;
+  height:500px;
+  margin-top: 35px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .lists__container::-webkit-scrollbar {
