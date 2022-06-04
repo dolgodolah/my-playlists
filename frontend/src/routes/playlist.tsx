@@ -3,16 +3,18 @@ import PlayBox from "../components/PlayBox";
 import PlaylistDetail from "../components/PlaylistDetail";
 import Song from "../components/Song";
 import YoutubeVideo from "../components/YoutubeVideo";
-import { songs } from "../test/user";
 import SearchSongs from "../components/SearchSongs";
+import {PlaylistProps, SongProps} from "../shared/Props";
 
 interface StateProps {
   page: string;
-  songId?: string;
+  playlist: PlaylistProps;
+  song?: SongProps;
 }
 
 const Playlist = () => {
-  const { page, songId } = useLocation().state as StateProps;
+  const { page, playlist, song } = useLocation().state as StateProps;
+  console.log(playlist)
   const Render = () => {
     switch (page) {
       // 선택 플레이리스트 상세화면
@@ -22,7 +24,7 @@ const Playlist = () => {
             left={<Song />}
             right={
               <>
-                <PlaylistDetail />
+                <PlaylistDetail playlist={playlist}/>
               </>
             }
           />
@@ -31,14 +33,13 @@ const Playlist = () => {
 
       // 선택 플레이리스트 노래 재생화면
       case "playSongs": {
-        const song = songs.find((song) => song.id === songId);
         return (
           <PlayBox
             left={<Song />}
             right={
               <>
-                <PlaylistDetail />
-                <YoutubeVideo key={song.id} song={song} />
+                <PlaylistDetail playlist={playlist} />
+                <YoutubeVideo videoId={song?.videoId!} description={song?.description!}/>
               </>
             }
           />
@@ -52,8 +53,8 @@ const Playlist = () => {
             left={<Song />}
             right={
               <>
-                <PlaylistDetail />
-                <SearchSongs />
+                <PlaylistDetail playlist={playlist} />
+                <SearchSongs playlistId={playlist.playlistId} />
               </>
             }
           />

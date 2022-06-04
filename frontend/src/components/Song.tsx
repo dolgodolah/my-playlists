@@ -2,7 +2,6 @@ import { Icon } from "@iconify/react";
 import { useCallback, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { songs } from "../test/user";
-import { SongProps } from "../shared/Props";
 
 const Song = () => {
   const [keyword, setKeyword] = useState("");
@@ -43,7 +42,7 @@ const Song = () => {
             to="/playlist"
             state={{
               page: "playSongs",
-              songId: song.id,
+              song: song,
             }}
           >
             <div className="song__container">

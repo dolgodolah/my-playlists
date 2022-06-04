@@ -1,6 +1,5 @@
 import React from "react";
 import { PlayBoxProps } from "../shared/Props";
-import Header from "./Header";
 import ProfileMenu from "./ProfileMenu";
 
 const PlayBox = ({ left, right }: PlayBoxProps) => {

@@ -1,13 +1,12 @@
 import React, { useCallback, useState } from "react";
 import { songs as newSongs } from "../test/user";
+import {SongProps} from "../shared/Props";
 
-interface SongProps {
-  id: number;
-  videoId: string;
-  title: string;
+interface SearchSongsProps {
+  playlistId: number;
 }
 
-const SearchSongs = () => {
+const SearchSongs = ({ playlistId }: SearchSongsProps) => {
   const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([]) as Array<any>;
 
@@ -22,6 +21,7 @@ const SearchSongs = () => {
   }, []);
   const addSong = (song: SongProps) => {
     console.log(song);
+    console.log(playlistId)
     // TODO: 노래 추가 로직
   };
 
@@ -40,21 +40,21 @@ const SearchSongs = () => {
       </div>
       <div className="search-songs-results__container">
         {songs.map((song: SongProps) => (
-          <div key={song.id} className="search-song-result__container">
+          <div key={song.songId} className="search-song-result__container">
             <div>
               <img
-                className="song-search-result__image"
+                className="search-song-result__image"
                 src={`http://i.ytimg.com/vi/${song.videoId}/maxresdefault.jpg`}
                 alt="youtube_thumbnail"
               />
             </div>
             <div>
-              <span className="song-search-result__span">{song.title}</span>
+              <span className="search-song-result__span">{song.title}</span>
             </div>
             <div>
               <button
                 onClick={() => addSong(song)}
-                className="song-search-result__button"
+                className="search-song-result__button"
               >
                 추가
               </button>

@@ -41,14 +41,14 @@
   margin: 18px auto;
 }
 
-.song-search-result__image {
+.search-song-result__image {
   width: 100%;
   height: 100%;
   background-color: $main-shadow-color;
   object-fit: contain;
 }
 
-.song-search-result__span {
+.search-song-result__span {
   color: white;
   font-size: 20px;
   font-weight: 300;
@@ -56,7 +56,7 @@
   padding: 20px;
 }
 
-.song-search-result__button {
+.search-song-result__button {
   cursor: pointer;
   color: white;
   border: white 1px solid;

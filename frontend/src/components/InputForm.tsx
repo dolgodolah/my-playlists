@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const AddPlaylistForm = () => {
-  const [playlistName, setPlaylistName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [visibility, setVisibility] = useState("public");
+  const [visibility, setVisibility] = useState(true);
 
   const navigate = useNavigate();
 
-  const changePlaylistName = useCallback((e) => {
-    setPlaylistName(e.target.value);
+  const changeTitle = useCallback((e) => {
+    setTitle(e.target.value);
   }, []);
 
   const changeIntroduction = useCallback((e) => {
@@ -26,9 +27,16 @@ export const AddPlaylistForm = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(playlistName, description, visibility);
-    alert(`${playlistName}플레이리스트 생성이 완료되었습니다.`);
-    navigate("/");
+    console.log("test")
+    axios.post("/playlist", {
+      title,
+      description,
+      visibility
+    }).then((res) => {
+      navigate("/")
+    }).catch((error) => {
+      console.log(error)
+    })
   };
 
   return (
@@ -36,8 +44,8 @@ export const AddPlaylistForm = () => {
       <form onSubmit={onSubmit}>
         <div className="name-input__container">
           <input
-            value={playlistName}
-            onChange={changePlaylistName}
+            value={title}
+            onChange={changeTitle}
             type="text"
             placeholder="플레이리스트 이름"
             minLength={2}
@@ -63,7 +71,7 @@ export const AddPlaylistForm = () => {
               name="visibility"
               value="public"
               id="public"
-              checked={visibility === "public"}
+              checked={visibility === true}
               onChange={changeVisibility}
             />
             <label htmlFor="public">공개</label>
@@ -74,7 +82,7 @@ export const AddPlaylistForm = () => {
               name="visibility"
               value="private"
               id="private"
-              checked={visibility === "private"}
+              checked={visibility === false}
               onChange={changeVisibility}
             />
             <label htmlFor="private">비공개</label>

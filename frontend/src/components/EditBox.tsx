@@ -2,8 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import classNames from "classnames";
 import { useState } from "react";
+import {PlaylistProps} from "../shared/Props";
 
-const EditBox = () => {
+interface EditBoxProps {
+  playlist: PlaylistProps;
+}
+
+const EditBox = ({ playlist }: EditBoxProps) => {
   const navigate = useNavigate();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const setBookmark = () => {
@@ -31,6 +36,7 @@ const EditBox = () => {
         to="/playlist"
         state={{
           page: "searchSong",
+          playlist: playlist
         }}
       >
         <Icon icon="carbon:music-add" />

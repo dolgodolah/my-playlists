@@ -1,8 +1,13 @@
-import { SongProps } from "../shared/Props";
 import { useCallback, useState } from "react";
 
-const YoutubeVideo = ({ song }: SongProps) => {
-  const [description, setDescription] = useState(song.description);
+
+export interface YoutubeVideoProps {
+  videoId: string;
+  description: string;
+}
+
+const YoutubeVideo = ({ videoId, description: preDescription }: YoutubeVideoProps) => {
+  const [description, setDescription] = useState(preDescription);
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
   }, []);
@@ -18,7 +23,7 @@ const YoutubeVideo = ({ song }: SongProps) => {
       <iframe
         title="youtube video player"
         className="youtube__video"
-        src={`https://www.youtube.com/embed/${song.videoId}`}
+        src={`https://www.youtube.com/embed/${videoId}`}
         frameBorder="0"
         allowFullScreen
       />
@@ -40,7 +45,7 @@ const YoutubeVideo = ({ song }: SongProps) => {
       <div className="thumbnail__container--youtube">
         <img
           className="thumbnail__img--youtube"
-          src={song.thumbnail}
+          src={`https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`}
           alt="youtube_thumbnail"
         />
       </div>

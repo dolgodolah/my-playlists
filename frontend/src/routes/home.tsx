@@ -13,17 +13,7 @@ const Home = () => {
   };
   return (
     <PlayBox
-      left={
-        page === "allPlaylist" ? (
-          <> {/*모든 플레이리스트 */}</>
-        ) : page === "bookmarks" ? (
-          <>{/*즐겨찾기한 플레이리스트 */}</>
-        ) : (
-          <>
-            <Playlist page={page} />
-          </>
-        )
-      }
+      left={<Playlist page={page} />}
       right={<PlaylistCategory page={page} />}
     />
   );

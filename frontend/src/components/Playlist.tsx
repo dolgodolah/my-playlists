@@ -9,10 +9,10 @@ interface PageProps {
 }
 
 const Playlist = ({ page }: PageProps) => {
+  const [params] = useSearchParams();
   const [playlists, setPlaylists] = useState([]) as Array<any>;
-  const [keyword, setKeyword] = useState("");
-  const [params, setParams] = useSearchParams();
-  // const keyword = params.get('keyword');
+  const [keyword, setKeyword] = useState(params.get('keyword') || "");
+
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
@@ -88,6 +88,7 @@ const Playlist = ({ page }: PageProps) => {
             to="/playlist"
             state={{
               page: "showSongs",
+              playlist: playlist
             }}
             className="playlist__link"
           >
