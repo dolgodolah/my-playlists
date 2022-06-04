@@ -1,18 +1,18 @@
 .category__container {
-  width: 55%;
-  height: 100%;
+  width: 100%;
+  height: 100px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
-  text-align: center;
-  margin-left: 5px;
+  padding: 0 10px;
+  border-bottom: 2px solid rgba($color: #fff, $alpha: 0.9);
 }
 
 .category__link {
   font-size: 25px;
   font-weight: 400;
   color: gray;
+  margin: 0 15px;
   &:hover {
     transform: scale(105%);
   }

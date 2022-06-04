@@ -1,16 +1,14 @@
 .form__container {
   width: 100%;
-  height: 100%;
+  height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
-  padding-bottom: 40px;
   form {
     width: 100%;
   }
   .name-input__container,
-  .description-textarea__container,
+  .description-textarea__container--input,
   .button__container--inputForm {
     width: 100%;
     display: flex;
@@ -32,7 +30,7 @@
   padding: 10px;
 }
 
-.description__textarea {
+.description__textarea--input {
   width: 500px;
   height: 120px;
   font-size: 17px;

@@ -1,62 +1,47 @@
 import { useLocation } from "react-router-dom";
-import EditBox from "../components/EditBox";
 import PlayBox from "../components/PlayBox";
 import PlaylistDetail from "../components/PlaylistDetail";
 import Song from "../components/Song";
 import YoutubeVideo from "../components/YoutubeVideo";
-import { songs } from "../test/user";
 import SearchSongs from "../components/SearchSongs";
+import {PlaylistProps, SongProps} from "../shared/Props";
 
 interface StateProps {
   page: string;
-  songId?: string;
+  playlist: PlaylistProps;
+  song?: SongProps;
 }
 
 const Playlist = () => {
-  const { page, songId } = useLocation().state as StateProps;
+  const { page, playlist, song } = useLocation().state as StateProps;
+  console.log(playlist)
   const Render = () => {
     switch (page) {
       // 선택 플레이리스트 상세화면
       case "showSongs": {
         return (
           <PlayBox
-            top={
+            left={<Song />}
+            right={
               <>
-                <PlaylistDetail />
-                <EditBox />
+                <PlaylistDetail playlist={playlist}/>
               </>
             }
-            left={
-              <>
-                {songs?.map((song) => (
-                  <Song key={song.id} song={song} />
-                ))}
-              </>
-            }
-            right={null}
           />
         );
       }
 
       // 선택 플레이리스트 노래 재생화면
       case "playSongs": {
-        const song = songs.find((song) => song.id === songId);
         return (
           <PlayBox
-            top={
+            left={<Song />}
+            right={
               <>
-                <PlaylistDetail />
-                <EditBox />
+                <PlaylistDetail playlist={playlist} />
+                <YoutubeVideo videoId={song?.videoId!} description={song?.description!}/>
               </>
             }
-            left={
-              <>
-                {songs?.map((song) => (
-                  <Song key={song.id} song={song} />
-                ))}
-              </>
-            }
-            right={<YoutubeVideo key={song.id} song={song} />}
           />
         );
       }
@@ -65,20 +50,13 @@ const Playlist = () => {
       case "searchSong": {
         return (
           <PlayBox
-            top={
+            left={<Song />}
+            right={
               <>
-                <PlaylistDetail />
-                <EditBox />
+                <PlaylistDetail playlist={playlist} />
+                <SearchSongs playlistId={playlist.playlistId} />
               </>
             }
-            left={
-              <>
-                {songs?.map((song) => (
-                  <Song key={song.id} song={song} />
-                ))}
-              </>
-            }
-            right={<SearchSongs />}
           />
         );
       }

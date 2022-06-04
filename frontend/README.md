@@ -40,7 +40,7 @@ src
 │   ├── Song.tsx
 │   └── YoutubeVideo.tsx
 ├── routes
-│   ├── add.tsx
+│   ├── addPlaylist.tsx
 │   ├── home.tsx
 │   ├── login.tsx
 │   └── playlist.tsx
