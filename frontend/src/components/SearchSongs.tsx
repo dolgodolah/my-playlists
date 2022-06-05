@@ -44,7 +44,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
             <div>
               <img
                 className="search-song-result__image"
-                src={`http://i.ytimg.com/vi/${song.videoId}/maxresdefault.jpg`}
+                src={`https://i.ytimg.com/vi/${song.videoId}/maxresdefault.jpg`}
                 alt="youtube_thumbnail"
               />
             </div>
