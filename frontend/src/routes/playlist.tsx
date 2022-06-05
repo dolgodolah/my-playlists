@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import PlayBox from "../components/PlayBox";
 import PlaylistDetail from "../components/PlaylistDetail";
-import Song from "../components/Song";
+import Songs from "../components/Songs";
 import YoutubeVideo from "../components/YoutubeVideo";
 import SearchSongs from "../components/SearchSongs";
 import {PlaylistProps, SongProps} from "../shared/Props";
@@ -20,7 +20,7 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            left={<Song playlistId={playlist.playlistId}/>}
+            left={<Songs playlist={playlist}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist}/>
@@ -34,11 +34,11 @@ const Playlist = () => {
       case "playSongs": {
         return (
           <PlayBox
-            left={<Song playlistId={playlist.playlistId}/>}
+            left={<Songs playlist={playlist}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist} />
-                <YoutubeVideo videoId={song?.videoId!} description={song?.description!}/>
+                <YoutubeVideo song={song!}/>
               </>
             }
           />
@@ -49,7 +49,7 @@ const Playlist = () => {
       case "searchSong": {
         return (
           <PlayBox
-            left={<Song playlistId={playlist.playlistId}/>}
+            left={<Songs playlist={playlist}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist} />

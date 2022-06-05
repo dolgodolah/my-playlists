@@ -1,12 +1,16 @@
 import { Icon } from "@iconify/react";
 import {useCallback, useEffect, useState} from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
-import {SongProps} from "../shared/Props";
+import {PlaylistProps, SongProps} from "../shared/Props";
 
-const Song = ({ playlistId }: any) => {
+interface SongsProps {
+  playlist: PlaylistProps;
+}
+
+const Songs = ({ playlist }: SongsProps) => {
   const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([]);
 
@@ -15,8 +19,8 @@ const Song = ({ playlistId }: any) => {
   }, []);
 
   useEffect(() => {
-    axios.get("/songs", { params: { playlistId: playlistId } }).then((res) => {
-      const response = res.data
+    axios.get("/songs", { params: { playlistId: playlist.playlistId } }).then((res) => {
+      const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
           setSongs(response.body.songs);
@@ -61,6 +65,7 @@ const Song = ({ playlistId }: any) => {
             to="/playlist"
             state={{
               page: "playSongs",
+              playlist: playlist,
               song: song,
             }}
           >
@@ -79,4 +84,4 @@ const Song = ({ playlistId }: any) => {
   );
 };
 
-export default Song;
+export default Songs;

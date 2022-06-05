@@ -37,7 +37,7 @@ src
 │   ├── PlaylistDetail.tsx
 │   ├── ProfileMenu.tsx
 │   ├── SearchSongs.tsx
-│   ├── Song.tsx
+│   ├── Songs.tsx
 │   └── YoutubeVideo.tsx
 ├── routes
 │   ├── addPlaylist.tsx

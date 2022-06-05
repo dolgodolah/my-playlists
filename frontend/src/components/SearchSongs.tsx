@@ -34,7 +34,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
   }, []);
 
   const addSong = (song: SongProps) => {
-    axios.post("/song", {
+    axios.post("/songs", {
       playlistId,
       title: song.title,
       videoId: song.videoId

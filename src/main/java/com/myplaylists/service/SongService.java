@@ -1,6 +1,7 @@
 package com.myplaylists.service;
 
 
+import com.myplaylists.dto.SongResponseDto;
 import com.myplaylists.dto.SongsDto;
 import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.SongRequestDto;
@@ -33,21 +34,16 @@ public class SongService {
 		return songRepository.save(song);
 	}
 
-	@Transactional(readOnly = true)
-	public Song getSong(Long songId) {
-		return songRepository.findById(songId).orElseThrow(() -> new ApiException("해당 곡은 삭제되었거나 존재하지 않는 곡입니다.", 1));
-	}
-
 	@Transactional
 	public void updateSong(LoginUser user, SongRequestDto songRequestDto, Long songId) {
-		Song song = getSong(songId);
+		Song song = findSongByIdOrElseThrow(songId);
 		song.updateSongDetail(songRequestDto, user.getUserId());
 		songRepository.save(song);
 	}
 
 	@Transactional
 	public void deleteSong(LoginUser user, Long songId) {
-		Song song = getSong(songId);
+		Song song = findSongByIdOrElseThrow(songId);
 		song.validateUser(user.getUserId());
 
 		Playlist playlist = song.getPlaylist();
@@ -58,5 +54,9 @@ public class SongService {
 	public SongsDto findSongsByPlaylistId(Long playlistId) {
 		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
 		return SongsDto.of(songRepository.findSongsByPlaylist(playlist));
+	}
+
+	private Song findSongByIdOrElseThrow(Long songId) {
+		return songRepository.findById(songId).orElseThrow(() -> new ApiException("해당 곡은 삭제되었거나 존재하지 않는 곡입니다.", 1));
 	}
 }

@@ -1,13 +1,15 @@
-import { useCallback, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
+import axios from "axios";
+import {SongProps} from "../shared/Props";
+import StatusCode from "../shared/StatusCode";
 
 
 export interface YoutubeVideoProps {
-  videoId: string;
-  description: string;
+  song: SongProps;
 }
 
-const YoutubeVideo = ({ videoId, description: preDescription }: YoutubeVideoProps) => {
-  const [description, setDescription] = useState(preDescription);
+const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
+  const [description, setDescription] = useState(song.description);
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
   }, []);
@@ -18,19 +20,20 @@ const YoutubeVideo = ({ videoId, description: preDescription }: YoutubeVideoProp
   const onClickDelete = () => {
     // 노래 삭제 로직 추가
   };
+
   return (
     <div className="youtube__container">
       <iframe
         title="youtube video player"
         className="youtube__video"
-        src={`https://www.youtube.com/embed/${videoId}`}
+        src={`https://www.youtube.com/embed/${song.videoId}`}
         frameBorder="0"
         allowFullScreen
       />
       <div className="description__container--youtube">
         <textarea
           className="description__textarea--youtube"
-          value={description}
+          value={description} // TODO: null이면 콘솔 경고 뜨는 듯, 개선 필요
           onChange={onChange}
         />
       </div>
@@ -45,7 +48,7 @@ const YoutubeVideo = ({ videoId, description: preDescription }: YoutubeVideoProp
       <div className="thumbnail__container--youtube">
         <img
           className="thumbnail__img--youtube"
-          src={`https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`}
+          src={`https://i.ytimg.com/vi/${song.videoId}/mqdefault.jpg`}
           alt="youtube_thumbnail"
         />
       </div>

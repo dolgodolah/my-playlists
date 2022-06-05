@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class YoutubeDto {
+public class YoutubeSearchDto {
 
     private List<Map<String, Object>> songs;
 
-    public YoutubeDto() {
+    public YoutubeSearchDto() {
         songs = new ArrayList<>();
     }
 

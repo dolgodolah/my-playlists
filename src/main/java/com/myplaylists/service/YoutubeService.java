@@ -6,12 +6,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.myplaylists.dto.YoutubeDto;
+import com.myplaylists.dto.YoutubeSearchDto;
 import com.myplaylists.exception.YoutubeApiException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,8 +17,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import com.myplaylists.dto.YoutubeForm;
 
 @Service
 public class YoutubeService {
@@ -30,7 +26,7 @@ public class YoutubeService {
 	private static String API_URL = "https://www.googleapis.com/youtube/v3/search";
 
 	// TODO: 유튜브 api 리팩토링
-	public YoutubeDto search(String keyword) {
+	public YoutubeSearchDto search(String keyword) {
 		try {
 			API_URL += "?key=" + apiKey;
 			API_URL += "&part=snippet&type=video&maxResults=5&videoEmbeddable=true";
@@ -52,7 +48,7 @@ public class YoutubeService {
 			JSONObject obj = (JSONObject) parser.parse(data);
 			JSONArray parseItems = (JSONArray) obj.get("items");
 
-			YoutubeDto youtubeDto = new YoutubeDto();
+			YoutubeSearchDto youtubeDto = new YoutubeSearchDto();
 
 			for(int i = 0; i < parseItems.size(); i++) {
 				JSONObject item = (JSONObject) parseItems.get(i);
