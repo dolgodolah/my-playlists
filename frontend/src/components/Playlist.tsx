@@ -3,6 +3,8 @@ import {Link, useSearchParams} from "react-router-dom";
 import { PlaylistProps } from "../shared/Props";
 import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
+import StatusCode from "../shared/StatusCode";
+import alertError from "../shared/Error";
 
 interface PageProps {
   page: string;
@@ -22,35 +24,55 @@ const Playlist = ({ page }: PageProps) => {
     switch (page) {
       case "myPlaylist":
         axios.get("/my_playlists").then( (res) => {
-            const playlists: Array<any> = res.data.playlists;
-            setPlaylists(playlists);
-        }).catch((error) => {
-          console.log(error);
-        });
+          const response = res.data
+          switch (response.statusCode) {
+            case StatusCode.OK:
+              setPlaylists(response.body.playlists);
+              break;
+            default:
+              alertError(response.body)
+              break;
+          }
+        })
         break;
       case "allPlaylist":
         axios.get("/all_playlists").then( (res) => {
-          const playlists: Array<any> = res.data.playlists;
-          setPlaylists(playlists);
-        }).catch((error) => {
-          console.log(error);
-        });
+          const response = res.data
+          switch (response.statusCode) {
+            case StatusCode.OK:
+              setPlaylists(response.body.playlists);
+              break;
+            default:
+              alertError(response.body)
+              break;
+          }
+        })
         break;
       case "bookmarks":
         axios.get("/bookmarks").then( (res) => {
-          const playlists: Array<any> = res.data.playlists;
-          setPlaylists(playlists);
-        }).catch((error) => {
-          console.log(error);
-        });
+          const response = res.data
+          switch (response.statusCode) {
+            case StatusCode.OK:
+              setPlaylists(response.body.playlists);
+              break;
+            default:
+              alertError(response.body)
+              break;
+          }
+        })
         break;
       case "search":
         axios.get("/playlist/search", { params: { keyword: keyword } }).then((res) => {
-          const playlists: Array<any> = res.data.playlists;
-          setPlaylists(playlists);
-        }).catch((error) => {
-          console.log(error);
-        });
+          const response = res.data
+          switch (response.statusCode) {
+            case StatusCode.OK:
+              setPlaylists(response.body.playlists);
+              break;
+            default:
+              alertError(response.body)
+              break;
+          }
+        })
         break;
     }
   }, []);
