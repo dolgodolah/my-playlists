@@ -75,7 +75,7 @@ const Playlists = ({ page }: PageProps) => {
         })
         break;
     }
-  }, []);
+  }, [page]);
 
   return (
     <>
