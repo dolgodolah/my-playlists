@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import PlayBox from "../components/PlayBox";
-import Playlist from "../components/Playlist";
+import Playlists from "../components/Playlists";
 import PlaylistCategory from "../components/PlaylistCategory";
 
 interface StateProps {
@@ -13,7 +13,7 @@ const Home = () => {
   };
   return (
     <PlayBox
-      left={<Playlist page={page} />}
+      left={<Playlists page={page} />}
       right={<PlaylistCategory page={page} />}
     />
   );

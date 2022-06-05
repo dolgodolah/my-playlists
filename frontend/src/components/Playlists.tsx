@@ -10,7 +10,7 @@ interface PageProps {
   page: string;
 }
 
-const Playlist = ({ page }: PageProps) => {
+const Playlists = ({ page }: PageProps) => {
   const [params] = useSearchParams();
   const [playlists, setPlaylists] = useState([])
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
@@ -144,4 +144,4 @@ const Playlist = ({ page }: PageProps) => {
   )
 };
 
-export default Playlist;
+export default Playlists;

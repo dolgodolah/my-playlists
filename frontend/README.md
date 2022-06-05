@@ -32,7 +32,7 @@ src
 │   ├── Header.tsx
 │   ├── PlaylistAddForm.tsx
 │   ├── PlayBox.tsx
-│   ├── Playlist.tsx
+│   ├── Playlists.tsx
 │   ├── PlaylistCategory.tsx
 │   ├── PlaylistDetail.tsx
 │   ├── ProfileMenu.tsx

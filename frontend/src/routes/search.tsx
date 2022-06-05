@@ -1,9 +1,9 @@
 import PlayBox from "../components/PlayBox";
-import Playlist from "../components/Playlist";
+import Playlists from "../components/Playlists";
 
 const Search = () => {
   return (
-    <PlayBox left={<Playlist page={"search"} />} right={null} />
+    <PlayBox left={<Playlists page={"search"} />} right={null} />
   );
 };
 
