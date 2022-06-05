@@ -27,7 +27,6 @@ export const AddPlaylistForm = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("test")
     axios.post("/playlist", {
       title,
       description,

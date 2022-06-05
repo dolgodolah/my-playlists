@@ -52,11 +52,11 @@ public class Playlist extends BaseTime {
 	@Builder
 	public Playlist(User user, String title, String description, boolean visibility) {
 		if (!StringUtils.hasText(title)) {
-			throw new ApiException("플레이리스트 제목을 입력해주세요.");
+			throw new ApiException("플레이리스트 제목을 입력해주세요.", 1);
 		}
 
 		if (title.length() > 30) {
-			throw new ApiException("플레이리스트 제목은 최대 30자까지 가능합니다.");
+			throw new ApiException("플레이리스트 제목은 최대 30자까지 가능합니다.", 1);
 		}
 
 		this.user = user;
@@ -87,7 +87,7 @@ public class Playlist extends BaseTime {
 	 */
 	public void validateUser(Long userId) {
 		if (!isSameUser(userId)) {
-			throw new ApiException("잘못된 요청입니다.");
+			throw new ApiException("잘못된 요청입니다.", 1);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.myplaylists.controller;
 
+import com.myplaylists.dto.ResponseDto;
 import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.auth.OauthRequest;
 import com.myplaylists.service.AuthService;
@@ -17,13 +18,15 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login/kakao")
-    public void login(@RequestBody OauthRequest oauthRequest, HttpSession session) {
+    public ResponseDto login(@RequestBody OauthRequest oauthRequest, HttpSession session) {
         LoginUser loginUser = authService.authenticate(oauthRequest);
         session.setAttribute("user", loginUser);
+        return ResponseDto.ok();
     }
 
     @PostMapping("/logout")
-    public void logout(HttpSession session) {
+    public ResponseDto logout(HttpSession session) {
         session.invalidate();
+        return ResponseDto.ok();
     }
 }
