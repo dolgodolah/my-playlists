@@ -3,6 +3,7 @@ import {SongProps} from "../shared/Props";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
+import {useNavigate} from "react-router-dom";
 
 interface SearchSongsProps {
   playlistId: number;
@@ -11,6 +12,7 @@ interface SearchSongsProps {
 const SearchSongs = ({ playlistId }: SearchSongsProps) => {
   const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([]) as Array<any>;
+  const navigate = useNavigate();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,9 +34,20 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
   }, []);
 
   const addSong = (song: SongProps) => {
-    console.log(song);
-    console.log(playlistId)
-    // TODO: 노래 추가 로직
+    axios.post("/song", {
+      playlistId,
+      title: song.title,
+      videoId: song.videoId
+    }).then((res) => {
+      const response = res.data
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          window.location.href = "/playlist";
+          break;
+        default:
+          alertError(response.body)
+      }
+    })
   };
 
   return (
@@ -52,7 +65,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
       </div>
       <div className="search-songs-results__container">
         {songs.map((song: SongProps) => (
-          <div key={song.songId} className="search-song-result__container">
+          <div key={song.videoId} className="search-song-result__container">
             <div>
               <img
                 className="search-song-result__image"

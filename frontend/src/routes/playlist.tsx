@@ -14,7 +14,6 @@ interface StateProps {
 
 const Playlist = () => {
   const { page, playlist, song } = useLocation().state as StateProps;
-  console.log(playlist)
   const Render = () => {
     switch (page) {
       // 선택 플레이리스트 상세화면

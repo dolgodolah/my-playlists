@@ -26,9 +26,9 @@ public class SongController {
     }
 
     @PostMapping("/song")
-    public ResponseEntity<SongResponseDto> addSong(@RequestBody SongRequestDto songRequestDto) {
+    public ResponseDto addSong(@RequestBody SongRequestDto songRequestDto) {
         Song song = songService.addSong(songRequestDto);
-        return ResponseEntity.ok(SongResponseDto.of(song));
+        return ResponseDto.ok();
     }
 
     @PutMapping("/song/{songId}")
