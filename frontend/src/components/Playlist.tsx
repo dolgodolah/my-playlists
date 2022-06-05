@@ -12,7 +12,7 @@ interface PageProps {
 
 const Playlist = ({ page }: PageProps) => {
   const [params] = useSearchParams();
-  const [playlists, setPlaylists] = useState([]) as Array<any>;
+  const [playlists, setPlaylists] = useState([])
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
 
 
@@ -79,6 +79,7 @@ const Playlist = ({ page }: PageProps) => {
 
   return (
     <>
+      {/* TODO: 헤더 컴포넌트 다시 생성 */}
       <div className="header__container">
         <div className="logo__container">
           <Link to="/">내플리스</Link>

@@ -1,6 +1,7 @@
 package com.myplaylists.service;
 
 
+import com.myplaylists.dto.SongsDto;
 import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.SongRequestDto;
 import com.myplaylists.exception.ApiException;
@@ -54,8 +55,8 @@ public class SongService {
 		songRepository.delete(song);
 	}
 
-	public List<Song> findSongsByPlaylistId(Long playlistId) {
+	public SongsDto findSongsByPlaylistId(Long playlistId) {
 		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
-		return songRepository.findSongsByPlaylist(playlist);
+		return SongsDto.of(songRepository.findSongsByPlaylist(playlist));
 	}
 }

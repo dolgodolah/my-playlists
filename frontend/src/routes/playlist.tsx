@@ -20,7 +20,7 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            left={<Song />}
+            left={<Song playlistId={playlist.playlistId}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist}/>
@@ -34,7 +34,7 @@ const Playlist = () => {
       case "playSongs": {
         return (
           <PlayBox
-            left={<Song />}
+            left={<Song playlistId={playlist.playlistId}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist} />
@@ -49,7 +49,7 @@ const Playlist = () => {
       case "searchSong": {
         return (
           <PlayBox
-            left={<Song />}
+            left={<Song playlistId={playlist.playlistId}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist} />

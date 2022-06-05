@@ -1,13 +1,11 @@
 package com.myplaylists.controller;
 
 import com.myplaylists.config.auth.Login;
-import com.myplaylists.domain.Song;
 import com.myplaylists.dto.*;
 import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.service.*;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,7 +25,7 @@ public class SongController {
 
     @PostMapping("/song")
     public ResponseDto addSong(@RequestBody SongRequestDto songRequestDto) {
-        Song song = songService.addSong(songRequestDto);
+        songService.addSong(songRequestDto);
         return ResponseDto.ok();
     }
 
@@ -42,8 +40,8 @@ public class SongController {
     }
 
     @GetMapping("/songs")
-    public ResponseEntity<SongsDto> getSongsByPlaylistId(@Login LoginUser user, @RequestParam Long playlistId) {
-        List<Song> songs = songService.findSongsByPlaylistId(playlistId);
-        return ResponseEntity.ok(SongsDto.of(songs));
+    public ResponseDto getSongsByPlaylistId(@Login LoginUser user, @RequestParam Long playlistId) {
+        SongsDto songs = songService.findSongsByPlaylistId(playlistId);
+        return ResponseDto.of(songs);
     }
 }

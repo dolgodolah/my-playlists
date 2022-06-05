@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Builder
@@ -17,7 +18,7 @@ public class SongResponseDto {
     private String title;
     private String videoId;
     private String description;
-    private LocalDateTime createdDate;
+    private String createdDate;
 
     public static SongResponseDto of(Song song) {
         return SongResponseDto.builder()
@@ -25,7 +26,7 @@ public class SongResponseDto {
                 .title(song.getTitle())
                 .videoId(song.getVideoId())
                 .description(song.getDescription())
-                .createdDate(song.getCreatedDate())
+                .createdDate(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일").format(song.getCreatedDate()))
                 .build();
     }
 }

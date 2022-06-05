@@ -1,18 +1,36 @@
 import { Icon } from "@iconify/react";
-import { useCallback, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { songs } from "../test/user";
+import axios from "axios";
+import StatusCode from "../shared/StatusCode";
+import alertError from "../shared/Error";
+import {SongProps} from "../shared/Props";
 
-const Song = () => {
+const Song = ({ playlistId }: any) => {
   const [keyword, setKeyword] = useState("");
-  const [params, setParams] = useSearchParams();
-  // const keyword = params.get('keyword');
+  const [songs, setSongs] = useState([]);
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
   }, []);
+
+  useEffect(() => {
+    axios.get("/songs", { params: { playlistId: playlistId } }).then((res) => {
+      const response = res.data
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          setSongs(response.body.songs);
+          break;
+        default:
+          alertError(response.body)
+          break;
+      }
+    })
+  }, []);
+
   return (
     <>
+      {/* TODO: 헤더 컴포넌트 다시 생성 */}
       <div className="header__container">
         <div className="logo__container">
           <Link to="/">내플리스</Link>
@@ -37,8 +55,9 @@ const Song = () => {
         </div>
       </div>
       <div className="lists__container">
-        {songs?.map((song) => (
+        {songs?.map((song: SongProps) => (
           <Link
+            key={song.songId}
             to="/playlist"
             state={{
               page: "playSongs",
