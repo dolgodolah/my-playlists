@@ -30,7 +30,7 @@ src
 ├── components
 │   ├── EditBox.tsx
 │   ├── Header.tsx
-│   ├── InputForm.tsx
+│   ├── PlaylistAddForm.tsx
 │   ├── PlayBox.tsx
 │   ├── Playlist.tsx
 │   ├── PlaylistCategory.tsx
