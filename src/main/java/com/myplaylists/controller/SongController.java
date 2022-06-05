@@ -21,8 +21,8 @@ public class SongController {
     private final YoutubeService youtubeService;
 
     @GetMapping("/youtube_search")
-    public ResponseEntity<List<YoutubeForm>> youtubeSearch(@Login LoginUser user, @RequestParam String keyword) throws IOException, ParseException {
-        return ResponseEntity.ok(youtubeService.search(keyword));
+    public ResponseDto youtubeSearch(@Login LoginUser user, @RequestParam String keyword) throws IOException, ParseException {
+        return ResponseDto.of(youtubeService.search(keyword));
     }
 
     @PostMapping("/song")

@@ -7,8 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.myplaylists.dto.YoutubeDto;
+import com.myplaylists.exception.YoutubeApiException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,60 +28,60 @@ public class YoutubeService {
 	private String apiKey;
 
 	private static String API_URL = "https://www.googleapis.com/youtube/v3/search";
-	
-	public List<YoutubeForm> search(String search) throws IOException, ParseException {
-		API_URL += "?key=" + apiKey;
-		API_URL += "&part=snippet&type=video&maxResults=5&videoEmbeddable=true";
-		API_URL += "&q="+URLEncoder.encode(search,"UTF-8");
-		URL url = new URL(API_URL);
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-		while((inputLine = br.readLine()) != null) {
-			response.append(inputLine);
+
+	// TODO: 유튜브 api 리팩토링
+	public YoutubeDto search(String keyword) {
+		try {
+			API_URL += "?key=" + apiKey;
+			API_URL += "&part=snippet&type=video&maxResults=5&videoEmbeddable=true";
+			API_URL += "&q="+URLEncoder.encode(keyword,"UTF-8");
+			URL url = new URL(API_URL);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+			while((inputLine = br.readLine()) != null) {
+				response.append(inputLine);
+			}
+			br.close();
+			con.disconnect();
+			String data = response.toString();
+			JSONParser parser = new JSONParser();
+			JSONObject obj = (JSONObject) parser.parse(data);
+			JSONArray parseItems = (JSONArray) obj.get("items");
+
+			YoutubeDto youtubeDto = new YoutubeDto();
+
+			for(int i = 0; i < parseItems.size(); i++) {
+				JSONObject item = (JSONObject) parseItems.get(i);
+				JSONObject id = (JSONObject) item.get("id");
+				String videoId = (String) id.get("videoId");
+
+				JSONObject snippet = (JSONObject) item.get("snippet");
+				String title = (String)snippet.get("title");
+				JSONObject thumbnails = (JSONObject)snippet.get("thumbnails");
+				JSONObject thumbnail = (JSONObject)thumbnails.get("default");
+				String thumbnailUrl = (String)thumbnail.get("url");
+
+				Map<String, Object> song = new HashMap<>();
+				song.put("title", replaceTitle(title));
+				song.put("videoId", videoId);
+				song.put("thumbnail", thumbnailUrl);
+
+				youtubeDto.add(song);
+			}
+
+			return youtubeDto;
+
+		} catch (IOException | ParseException e) {
+			throw new YoutubeApiException("유튜브 노래 검색에 실패하였습니다.");
 		}
-		br.close();
-		con.disconnect();
-		String data = response.toString();
-		JSONParser parser = new JSONParser(); 
-		JSONObject obj = (JSONObject) parser.parse(data); 
-		JSONArray parse_items = (JSONArray) obj.get("items");
-		JSONObject video;
-		JSONObject Id = null;
-		JSONObject snippet = null;
-		String videoId = null;
-		String title = null;
-		JSONObject thumbnails = null;
-		JSONObject thumbnail = null;
-		String thumbnailUrl = null;
-		List<YoutubeForm> list = new ArrayList<>();
-		for(int i=0;i<parse_items.size();i++) {
-			video = (JSONObject) parse_items.get(i);
-			Id = (JSONObject) video.get("id");
-			videoId=(String)Id.get("videoId");
-			
-			snippet = (JSONObject) video.get("snippet");
-			title = (String)snippet.get("title");
-			thumbnails = (JSONObject)snippet.get("thumbnails");
-			thumbnail = (JSONObject)thumbnails.get("default");
-			thumbnailUrl = (String)thumbnail.get("url");
-			YoutubeForm youtubeForm = new YoutubeForm();
-			
-			title=titleReplace(title);
-			youtubeForm.setTitle(title);
-			youtubeForm.setVideoId(videoId);
-			youtubeForm.setThumbnail(thumbnailUrl);
-			list.add(youtubeForm);
-		}
-		
-		
-		return list;
 	}
-	
-	public String titleReplace(String title) {
+
+	// TODO: replaceAll 리팩토링
+	public String replaceTitle(String title) {
 		title=title.replaceAll("&#39;", "");
 		title=title.replaceAll("&lt;", "<");
 		title=title.replaceAll("&gt;", ">");

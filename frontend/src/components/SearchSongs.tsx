@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from "react";
-import { songs as newSongs } from "../test/user";
 import {SongProps} from "../shared/Props";
+import axios from "axios";
+import StatusCode from "../shared/StatusCode";
+import alertError from "../shared/Error";
 
 interface SearchSongsProps {
   playlistId: number;
@@ -12,13 +14,23 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("유튜브 노래 검색 api 호출");
-    // 유튜브 노래 검색 api 호출
-    setSongs(newSongs);
+    axios.get("/youtube_search", { params: { keyword: keyword } }).then((res) => {
+      const response = res.data
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          setSongs(response.body.songs);
+          break;
+        default:
+          alertError(response.body)
+          break;
+      }
+    })
   };
+
   const onChange = useCallback((e) => {
     setKeyword(e.target.value);
   }, []);
+
   const addSong = (song: SongProps) => {
     console.log(song);
     console.log(playlistId)
