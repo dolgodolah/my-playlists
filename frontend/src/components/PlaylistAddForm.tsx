@@ -5,7 +5,7 @@ import axios from "axios";
 export const PlaylistAddForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [visibility, setVisibility] = useState(true);
+  const [visibility, setVisibility] = useState("true");
 
   const navigate = useNavigate();
 
@@ -68,9 +68,9 @@ export const PlaylistAddForm = () => {
             <input
               type="radio"
               name="visibility"
-              value="public"
+              value="true"
               id="public"
-              checked={visibility === true}
+              checked={visibility === "true"}
               onChange={changeVisibility}
             />
             <label htmlFor="public">공개</label>
@@ -79,9 +79,9 @@ export const PlaylistAddForm = () => {
             <input
               type="radio"
               name="visibility"
-              value="private"
+              value="false"
               id="private"
-              checked={visibility === false}
+              checked={visibility === "false"}
               onChange={changeVisibility}
             />
             <label htmlFor="private">비공개</label>
