@@ -68,5 +68,5 @@ class PlaylistService(
     }
 
     fun findPlaylistByIdOrElseThrow(playlistId: Long): Playlist =
-        playlistRepository.findById(playlistId).orElseThrow { ApiException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
+        playlistRepository.findById(playlistId).orElseThrow { ApiException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.", 1) }
 }

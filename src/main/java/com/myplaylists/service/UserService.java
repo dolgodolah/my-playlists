@@ -26,7 +26,7 @@ public class UserService {
 		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 사용자는 존재하지 않는 사용자입니다."));
 
 		if (userDto.getNickname().isEmpty()) {
-			throw new ApiException("닉네임을 입력하지 않았습니다.");
+			throw new ApiException("닉네임을 입력하지 않았습니다.", 1);
 		}
 
 		user.updateNickname(userDto.getNickname());

@@ -71,7 +71,7 @@ public class Song extends BaseTime{
 	 */
 	public void validateUser(Long userId) {
 		if (!isSameUser(userId)) {
-			throw new ApiException("잘못된 요청입니다.");
+			throw new ApiException("잘못된 요청입니다.", 1);
 		}
 	}
 
