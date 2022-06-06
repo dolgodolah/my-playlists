@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AddPlaylist from "./routes/addPlaylist";
 import Home from "./routes/home";
 import Login from "./routes/login";
+import MyPage from "./routes/myPage";
 import Playlist from "./routes/playlist";
 import Search from "./routes/search";
 
@@ -14,6 +15,7 @@ const Router = () => {
         <Route path="/playlist" element={<Playlist />} />
         <Route path="/playlist/add" element={<AddPlaylist />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/me" element={<MyPage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </BrowserRouter>
