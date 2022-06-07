@@ -28,11 +28,6 @@ const MyPageForm = () => {
       })
       .then((res) => {
         const response = res.data;
-        // if (response.nickname) {
-        //   navigate("/");
-        // } else {
-        //   alertError(response.body);
-        // }
         switch (response.statusCode) {
           case StatusCode.OK:
             navigate("/");
@@ -55,13 +50,6 @@ const MyPageForm = () => {
   useEffect(() => {
     axios.get("/my-info").then((res) => {
       const response = res.data;
-      // if (response.name) {
-      //   setName(response.name);
-      //   setEmail(response.email);
-      //   setNickname(response.nickname);
-      // } else {
-      //   alertError(response.body);
-      // }
       switch (response.statusCode) {
         case StatusCode.OK:
           setName(response.name);
