@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const PlaylistAddForm = () => {
+const PlaylistAddForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState("true");
@@ -97,3 +97,5 @@ export const PlaylistAddForm = () => {
     </div>
   );
 };
+
+export default PlaylistAddForm;
