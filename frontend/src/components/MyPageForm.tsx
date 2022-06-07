@@ -1,4 +1,5 @@
 import axios from "axios";
+import classNames from "classnames";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import alertError from "../shared/Error";
@@ -8,6 +9,7 @@ const MyPageForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
+  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ const MyPageForm = () => {
         //     break;
         //   case StatusCode.INVALID_NICKNAME:
         //     alertError(response.body.message);
+        //     setError(true);
         //     break;
         //   default:
         //     alertError(response.body);
@@ -77,12 +80,17 @@ const MyPageForm = () => {
           <input
             value={name}
             type="text"
-            className="user-name__input"
+            className="user-name__input readonly"
             readOnly
           />
         </div>
         <div className="email-input__container">
-          <input value={email} type="text" className="email__input" readOnly />
+          <input
+            value={email}
+            type="text"
+            className="email__input readonly"
+            readOnly
+          />
         </div>
         <div className="nickname-input__container">
           <input
@@ -92,13 +100,21 @@ const MyPageForm = () => {
             placeholder="플레이리스트 이름"
             minLength={2}
             maxLength={20}
-            className="nickname__input"
+            className={classNames("nickname__input", {
+              "input-error": error,
+            })}
             required
           />
-          <span className="warning-message__span">
-            닉네임을 설정하지 않으면 연동시킨 계정의 이름이 사용되므로
-            유의해주세요.
-          </span>
+          {error ? (
+            <span className="warning-message__span">
+              잘못된 닉네임 입니다. 다시 설정해 주세요.
+            </span>
+          ) : (
+            <span className="warning-message__span">
+              닉네임을 설정하지 않으면 연동시킨 계정의 이름이 사용되므로
+              유의해주세요.
+            </span>
+          )}
         </div>
         <div className="button__container--inputForm">
           <button type="button" onClick={pushPreviousPage}>
