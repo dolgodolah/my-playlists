@@ -66,6 +66,7 @@ const MyPageForm = () => {
         case StatusCode.OK:
           setName(response.name);
           setEmail(response.email);
+          setNickname(response.nickname);
           break;
         default:
           alertError(response.body);
@@ -98,20 +99,20 @@ const MyPageForm = () => {
             value={nickname}
             onChange={changeNickname}
             type="text"
-            placeholder="플레이리스트 이름"
+            placeholder="닉네임 이름"
             minLength={2}
-            maxLength={20}
             className={classNames("nickname__input", {
               "input-error": error,
             })}
             required
           />
           {error ? (
-            <span className="warning-message__span">
-              잘못된 닉네임 입니다. 다시 설정해 주세요.
-            </span>
-          ) : (
             <span className="warning-message__span">{errorMessage}</span>
+          ) : (
+            <span className="warning-message__span">
+              닉네임을 설정하지 않으면 연동시킨 계정의 이름이 사용되므로
+              유의해주세요.
+            </span>
           )}
         </div>
         <div className="button__container--inputForm">
