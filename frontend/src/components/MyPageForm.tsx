@@ -67,6 +67,9 @@ const MyPageForm = () => {
     <div className="form__container">
       <form onSubmit={onSubmit}>
         <div className="user-name-input__container">
+          <div className="input-title__container">
+            <span className="input-title__span">이름</span>
+          </div>
           <input
             value={name}
             type="text"
@@ -75,6 +78,9 @@ const MyPageForm = () => {
           />
         </div>
         <div className="email-input__container">
+          <div className="input-title__container">
+            <span className="input-title__span">이메일</span>
+          </div>
           <input
             value={email}
             type="text"
@@ -83,6 +89,9 @@ const MyPageForm = () => {
           />
         </div>
         <div className="nickname-input__container">
+          <div className="input-title__container">
+            <span className="input-title__span">닉네임</span>
+          </div>
           <input
             value={nickname}
             onChange={changeNickname}

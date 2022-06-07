@@ -10,6 +10,16 @@
     }
 }
 
+.input-title__container{
+    width: 500px;
+    margin: 0 auto 12px auto;
+    padding-left: 5px;
+    .input-title__span{
+        color: white;
+        font-size: 18px;
+    }
+}
+
 .user-name__input,
 .email__input,
 .nickname__input{
