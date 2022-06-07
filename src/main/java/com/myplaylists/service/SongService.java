@@ -37,7 +37,7 @@ public class SongService {
 	@Transactional
 	public void updateSong(LoginUser user, SongRequestDto songRequestDto, Long songId) {
 		Song song = findSongByIdOrElseThrow(songId);
-		song.updateSongDetail(songRequestDto, user.getUserId());
+		song.updateSongDetail(songRequestDto);
 		songRepository.save(song);
 	}
 

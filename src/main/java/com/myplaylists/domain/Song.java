@@ -48,8 +48,7 @@ public class Song extends BaseTime{
 		this.videoId = videoId;
 	}
 
-	public void updateSongDetail(SongRequestDto song, Long userId) {
-		validateUser(userId);
+	public void updateSongDetail(SongRequestDto song) {
 		updateTitle(song.getTitle());
 		updateDescription(song.getDescription());
 	}
