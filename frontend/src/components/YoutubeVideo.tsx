@@ -1,8 +1,9 @@
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import {SongProps} from "../shared/Props";
+import { SongProps } from "../shared/Props";
 import StatusCode from "../shared/StatusCode";
-
+import { useNavigate } from "react-router-dom";
+import alertError from "../shared/Error";
 
 export interface YoutubeVideoProps {
   song: SongProps;
@@ -10,6 +11,9 @@ export interface YoutubeVideoProps {
 
 const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
   const [description, setDescription] = useState(song.description);
+
+  const navigate = useNavigate();
+
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
   }, []);
@@ -18,7 +22,20 @@ const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
     // 새로운 description 저장 로직 추가
   };
   const onClickDelete = () => {
-    // 노래 삭제 로직 추가
+    const ok = window.confirm("노래를 삭제하시겠습니까?");
+    if (ok) {
+      axios.delete(`/songs/${song.songId}`).then((res) => {
+        const response = res.data;
+        switch (response.statusCode) {
+          case StatusCode.OK:
+            navigate(-1);
+            break;
+          default:
+            alertError(response.body);
+            break;
+        }
+      });
+    }
   };
 
   return (
