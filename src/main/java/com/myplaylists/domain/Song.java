@@ -11,9 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.myplaylists.dto.SongRequestDto;
+import com.myplaylists.dto.SongUpdateRequestDto;
 import com.myplaylists.exception.ApiException;
-import lombok.Builder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
@@ -27,28 +26,27 @@ import java.util.Objects;
 @Setter
 @EntityListeners(AuditingEntityListener.class) /* JPA에게 해당 Entity는 Auditiong 기능을 사용함을 알립니다. */
 @NoArgsConstructor
-public class Song extends BaseTime{
+public class Song extends BaseTime {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="song_id")
-	private Long id;
-	private Long userId;
-	private String title;
-	private String videoId;
-	private String description;
+	public Long id;
+	public Long userId;
+	public String title;
+	public String videoId;
+	public String description;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="playlist_id")
-	private Playlist playlist;
+	public Playlist playlist;
 
-	@Builder
 	public Song(String title, String videoId) {
 		this.title = title;
 		this.videoId = videoId;
 	}
 
-	public void updateSongDetail(SongRequestDto song) {
+	public void updateSongDetail(SongUpdateRequestDto song) {
 		updateTitle(song.getTitle());
 		updateDescription(song.getDescription());
 	}

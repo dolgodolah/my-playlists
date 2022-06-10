@@ -5,7 +5,6 @@ import com.myplaylists.dto.*;
 import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.service.*;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -19,7 +18,7 @@ public class SongController {
     private final YoutubeService youtubeService;
 
     @GetMapping("/youtube_search")
-    public ResponseDto youtubeSearch(@Login LoginUser user, @RequestParam String keyword) throws IOException, ParseException {
+    public ResponseDto youtubeSearch(@Login LoginUser user, @RequestParam String keyword) {
         return ResponseDto.of(youtubeService.search(keyword));
     }
 
@@ -30,14 +29,14 @@ public class SongController {
     }
 
     @PostMapping("/songs")
-    public ResponseDto addSong(@RequestBody SongRequestDto songRequestDto) {
-        songService.addSong(songRequestDto);
+    public ResponseDto addSong(@Login LoginUser user, @RequestBody SongAddRequestDto songRequestDto) {
+        songService.addSong(user, songRequestDto);
         return ResponseDto.ok();
     }
 
     @PutMapping("/songs/{songId}")
-    public void updateSong(@Login LoginUser user, @RequestBody SongRequestDto songRequestDto, @PathVariable("songId") Long songId) {
-        songService.updateSong(user, songRequestDto, songId);
+    public void updateSong(@Login LoginUser user, @PathVariable("songId") Long songId, @RequestBody SongUpdateRequestDto songRequestDto) {
+        songService.updateSong(user, songId, songRequestDto);
     }
 
     @DeleteMapping("/songs/{songId}")
