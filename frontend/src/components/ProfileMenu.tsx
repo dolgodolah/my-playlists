@@ -4,7 +4,9 @@ const ProfileMenu = () => {
   const navigate = useNavigate();
 
   const goToMe = () => {
-    navigate("/me");
+    if (window.location.pathname !== "/me") {
+      navigate("/me");
+    }
   };
   const logout = () => {
     console.log("logout");
