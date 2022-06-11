@@ -9,11 +9,11 @@ import {PlaylistProps, SongProps} from "../shared/Props";
 interface StateProps {
   page: string;
   playlist: PlaylistProps;
-  song?: SongProps;
+  playedSong?: SongProps;
 }
 
 const Playlist = () => {
-  const { page, playlist, song } = useLocation().state as StateProps;
+  const { page, playlist, playedSong } = useLocation().state as StateProps;
   const Render = () => {
     switch (page) {
       // 선택 플레이리스트 상세화면
@@ -38,7 +38,7 @@ const Playlist = () => {
             right={
               <>
                 <PlaylistDetail playlist={playlist} />
-                <YoutubeVideo song={song!}/>
+                <YoutubeVideo song={playedSong!}/>
               </>
             }
           />
