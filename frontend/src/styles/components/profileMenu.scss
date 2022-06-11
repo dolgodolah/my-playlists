@@ -12,6 +12,7 @@
 
 .profile-menu__span,
 .profile-menu__span--logout {
+  color: white;
   cursor: pointer;
   &:hover {
     color: darken(white, 40%);
