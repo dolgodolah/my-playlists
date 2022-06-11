@@ -25,13 +25,12 @@ const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
     const ok = window.confirm("노래를 삭제하시겠습니까?");
     if (ok) {
       axios.delete(`/songs/${song.songId}`).then((res) => {
-        const response = res.data;
-        switch (response.statusCode) {
+        switch (res.status) {
           case StatusCode.OK:
             navigate(-1);
             break;
           default:
-            alertError(response.body);
+            alertError(res.statusText);
             break;
         }
       });
