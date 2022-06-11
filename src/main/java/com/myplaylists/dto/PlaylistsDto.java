@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Builder
-public class PlaylistsDto {
+public class PlaylistsDto extends BaseResponse {
 
     private List<PlaylistResponseDto> playlists;
     private boolean isLast;

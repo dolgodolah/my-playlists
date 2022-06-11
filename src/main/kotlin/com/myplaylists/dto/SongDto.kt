@@ -37,9 +37,7 @@ class SongResponseDto(
     }
 }
 
-class SongsDto(
-    val songs: List<SongResponseDto>
-) {
+class SongsDto(val songs: List<SongResponseDto>): BaseResponse() {
     companion object {
         fun of(songs: List<Song>) = SongsDto(
             songs = songs.stream()

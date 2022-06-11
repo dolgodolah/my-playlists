@@ -9,7 +9,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class BookmarksDto {
+public class BookmarksDto extends BaseResponse {
     private List<Bookmark> bookmarks;
     private boolean isLast;
 

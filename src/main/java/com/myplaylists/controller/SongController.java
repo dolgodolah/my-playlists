@@ -7,9 +7,6 @@ import com.myplaylists.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 public class SongController {
@@ -18,29 +15,30 @@ public class SongController {
     private final YoutubeService youtubeService;
 
     @GetMapping("/youtube_search")
-    public ResponseDto youtubeSearch(@Login LoginUser user, @RequestParam String keyword) {
-        return ResponseDto.of(youtubeService.search(keyword));
+    public YoutubeSearchDto youtubeSearch(@Login LoginUser user, @RequestParam String keyword) {
+        return youtubeService.search(keyword);
     }
 
     @GetMapping("/songs")
-    public ResponseDto getSongsByPlaylistId(@Login LoginUser user, @RequestParam Long playlistId) {
-        SongsDto songs = songService.findSongsByPlaylistId(playlistId);
-        return ResponseDto.of(songs);
+    public SongsDto getSongsByPlaylistId(@Login LoginUser user, @RequestParam Long playlistId) {
+        return songService.findSongsByPlaylistId(playlistId);
     }
 
     @PostMapping("/songs")
-    public ResponseDto addSong(@Login LoginUser user, @RequestBody SongAddRequestDto songRequestDto) {
+    public BaseResponse addSong(@Login LoginUser user, @RequestBody SongAddRequestDto songRequestDto) {
         songService.addSong(user, songRequestDto);
-        return ResponseDto.ok();
+        return BaseResponse.ok();
     }
 
     @PutMapping("/songs/{songId}")
-    public void updateSong(@Login LoginUser user, @PathVariable("songId") Long songId, @RequestBody SongUpdateRequestDto songRequestDto) {
+    public BaseResponse updateSong(@Login LoginUser user, @PathVariable("songId") Long songId, @RequestBody SongUpdateRequestDto songRequestDto) {
         songService.updateSong(user, songId, songRequestDto);
+        return BaseResponse.ok();
     }
 
     @DeleteMapping("/songs/{songId}")
-    public void deleteSong(@Login LoginUser user, @PathVariable("songId") Long songId) {
+    public BaseResponse deleteSong(@Login LoginUser user, @PathVariable("songId") Long songId) {
         songService.deleteSong(user, songId);
+        return BaseResponse.ok();
     }
 }
