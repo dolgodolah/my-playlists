@@ -12,9 +12,8 @@ interface PageProps {
 
 const Playlists = ({ page }: PageProps) => {
   const [params] = useSearchParams();
-  const [playlists, setPlaylists] = useState([])
+  const [playlists, setPlaylists] = useState([]);
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
-
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
@@ -27,10 +26,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })
@@ -40,10 +39,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })
@@ -53,10 +52,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })
@@ -66,10 +65,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })

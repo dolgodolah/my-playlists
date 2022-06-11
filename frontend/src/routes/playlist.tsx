@@ -31,7 +31,7 @@ const Playlist = () => {
       }
 
       // 선택 플레이리스트 노래 재생화면
-      case "playSongs": {
+      case "playSong": {
         return (
           <PlayBox
             left={<Songs playlist={playlist}/>}

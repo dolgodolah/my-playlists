@@ -23,10 +23,10 @@ const Songs = ({ playlist }: SongsProps) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
-          setSongs(response.body.songs);
+          setSongs(response.songs);
           break;
         default:
-          alertError(response.body)
+          alertError(response.message)
           break;
       }
     })
@@ -64,9 +64,9 @@ const Songs = ({ playlist }: SongsProps) => {
             key={song.songId}
             to="/playlist"
             state={{
-              page: "playSongs",
+              page: "playSong",
               playlist: playlist,
-              song: song,
+              playedSong: song,
             }}
           >
             <div className="song__container">

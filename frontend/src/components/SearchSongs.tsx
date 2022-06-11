@@ -20,10 +20,10 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:
-          setSongs(response.body.songs);
+          setSongs(response.songs);
           break;
         default:
-          alertError(response.body)
+          alertError(response.message)
           break;
       }
     })
@@ -45,7 +45,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
           window.location.href = "/playlist";
           break;
         default:
-          alertError(response.body)
+          alertError(response.message)
       }
     })
   };

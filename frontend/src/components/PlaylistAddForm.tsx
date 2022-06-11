@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import StatusCode from "../shared/StatusCode";
+import alertError from "../shared/Error";
 
 const PlaylistAddForm = () => {
   const [title, setTitle] = useState("");
@@ -32,9 +34,15 @@ const PlaylistAddForm = () => {
       description,
       visibility
     }).then((res) => {
-      navigate("/")
-    }).catch((error) => {
-      console.log(error)
+      const response = res.data;
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          navigate("/")
+          break;
+        default:
+          alertError(response.message)
+          break;
+      }
     })
   };
 
