@@ -41,4 +41,9 @@ public class SongController {
         songService.deleteSong(user, songId);
         return BaseResponse.ok();
     }
+
+    @GetMapping("/songs/search")
+    public SongsDto searchSongs(@Login LoginUser user, @RequestParam Long playlistId, @RequestParam String keyword) {
+        return songService.searchSongs(playlistId, keyword);
+    }
 }

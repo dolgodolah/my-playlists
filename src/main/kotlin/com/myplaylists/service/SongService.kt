@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class SongService(
     private val songRepository: SongRepository,
-    private val playlistService: PlaylistService
+    private val playlistService: PlaylistService,
+    private val userService: UserService,
 ) {
 
     fun addSong(user: LoginUser, songRequestDto: SongAddRequestDto): Long {
@@ -45,6 +46,13 @@ class SongService(
     fun findSongsByPlaylistId(playlistId: Long): SongsDto {
         val playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId)
         return SongsDto.of(songRepository.findSongsByPlaylist(playlist))
+    }
+
+    @Transactional(readOnly = true)
+    fun searchSongs(playlistId: Long, keyword: String): SongsDto {
+        val playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId)
+        val songs = songRepository.findByPlaylistAndTitleContaining(playlist, keyword)
+        return SongsDto.of(songs)
     }
 
     private fun findSongByIdOrElseThrow(songId: Long): Song {

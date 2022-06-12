@@ -17,6 +17,17 @@ const Songs = ({ playlist }: SongsProps) => {
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
+    axios.get("/songs/search", { params: { playlistId: playlist.playlistId, keyword: e.target.value } }).then((res) => {
+      const response = res.data;
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          setSongs(response.songs);
+          break;
+        default:
+          alertError(response.message)
+          break;
+      }
+    })
   }, []);
 
   useEffect(() => {
@@ -38,16 +49,13 @@ const Songs = ({ playlist }: SongsProps) => {
       <div className="header__container">
         <HeaderLogo />
         <div className="search__container">
-          <form method="get" action="/search">
-            <input
-              type="text"
-              placeholder="노래 검색"
-              name="keyword"
-              className="search__input--header"
-              value={keyword}
-              onChange={onChangeKeyword}
-            />
-          </form>
+          <input
+            type="text"
+            placeholder="노래 검색"
+            className="search__input--header"
+            value={keyword}
+            onChange={onChangeKeyword}
+          />
         </div>
       </div>
       <div className="lists__container">
