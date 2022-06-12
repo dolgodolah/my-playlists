@@ -1,24 +1,63 @@
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import {SongProps} from "../shared/Props";
+import {PlaylistProps, SongProps} from "../shared/Props";
 import StatusCode from "../shared/StatusCode";
-
+import { useNavigate } from "react-router-dom";
+import alertError from "../shared/Error";
 
 export interface YoutubeVideoProps {
+  playlist: PlaylistProps;
   song: SongProps;
 }
 
-const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
-  const [description, setDescription] = useState(song.description);
+const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
+  const [description, setDescription] = useState(song.description || "");
+
+  const navigate = useNavigate();
+
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
   }, []);
   const onClickEdit = () => {
-    console.log(description);
-    // 새로운 description 저장 로직 추가
+    const ok = window.confirm("노래 설명을 수정하시겠습니까?");
+    if (ok) {
+      axios
+        .put(`/songs/${song.songId}`, {
+          title: song.title,
+          description,
+        })
+        .then((res) => {
+          const response = res.data;
+          switch (response.statusCode) {
+            case StatusCode.OK:
+              break;
+            default:
+              alertError(response.message);
+              break;
+          }
+        });
+    }
   };
   const onClickDelete = () => {
-    // 노래 삭제 로직 추가
+    const ok = window.confirm("노래를 삭제하시겠습니까?");
+    if (ok) {
+      axios.delete(`/songs/${song.songId}`).then((res) => {
+        const response = res.data;
+        switch (response.statusCode) {
+          case StatusCode.OK:
+            navigate("/playlist", {
+              state: {
+                page: "showSongs",
+                playlist: playlist,
+              }
+            });
+            break;
+          default:
+            alertError(response.message);
+            break;
+        }
+      });
+    }
   };
 
   return (
@@ -33,7 +72,7 @@ const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
       <div className="description__container--youtube">
         <textarea
           className="description__textarea--youtube"
-          value={description} // TODO: null이면 콘솔 경고 뜨는 듯, 개선 필요
+          value={description}
           onChange={onChange}
         />
       </div>

@@ -38,7 +38,7 @@ const Playlist = () => {
             right={
               <>
                 <PlaylistDetail playlist={playlist} />
-                <YoutubeVideo song={playedSong!}/>
+                <YoutubeVideo playlist={playlist} song={playedSong!}/>
               </>
             }
           />

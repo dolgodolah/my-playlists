@@ -2,7 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import classNames from "classnames";
 import { useState } from "react";
-import {PlaylistProps} from "../shared/Props";
+import { PlaylistProps } from "../shared/Props";
+import axios from "axios";
+import StatusCode from "../shared/StatusCode";
+import alertError from "../shared/Error";
 
 interface EditBoxProps {
   playlist: PlaylistProps;
@@ -18,8 +21,17 @@ const EditBox = ({ playlist }: EditBoxProps) => {
   const deletePlaylist = () => {
     const ok = window.confirm("플레이리스트를 삭제하시겠습니까?");
     if (ok) {
-      // TODO: 플리 삭제 로직 추가
-      navigate("/");
+      axios.delete(`/playlist/${playlist.playlistId}`).then((res) => {
+        const response = res.data;
+        switch (response.statusCode) {
+          case StatusCode.OK:
+            navigate("/");
+            break;
+          default:
+            alertError(response.message);
+            break;
+        }
+      });
     }
   };
   return (
@@ -35,7 +47,7 @@ const EditBox = ({ playlist }: EditBoxProps) => {
         to="/playlist"
         state={{
           page: "searchSong",
-          playlist: playlist
+          playlist: playlist,
         }}
       >
         <Icon icon="carbon:music-add" />

@@ -42,7 +42,7 @@ const Songs = ({ playlist }: SongsProps) => {
           break;
       }
     })
-  }, []);
+  }, [playlist]);
 
   return (
     <>
