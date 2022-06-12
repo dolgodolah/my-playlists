@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { SongProps } from "../shared/Props";
+import {PlaylistProps, SongProps} from "../shared/Props";
 import StatusCode from "../shared/StatusCode";
 import { useNavigate } from "react-router-dom";
 import alertError from "../shared/Error";
 
 export interface YoutubeVideoProps {
+  playlist: PlaylistProps;
   song: SongProps;
 }
 
-const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
+const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
   const [description, setDescription] = useState(song.description || "");
 
   const navigate = useNavigate();
@@ -44,7 +45,12 @@ const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
         const response = res.data;
         switch (response.statusCode) {
           case StatusCode.OK:
-            navigate(-1);
+            navigate("/playlist", {
+              state: {
+                page: "showSongs",
+                playlist: playlist,
+              }
+            });
             break;
           default:
             alertError(response.message);
