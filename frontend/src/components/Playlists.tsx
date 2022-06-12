@@ -101,9 +101,9 @@ const Playlists = ({ page }: PageProps) => {
                 </div>
               </div>
               <div className="hidden-background__container">
-            <span className="hidden-background__containe__span">
-              <Icon icon="codicon:debug-start" />
-            </span>
+                <span className="hidden-background__container__span">
+                  <Icon icon="codicon:debug-start" />
+                </span>
               </div>
             </div>
           </Link>
