@@ -5,6 +5,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
+import HeaderLogo from "./HeaderLogo";
 
 interface PageProps {
   page: string;
@@ -78,17 +79,8 @@ const Playlists = ({ page }: PageProps) => {
 
   return (
     <>
-      {/* TODO: 헤더 컴포넌트 다시 생성 */}
       <div className="header__container">
-        <div className="logo__container">
-          <Link to="/">내플리스</Link>
-        </div>
-        <div className="button__container--header">
-          <Link to="/playlist/add" className="add__button--header">
-            <Icon icon="ic:baseline-playlist-add" />
-          </Link>
-        </div>
-
+        <HeaderLogo />
         <div className="search__container">
           <form method="get" action="/search">
             <input

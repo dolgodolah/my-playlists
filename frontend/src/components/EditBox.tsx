@@ -24,7 +24,6 @@ const EditBox = ({ playlist }: EditBoxProps) => {
   };
   return (
     <div className="edit-box__container">
-      {" "}
       <Icon
         icon="bi:star-fill"
         className={classNames({
