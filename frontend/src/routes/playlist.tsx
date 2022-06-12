@@ -1,12 +1,10 @@
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PlayBox from "../components/PlayBox";
 import PlaylistDetail from "../components/PlaylistDetail";
 import Songs from "../components/Songs";
 import YoutubeVideo from "../components/YoutubeVideo";
 import SearchSongs from "../components/SearchSongs";
 import {PlaylistProps, SongProps} from "../shared/Props";
-import Header from "../components/Header";
-import SearchType from "../shared/SearchType";
 
 interface StateProps {
   page: string;
@@ -22,12 +20,7 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            left={
-              <>
-                <Header type={SearchType.SONG}/>
-                <Songs playlist={playlist}/>
-              </>
-            }
+            left={<Songs playlist={playlist}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist}/>
@@ -41,12 +34,7 @@ const Playlist = () => {
       case "playSong": {
         return (
           <PlayBox
-            left={
-              <>
-                <Header type={SearchType.SONG}/>
-                <Songs playlist={playlist}/>
-              </>
-            }
+            left={<Songs playlist={playlist}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist} />
@@ -61,12 +49,7 @@ const Playlist = () => {
       case "searchSong": {
         return (
           <PlayBox
-            left={
-              <>
-                <Header type={SearchType.SONG}/>
-                <Songs playlist={playlist}/>
-              </>
-            }
+            left={<Songs playlist={playlist}/>}
             right={
               <>
                 <PlaylistDetail playlist={playlist} />

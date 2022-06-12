@@ -1,10 +1,7 @@
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PlayBox from "../components/PlayBox";
 import Playlists from "../components/Playlists";
 import PlaylistCategory from "../components/PlaylistCategory";
-import Header from "../components/Header";
-import React from "react";
-import SearchType from "../shared/SearchType";
 
 interface StateProps {
   page: string;
@@ -16,12 +13,7 @@ const Home = () => {
   };
   return (
     <PlayBox
-      left={
-        <>
-          <Header type={SearchType.PLAYLIST} />
-          <Playlists page={page} />
-        </>
-      }
+      left={<Playlists page={page} />}
       right={<PlaylistCategory page={page} />}
     />
   );

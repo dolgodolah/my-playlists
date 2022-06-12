@@ -11,7 +11,12 @@ interface SongsProps {
 }
 
 const Songs = ({ playlist }: SongsProps) => {
+  const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([]);
+
+  const onChangeKeyword = useCallback((e) => {
+    setKeyword(e.target.value);
+  }, []);
 
   useEffect(() => {
     axios.get("/songs", { params: { playlistId: playlist.playlistId } }).then((res) => {
@@ -29,6 +34,30 @@ const Songs = ({ playlist }: SongsProps) => {
 
   return (
     <>
+      {/* TODO: 헤더 컴포넌트 다시 생성 */}
+      <div className="header__container">
+        <div className="logo__container">
+          <Link to="/">내플리스</Link>
+        </div>
+        <div className="button__container--header">
+          <Link to="/playlist/add" className="add__button--header">
+            <Icon icon="ic:baseline-playlist-add" />
+          </Link>
+        </div>
+
+        <div className="search__container">
+          <form method="get" action="/search">
+            <input
+              type="text"
+              placeholder="플레이리스트 검색"
+              name="keyword"
+              className="search__input--header"
+              value={keyword}
+              onChange={onChangeKeyword}
+            />
+          </form>
+        </div>
+      </div>
       <div className="lists__container">
         {songs?.map((song: SongProps) => (
           <Link
