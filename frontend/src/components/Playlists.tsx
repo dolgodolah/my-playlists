@@ -20,6 +20,12 @@ const Playlists = ({ page }: PageProps) => {
     setKeyword(e.target.value);
   }, []);
 
+  const onPressEnter = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      window.location.href = "/search?keyword=" + keyword;
+    }
+  }
+
   useEffect(() => {
     switch (page) {
       case "myPlaylist":
@@ -82,16 +88,14 @@ const Playlists = ({ page }: PageProps) => {
       <div className="header__container">
         <HeaderLogo />
         <div className="search__container">
-          <form method="get" action="/search">
-            <input
-              type="text"
-              placeholder="플레이리스트 검색"
-              name="keyword"
-              className="search__input--header"
-              value={keyword}
-              onChange={onChangeKeyword}
-            />
-          </form>
+          <input
+            type="text"
+            placeholder="플레이리스트 검색"
+            className="search__input--header"
+            value={keyword}
+            onChange={onChangeKeyword}
+            onKeyPress={onPressEnter}
+          />
         </div>
       </div>
 
