@@ -2,15 +2,7 @@ package com.myplaylists.domain;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.myplaylists.exception.ApiException;
 import lombok.Builder;
@@ -33,8 +25,16 @@ public class Playlist extends BaseTime {
 	public Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@JoinColumn(
+			name="user_id",
+			nullable = false,
+			foreignKey = @ForeignKey(
+					name = "FK_USER_ID_PLAYLIST",
+					foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE"
+			)
+	)
 	public User user;
+
 
 	public String author;
 	public String title;

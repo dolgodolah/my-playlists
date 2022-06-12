@@ -1,14 +1,6 @@
 package com.myplaylists.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,11 +26,25 @@ public class Bookmark {
 	public Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@JoinColumn(
+			name="user_id",
+			nullable = false,
+			foreignKey = @ForeignKey(
+					name = "FK_USER_ID_BOOKMARK",
+					foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE"
+			)
+	)
 	public User user;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="playlist_id")
+	@JoinColumn(
+			name="playlist_id",
+			nullable = false,
+			foreignKey = @ForeignKey(
+					name = "FK_PLAYLIST_ID_BOOKMARK",
+					foreignKeyDefinition = "FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id) ON DELETE CASCADE"
+			)
+	)
 	public Playlist playlist;
 
 	@CreatedDate
