@@ -3,7 +3,6 @@ import {SongProps} from "../shared/Props";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
-import {useNavigate} from "react-router-dom";
 
 interface SearchSongsProps {
   playlistId: number;
@@ -12,7 +11,6 @@ interface SearchSongsProps {
 const SearchSongs = ({ playlistId }: SearchSongsProps) => {
   const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([])
-  const navigate = useNavigate();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +53,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
       <div className="search-song__container">
         <form onSubmit={onSubmit}>
           <input
-            placeholder="노래 검색"
+            placeholder="노래 제목, 가수 이름을 검색하세요. 유튜브 상위 5개 결과를 보여줍니다."
             name="keyword"
             className="search-song__input"
             value={keyword}
