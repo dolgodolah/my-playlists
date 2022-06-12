@@ -1,6 +1,6 @@
 # 내플리스(My Playlists)
 
-- [내플리스 홈페이지](www.myplaylists.shop)
+- ~~[내플리스 홈페이지](www.myplaylists.shop)~~ AWS 프리티어 기간이 끝났습니다..
 
 - [내플리스 Notion](https://mirror-oatmeal-27d.notion.site/e534804381b5409ab51b070076202822)
 
@@ -16,7 +16,7 @@
 
 ### :computer: 핵심 기능
 
-- `구글 로그인`과 `카카오 로그인`으로 손쉽게 내플리스를 시작할 수 있습니다.
+- `카카오 로그인`으로 손쉽게 내플리스를 시작할 수 있습니다. (`구글 로그인` 추가 예정)
 
 - `내 플레이리스트 검색`과 `다른 사용자의 플레이리스트 검색`을 할 수 있습니다. 
 
@@ -28,21 +28,73 @@
 
 ### :hammer_and_wrench: 기술 스택
 
-`Spring Boot`
+`Spring Boot`, `Spraing Data JPA`, `Spring Security`
 
-`Spraing Data JPA`
+`React`, `Typescript`
 
-`Spring Security`
-
-`AWS EC2`
+~~`AWS EC2`~~
 
 
 #
 
 
 ### :mag:  DB 설계
+```mysql
+create table playlist (
+   playlist_id bigint not null auto_increment,
+   created_date datetime(6),
+   updated_date datetime(6),
+   description varchar(255),
+   song_count integer not null,
+   title varchar(255),
+   visibility bit not null,
+   user_id bigint,
+   primary key (playlist_id),
+   foreign key (user_id)
+   references user (user_id)
+) engine=InnoDB
+```
 
-<img width="70%" src="https://user-images.githubusercontent.com/75430912/119460951-2c30fd80-bd7a-11eb-8d78-4e6212fee28b.jpg"/>
+```mysql
+create table user (
+   user_id bigint not null auto_increment,
+   email varchar(255) not null,
+   name varchar(255),
+   nickname varchar(255),
+   primary key (user_id)
+) engine=InnoDB
+```
+
+```mysql
+create table song (
+   song_id bigint not null auto_increment,
+   playlist_id bigint,
+   user_id bigint,
+   created_date datetime(6),
+   updated_date datetime(6),
+   description varchar(255),
+   title varchar(255),
+   video_id varchar(255),
+   primary key (song_id),
+   foreign key (user_id)
+   references user (user_id),
+   foreign key (playlist_id)
+   references playlist (playlist_id)
+) engine=InnoDB
+```
+
+```mysql
+create table bookmark (
+   bookmark_id bigint not null auto_increment,
+   playlist_id bigint,
+   user_id bigint,
+   primary key (bookmark_id),
+   foreign key (playlist_id)
+   references playlist (playlist_id),
+   foreign key (user_id)
+   references user (user_id)
+) engine=InnoDB
+```
 
 <img width="70%" src="https://user-images.githubusercontent.com/75430912/119460955-2d622a80-bd7a-11eb-880a-6352567e150b.jpg"/>
 

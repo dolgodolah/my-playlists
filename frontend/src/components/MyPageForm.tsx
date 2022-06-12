@@ -33,11 +33,11 @@ const MyPageForm = () => {
             navigate("/");
             break;
           case StatusCode.INVALID_NICKNAME:
-            setErrorMessage(response.body.message);
+            setErrorMessage(response.message);
             setError(true);
             break;
           default:
-            alertError(response.body);
+            alertError(response.message);
             break;
         }
       });
@@ -57,7 +57,7 @@ const MyPageForm = () => {
           setNickname(response.nickname);
           break;
         default:
-          alertError(response.body);
+          alertError(response.message);
           break;
       }
     });

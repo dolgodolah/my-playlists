@@ -18,7 +18,7 @@ class PlaylistService(
 ) {
 
     fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
-        val user = userService.findByUserId(userId)
+        val user = userService.findUserByIdOrElseThrow(userId)
         val playlist = playlistRequest.toEntity(user)
         playlistRepository.save(playlist)
     }
@@ -28,7 +28,7 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findMyPlaylists(userId: Long, pageable: Pageable): PlaylistsDto {
-        val user = userService.findByUserId(userId)
+        val user = userService.findUserByIdOrElseThrow(userId)
         val playlists = playlistRepository.findByUser(pageable, user)
         return PlaylistsDto.of(playlists)
     }
@@ -56,7 +56,7 @@ class PlaylistService(
 
     @Transactional(readOnly = true)
     fun searchMyPlaylists(userId: Long, pageable: Pageable, keyword: String): PlaylistsDto {
-        val user = userService.findByUserId(userId)
+        val user = userService.findUserByIdOrElseThrow(userId)
         val playlists = playlistRepository.findByTitleContainingAndUser(pageable, keyword, user)
         return PlaylistsDto.of(playlists)
     }

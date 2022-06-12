@@ -4,12 +4,11 @@ import com.myplaylists.domain.Playlist;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Builder
 @Getter
-public class PlaylistResponseDto {
+public class PlaylistResponseDto extends BaseResponse {
     private Long playlistId;
     private String title;
     private String description;

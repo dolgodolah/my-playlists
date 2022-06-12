@@ -20,10 +20,10 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:
-          setSongs(response.body.songs);
+          setSongs(response.songs);
           break;
         default:
-          alertError(response.body)
+          alertError(response.message)
           break;
       }
     })
@@ -45,7 +45,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
           window.location.href = "/playlist";
           break;
         default:
-          alertError(response.body)
+          alertError(response.message)
       }
     })
   };
@@ -55,7 +55,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
       <div className="search-song__container">
         <form onSubmit={onSubmit}>
           <input
-            placeholder="노래 검색"
+            placeholder="노래 제목, 가수 이름을 검색하세요. 유튜브 상위 목록 5개를 노출합니다."
             name="keyword"
             className="search-song__input"
             value={keyword}

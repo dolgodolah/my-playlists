@@ -5,6 +5,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
+import HeaderLogo from "./HeaderLogo";
 
 interface PageProps {
   page: string;
@@ -12,13 +13,18 @@ interface PageProps {
 
 const Playlists = ({ page }: PageProps) => {
   const [params] = useSearchParams();
-  const [playlists, setPlaylists] = useState([])
+  const [playlists, setPlaylists] = useState([]);
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
-
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
   }, []);
+
+  const onPressEnter = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      window.location.href = "/search?keyword=" + keyword;
+    }
+  }
 
   useEffect(() => {
     switch (page) {
@@ -27,10 +33,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })
@@ -40,10 +46,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })
@@ -53,10 +59,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })
@@ -66,10 +72,10 @@ const Playlists = ({ page }: PageProps) => {
           const response = res.data
           switch (response.statusCode) {
             case StatusCode.OK:
-              setPlaylists(response.body.playlists);
+              setPlaylists(response.playlists);
               break;
             default:
-              alertError(response.body)
+              alertError(response.message)
               break;
           }
         })
@@ -79,28 +85,17 @@ const Playlists = ({ page }: PageProps) => {
 
   return (
     <>
-      {/* TODO: 헤더 컴포넌트 다시 생성 */}
       <div className="header__container">
-        <div className="logo__container">
-          <Link to="/">내플리스</Link>
-        </div>
-        <div className="button__container--header">
-          <Link to="/playlist/add" className="add__button--header">
-            <Icon icon="ic:baseline-playlist-add" />
-          </Link>
-        </div>
-
+        <HeaderLogo />
         <div className="search__container">
-          <form method="get" action="/search">
-            <input
-              type="text"
-              placeholder="플레이리스트 검색"
-              name="keyword"
-              className="search__input--header"
-              value={keyword}
-              onChange={onChangeKeyword}
-            />
-          </form>
+          <input
+            type="text"
+            placeholder="플레이리스트 검색"
+            className="search__input--header"
+            value={keyword}
+            onChange={onChangeKeyword}
+            onKeyPress={onPressEnter}
+          />
         </div>
       </div>
 
@@ -132,9 +127,9 @@ const Playlists = ({ page }: PageProps) => {
                 </div>
               </div>
               <div className="hidden-background__container">
-            <span className="hidden-background__containe__span">
-              <Icon icon="codicon:debug-start" />
-            </span>
+                <span className="hidden-background__container__span">
+                  <Icon icon="codicon:debug-start" />
+                </span>
               </div>
             </div>
           </Link>

@@ -1,6 +1,6 @@
-const alertError = (error: any) => {
-  if (error) {
-    alert(error.message)
+const alertError = (message: any) => {
+  if (message) {
+    alert(message)
   } else {
     alert("500 error")
   }
