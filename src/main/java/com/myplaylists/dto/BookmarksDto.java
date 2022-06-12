@@ -10,8 +10,8 @@ import java.util.List;
 @Builder
 @Getter
 public class BookmarksDto extends BaseResponse {
-    private List<Bookmark> bookmarks;
-    private boolean isLast;
+    public List<Bookmark> bookmarks;
+    public boolean isLast;
 
     public static BookmarksDto of(Page<Bookmark> bookmarks) {
         return BookmarksDto.builder()

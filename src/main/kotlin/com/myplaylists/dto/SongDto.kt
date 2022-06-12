@@ -15,9 +15,7 @@ class SongAddRequestDto(
 class SongUpdateRequestDto(
     val title: String,
     val description: String,
-    private val videoId: String,
 ) {
-    fun toEntity(): Song = Song(title, videoId)
 }
 
 class SongResponseDto(

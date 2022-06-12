@@ -11,12 +11,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Builder;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Setter;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -28,15 +31,19 @@ public class Bookmark {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="bookmark_id")
-	private Long id;
+	public Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
-	private User user;
+	public User user;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="playlist_id")
-	private Playlist playlist;
+	public Playlist playlist;
+
+	@CreatedDate
+	@Column(name = "created_date")
+	public LocalDateTime createdDate;
 
 	@Builder
 	public Bookmark(Playlist playlist, User user) {

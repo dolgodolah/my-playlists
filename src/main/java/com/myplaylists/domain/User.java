@@ -14,14 +14,14 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="user_id")
-	private Long userId;
+	public Long userId;
 
-	private String name;
+	public String name;
 
-	private String nickname;
+	public String nickname;
 
 	@Column(nullable=false)
-	private String email;
+	public String email;
 
 	@Builder
 	public User(String name, String email, String nickname) {

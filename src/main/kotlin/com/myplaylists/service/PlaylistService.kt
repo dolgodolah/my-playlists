@@ -17,6 +17,10 @@ class PlaylistService(
     private val playlistRepository: PlaylistRepository
 ) {
 
+    companion object {
+        const val PUBLIC = true
+    }
+
     fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
         val user = userService.findUserByIdOrElseThrow(userId)
         val playlist = playlistRequest.toEntity(user)
@@ -38,7 +42,7 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findAllPlaylists(pageable: Pageable): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibility(pageable, true)
+        val playlists = playlistRepository.findByVisibility(pageable, PUBLIC)
         return PlaylistsDto.of(playlists)
     }
 

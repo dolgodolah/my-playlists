@@ -37,10 +37,8 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/playlist/{playlistId}")
-	public PlaylistResponseDto getPlaylistDetail(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
-		PlaylistResponseDto playlist = playlistService.findPlaylistById(playlistId);
-		playlist.setBookmark(bookmarkService.checkBookmark(user.getUserId(), playlistId));
-		return playlist;
+	public boolean isBookmarkPlaylist(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
+		return bookmarkService.checkBookmark(user.getUserId(), playlistId);
 	}
 
 	@DeleteMapping("/playlist/{playlistId}")
@@ -52,7 +50,7 @@ public class PlaylistController {
 	@GetMapping("/bookmarks")
 	public PlaylistsDto getBookmarkPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable) {
 		BookmarksDto bookmarks = BookmarksDto.of(bookmarkService.findByUserId(user.getUserId(), pageable));
-		PlaylistsDto playlists = PlaylistsDto.of(bookmarks);
+		PlaylistsDto playlists = PlaylistsDto.Companion.of(bookmarks);
 		return playlists;
 	}
 
