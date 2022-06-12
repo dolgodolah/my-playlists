@@ -49,6 +49,7 @@ create table playlist (
    title varchar(255),
    visibility bit not null,
    user_id bigint,
+   author varchar(255),
    primary key (playlist_id),
    foreign key (user_id)
    references user (user_id)
