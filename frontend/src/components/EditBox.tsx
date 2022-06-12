@@ -28,7 +28,7 @@ const EditBox = ({ playlist }: EditBoxProps) => {
             navigate("/");
             break;
           default:
-            alertError(response.body);
+            alertError(response.message);
             break;
         }
       });

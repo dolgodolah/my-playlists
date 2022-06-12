@@ -10,7 +10,7 @@ export interface YoutubeVideoProps {
 }
 
 const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
-  const [description, setDescription] = useState(song.description);
+  const [description, setDescription] = useState(song.description || "");
 
   const navigate = useNavigate();
 
@@ -18,19 +18,36 @@ const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
     setDescription(e.target.value);
   }, []);
   const onClickEdit = () => {
-    console.log(description);
-    // 새로운 description 저장 로직 추가
+    const ok = window.confirm("노래 설명을 수정하시겠습니까?");
+    if (ok) {
+      axios
+        .put(`/songs/${song.songId}`, {
+          title: song.title,
+          description,
+        })
+        .then((res) => {
+          const response = res.data;
+          switch (response.statusCode) {
+            case StatusCode.OK:
+              break;
+            default:
+              alertError(response.message);
+              break;
+          }
+        });
+    }
   };
   const onClickDelete = () => {
     const ok = window.confirm("노래를 삭제하시겠습니까?");
     if (ok) {
       axios.delete(`/songs/${song.songId}`).then((res) => {
-        switch (res.status) {
+        const response = res.data;
+        switch (response.statusCode) {
           case StatusCode.OK:
             navigate(-1);
             break;
           default:
-            alertError(res.statusText);
+            alertError(response.message);
             break;
         }
       });
@@ -49,7 +66,7 @@ const YoutubeVideo = ({ song }: YoutubeVideoProps) => {
       <div className="description__container--youtube">
         <textarea
           className="description__textarea--youtube"
-          value={description} // TODO: null이면 콘솔 경고 뜨는 듯, 개선 필요
+          value={description}
           onChange={onChange}
         />
       </div>
