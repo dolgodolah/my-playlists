@@ -1,22 +1,26 @@
-.title__container{
+.title__container {
   width: 100%;
   height: 100px;
   position: relative;
-  padding: 23px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-bottom: 2px solid rgba($color: #fff, $alpha: 0.9);
 }
 
-.page__span--title {
+.page__p--title {
+  width: 500px;
   color: white;
-  font-size: 22px;
+  font-size: 20px;
+  line-height: 23px;
   font-weight: 300;
 }
 
-.page__span--sub {
+.page__p--author {
+  width: 700px;
   color: darken(white, 20%);
   font-size: 17px;
+  line-height: 23px;
   font-style: italic;
 }
