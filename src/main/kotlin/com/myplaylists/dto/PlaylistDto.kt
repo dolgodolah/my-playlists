@@ -4,6 +4,7 @@ import com.myplaylists.domain.Bookmark
 import com.myplaylists.domain.Playlist
 import com.myplaylists.domain.User
 import org.springframework.data.domain.Page
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Comparator
 import java.util.stream.Collectors
@@ -20,7 +21,7 @@ class PlaylistResponseDto(
     val playlistId: Long,
     val title: String,
     val description: String,
-    val updatedDate: String,
+    val updatedDate: LocalDateTime,
     val visibility: Boolean,
     val author: String,
     val songCount: Int
@@ -31,7 +32,7 @@ class PlaylistResponseDto(
                 playlistId = playlist.id,
                 title = playlist.title,
                 description = playlist.description,
-                updatedDate = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일").format(playlist.updatedDate),
+                updatedDate = playlist.updatedDate,
                 visibility = playlist.visibility,
                 author = playlist.author,
                 songCount = playlist.songCount
@@ -61,6 +62,7 @@ class PlaylistsDto(
             val playlistDtoList = bookmarksDto.bookmarks.stream()
                 .map(Bookmark::playlist)
                 .map(PlaylistResponseDto::of)
+                .sorted(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
                 .collect(Collectors.toList())
 
             return PlaylistsDto(

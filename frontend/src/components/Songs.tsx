@@ -6,6 +6,7 @@ import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
 import {PlaylistProps, SongProps} from "../shared/Props";
 import HeaderLogo from "./HeaderLogo";
+import moment from "moment";
 
 interface SongsProps {
   playlist: PlaylistProps;
@@ -73,7 +74,7 @@ const Songs = ({ playlist }: SongsProps) => {
               <span className="song__span--title">{song.title}</span>
               <div>
                 <span className="song__span--createdDate">
-                  {song.createdDate}
+                  {moment(song.createdDate).format("YYYY년 MM월 DD일 HH:mm:ss")}
                 </span>
               </div>
             </div>

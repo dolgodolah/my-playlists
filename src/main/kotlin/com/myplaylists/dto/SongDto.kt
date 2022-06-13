@@ -1,6 +1,7 @@
 package com.myplaylists.dto
 
 import com.myplaylists.domain.Song
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.stream.Collectors
 
@@ -23,7 +24,7 @@ class SongResponseDto(
     val title: String,
     val videoId: String,
     val description: String?,
-    val createdDate: String,
+    val createdDate: LocalDateTime,
 ) {
     companion object {
         fun of(song: Song) = SongResponseDto(
@@ -31,7 +32,7 @@ class SongResponseDto(
             title = song.title,
             videoId = song.videoId,
             description = song.description,
-            createdDate = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일").format(song.createdDate))
+            createdDate = song.createdDate)
     }
 }
 
@@ -40,6 +41,7 @@ class SongsDto(val songs: List<SongResponseDto>): BaseResponse() {
         fun of(songs: List<Song>) = SongsDto(
             songs = songs.stream()
                 .map(SongResponseDto::of)
+                .sorted(Comparator.comparing(SongResponseDto::createdDate).reversed())
                 .collect(Collectors.toList())
         )
     }

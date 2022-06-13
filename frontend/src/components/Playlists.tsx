@@ -6,6 +6,7 @@ import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
 import HeaderLogo from "./HeaderLogo";
+import moment from "moment";
 
 interface PageProps {
   page: string;
@@ -115,7 +116,7 @@ const Playlists = ({ page }: PageProps) => {
                 <span className="playlist__span--title">{playlist.title}</span>
                 <div>
               <span className="playlist__span--updatedDate">
-                {playlist.updatedDate}
+                {moment(playlist.updatedDate).format("YYYY년 MM월 DD일")}
               </span>
                   <span className="playlist__span--author">{playlist.author}</span>
                 </div>
