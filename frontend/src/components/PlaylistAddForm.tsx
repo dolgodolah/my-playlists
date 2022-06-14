@@ -56,7 +56,7 @@ const PlaylistAddForm = () => {
             type="text"
             placeholder="플레이리스트 이름"
             minLength={2}
-            maxLength={20}
+            maxLength={50}
             className="name__input"
             required
           />
