@@ -1,11 +1,11 @@
 import EditBox from "./EditBox";
 import { PlaylistProps } from "../shared/Props";
 
-interface PlaylistTitleProps {
+interface PlaylistDeatilProps {
   playlist: PlaylistProps;
 }
 
-export const PlaylistTitle = ({ playlist }: PlaylistTitleProps) => {
+export const PlaylistTitle = ({ playlist }: PlaylistDeatilProps) => {
   return (
     <div className="title__container">
       <EditBox playlist={playlist} />
@@ -15,7 +15,7 @@ export const PlaylistTitle = ({ playlist }: PlaylistTitleProps) => {
   );
 };
 
-export const PlaylistDescription = ({ playlist }: PlaylistTitleProps) => {
+export const PlaylistDescription = ({ playlist }: PlaylistDeatilProps) => {
   return (
     <div className="description__container">
       <p className="page__p--description">{playlist.description}</p>
