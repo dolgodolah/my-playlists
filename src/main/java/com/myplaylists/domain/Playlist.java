@@ -51,8 +51,8 @@ public class Playlist extends BaseTime {
 			throw new ApiException("플레이리스트 제목을 입력해주세요.", 1);
 		}
 
-		if (title.length() > 30) {
-			throw new ApiException("플레이리스트 제목은 최대 30자까지 가능합니다.", 1);
+		if (title.length() > 50) {
+			throw new ApiException("플레이리스트 제목은 최대 50자까지 가능합니다.", 1);
 		}
 
 		this.user = user;
