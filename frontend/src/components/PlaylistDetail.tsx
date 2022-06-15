@@ -1,18 +1,24 @@
 import EditBox from "./EditBox";
-import {PlaylistProps} from "../shared/Props";
+import { PlaylistProps } from "../shared/Props";
 
-interface PlaylistDetailProps {
-  playlist: PlaylistProps
+interface PlaylistDeatilProps {
+  playlist: PlaylistProps;
 }
 
-const PlaylistDetail = ({ playlist }: PlaylistDetailProps) => {
+export const PlaylistTitle = ({ playlist }: PlaylistDeatilProps) => {
   return (
     <div className="title__container">
       <EditBox playlist={playlist} />
-      <span className="page__span--title">{playlist.title}</span>
-      <span className="page__span--sub">{playlist.description}</span>
+      <p className="page__p--title">{playlist.title}</p>
+      <p className="page__p--author">{playlist.author}님의 플레이리스트</p>
     </div>
   );
 };
 
-export default PlaylistDetail;
+export const PlaylistDescription = ({ playlist }: PlaylistDeatilProps) => {
+  return (
+    <div className="description__container">
+      <p className="page__p--description">{playlist.description}</p>
+    </div>
+  );
+};
