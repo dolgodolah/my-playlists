@@ -20,10 +20,6 @@ public class OauthRequest {
     }
 
     public User toEntity() {
-        return User.builder()
-                .email(email)
-                .name(name)
-                .nickname(name)
-                .build();
+        return new User(null, email, name, name);
     }
 }

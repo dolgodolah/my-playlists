@@ -14,7 +14,13 @@ class PlaylistRequestDto(
     private val description: String,
     private val visibility: Boolean,
 ) {
-    fun toEntity(user: User): Playlist = Playlist(user, title, description, visibility)
+    fun toEntity(user: User): Playlist = Playlist(
+        user = user,
+        title = title,
+        description = description,
+        visibility = visibility,
+        songCount = 0
+    )
 }
 
 class PlaylistResponseDto(
@@ -29,12 +35,12 @@ class PlaylistResponseDto(
     companion object {
         fun of(playlist: Playlist): PlaylistResponseDto {
             return PlaylistResponseDto(
-                playlistId = playlist.id,
+                playlistId = playlist.id!!,
                 title = playlist.title,
                 description = playlist.description,
                 updatedDate = playlist.updatedDate,
                 visibility = playlist.visibility,
-                author = playlist.author,
+                author = playlist.user.nickname,
                 songCount = playlist.songCount
             )
         }
