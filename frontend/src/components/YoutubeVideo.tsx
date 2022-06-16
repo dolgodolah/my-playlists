@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import {PlaylistProps, SongProps} from "../shared/Props";
+import { PlaylistProps, SongProps } from "../shared/Props";
 import StatusCode from "../shared/StatusCode";
 import { useNavigate } from "react-router-dom";
 import alertError from "../shared/Error";
+import YouTube from "react-youtube";
 
 export interface YoutubeVideoProps {
   playlist: PlaylistProps;
@@ -49,7 +50,7 @@ const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
               state: {
                 page: "showSongs",
                 playlist: playlist,
-              }
+              },
             });
             break;
           default:
@@ -60,21 +61,19 @@ const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
     }
   };
 
+  const opts = {
+    width: "720",
+    height: "405",
+    playerVars: {
+      autoplay: 1,
+    },
+  };
+
   return (
     <div className="youtube__container">
-      <iframe
-        title="youtube video player"
-        className="youtube__video"
-        src={`https://www.youtube.com/embed/${song.videoId}`}
-        frameBorder="0"
-        allowFullScreen
-      />
+      <YouTube title="youtube video player" className="youtube__video" videoId={song.videoId} opts={opts} />
       <div className="description__container--youtube">
-        <textarea
-          className="description__textarea--youtube"
-          value={description}
-          onChange={onChange}
-        />
+        <textarea className="description__textarea--youtube" value={description} onChange={onChange} />
       </div>
       <div className="button__container--youtube">
         <span className="button__span--edit" onClick={onClickEdit}>
