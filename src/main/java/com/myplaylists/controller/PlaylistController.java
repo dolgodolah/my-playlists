@@ -37,7 +37,7 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/playlist/{playlistId}")
-	public boolean isBookmarkPlaylist(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
+	public BookmarkDto isBookmarkPlaylist(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
 		return bookmarkService.checkBookmark(user.getUserId(), playlistId);
 	}
 
@@ -54,7 +54,7 @@ public class PlaylistController {
 		return playlists;
 	}
 
-	@PostMapping("/bookmark")
+	@PostMapping("/bookmark/{playlistId}")
 	public BaseResponse toggleBookmark(@Login LoginUser user, @PathVariable("playlistId") Long playlistId) {
 		bookmarkService.toggleBookmark(user.getUserId(), playlistId);
 		return BaseResponse.ok();

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import classNames from "classnames";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { PlaylistProps } from "../shared/Props";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
@@ -13,11 +13,35 @@ interface EditBoxProps {
 
 const EditBox = ({ playlist }: EditBoxProps) => {
   const navigate = useNavigate();
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const setBookmark = () => {
-    // TODO: 북마크 설정 로직 추가
-    setIsBookmarked(!isBookmarked);
+  const [isBookmark, setBookmark] = useState(false);
+  useEffect(() => {
+    axios.get(`/playlist/${playlist.playlistId}`).then((res) => {
+      const response = res.data
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          setBookmark(response.isBookmark)
+          break;
+        default:
+          alertError(response.message)
+          break;
+      }
+    })
+  }, [playlist])
+
+  const toggleBookmark = () => {
+    axios.post(`/bookmark/${playlist.playlistId}`).then((res) => {
+      const response = res.data;
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          setBookmark(!isBookmark);
+          break;
+        default:
+          alertError(response.message);
+          break;
+      }
+    })
   };
+
   const deletePlaylist = () => {
     const ok = window.confirm("플레이리스트를 삭제하시겠습니까?");
     if (ok) {
@@ -39,9 +63,9 @@ const EditBox = ({ playlist }: EditBoxProps) => {
       <Icon
         icon="bi:star-fill"
         className={classNames({
-          isBookmarked,
+          isBookmark,
         })}
-        onClick={setBookmark}
+        onClick={toggleBookmark}
       />
       <Link
         to="/playlist"

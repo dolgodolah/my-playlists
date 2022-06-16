@@ -2,6 +2,7 @@ package com.myplaylists.service;
 
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.User;
+import com.myplaylists.dto.BookmarkDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BookmarkService {
 
 	private final BookmarkRepository bookmarkRepository;
@@ -33,15 +35,16 @@ public class BookmarkService {
 		return bookmarkRepository.findByUser(pageable, user);
 	}
 
-	@Transactional
 	public void deleteBookmark(Long bookmarkId) {
 		bookmarkRepository.deleteById(bookmarkId);
 	}
 
 	@Transactional(readOnly = true)
-	public boolean checkBookmark(Long userId, Long playlistId) {
+	public BookmarkDto checkBookmark(Long userId, Long playlistId) {
 		User user = userService.findUserByIdOrElseThrow(userId);
-		return bookmarkRepository.findByUserAndPlaylistId(user, playlistId).isPresent();
+		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
+		boolean isBookmark = bookmarkRepository.findByUserAndPlaylist(user, playlist).isPresent();
+		return BookmarkDto.Companion.of(isBookmark);
 	}
 
 	public void addBookmark(User user, Playlist playlist) {
@@ -53,18 +56,13 @@ public class BookmarkService {
 		bookmarkRepository.save(bookmark);
 	}
 
-	@Transactional
 	public void toggleBookmark(Long userId, Long playlistId) {
 		User user = userService.findUserByIdOrElseThrow(userId);
 		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
-
-		findAllByUserId(userId).stream()
-				.filter(bookmark -> bookmark.getPlaylist().equals(playlist))
-				.findAny()
-				.ifPresentOrElse(bookmark -> {
-					deleteBookmark(bookmark.getId());
-				}, () -> {
-					addBookmark(user, playlist);
-				});
+		bookmarkRepository.findByUserAndPlaylist(user, playlist)
+				.ifPresentOrElse(
+						bookmark -> deleteBookmark(bookmark.id),
+						() -> addBookmark(user, playlist)
+				);
 	}
 }
