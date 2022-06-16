@@ -26,7 +26,7 @@ const EditBox = ({ playlist }: EditBoxProps) => {
           break;
       }
     })
-  }, [playlist])
+  }, [playlist && playlist.playlistId])
 
   const toggleBookmark = () => {
     axios.post(`/bookmark/${playlist.playlistId}`).then((res) => {

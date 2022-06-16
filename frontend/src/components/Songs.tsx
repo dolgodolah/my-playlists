@@ -10,9 +10,10 @@ import moment from "moment";
 
 interface SongsProps {
   playlist: PlaylistProps;
+  reload?: boolean;
 }
 
-const Songs = ({ playlist }: SongsProps) => {
+const Songs = ({ playlist, reload }: SongsProps) => {
   const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([]);
 
@@ -43,7 +44,21 @@ const Songs = ({ playlist }: SongsProps) => {
           break;
       }
     })
-  }, [playlist]);
+  }, [playlist && playlist.playlistId]);
+
+  useEffect(() => {
+    axios.get("/songs", { params: { playlistId: playlist.playlistId } }).then((res) => {
+      const response = res.data;
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          setSongs(response.songs);
+          break;
+        default:
+          alertError(response.message)
+          break;
+      }
+    })
+  }, [reload]);
 
   return (
     <>

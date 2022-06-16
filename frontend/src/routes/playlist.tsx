@@ -23,7 +23,7 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            left={<Songs playlist={playlist} />}
+            left={<Songs playlist={playlist} reload={true} />}
             right={
               <>
                 <PlaylistTitle playlist={playlist} />
