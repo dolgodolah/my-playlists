@@ -9,13 +9,12 @@ import YouTube from "react-youtube";
 export interface YoutubeVideoProps {
   playlist: PlaylistProps;
   song: SongProps;
+  nextSongs: Array<SongProps>;
 }
 
-const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
+const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
   const [description, setDescription] = useState(song.description || "");
-
   const navigate = useNavigate();
-
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
   }, []);
@@ -61,7 +60,18 @@ const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
     }
   };
 
-  const opts = {
+  const onVideoEnd = () => {
+    navigate("/playlist", {
+      state: {
+        page: "playSong",
+        playlist: playlist,
+        playedSong: nextSongs[0],
+        nextSongs: nextSongs.slice(1, nextSongs.length),
+      },
+    });
+  };
+
+  const videoOptions = {
     width: "720",
     height: "405",
     playerVars: {
@@ -71,7 +81,13 @@ const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
 
   return (
     <div className="youtube__container">
-      <YouTube title="youtube video player" className="youtube__video" videoId={song.videoId} opts={opts} />
+      <YouTube
+        title="youtube video player"
+        className="youtube__video"
+        videoId={song.videoId}
+        opts={videoOptions}
+        onEnd={onVideoEnd}
+      />
       <div className="description__container--youtube">
         <textarea className="description__textarea--youtube" value={description} onChange={onChange} />
       </div>

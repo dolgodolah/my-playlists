@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
-import {PlaylistProps, SongProps} from "../shared/Props";
+import { PlaylistProps, SongProps } from "../shared/Props";
 import HeaderLogo from "./HeaderLogo";
 import moment from "moment";
 
@@ -18,17 +18,19 @@ const Songs = ({ playlist }: SongsProps) => {
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
-    axios.get("/songs/search", { params: { playlistId: playlist.playlistId, keyword: e.target.value } }).then((res) => {
-      const response = res.data;
-      switch (response.statusCode) {
-        case StatusCode.OK:
-          setSongs(response.songs);
-          break;
-        default:
-          alertError(response.message)
-          break;
-      }
-    })
+    axios
+      .get("/songs/search", { params: { playlistId: playlist.playlistId, keyword: e.target.value } })
+      .then((res) => {
+        const response = res.data;
+        switch (response.statusCode) {
+          case StatusCode.OK:
+            setSongs(response.songs);
+            break;
+          default:
+            alertError(response.message);
+            break;
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -39,10 +41,10 @@ const Songs = ({ playlist }: SongsProps) => {
           setSongs(response.songs);
           break;
         default:
-          alertError(response.message)
+          alertError(response.message);
           break;
       }
-    })
+    });
   }, [playlist]);
 
   return (
@@ -60,7 +62,7 @@ const Songs = ({ playlist }: SongsProps) => {
         </div>
       </div>
       <div className="lists__container">
-        {songs?.map((song: SongProps) => (
+        {songs?.map((song: SongProps, index) => (
           <Link
             key={song.songId}
             to="/playlist"
@@ -68,6 +70,7 @@ const Songs = ({ playlist }: SongsProps) => {
               page: "playSong",
               playlist: playlist,
               playedSong: song,
+              nextSongs: songs.slice(index + 1, songs.length),
             }}
           >
             <div className="song__container">

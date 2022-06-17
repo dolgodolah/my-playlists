@@ -1,9 +1,6 @@
 import { useLocation } from "react-router-dom";
 import PlayBox from "../components/PlayBox";
-import {
-  PlaylistDescription,
-  PlaylistTitle,
-} from "../components/PlaylistDetail";
+import { PlaylistDescription, PlaylistTitle } from "../components/PlaylistDetail";
 import Songs from "../components/Songs";
 import YoutubeVideo from "../components/YoutubeVideo";
 import SearchSongs from "../components/SearchSongs";
@@ -13,10 +10,11 @@ interface StateProps {
   page: string;
   playlist: PlaylistProps;
   playedSong?: SongProps;
+  nextSongs?: Array<SongProps>;
 }
 
 const Playlist = () => {
-  const { page, playlist, playedSong } = useLocation().state as StateProps;
+  const { page, playlist, playedSong, nextSongs } = useLocation().state as StateProps;
   const Render = () => {
     switch (page) {
       // 선택 플레이리스트 상세화면
@@ -42,7 +40,7 @@ const Playlist = () => {
             right={
               <>
                 <PlaylistTitle playlist={playlist} />
-                <YoutubeVideo playlist={playlist} song={playedSong!} />
+                <YoutubeVideo playlist={playlist} song={playedSong!} nextSongs={nextSongs!} />
               </>
             }
           />
