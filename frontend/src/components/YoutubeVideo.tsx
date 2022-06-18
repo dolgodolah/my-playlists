@@ -60,15 +60,25 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
     }
   };
 
-  const onVideoEnd = () => {
-    navigate("/playlist", {
-      state: {
-        page: "playSong",
-        playlist: playlist,
-        playedSong: nextSongs[0],
-        nextSongs: nextSongs.slice(1, nextSongs.length),
-      },
-    });
+  const playNextSong = () => {
+    if (nextSongs.length > 0) {
+      navigate("/playlist", {
+        state: {
+          page: "playSong",
+          playlist: playlist,
+          playedSong: nextSongs[0],
+          nextSongs: nextSongs.slice(1, nextSongs.length),
+        },
+      });
+    } else {
+      alert("모든 노래 재생이 끝났습니다.");
+      navigate("/playlist", {
+        state: {
+          page: "showSongs",
+          playlist: playlist,
+        },
+      });
+    }
   };
 
   const videoOptions = {
@@ -86,7 +96,7 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
         className="youtube__video"
         videoId={song.videoId}
         opts={videoOptions}
-        onEnd={onVideoEnd}
+        onEnd={playNextSong}
       />
       <div className="description__container--youtube">
         <textarea className="description__textarea--youtube" value={description} onChange={onChange} />
