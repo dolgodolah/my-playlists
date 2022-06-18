@@ -4,7 +4,7 @@ import { PlaylistProps, SongProps } from "../shared/Props";
 import StatusCode from "../shared/StatusCode";
 import { useNavigate } from "react-router-dom";
 import alertError from "../shared/Error";
-import YouTube from "react-youtube";
+import ReactPlayer from 'react-player'
 
 export interface YoutubeVideoProps {
   playlist: PlaylistProps;
@@ -71,7 +71,6 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
         },
       });
     } else {
-      alert("모든 노래 재생이 끝났습니다.");
       navigate("/playlist", {
         state: {
           page: "showSongs",
@@ -81,22 +80,14 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
     }
   };
 
-  const videoOptions = {
-    width: "720",
-    height: "405",
-    playerVars: {
-      autoplay: 1,
-    },
-  };
-
   return (
     <div className="youtube__container">
-      <YouTube
-        title="youtube video player"
+      <ReactPlayer
         className="youtube__video"
-        videoId={song.videoId}
-        opts={videoOptions}
-        onEnd={playNextSong}
+        url={`https://www.youtube.com/watch?v=${song.videoId}`}
+        playing={true}
+        onEnded={playNextSong}
+        controls={true}
       />
       <div className="description__container--youtube">
         <textarea className="description__textarea--youtube" value={description} onChange={onChange} />
