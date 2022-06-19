@@ -61,7 +61,7 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/playlist/search")
-	public PlaylistsDto searchMyPlaylists(@Login LoginUser user, @RequestParam String keyword, @PageableDefault(size = 6, sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+	public PlaylistsDto searchMyPlaylists(@Login LoginUser user, @RequestParam String keyword, @PageableDefault(sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		return playlistService.searchMyPlaylists(user.getUserId(), pageable, keyword);
 	}
 
