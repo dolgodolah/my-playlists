@@ -1,11 +1,11 @@
 import PlayBox from "../components/PlayBox";
 import PlaylistAddForm from "../components/PlaylistAddForm";
-import Playlists from "../components/Playlists";
+import {MyPlaylists} from "../components/Playlists";
 
 const AddPlaylist = () => {
   return (
     <PlayBox
-      left={<Playlists page={"myPlaylist"} />}
+      left={<MyPlaylists />}
       right={<PlaylistAddForm />}
     />
   );
