@@ -21,12 +21,12 @@ public class PlaylistController {
 	private final BookmarkService bookmarkService;
 
 	@GetMapping("/my_playlists")
-	public PlaylistsDto getMyPlaylists(@Login LoginUser user, @PageableDefault(size = 6) Pageable pageable) {
+	public PlaylistsDto getMyPlaylists(@Login LoginUser user, @PageableDefault(sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		return playlistService.findMyPlaylists(user.getUserId(), pageable);
 	}
 
 	@GetMapping("/all_playlists")
-	public PlaylistsDto getAllPlaylists(@PageableDefault(size = 6) Pageable pageable) {
+	public PlaylistsDto getAllPlaylists(@PageableDefault(sort = "updatedDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		return playlistService.findAllPlaylists(pageable);
 	}
 
@@ -48,7 +48,7 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/bookmarks")
-	public PlaylistsDto getBookmarkPlaylists(@Login LoginUser user, @PageableDefault(size=6, sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable) {
+	public PlaylistsDto getBookmarkPlaylists(@Login LoginUser user, @PageableDefault(sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
 		BookmarksDto bookmarks = BookmarksDto.of(bookmarkService.findByUserId(user.getUserId(), pageable));
 		PlaylistsDto playlists = PlaylistsDto.Companion.of(bookmarks);
 		return playlists;
