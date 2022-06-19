@@ -1,20 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import {PlaylistProps, SongProps} from "../shared/Props";
+import { PlaylistProps, SongProps } from "../shared/Props";
 import StatusCode from "../shared/StatusCode";
 import { useNavigate } from "react-router-dom";
 import alertError from "../shared/Error";
+import ReactPlayer from 'react-player'
 
 export interface YoutubeVideoProps {
   playlist: PlaylistProps;
   song: SongProps;
+  nextSongs: Array<SongProps>;
 }
 
-const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
+const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
   const [description, setDescription] = useState(song.description || "");
-
   const navigate = useNavigate();
-
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
   }, []);
@@ -49,7 +49,7 @@ const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
               state: {
                 page: "showSongs",
                 playlist: playlist,
-              }
+              },
             });
             break;
           default:
@@ -60,21 +60,37 @@ const YoutubeVideo = ({ playlist, song }: YoutubeVideoProps) => {
     }
   };
 
+  const playNextSong = () => {
+    if (nextSongs.length > 0) {
+      navigate("/playlist", {
+        state: {
+          page: "playSong",
+          playlist: playlist,
+          playedSong: nextSongs[0],
+          nextSongs: nextSongs.slice(1, nextSongs.length),
+        },
+      });
+    } else {
+      navigate("/playlist", {
+        state: {
+          page: "showSongs",
+          playlist: playlist,
+        },
+      });
+    }
+  };
+
   return (
     <div className="youtube__container">
-      <iframe
-        title="youtube video player"
+      <ReactPlayer
         className="youtube__video"
-        src={`https://www.youtube.com/embed/${song.videoId}`}
-        frameBorder="0"
-        allowFullScreen
+        url={`https://www.youtube.com/watch?v=${song.videoId}`}
+        playing={true}
+        onEnded={playNextSong}
+        controls={true}
       />
       <div className="description__container--youtube">
-        <textarea
-          className="description__textarea--youtube"
-          value={description}
-          onChange={onChange}
-        />
+        <textarea className="description__textarea--youtube" value={description} onChange={onChange} />
       </div>
       <div className="button__container--youtube">
         <span className="button__span--edit" onClick={onClickEdit}>
