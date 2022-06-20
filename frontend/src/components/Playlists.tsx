@@ -8,10 +8,6 @@ import alertError from "../shared/Error";
 import HeaderLogo from "./HeaderLogo";
 import moment from "moment";
 
-interface PageProps {
-  page: string;
-}
-
 // TODO: 중복 코드들 컴포넌트로 분리 필요
 
 export const MyPlaylists = () => {
@@ -19,7 +15,7 @@ export const MyPlaylists = () => {
   const [playlists, setPlaylists] = useState([]);
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
   const [pageIndex, setPageIndex] = useState(0);
-  const [isLastPlaylists, setLastPlaylists] = useState(false);
+  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
@@ -31,13 +27,30 @@ export const MyPlaylists = () => {
     }
   }
 
+  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
+    playlists.forEach((playlist) => {
+      if (playlist.isIntersecting) {
+        setPageIndex(pageIndex + 1)
+        observer.unobserve(playlist.target);
+      }
+    });
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (lastPlaylist) {
+      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
+      observer.observe(lastPlaylist);
+    }
+    return () => observer && observer.disconnect();
+  }, [lastPlaylist]);
+
   useEffect(() => {
     axios.get(`/my_playlists?page=${pageIndex}`).then( (res) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:
           setPlaylists(playlists.concat(response.playlists));
-          setLastPlaylists(response.isLast)
           break;
         default:
           alertError(response.message)
@@ -46,13 +59,6 @@ export const MyPlaylists = () => {
     });
 
   }, [pageIndex])
-
-  const handleScroll = (e: React.UIEvent) => {
-    const isLastHeight = e.currentTarget.scrollHeight - e.currentTarget.scrollTop === e.currentTarget.clientHeight;
-    if (isLastHeight && !isLastPlaylists) {
-      setPageIndex(pageIndex + 1)
-    }
-  }
 
   return (
     <>
@@ -70,7 +76,7 @@ export const MyPlaylists = () => {
         </div>
       </div>
 
-      <div className="lists__container" onScroll={handleScroll}>
+      <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
           <Link
             key={playlist.playlistId}
@@ -79,6 +85,7 @@ export const MyPlaylists = () => {
               page: "showSongs",
               playlist: playlist
             }}
+            ref={setLastPlaylist}
             className="playlist__link"
           >
             <div className="playlist__container">
@@ -115,7 +122,8 @@ export const AllPlaylists = () => {
   const [playlists, setPlaylists] = useState([]);
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
   const [pageIndex, setPageIndex] = useState(0);
-  const [isLastPlaylists, setLastPlaylists] = useState(false);
+  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
+
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
@@ -127,13 +135,30 @@ export const AllPlaylists = () => {
     }
   }
 
+  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
+    playlists.forEach((playlist) => {
+      if (playlist.isIntersecting) {
+        setPageIndex(pageIndex + 1)
+        observer.unobserve(playlist.target);
+      }
+    });
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (lastPlaylist) {
+      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
+      observer.observe(lastPlaylist);
+    }
+    return () => observer && observer.disconnect();
+  }, [lastPlaylist]);
+
   useEffect(() => {
     axios.get(`/all_playlists?page=${pageIndex}`).then( (res) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:
           setPlaylists(playlists.concat(response.playlists));
-          setLastPlaylists(response.isLast)
           break;
         default:
           alertError(response.message)
@@ -142,12 +167,6 @@ export const AllPlaylists = () => {
     });
   }, [pageIndex])
 
-  const handleScroll = (e: React.UIEvent) => {
-    const isLastHeight = e.currentTarget.scrollHeight - e.currentTarget.scrollTop === e.currentTarget.clientHeight;
-    if (isLastHeight && !isLastPlaylists) {
-      setPageIndex(pageIndex + 1)
-    }
-  }
 
   return (
     <>
@@ -165,7 +184,7 @@ export const AllPlaylists = () => {
         </div>
       </div>
 
-      <div className="lists__container" onScroll={handleScroll}>
+      <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
           <Link
             key={playlist.playlistId}
@@ -174,6 +193,7 @@ export const AllPlaylists = () => {
               page: "showSongs",
               playlist: playlist
             }}
+            ref={setLastPlaylist}
             className="playlist__link"
           >
             <div className="playlist__container">
@@ -210,7 +230,7 @@ export const Bookmarks = () => {
   const [playlists, setPlaylists] = useState([]);
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
   const [pageIndex, setPageIndex] = useState(0);
-  const [isLastPlaylists, setLastPlaylists] = useState(false);
+  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
@@ -222,13 +242,30 @@ export const Bookmarks = () => {
     }
   }
 
+  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
+    playlists.forEach((playlist) => {
+      if (playlist.isIntersecting) {
+        setPageIndex(pageIndex + 1)
+        observer.unobserve(playlist.target);
+      }
+    });
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (lastPlaylist) {
+      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
+      observer.observe(lastPlaylist);
+    }
+    return () => observer && observer.disconnect();
+  }, [lastPlaylist]);
+
   useEffect(() => {
     axios.get(`/bookmarks?page=${pageIndex}`).then( (res) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:
           setPlaylists(playlists.concat(response.playlists));
-          setLastPlaylists(response.isLast)
           break;
         default:
           alertError(response.message)
@@ -236,13 +273,6 @@ export const Bookmarks = () => {
       }
     });
   }, [pageIndex])
-
-  const handleScroll = (e: React.UIEvent) => {
-    const isLastHeight = e.currentTarget.scrollHeight - e.currentTarget.scrollTop === e.currentTarget.clientHeight;
-    if (isLastHeight && !isLastPlaylists) {
-      setPageIndex(pageIndex + 1)
-    }
-  }
 
   return (
     <>
@@ -260,7 +290,7 @@ export const Bookmarks = () => {
         </div>
       </div>
 
-      <div className="lists__container" onScroll={handleScroll}>
+      <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
           <Link
             key={playlist.playlistId}
@@ -269,6 +299,7 @@ export const Bookmarks = () => {
               page: "showSongs",
               playlist: playlist
             }}
+            ref={setLastPlaylist}
             className="playlist__link"
           >
             <div className="playlist__container">
@@ -305,7 +336,7 @@ export const SearchPlaylists = () => {
   const [playlists, setPlaylists] = useState([]);
   const [keyword, setKeyword] = useState(params.get('keyword') || "");
   const [pageIndex, setPageIndex] = useState(0);
-  const [isLastPlaylists, setLastPlaylists] = useState(false);
+  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
@@ -317,13 +348,30 @@ export const SearchPlaylists = () => {
     }
   }
 
+  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
+    playlists.forEach((playlist) => {
+      if (playlist.isIntersecting) {
+        setPageIndex(pageIndex + 1)
+        observer.unobserve(playlist.target);
+      }
+    });
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (lastPlaylist) {
+      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
+      observer.observe(lastPlaylist);
+    }
+    return () => observer && observer.disconnect();
+  }, [lastPlaylist]);
+
   useEffect(() => {
     axios.get(`/playlist/search?page=${pageIndex}`, { params: { keyword: keyword } }).then((res) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:
           setPlaylists(playlists.concat(response.playlists));
-          setLastPlaylists(response.isLast)
           break;
         default:
           alertError(response.message)
@@ -331,13 +379,6 @@ export const SearchPlaylists = () => {
       }
     })
   }, [pageIndex])
-
-  const handleScroll = (e: React.UIEvent) => {
-    const isLastHeight = e.currentTarget.scrollHeight - e.currentTarget.scrollTop === e.currentTarget.clientHeight;
-    if (isLastHeight && !isLastPlaylists) {
-      setPageIndex(pageIndex + 1)
-    }
-  }
 
   return (
     <>
@@ -355,7 +396,7 @@ export const SearchPlaylists = () => {
         </div>
       </div>
 
-      <div className="lists__container" onScroll={handleScroll}>
+      <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
           <Link
             key={playlist.playlistId}
@@ -364,6 +405,7 @@ export const SearchPlaylists = () => {
               page: "showSongs",
               playlist: playlist
             }}
+            ref={setLastPlaylist}
             className="playlist__link"
           >
             <div className="playlist__container">
