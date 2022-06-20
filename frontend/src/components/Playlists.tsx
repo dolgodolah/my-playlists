@@ -1,15 +1,11 @@
-import { Icon } from "@iconify/react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { PlaylistProps } from "../shared/Props";
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
-import HeaderLogo from "./HeaderLogo";
-import moment from "moment";
 import Playlist from "./Playlist";
-
-// TODO: 중복 코드들 컴포넌트로 분리 필요
+import PlaylistsHeader from "./PlaylistsHeader";
 
 export const MyPlaylists = () => {
   const [params] = useSearchParams();
@@ -63,19 +59,8 @@ export const MyPlaylists = () => {
   return (
     <>
       <div className="header__container">
-        <HeaderLogo />
-        <div className="search__container">
-          <input
-            type="text"
-            placeholder="플레이리스트 검색"
-            className="search__input--header"
-            value={keyword}
-            onChange={onChangeKeyword}
-            onKeyPress={onPressEnter}
-          />
-        </div>
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
       </div>
-
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
           <Playlist key={playlist.playlistId} playlist={playlist} setLastPlaylist={setLastPlaylist} />
@@ -137,19 +122,8 @@ export const AllPlaylists = () => {
   return (
     <>
       <div className="header__container">
-        <HeaderLogo />
-        <div className="search__container">
-          <input
-            type="text"
-            placeholder="플레이리스트 검색"
-            className="search__input--header"
-            value={keyword}
-            onChange={onChangeKeyword}
-            onKeyPress={onPressEnter}
-          />
-        </div>
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
       </div>
-
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
           <Playlist key={playlist.playlistId} playlist={playlist} setLastPlaylist={setLastPlaylist} />
@@ -211,19 +185,8 @@ export const Bookmarks = () => {
   return (
     <>
       <div className="header__container">
-        <HeaderLogo />
-        <div className="search__container">
-          <input
-            type="text"
-            placeholder="플레이리스트 검색"
-            className="search__input--header"
-            value={keyword}
-            onChange={onChangeKeyword}
-            onKeyPress={onPressEnter}
-          />
-        </div>
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
       </div>
-
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
           <Playlist key={playlist.playlistId} playlist={playlist} setLastPlaylist={setLastPlaylist} />
@@ -285,17 +248,7 @@ export const SearchPlaylists = () => {
   return (
     <>
       <div className="header__container">
-        <HeaderLogo />
-        <div className="search__container">
-          <input
-            type="text"
-            placeholder="플레이리스트 검색"
-            className="search__input--header"
-            value={keyword}
-            onChange={onChangeKeyword}
-            onKeyPress={onPressEnter}
-          />
-        </div>
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
       </div>
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
