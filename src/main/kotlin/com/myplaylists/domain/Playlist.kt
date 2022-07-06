@@ -24,7 +24,7 @@ class Playlist(
 
     @Column(nullable = false)
     var visibility: Boolean = false,
-    var songCount: Int,
+    var songCount: Int = 0,
 ): BaseTime() {
 
     fun addSong(song: Song) {

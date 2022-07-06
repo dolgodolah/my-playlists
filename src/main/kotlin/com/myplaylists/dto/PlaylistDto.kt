@@ -18,8 +18,7 @@ class PlaylistRequestDto(
         user = user,
         title = title,
         description = description,
-        visibility = visibility,
-        songCount = 0
+        visibility = visibility
     )
 }
 
