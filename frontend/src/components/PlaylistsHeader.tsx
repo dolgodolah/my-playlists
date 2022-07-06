@@ -2,7 +2,7 @@ import HeaderLogo from "./HeaderLogo";
 
 interface HeaderProps {
   keyword: string;
-  onChangeKeyword: (e: any) => void;
+  onChangeKeyword: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPressEnter: (e: React.KeyboardEvent) => void;
 }
 
