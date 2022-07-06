@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public class Bookmark {
 	
 	@Id

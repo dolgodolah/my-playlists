@@ -5,7 +5,6 @@ import javax.persistence.*;
 
 import com.myplaylists.dto.SongUpdateRequestDto;
 import com.myplaylists.exception.ApiException;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class) /* JPA에게 해당 Entity는 Auditiong 기능을 사용함을 알립니다. */
 @NoArgsConstructor
 public class Song extends BaseTime {
 

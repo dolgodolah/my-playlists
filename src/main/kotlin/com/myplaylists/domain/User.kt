@@ -12,7 +12,7 @@ class User(
 
     @Column(nullable = false)
     var email: String,
-) {
+): BaseTime() {
     fun updateName(name: String): User {
         this.name = name
         return this
