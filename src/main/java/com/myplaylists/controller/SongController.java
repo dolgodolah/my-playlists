@@ -15,7 +15,7 @@ public class SongController {
     private final YoutubeService youtubeService;
 
     @GetMapping("/youtube_search")
-    public YoutubeSearchDto youtubeSearch(@Login LoginUser user, @RequestParam String keyword) {
+    public YoutubeSearchDto searchYoutube(@Login LoginUser user, @RequestParam String keyword) {
         return youtubeService.search(keyword);
     }
 

@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Song extends BaseTime {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="song_id")
 	public Long id;
 	public Long userId;
