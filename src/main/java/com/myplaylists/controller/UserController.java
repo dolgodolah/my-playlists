@@ -14,12 +14,12 @@ public class UserController {
 
 	private final UserService userService;
 
-	@GetMapping("/my-info")
+	@GetMapping("/my_info")
 	public UserDto getMyInfo(@Login LoginUser user) {
 		return userService.findUserById(user.getUserId());
 	}
 
-	@PostMapping("/my-info")
+	@PostMapping("/my_info")
 	public UserDto updateMyInfo(@Login LoginUser user, @RequestBody UserDto userDto) {
 		return userService.updateUserInfo(user.getUserId(), userDto);
 	}

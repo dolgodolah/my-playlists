@@ -37,7 +37,7 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/playlist/{playlistId}")
-	public BookmarkDto isBookmarkPlaylist(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
+	public BookmarkDto checkBookmarkPlaylist(@PathVariable("playlistId") Long playlistId, @Login LoginUser user) {
 		return bookmarkService.checkBookmark(user.getUserId(), playlistId);
 	}
 
