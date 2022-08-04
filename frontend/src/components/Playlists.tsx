@@ -1,28 +1,17 @@
-import { useSearchParams } from "react-router-dom";
 import { PlaylistProps } from "../shared/Props";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
 import Playlist from "./Playlist";
 import PlaylistsHeader from "./PlaylistsHeader";
+import { useSearch } from "./hooks/useSearch";
 
 export const MyPlaylists = () => {
-  const [params] = useSearchParams();
+  const { keyword, setKeyword, search } = useSearch();
   const [playlists, setPlaylists] = useState([]);
-  const [keyword, setKeyword] = useState(params.get("keyword") || "");
   const [pageIndex, setPageIndex] = useState(0);
   const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onChangeKeyword = useCallback((e) => {
-    setKeyword(e.target.value);
-  }, []);
-
-  const onPressEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      window.location.href = "/search?keyword=" + keyword;
-    }
-  };
 
   const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
     playlists.forEach((playlist) => {
@@ -59,7 +48,7 @@ export const MyPlaylists = () => {
   return (
     <>
       <div className="header__container">
-        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={setKeyword} onPressEnter={search} />
       </div>
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
@@ -71,21 +60,10 @@ export const MyPlaylists = () => {
 };
 
 export const AllPlaylists = () => {
-  const [params] = useSearchParams();
   const [playlists, setPlaylists] = useState([]);
-  const [keyword, setKeyword] = useState(params.get("keyword") || "");
+  const { keyword, setKeyword, search } = useSearch();
   const [pageIndex, setPageIndex] = useState(0);
   const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onChangeKeyword = useCallback((e) => {
-    setKeyword(e.target.value);
-  }, []);
-
-  const onPressEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      window.location.href = "/search?keyword=" + keyword;
-    }
-  };
 
   const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
     playlists.forEach((playlist) => {
@@ -122,7 +100,7 @@ export const AllPlaylists = () => {
   return (
     <>
       <div className="header__container">
-        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={setKeyword} onPressEnter={search} />
       </div>
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
@@ -134,21 +112,10 @@ export const AllPlaylists = () => {
 };
 
 export const Bookmarks = () => {
-  const [params] = useSearchParams();
   const [playlists, setPlaylists] = useState([]);
-  const [keyword, setKeyword] = useState(params.get("keyword") || "");
+  const { keyword, setKeyword, search } = useSearch();
   const [pageIndex, setPageIndex] = useState(0);
   const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onChangeKeyword = useCallback((e) => {
-    setKeyword(e.target.value);
-  }, []);
-
-  const onPressEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      window.location.href = "/search?keyword=" + keyword;
-    }
-  };
 
   const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
     playlists.forEach((playlist) => {
@@ -185,7 +152,7 @@ export const Bookmarks = () => {
   return (
     <>
       <div className="header__container">
-        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={setKeyword} onPressEnter={search} />
       </div>
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
@@ -197,21 +164,10 @@ export const Bookmarks = () => {
 };
 
 export const SearchPlaylists = () => {
-  const [params] = useSearchParams();
   const [playlists, setPlaylists] = useState([]);
-  const [keyword, setKeyword] = useState(params.get("keyword") || "");
+  const { keyword, setKeyword, search } = useSearch();
   const [pageIndex, setPageIndex] = useState(0);
   const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onChangeKeyword = useCallback((e) => {
-    setKeyword(e.target.value);
-  }, []);
-
-  const onPressEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      window.location.href = "/search?keyword=" + keyword;
-    }
-  };
 
   const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
     playlists.forEach((playlist) => {
@@ -248,7 +204,7 @@ export const SearchPlaylists = () => {
   return (
     <>
       <div className="header__container">
-        <PlaylistsHeader keyword={keyword} onChangeKeyword={onChangeKeyword} onPressEnter={onPressEnter} />
+        <PlaylistsHeader keyword={keyword} onChangeKeyword={setKeyword} onPressEnter={search} />
       </div>
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (

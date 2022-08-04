@@ -7,6 +7,7 @@ import alertError from "../shared/Error";
 import { PlaylistProps, SongProps } from "../shared/Props";
 import HeaderLogo from "./HeaderLogo";
 import moment from "moment";
+import {useAsyncSearch, useSearch} from "./hooks/useSearch";
 
 interface SongsProps {
   playlist: PlaylistProps;
@@ -14,13 +15,10 @@ interface SongsProps {
 }
 
 const Songs = ({ playlist, reload }: SongsProps) => {
-  const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([]);
-
-  const onChangeKeyword = useCallback((e) => {
-    setKeyword(e.target.value);
+  const callSearchApi = (keyword: string) => {
     axios
-      .get("/songs/search", { params: { playlistId: playlist.playlistId, keyword: e.target.value } })
+      .get("/songs/search", { params: { playlistId: playlist.playlistId, keyword: keyword } })
       .then((res) => {
         const response = res.data;
         switch (response.statusCode) {
@@ -32,7 +30,9 @@ const Songs = ({ playlist, reload }: SongsProps) => {
             break;
         }
       });
-  }, []);
+  }
+
+  const { keyword, setKeyword } = useAsyncSearch(callSearchApi)
 
   useEffect(() => {
     axios.get("/songs", { params: { playlistId: playlist.playlistId } }).then((res) => {
@@ -72,7 +72,7 @@ const Songs = ({ playlist, reload }: SongsProps) => {
             placeholder="노래 검색"
             className="search__input--header"
             value={keyword}
-            onChange={onChangeKeyword}
+            onChange={setKeyword}
           />
         </div>
       </div>
