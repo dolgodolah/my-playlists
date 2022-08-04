@@ -6,33 +6,15 @@ import alertError from "../shared/Error";
 import Playlist from "./Playlist";
 import PlaylistsHeader from "./PlaylistsHeader";
 import { useSearch } from "./hooks/useSearch";
+import usePageObserver from "./hooks/usePageObserver";
 
 export const MyPlaylists = () => {
   const { keyword, setKeyword, search } = useSearch();
+  const { page, setLast: setLastPlaylist } = usePageObserver();
   const [playlists, setPlaylists] = useState([]);
-  const [pageIndex, setPageIndex] = useState(0);
-  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
-    playlists.forEach((playlist) => {
-      if (playlist.isIntersecting) {
-        setPageIndex(pageIndex + 1);
-        observer.unobserve(playlist.target);
-      }
-    });
-  };
 
   useEffect(() => {
-    let observer: IntersectionObserver;
-    if (lastPlaylist) {
-      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
-      observer.observe(lastPlaylist);
-    }
-    return () => observer && observer.disconnect();
-  }, [lastPlaylist]);
-
-  useEffect(() => {
-    axios.get(`/my_playlists?page=${pageIndex}`).then((res) => {
+    axios.get(`/my_playlists?page=${page}`).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
@@ -43,7 +25,7 @@ export const MyPlaylists = () => {
           break;
       }
     });
-  }, [pageIndex]);
+  }, [page]);
 
   return (
     <>
@@ -62,29 +44,10 @@ export const MyPlaylists = () => {
 export const AllPlaylists = () => {
   const [playlists, setPlaylists] = useState([]);
   const { keyword, setKeyword, search } = useSearch();
-  const [pageIndex, setPageIndex] = useState(0);
-  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
-    playlists.forEach((playlist) => {
-      if (playlist.isIntersecting) {
-        setPageIndex(pageIndex + 1);
-        observer.unobserve(playlist.target);
-      }
-    });
-  };
+  const { page, setLast: setLastPlaylist } = usePageObserver();
 
   useEffect(() => {
-    let observer: IntersectionObserver;
-    if (lastPlaylist) {
-      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
-      observer.observe(lastPlaylist);
-    }
-    return () => observer && observer.disconnect();
-  }, [lastPlaylist]);
-
-  useEffect(() => {
-    axios.get(`/all_playlists?page=${pageIndex}`).then((res) => {
+    axios.get(`/all_playlists?page=${page}`).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
@@ -95,7 +58,7 @@ export const AllPlaylists = () => {
           break;
       }
     });
-  }, [pageIndex]);
+  }, [page]);
 
   return (
     <>
@@ -114,29 +77,10 @@ export const AllPlaylists = () => {
 export const Bookmarks = () => {
   const [playlists, setPlaylists] = useState([]);
   const { keyword, setKeyword, search } = useSearch();
-  const [pageIndex, setPageIndex] = useState(0);
-  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
-    playlists.forEach((playlist) => {
-      if (playlist.isIntersecting) {
-        setPageIndex(pageIndex + 1);
-        observer.unobserve(playlist.target);
-      }
-    });
-  };
+  const { page, setLast: setLastPlaylist } = usePageObserver();
 
   useEffect(() => {
-    let observer: IntersectionObserver;
-    if (lastPlaylist) {
-      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
-      observer.observe(lastPlaylist);
-    }
-    return () => observer && observer.disconnect();
-  }, [lastPlaylist]);
-
-  useEffect(() => {
-    axios.get(`/bookmarks?page=${pageIndex}`).then((res) => {
+    axios.get(`/bookmarks?page=${page}`).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
@@ -147,7 +91,7 @@ export const Bookmarks = () => {
           break;
       }
     });
-  }, [pageIndex]);
+  }, [page]);
 
   return (
     <>
@@ -166,29 +110,10 @@ export const Bookmarks = () => {
 export const SearchPlaylists = () => {
   const [playlists, setPlaylists] = useState([]);
   const { keyword, setKeyword, search } = useSearch();
-  const [pageIndex, setPageIndex] = useState(0);
-  const [lastPlaylist, setLastPlaylist] = useState<HTMLAnchorElement | null>();
-
-  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
-    playlists.forEach((playlist) => {
-      if (playlist.isIntersecting) {
-        setPageIndex(pageIndex + 1);
-        observer.unobserve(playlist.target);
-      }
-    });
-  };
+  const { page, setLast: setLastPlaylist } = usePageObserver();
 
   useEffect(() => {
-    let observer: IntersectionObserver;
-    if (lastPlaylist) {
-      observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
-      observer.observe(lastPlaylist);
-    }
-    return () => observer && observer.disconnect();
-  }, [lastPlaylist]);
-
-  useEffect(() => {
-    axios.get(`/playlist/search?page=${pageIndex}`, { params: { keyword: keyword } }).then((res) => {
+    axios.get(`/playlist/search?page=${page}`, { params: { keyword: keyword } }).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
@@ -199,7 +124,7 @@ export const SearchPlaylists = () => {
           break;
       }
     });
-  }, [pageIndex]);
+  }, [page]);
 
   return (
     <>
