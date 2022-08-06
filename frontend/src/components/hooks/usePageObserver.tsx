@@ -4,11 +4,11 @@ const usePageObserver = () => {
   const [page, setPage] = useState(0);
   const [last, setLast] = useState<HTMLAnchorElement | null>();
 
-  const onIntersect: IntersectionObserverCallback = (playlists, observer) => {
-    playlists.forEach((playlist) => {
-      if (playlist.isIntersecting) {
+  const onIntersect: IntersectionObserverCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
         setPage(page + 1);
-        observer.unobserve(playlist.target);
+        observer.unobserve(entry.target);
       }
     });
   };
