@@ -40,7 +40,7 @@ const PlaylistAddForm = () => {
           navigate("/")
           break;
         default:
-          alertError(response.message)
+          alertError(response)
           break;
       }
     })

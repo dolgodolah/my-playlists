@@ -23,7 +23,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
           setSongs(response.songs);
           break;
         default:
-          alertError(response.message)
+          alertError(response)
           break;
       }
     })
@@ -45,7 +45,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
           window.location.href = "/playlist";
           break;
         default:
-          alertError(response.message)
+          alertError(response)
       }
     })
   };

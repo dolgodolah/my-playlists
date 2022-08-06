@@ -22,7 +22,7 @@ const EditBox = ({ playlist }: EditBoxProps) => {
           setBookmark(response.isBookmark)
           break;
         default:
-          alertError(response.message)
+          alertError(response)
           break;
       }
     })
@@ -36,7 +36,7 @@ const EditBox = ({ playlist }: EditBoxProps) => {
           setBookmark(!isBookmark);
           break;
         default:
-          alertError(response.message);
+          alertError(response);
           break;
       }
     })
@@ -52,7 +52,7 @@ const EditBox = ({ playlist }: EditBoxProps) => {
             navigate("/");
             break;
           default:
-            alertError(response.message);
+            alertError(response);
             break;
         }
       });

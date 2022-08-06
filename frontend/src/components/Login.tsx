@@ -23,7 +23,7 @@ const Login = () => {
             window.location.href = "/";
             break;
           case StatusCode.INVALID_EMAIL:
-            alertError(response.message)
+            alertError(response)
             break;
         }
       })

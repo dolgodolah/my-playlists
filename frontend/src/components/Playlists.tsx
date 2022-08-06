@@ -21,7 +21,7 @@ export const MyPlaylists = () => {
           setPlaylists(playlists.concat(response.playlists));
           break;
         default:
-          alertError(response.message);
+          alertError(response);
           break;
       }
     });
@@ -54,7 +54,7 @@ export const AllPlaylists = () => {
           setPlaylists(playlists.concat(response.playlists));
           break;
         default:
-          alertError(response.message);
+          alertError(response);
           break;
       }
     });
@@ -87,7 +87,7 @@ export const Bookmarks = () => {
           setPlaylists(playlists.concat(response.playlists));
           break;
         default:
-          alertError(response.message);
+          alertError(response);
           break;
       }
     });
@@ -120,7 +120,7 @@ export const SearchPlaylists = () => {
           setPlaylists(playlists.concat(response.playlists));
           break;
         default:
-          alertError(response.message);
+          alertError(response);
           break;
       }
     });

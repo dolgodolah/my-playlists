@@ -37,7 +37,7 @@ const MyPageForm = () => {
             setError(true);
             break;
           default:
-            alertError(response.message);
+            alertError(response);
             break;
         }
       });
@@ -57,7 +57,7 @@ const MyPageForm = () => {
           setNickname(response.nickname);
           break;
         default:
-          alertError(response.message);
+          alertError(response);
           break;
       }
     });

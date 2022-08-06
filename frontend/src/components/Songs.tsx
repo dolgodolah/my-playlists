@@ -26,7 +26,7 @@ const Songs = ({ playlist, reload }: SongsProps) => {
             setSongs(response.songs);
             break;
           default:
-            alertError(response.message);
+            alertError(response);
             break;
         }
       });
@@ -42,7 +42,7 @@ const Songs = ({ playlist, reload }: SongsProps) => {
           setSongs(response.songs);
           break;
         default:
-          alertError(response.message);
+          alertError(response);
           break;
       }
     })
@@ -56,7 +56,7 @@ const Songs = ({ playlist, reload }: SongsProps) => {
           setSongs(response.songs);
           break;
         default:
-          alertError(response.message)
+          alertError(response)
           break;
       }
     })

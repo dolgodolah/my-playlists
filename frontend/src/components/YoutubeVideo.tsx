@@ -32,7 +32,7 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
             case StatusCode.OK:
               break;
             default:
-              alertError(response.message);
+              alertError(response);
               break;
           }
         });
@@ -53,7 +53,7 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
             });
             break;
           default:
-            alertError(response.message);
+            alertError(response);
             break;
         }
       });
