@@ -18,7 +18,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         if (session == null || session.getAttribute("user") == null) {
             log.info("not authorized user, request uri = {}", request.getRequestURI());
-            throw new NotAuthorizedException("로그인을 먼저 진행해주세요.");
+            throw new NotAuthorizedException();
         }
 
         return true;

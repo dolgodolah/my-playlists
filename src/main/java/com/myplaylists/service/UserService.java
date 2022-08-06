@@ -29,7 +29,7 @@ public class UserService {
 		User user = findUserByIdOrElseThrow(userId);
 
 		if (!StringUtils.hasText(userDto.getNickname())) {
-			throw new InvalidNicknameException("닉네임이 공백이거나 입력되지 않았습니다.");
+			throw new InvalidNicknameException();
 		}
 
 		user.updateNickname(userDto.getNickname());

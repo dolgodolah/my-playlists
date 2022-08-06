@@ -28,7 +28,7 @@ public class AuthService {
      */
     private User signUpOrLogin(OauthRequest oauthRequest) {
         if (!StringUtils.hasText(oauthRequest.getEmail())) {
-            throw new InvalidEmailException("이메일은 필수입니다. 카카오로 로그인 시 이메일 제공에 동의하지 않았다면 카카오 계정 > 연결된 서비스 관리 > 내플리스 > 연결 끊기 후 이메일 제공에 동의해주세요.");
+            throw new InvalidEmailException();
         }
 
         User user = userRepository.findByEmail(oauthRequest.getEmail())
