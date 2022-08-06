@@ -26,13 +26,13 @@ public class UserService {
 
 	@Transactional
 	public UserDto updateUserInfo(Long userId, UserDto userDto) {
-		User user = findUserByIdOrElseThrow(userId);
-
 		if (!StringUtils.hasText(userDto.getNickname())) {
 			throw new InvalidNicknameException();
 		}
 
+		User user = findUserByIdOrElseThrow(userId);
 		user.updateNickname(userDto.getNickname());
+		
 		return UserDto.of(user);
 	}
 
