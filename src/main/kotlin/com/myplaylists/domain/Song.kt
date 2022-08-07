@@ -6,6 +6,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
+@Table(indexes = [Index(name = "idx_user_id", columnList = "userId")])
 class Song(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "song_id")
     var id: Long? = null,
