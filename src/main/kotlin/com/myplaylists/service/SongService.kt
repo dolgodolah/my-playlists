@@ -19,12 +19,13 @@ class SongService(
 ) {
 
     fun addSong(user: LoginUser, songRequestDto: SongAddRequestDto): Long {
-        val song = songRequestDto.toEntity()
         val playlist = playlistService.findPlaylistByIdOrElseThrow(songRequestDto.playlistId)
-
         playlist.validateUser(user.userId)
-        playlist.addSong(song)
-        return songRepository.save(song).id
+        playlist.addSong()
+
+        val song = songRequestDto.toEntity(userId = user.userId, playlist = playlist)
+
+        return songRepository.save(song).id!!
     }
 
     fun updateSong(user: LoginUser, songId: Long, songRequestDto: SongUpdateRequestDto) {
@@ -38,7 +39,7 @@ class SongService(
         song.validateUser(user.userId)
 
         val playlist = song.playlist
-        playlist.deleteSong(song)
+        playlist.deleteSong()
         songRepository.delete(song)
     }
 

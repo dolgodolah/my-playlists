@@ -1,5 +1,6 @@
 package com.myplaylists.dto
 
+import com.myplaylists.domain.Playlist
 import com.myplaylists.domain.Song
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -10,7 +11,12 @@ class SongAddRequestDto(
     val title: String,
     private val videoId: String,
 ) {
-    fun toEntity(): Song = Song(title, videoId)
+    fun toEntity(userId: Long, playlist: Playlist): Song = Song(
+        userId = userId,
+        title = title,
+        videoId = videoId,
+        playlist = playlist
+    )
 }
 
 class SongUpdateRequestDto(
@@ -28,7 +34,7 @@ class SongResponseDto(
 ) {
     companion object {
         fun of(song: Song) = SongResponseDto(
-            songId = song.id,
+            songId = song.id!!,
             title = song.title,
             videoId = song.videoId,
             description = song.description,

@@ -27,21 +27,17 @@ class Playlist(
     var songCount: Int = 0,
 ): BaseTime() {
 
-    fun addSong(song: Song) {
-        song.playlist = this
-        song.userId = this.user.userId
+    fun addSong() {
         songCount++
     }
 
-    fun deleteSong(song: Song) {
+    fun deleteSong() {
         songCount--
     }
 
     fun isSameUser(userId: Long) = user.userId == userId
 
     fun validateUser(userId: Long) {
-        println(userId)
-        println(user.userId)
         if (!isSameUser(userId)) {
             throw ApiException("잘못된 요청입니다.", 1)
         }
