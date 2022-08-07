@@ -76,11 +76,10 @@ create table song (
    title varchar(255),
    video_id varchar(255),
    primary key (song_id),
-   foreign key (user_id)
-   references user (user_id),
    foreign key (playlist_id)
    references playlist (playlist_id)
 ) engine=InnoDB
+create index idx_user_id on song (user_id)
 ```
 
 ```mysql
