@@ -4,7 +4,7 @@ import { PlaylistProps, SongProps } from "../shared/Props";
 import StatusCode from "../shared/StatusCode";
 import { useNavigate } from "react-router-dom";
 import alertError from "../shared/Error";
-import ReactPlayer from 'react-player'
+import ReactPlayer from "react-player";
 
 export interface YoutubeVideoProps {
   playlist: PlaylistProps;
@@ -36,27 +36,6 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
               break;
           }
         });
-    }
-  };
-  const onClickDelete = () => {
-    const ok = window.confirm("노래를 삭제하시겠습니까?");
-    if (ok) {
-      axios.delete(`/songs/${song.songId}`).then((res) => {
-        const response = res.data;
-        switch (response.statusCode) {
-          case StatusCode.OK:
-            navigate("/playlist", {
-              state: {
-                page: "showSongs",
-                playlist: playlist,
-              },
-            });
-            break;
-          default:
-            alertError(response);
-            break;
-        }
-      });
     }
   };
 
@@ -95,9 +74,6 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
       <div className="button__container--youtube">
         <span className="button__span--edit" onClick={onClickEdit}>
           수정
-        </span>
-        <span className="button__span--delete" onClick={onClickDelete}>
-          삭제
         </span>
       </div>
       <div className="thumbnail__container--youtube">
