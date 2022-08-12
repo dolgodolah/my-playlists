@@ -8,12 +8,12 @@ import ReactPlayer from "react-player";
 
 export interface YoutubeVideoProps {
   playlist: PlaylistProps;
-  song: SongProps;
+  playedSong: SongProps;
   nextSongs: Array<SongProps>;
 }
 
-const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
-  const [description, setDescription] = useState(song.description || "");
+const YoutubeVideo = ({ playlist, playedSong, nextSongs }: YoutubeVideoProps) => {
+  const [description, setDescription] = useState(playedSong.description || "");
   const navigate = useNavigate();
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
@@ -22,8 +22,8 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
     const ok = window.confirm("노래 설명을 수정하시겠습니까?");
     if (ok) {
       axios
-        .put(`/songs/${song.songId}`, {
-          title: song.title,
+        .put(`/songs/${playedSong.songId}`, {
+          title: playedSong.title,
           description,
         })
         .then((res) => {
@@ -63,7 +63,7 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
     <div className="youtube__container">
       <ReactPlayer
         className="youtube__video"
-        url={`https://www.youtube.com/watch?v=${song.videoId}`}
+        url={`https://www.youtube.com/watch?v=${playedSong.videoId}`}
         playing={true}
         onEnded={playNextSong}
         controls={true}
@@ -79,7 +79,7 @@ const YoutubeVideo = ({ playlist, song, nextSongs }: YoutubeVideoProps) => {
       <div className="thumbnail__container--youtube">
         <img
           className="thumbnail__img--youtube"
-          src={`https://i.ytimg.com/vi/${song.videoId}/mqdefault.jpg`}
+          src={`https://i.ytimg.com/vi/${playedSong.videoId}/mqdefault.jpg`}
           alt="youtube_thumbnail"
         />
       </div>

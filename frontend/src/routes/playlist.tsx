@@ -21,7 +21,7 @@ const Playlist = () => {
       case "showSongs": {
         return (
           <PlayBox
-            left={<Songs playlist={playlist} reload={true} />}
+            left={<Songs playlist={playlist} />}
             right={
               <>
                 <PlaylistTitle playlist={playlist} />
@@ -36,11 +36,11 @@ const Playlist = () => {
       case "playSong": {
         return (
           <PlayBox
-            left={<Songs playlist={playlist} />}
+            left={<Songs playlist={playlist} playedSong={playedSong}/>}
             right={
               <>
                 <PlaylistTitle playlist={playlist} />
-                <YoutubeVideo playlist={playlist} song={playedSong!} nextSongs={nextSongs!} />
+                <YoutubeVideo playlist={playlist} playedSong={playedSong!} nextSongs={nextSongs!} />
               </>
             }
           />

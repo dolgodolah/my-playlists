@@ -11,12 +11,27 @@ import { useAsyncSearch, useSearch } from "./hooks/useSearch";
 
 interface SongsProps {
   playlist: PlaylistProps;
-  reload?: boolean;
+  playedSong?: SongProps;
 }
 
-const Songs = ({ playlist, reload }: SongsProps) => {
+const Songs = ({ playlist, playedSong }: SongsProps) => {
   const [songs, setSongs] = useState([]);
   const navigate = useNavigate();
+
+  const callGetSongsApi = () => {
+    axios.get("/songs", { params: { playlistId: playlist.playlistId } }).then((res) => {
+      const response = res.data;
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          setSongs(response.songs);
+          break;
+        default:
+          alertError(response);
+          break;
+      }
+    });
+  }
+
   const callSearchApi = (keyword: string) => {
     axios
       .get("/songs/search", { params: { playlistId: playlist.playlistId, keyword: keyword } })
@@ -33,57 +48,40 @@ const Songs = ({ playlist, reload }: SongsProps) => {
       });
   };
 
-  const { keyword, setKeyword } = useAsyncSearch(callSearchApi);
-
-  const deleteSong = (song: SongProps) => {
-    const ok = window.confirm("노래를 삭제하시겠습니까?");
-    if (ok) {
-      axios.delete(`/songs/${song.songId}`).then((res) => {
-        const response = res.data;
-        switch (response.statusCode) {
-          case StatusCode.OK:
+  const callDeleteSongApi = (song: SongProps) => {
+    axios.delete(`/songs/${song.songId}`).then((res) => {
+      const response = res.data;
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          // 재생되고 있는 노래가 삭제된 경우 해당 플레이리스트 초기 화면으로 간다.
+          if (playedSong?.songId === song.songId) {
             navigate("/playlist", {
               state: {
                 page: "showSongs",
                 playlist: playlist,
               },
             });
-            break;
-          default:
-            alertError(response);
-            break;
-        }
-      });
+          } else {
+            // 다른 노래가 삭제됐다면 노래 목록을 갱신시킨다.
+            callGetSongsApi()
+          }
+          break;
+        default:
+          alertError(response);
+          break;
+      }
+    });
+  }
+
+  const { keyword, setKeyword } = useAsyncSearch(callSearchApi);
+  const deleteSong = (song: SongProps) => {
+    const ok = window.confirm("노래를 삭제하시겠습니까?");
+    if (ok) {
+      callDeleteSongApi(song);
     }
   };
 
-  useEffect(() => {
-    axios.get("/songs", { params: { playlistId: playlist.playlistId } }).then((res) => {
-      const response = res.data;
-      switch (response.statusCode) {
-        case StatusCode.OK:
-          setSongs(response.songs);
-          break;
-        default:
-          alertError(response);
-          break;
-      }
-    });
-  }, [playlist && playlist.playlistId]);
-
-  useEffect(() => {
-    axios.get("/songs", { params: { playlistId: playlist.playlistId } }).then((res) => {
-      const response = res.data;
-      switch (response.statusCode) {
-        case StatusCode.OK:
-          setSongs(response.songs);
-          break;
-        default:
-          alertError(response);
-          break;
-      }
-    });
-  }, [reload]);
+  useEffect(() => callGetSongsApi(), [playlist]);
 
   return (
     <>
