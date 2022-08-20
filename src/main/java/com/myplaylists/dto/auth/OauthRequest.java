@@ -20,6 +20,6 @@ public class OauthRequest {
     }
 
     public User toEntity() {
-        return new User(null, email, name, name);
+        return new User(null, name, name, email);
     }
 }
