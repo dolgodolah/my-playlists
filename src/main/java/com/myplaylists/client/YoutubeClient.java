@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.HtmlUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -70,7 +71,7 @@ public class YoutubeClient {
             }
 
             Map<String, Object> song = new HashMap<>();
-            song.put("title", item.getSnippet().getTitle());
+            song.put("title", HtmlUtils.htmlUnescape(item.getSnippet().getTitle()));
             song.put("videoId", item.getId().getVideoId());
             youtubeDto.add(song);
         }
