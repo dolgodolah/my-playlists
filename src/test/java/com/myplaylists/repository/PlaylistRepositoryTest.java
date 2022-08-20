@@ -4,7 +4,6 @@ import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +37,7 @@ class PlaylistRepositoryTest {
 
     @BeforeEach
     void saveUser() {
-        user = User.builder()
-                .name(USER_NAME)
-                .nickname(USER_NICKNAME)
-                .email(USER_EMAIL)
-                .build();
+        user = new User(null, USER_NAME, USER_NICKNAME, USER_EMAIL);
         userRepository.save(user);
     }
 
@@ -50,14 +45,8 @@ class PlaylistRepositoryTest {
     @ParameterizedTest
     @ValueSource(strings = {"코딩", "코딩하면서", "노래", "듣기 좋은 노래", "코딩하면서 듣기 좋은 노래"})
     void findByTitleContainingAndUserId(String input) {
-        playlistRepository.save(
-                Playlist.builder()
-                        .user(user)
-                        .title("코딩하면서 듣기 좋은 노래")
-                        .description(PLAYLIST_DESCRIPTION)
-                        .visibility(PUBLIC)
-                        .build());
-
+        Playlist playlist = new Playlist(null, user, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC, 0);
+        playlistRepository.save(playlist);
 
         Optional<Playlist> result = playlistRepository.findByTitleContainingAndUser(FIRST_PAGE, input, user)
                 .stream().findAny();
@@ -66,34 +55,17 @@ class PlaylistRepositoryTest {
         assertThat(result.get().getTitle()).isEqualTo("코딩하면서 듣기 좋은 노래");
         assertThat(result.get().getUser()).isEqualTo(user);
         assertThat(result.get().getDescription()).isEqualTo(PLAYLIST_DESCRIPTION);
-        assertThat(result.get().isVisibility()).isTrue();
+        assertThat(result.get().getVisibility()).isTrue();
     }
 
     @DisplayName("검색어에 포함되는 모든 유저의 플레이리스트 조회")
     @ParameterizedTest
     @ValueSource(strings = {"코딩", "코딩하면서", "노래", "듣기 좋은 노래", "코딩하면서 듣기 좋은 노래"})
     void findByTitleContaining(String input) {
-        playlistRepository.save(
-                Playlist.builder()
-                        .user(user)
-                        .title("코딩하면서 듣기 좋은 노래")
-                        .description(PLAYLIST_DESCRIPTION)
-                        .visibility(PUBLIC)
-                        .build());
+        playlistRepository.save(new Playlist(null, user, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC, 0));
 
-        User other = userRepository.save(User.builder()
-                .name("심청이")
-                .nickname("심봉사")
-                .email("test@myplaylists.test")
-                .build());
-
-        playlistRepository.save(
-                Playlist.builder()
-                        .user(other)
-                        .title("코딩하면서 듣기 좋은 노래")
-                        .description(PLAYLIST_DESCRIPTION)
-                        .visibility(PUBLIC)
-                        .build());
+        User other = userRepository.save(new User(null, "심청이", "심봉사", "test@myplaylists.test"));
+        playlistRepository.save(new Playlist(null, other, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC, 0));
 
         Page<Playlist> result = playlistRepository.findByTitleContaining(FIRST_PAGE, input);
 
@@ -102,7 +74,7 @@ class PlaylistRepositoryTest {
             assertThat(playlist.getTitle()).isEqualTo("코딩하면서 듣기 좋은 노래");
             assertThat(playlist.getUser()).isIn(user, other);
             assertThat(playlist.getDescription()).isEqualTo(PLAYLIST_DESCRIPTION);
-            assertThat(playlist.isVisibility()).isTrue();
+            assertThat(playlist.getVisibility()).isTrue();
         });
     }
 }
