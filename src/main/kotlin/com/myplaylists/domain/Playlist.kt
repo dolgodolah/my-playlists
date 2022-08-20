@@ -1,7 +1,6 @@
 package com.myplaylists.domain
 
 import com.myplaylists.exception.ApiException
-import java.util.*
 import javax.persistence.*
 
 @Entity

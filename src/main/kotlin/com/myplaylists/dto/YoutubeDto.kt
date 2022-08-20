@@ -1,5 +1,8 @@
 package com.myplaylists.dto
 
+/**
+ * https://developers.google.com/youtube/v3/docs/search#resource
+ */
 class YoutubeDto(
     var songs: ArrayList<Map<String, *>> = arrayListOf()
 ): BaseResponse() {
