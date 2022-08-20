@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class SongController {
 
     private final SongService songService;
-    private final YoutubeService youtubeService;
 
     @GetMapping("/youtube_search")
-    public YoutubeSearchDto searchYoutube(@Login LoginUser user, @RequestParam String keyword) {
-        return youtubeService.search(keyword);
+    public YoutubeDto searchYoutube(@Login LoginUser user, @RequestParam String keyword) {
+        return songService.searchYoutube(keyword);
     }
 
     @GetMapping("/songs")

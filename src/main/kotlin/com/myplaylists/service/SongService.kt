@@ -1,9 +1,11 @@
 package com.myplaylists.service
 
+import com.myplaylists.client.YoutubeClient
 import com.myplaylists.domain.Song
 import com.myplaylists.dto.SongAddRequestDto
 import com.myplaylists.dto.SongUpdateRequestDto
 import com.myplaylists.dto.SongsDto
+import com.myplaylists.dto.YoutubeDto
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.exception.NotFoundException
 import com.myplaylists.repository.SongRepository
@@ -15,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class SongService(
     private val songRepository: SongRepository,
     private val playlistService: PlaylistService,
-    private val userService: UserService,
+    private val youtubeClient: YoutubeClient
 ) {
 
     fun addSong(user: LoginUser, songRequestDto: SongAddRequestDto): Long {
@@ -56,7 +58,8 @@ class SongService(
         return SongsDto.of(songs)
     }
 
-    private fun findSongByIdOrElseThrow(songId: Long): Song {
-        return songRepository.findById(songId).orElseThrow { NotFoundException("해당 곡은 삭제되었거나 존재하지 않는 곡입니다.") }
-    }
+    fun searchYoutube(keyword: String): YoutubeDto = youtubeClient.search(keyword)
+
+    private fun findSongByIdOrElseThrow(songId: Long): Song = songRepository.findById(songId).orElseThrow { NotFoundException("해당 곡은 삭제되었거나 존재하지 않는 곡입니다.") }
+
 }
