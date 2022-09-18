@@ -18,7 +18,8 @@ class User(
         return this
     }
 
-    fun updateNickname(nickname: String) {
+    fun updateNickname(nickname: String): User {
         this.nickname = nickname
+        return this
     }
 }
