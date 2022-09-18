@@ -34,7 +34,7 @@ class PlaylistService(
     fun findMyPlaylists(userId: Long, pageable: Pageable): PlaylistsDto {
         val user = userService.findUserByIdOrElseThrow(userId)
         val playlists = playlistRepository.findByUser(pageable, user)
-        return PlaylistsDto.of(playlists)
+        return PlaylistsDto.from(playlists, user.nickname)
     }
 
     /**

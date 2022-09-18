@@ -43,6 +43,21 @@ class PlaylistResponseDto(
                 songCount = playlist.songCount
             )
         }
+
+        /**
+         * `내 플레이리스트`처럼 `author`가 하나로 고정되어 있는 경우 사용
+         */
+        fun from(playlist: Playlist, author: String): PlaylistResponseDto {
+            return PlaylistResponseDto(
+                playlistId = playlist.id!!,
+                title = playlist.title,
+                description = playlist.description,
+                updatedDate = playlist.updatedDate,
+                visibility = playlist.visibility,
+                author = author,
+                songCount = playlist.songCount
+            )
+        }
     }
 }
 
@@ -54,6 +69,21 @@ class PlaylistsDto(
         fun of(playlists: Page<Playlist>): PlaylistsDto {
             val playlistDtoList = playlists.stream()
                 .map(PlaylistResponseDto::of)
+                .sorted(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
+                .collect(Collectors.toList())
+
+            return PlaylistsDto(
+                playlists = playlistDtoList,
+                isLast = playlists.isLast
+            )
+        }
+
+        /**
+         * `내 플레이리스트`처럼 `author`가 하나로 고정되어 있는 경우 사용
+         */
+        fun from(playlists: Page<Playlist>, author: String): PlaylistsDto {
+            val playlistDtoList = playlists.stream()
+                .map { playlist -> PlaylistResponseDto.from(playlist, author) }
                 .sorted(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
                 .collect(Collectors.toList())
 
