@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
-	Page<Playlist> findByUser(Pageable pageable, User user);
-	Page<Playlist> findByTitleContainingAndUser(Pageable pageable, String title, User user);
+	Page<Playlist> findByUserId(Pageable pageable, Long userId);
+	Page<Playlist> findByTitleContainingAndUserId(Pageable pageable, String title, Long userId);
 	Page<Playlist> findByVisibility(Pageable pageable, boolean visibility);
 	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
 	Page<Playlist> findByVisibilityAndTitleContaining(Pageable pageable, boolean visibility, String title);

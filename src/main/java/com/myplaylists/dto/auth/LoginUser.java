@@ -12,6 +12,6 @@ public class LoginUser implements Serializable {
 	public Long userId;
 
     public LoginUser(User user) {
-    	this.userId = user.getUserId();
+    	this.userId = user.getId();
     }
 }

@@ -32,8 +32,9 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findMyPlaylists(userId: Long, pageable: Pageable): PlaylistsDto {
-        val user = userService.findUserByIdOrElseThrow(userId)
-        val playlists = playlistRepository.findByUser(pageable, user)
+        val user = userService.findUserById(userId)
+        val playlists = playlistRepository.findByUserId(pageable, userId)
+
         return PlaylistsDto.from(playlists, user.nickname)
     }
 
@@ -60,9 +61,9 @@ class PlaylistService(
 
     @Transactional(readOnly = true)
     fun searchMyPlaylists(userId: Long, pageable: Pageable, keyword: String): PlaylistsDto {
-        val user = userService.findUserByIdOrElseThrow(userId)
-        val playlists = playlistRepository.findByTitleContainingAndUser(pageable, keyword, user)
-        return PlaylistsDto.of(playlists)
+        val user = userService.findUserById(userId)
+        val playlists = playlistRepository.findByTitleContainingAndUserId(pageable, keyword, userId)
+        return PlaylistsDto.from(playlists, user.nickname)
     }
 
     @Transactional(readOnly = true)

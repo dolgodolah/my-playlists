@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class UserDto extends BaseResponse {
 	private String email;
 	private String name;
-	private String nickname;
+	public String nickname;
 
 	public static UserDto of(User user) {
 		return UserDto.builder()

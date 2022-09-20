@@ -34,7 +34,7 @@ class Playlist(
         songCount--
     }
 
-    fun isSameUser(userId: Long) = user.userId == userId
+    fun isSameUser(userId: Long) = user.id == userId
 
     fun validateUser(userId: Long) {
         if (!isSameUser(userId)) {

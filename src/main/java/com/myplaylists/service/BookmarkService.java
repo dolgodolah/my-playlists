@@ -25,29 +25,32 @@ public class BookmarkService {
 
 	@Transactional(readOnly = true)
 	public Optional<Bookmark> findAllByUserId(Long userId) {
-		User user = userService.findUserByIdOrElseThrow(userId);
-		return bookmarkRepository.findAllByUser(user);
+		return bookmarkRepository.findAllByUserId(userId);
 	}
 
 	@Transactional(readOnly = true)
 	public Page<Bookmark> findByUserId(Long userId, Pageable pageable) {
-		User user = userService.findUserByIdOrElseThrow(userId);
-		return bookmarkRepository.findByUser(pageable, user);
-	}
-
-	public void deleteBookmark(Long bookmarkId) {
-		bookmarkRepository.deleteById(bookmarkId);
+		return bookmarkRepository.findByUserId(pageable, userId);
 	}
 
 	@Transactional(readOnly = true)
 	public BookmarkDto checkBookmark(Long userId, Long playlistId) {
-		User user = userService.findUserByIdOrElseThrow(userId);
-		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
-		boolean isBookmark = bookmarkRepository.findByUserAndPlaylist(user, playlist).isPresent();
+		boolean isBookmark = bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId).isPresent();
 		return BookmarkDto.Companion.of(isBookmark);
 	}
 
-	public void addBookmark(User user, Playlist playlist) {
+	public void toggleBookmark(Long userId, Long playlistId) {
+		bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId)
+				.ifPresentOrElse(
+						bookmark -> deleteBookmark(bookmark.id),
+						() -> addBookmark(userId, playlistId)
+				);
+	}
+
+	private void addBookmark(Long userId, Long playlistId) {
+		User user = userService.findUserByIdOrElseThrow(userId);
+		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
+
 		Bookmark bookmark = Bookmark.builder()
 				.playlist(playlist)
 				.user(user)
@@ -56,13 +59,7 @@ public class BookmarkService {
 		bookmarkRepository.save(bookmark);
 	}
 
-	public void toggleBookmark(Long userId, Long playlistId) {
-		User user = userService.findUserByIdOrElseThrow(userId);
-		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
-		bookmarkRepository.findByUserAndPlaylist(user, playlist)
-				.ifPresentOrElse(
-						bookmark -> deleteBookmark(bookmark.id),
-						() -> addBookmark(user, playlist)
-				);
+	private void deleteBookmark(Long bookmarkId) {
+		bookmarkRepository.deleteById(bookmarkId);
 	}
 }
