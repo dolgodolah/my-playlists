@@ -48,7 +48,7 @@ class PlaylistRepositoryTest {
         Playlist playlist = new Playlist(null, user, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC, 0);
         playlistRepository.save(playlist);
 
-        Optional<Playlist> result = playlistRepository.findByTitleContainingAndUser(FIRST_PAGE, input, user)
+        Optional<Playlist> result = playlistRepository.findByTitleContainingAndUserId(FIRST_PAGE, input, user.getId())
                 .stream().findAny();
 
         assertThat(result).isNotEmpty();
