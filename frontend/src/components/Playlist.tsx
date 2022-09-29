@@ -6,7 +6,7 @@ import { PlaylistProps } from "../shared/Props";
 
 interface NewPlaylistProps {
   playlist: PlaylistProps;
-  setLastPlaylist: Dispatch<SetStateAction<HTMLAnchorElement | null | undefined>>;
+  setLastPlaylist?: Dispatch<SetStateAction<HTMLAnchorElement | null | undefined>>;
 }
 
 const Playlist = ({ playlist, setLastPlaylist }: NewPlaylistProps) => {

@@ -63,7 +63,6 @@ class PlaylistResponseDto(
 
 class PlaylistsDto(
     val playlists: List<PlaylistResponseDto>,
-    val isLast: Boolean,
 ): BaseResponse() {
     companion object {
         fun of(playlists: Page<Playlist>): PlaylistsDto {
@@ -73,23 +72,21 @@ class PlaylistsDto(
                 .collect(Collectors.toList())
 
             return PlaylistsDto(
-                playlists = playlistDtoList,
-                isLast = playlists.isLast
+                playlists = playlistDtoList
             )
         }
 
         /**
          * `내 플레이리스트`처럼 `author`가 하나로 고정되어 있는 경우 사용
          */
-        fun from(playlists: Page<Playlist>, author: String): PlaylistsDto {
+        fun from(playlists: List<Playlist>, author: String): PlaylistsDto {
             val playlistDtoList = playlists.stream()
                 .map { playlist -> PlaylistResponseDto.from(playlist, author) }
                 .sorted(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
                 .collect(Collectors.toList())
 
             return PlaylistsDto(
-                playlists = playlistDtoList,
-                isLast = playlists.isLast
+                playlists = playlistDtoList
             )
         }
 
@@ -101,8 +98,7 @@ class PlaylistsDto(
                 .collect(Collectors.toList())
 
             return PlaylistsDto(
-                playlists = playlistDtoList,
-                isLast = bookmarksDto.isLast
+                playlists = playlistDtoList
             )
         }
     }

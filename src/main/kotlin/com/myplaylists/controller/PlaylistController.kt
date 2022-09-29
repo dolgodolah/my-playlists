@@ -18,11 +18,8 @@ class PlaylistController(
 ) {
 
     @GetMapping("/my_playlists")
-    fun getMyPlaylists(
-        @Login user: LoginUser,
-        @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
-    ): PlaylistsDto {
-        return playlistService.findMyPlaylists(user.userId, pageable)
+    fun getMyPlaylists(@Login user: LoginUser): PlaylistsDto {
+        return playlistService.findMyPlaylists(user.userId)
     }
 
     @GetMapping("/all_playlists")
@@ -70,9 +67,8 @@ class PlaylistController(
     fun searchMyPlaylists(
         @Login user: LoginUser,
         @RequestParam keyword: String,
-        @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        return playlistService.searchMyPlaylists(user.userId, pageable, keyword)
+        return playlistService.searchMyPlaylists(user.userId, keyword)
     }
 
     @GetMapping("/playlist/search_all")

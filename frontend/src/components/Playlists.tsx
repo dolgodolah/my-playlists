@@ -10,11 +10,10 @@ import usePageObserver from "./hooks/usePageObserver";
 
 export const MyPlaylists = () => {
   const { keyword, setKeyword, search } = useSearch();
-  const { page, setLast: setLastPlaylist } = usePageObserver();
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
-    axios.get(`/my_playlists?page=${page}`).then((res) => {
+    axios.get(`/my_playlists`).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
@@ -25,7 +24,7 @@ export const MyPlaylists = () => {
           break;
       }
     });
-  }, [page]);
+  }, []);
 
   return (
     <>
@@ -34,7 +33,7 @@ export const MyPlaylists = () => {
       </div>
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
-          <Playlist key={playlist.playlistId} playlist={playlist} setLastPlaylist={setLastPlaylist} />
+          <Playlist key={playlist.playlistId} playlist={playlist} />
         ))}
       </div>
     </>
@@ -110,10 +109,9 @@ export const Bookmarks = () => {
 export const SearchPlaylists = () => {
   const [playlists, setPlaylists] = useState([]);
   const { keyword, setKeyword, search } = useSearch();
-  const { page, setLast: setLastPlaylist } = usePageObserver();
 
   useEffect(() => {
-    axios.get(`/playlist/search?page=${page}`, { params: { keyword: keyword } }).then((res) => {
+    axios.get(`/playlist/search`, { params: { keyword: keyword } }).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
@@ -124,7 +122,7 @@ export const SearchPlaylists = () => {
           break;
       }
     });
-  }, [page]);
+  }, []);
 
   return (
     <>
@@ -133,7 +131,7 @@ export const SearchPlaylists = () => {
       </div>
       <div className="lists__container">
         {playlists.map((playlist: PlaylistProps) => (
-          <Playlist key={playlist.playlistId} playlist={playlist} setLastPlaylist={setLastPlaylist} />
+          <Playlist key={playlist.playlistId} playlist={playlist} />
         ))}
       </div>
     </>

@@ -31,9 +31,9 @@ class PlaylistService(
      * 해당 페이지의 내 플레이리스트 목록을 업데이트 최신순으로 조회
      */
     @Transactional(readOnly = true)
-    fun findMyPlaylists(userId: Long, pageable: Pageable): PlaylistsDto {
+    fun findMyPlaylists(userId: Long): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findByUserId(pageable, userId)
+        val playlists = playlistRepository.findByUserId(userId)
 
         return PlaylistsDto.from(playlists, user.nickname)
     }
@@ -60,9 +60,9 @@ class PlaylistService(
     }
 
     @Transactional(readOnly = true)
-    fun searchMyPlaylists(userId: Long, pageable: Pageable, keyword: String): PlaylistsDto {
+    fun searchMyPlaylists(userId: Long, keyword: String): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findByTitleContainingAndUserId(pageable, keyword, userId)
+        val playlists = playlistRepository.findByUserIdAndTitleContaining(userId, keyword)
         return PlaylistsDto.from(playlists, user.nickname)
     }
 

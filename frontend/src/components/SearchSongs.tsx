@@ -12,7 +12,6 @@ interface SearchSongsProps {
 const SearchSongs = ({ playlistId }: SearchSongsProps) => {
   const [keyword, setKeyword] = useState("");
   const [songs, setSongs] = useState([])
-  const navigate = useNavigate();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
