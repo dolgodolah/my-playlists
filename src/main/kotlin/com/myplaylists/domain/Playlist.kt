@@ -1,7 +1,11 @@
 package com.myplaylists.domain
 
 import com.myplaylists.exception.ApiException
+import com.myplaylists.exception.ExceedLimitException
 import javax.persistence.*
+
+const val MAX_PLAYLIST_COUNT = 50
+const val MAX_SONG_COUNT = 100
 
 @Entity
 class Playlist(
@@ -27,6 +31,10 @@ class Playlist(
 ): BaseTime() {
 
     fun addSong() {
+        if (this.songCount >= MAX_SONG_COUNT) {
+            throw ExceedLimitException("수록곡은 최대 100개까지 담을 수 있습니다.")
+        }
+
         songCount++
     }
 
@@ -40,5 +48,11 @@ class Playlist(
         if (!isSameUser(userId)) {
             throw ApiException("잘못된 요청입니다.", 1)
         }
+    }
+}
+
+fun List<Playlist>.checkLimitCount() {
+    if (this.size >= MAX_PLAYLIST_COUNT) {
+        throw ExceedLimitException("플레이리스트는 최대 50개까지 생성 가능합니다.")
     }
 }

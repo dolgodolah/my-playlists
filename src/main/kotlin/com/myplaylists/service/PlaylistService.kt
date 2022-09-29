@@ -1,6 +1,7 @@
 package com.myplaylists.service
 
 import com.myplaylists.domain.Playlist
+import com.myplaylists.domain.checkLimitCount
 import com.myplaylists.dto.PlaylistRequestDto
 import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.dto.PlaylistsDto
@@ -22,6 +23,8 @@ class PlaylistService(
     }
 
     fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
+        playlistRepository.findByUserId(userId).checkLimitCount()
+
         val user = userService.findUserByIdOrElseThrow(userId)
         val playlist = playlistRequest.toEntity(user)
         playlistRepository.save(playlist)
