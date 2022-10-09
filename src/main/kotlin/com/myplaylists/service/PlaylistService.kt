@@ -7,6 +7,8 @@ import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.dto.PlaylistsDto
 import com.myplaylists.exception.ApiException
 import com.myplaylists.repository.PlaylistRepository
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,6 +24,7 @@ class PlaylistService(
         const val PUBLIC = true
     }
 
+    @CacheEvict(key = "#userId", value = ["playlist"])
     fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
         playlistRepository.findByUserId(userId).checkLimitCount()
 
@@ -34,6 +37,7 @@ class PlaylistService(
      * 해당 페이지의 내 플레이리스트 목록을 업데이트 최신순으로 조회
      */
     @Transactional(readOnly = true)
+    @Cacheable(key = "#userId", value = ["playlist"])
     fun findMyPlaylists(userId: Long): PlaylistsDto {
         val user = userService.findUserById(userId)
         val playlists = playlistRepository.findByUserId(userId)
@@ -56,6 +60,7 @@ class PlaylistService(
         return PlaylistResponseDto.of(playlist)
     }
 
+    @CacheEvict(key = "#userId", value = ["playlist"])
     fun deletePlaylist(userId: Long, playlistId: Long) {
         val playlist = findPlaylistByIdOrElseThrow(playlistId)
         playlist.validateUser(userId)

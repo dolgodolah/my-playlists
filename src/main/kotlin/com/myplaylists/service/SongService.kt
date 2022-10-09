@@ -9,6 +9,7 @@ import com.myplaylists.dto.YoutubeDto
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.exception.NotFoundException
 import com.myplaylists.repository.SongRepository
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,6 +21,7 @@ class SongService(
     private val youtubeClient: YoutubeClient
 ) {
 
+    @CacheEvict(key = "#user.userId", value = ["playlist"])
     fun addSong(user: LoginUser, songRequestDto: SongAddRequestDto): Long {
         val playlist = playlistService.findPlaylistByIdOrElseThrow(songRequestDto.playlistId)
         playlist.validateUser(user.userId)
@@ -36,6 +38,7 @@ class SongService(
         song.updateSongDetail(songRequestDto)
     }
 
+    @CacheEvict(key = "#user.userId", value = ["playlist"])
     fun deleteSong(user: LoginUser, songId: Long) {
         val song = findSongByIdOrElseThrow(songId)
         song.validateUser(user.userId)
