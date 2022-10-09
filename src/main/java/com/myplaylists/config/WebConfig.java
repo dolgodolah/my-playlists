@@ -33,6 +33,6 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new LoginInterceptor())
 				.order(1)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/login/kakao", "/logout");
+				.excludePathPatterns("/login", "/logout", "/login/kakao", "/error");
 	}
 }

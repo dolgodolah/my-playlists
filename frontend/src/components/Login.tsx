@@ -3,49 +3,11 @@ import {useEffect} from "react";
 import axios from "axios";
 import StatusCode from "../shared/StatusCode";
 import alertError from "../shared/Error";
+import {useSearchParams} from "react-router-dom";
 
-const Login = () => {
-  useEffect(() => {
-    window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
-  }, []);
-
-  const login = (res: any) => {
-    axios
-      .post("/login/kakao", {
-        email: res.kakao_account.email,
-        name: res.kakao_account.profile.nickname,
-        attributes: res,
-      })
-      .then((res) => {
-        const response = res.data
-        switch (response.statusCode) {
-          case StatusCode.OK:
-            window.location.href = "/";
-            break;
-          case StatusCode.INVALID_EMAIL:
-            alertError(response)
-            break;
-        }
-      })
-  };
-
+export const LoginMenu = () => {
   const kakaoLogin = () => {
-    window.Kakao.Auth.login({
-      success: () => {
-        window.Kakao.API.request({
-          url: "/v2/user/me",
-          success: (response: any) => {
-            login(response);
-          },
-          fail: (response: any) => {
-            console.log(response);
-          },
-        });
-      },
-      fail: (error: any) => {
-        console.log(error);
-      },
-    });
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=http://localhost:3000/login/kakao&response_type=code`;
   };
 
   const googleLogin = () => {
@@ -70,4 +32,50 @@ const Login = () => {
   )
 };
 
-export default Login;
+export const KakaoLogin = () => {
+  const [params] = useSearchParams();
+  useEffect(() => {
+    axios
+      .get("/login/kakao", {
+        params: {
+          code: params.get("code")
+        }
+      })
+      .then((res) => {
+        switch (res.status) {
+          case StatusCode.OK:
+            authenticate(res.data);
+            break;
+          default:
+            alertError(res.data);
+            break;
+        }
+      })
+  })
+
+  return null;
+}
+
+/**
+ * 내플리스 인증 처리
+ * @param oauthRequest
+ */
+const authenticate = (oauthRequest: any) => {
+  axios
+    .post("/login", {
+      email: oauthRequest.email,
+      name: oauthRequest.profile.nickname
+    })
+    .then((res) => {
+      const response = res.data
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          window.location.href = "/";
+          break;
+        case StatusCode.INVALID_EMAIL:
+          alertError(response)
+          window.location.href = "/login";
+          break;
+      }
+    })
+}

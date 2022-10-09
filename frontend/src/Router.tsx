@@ -11,6 +11,8 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/login/kakao" element={<Login loginType={"kakao"}/>} />
+        {/*<Route path="/login/google" element={<Login loginType={"google"}/>} />*/}
         <Route path="/" element={<Home />} />
         <Route path="/playlist" element={<Playlist />} />
         <Route path="/playlist/add" element={<AddPlaylist />} />

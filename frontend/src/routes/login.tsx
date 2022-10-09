@@ -1,9 +1,24 @@
-import Login from "../components/Login"
+import { LoginMenu, KakaoLogin } from "../components/Login"
 
-const login = () => {
-  return (
-    <Login/>
-  )
+interface LoginProps {
+  loginType?: string;
+}
+
+const login = ({loginType}: LoginProps) => {
+  switch (loginType) {
+    case "kakao":
+      return (
+        <KakaoLogin />
+      );
+    // case "google":
+    //   return (
+    //     <GoogleLogin />
+    //   );
+    default:
+      return (
+        <LoginMenu />
+      )
+  }
 };
 
 export default login;
