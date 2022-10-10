@@ -19,7 +19,8 @@
 
 .name__input,
 .description__textarea,
-.button__container--inputForm button {
+.button__container--inputForm button,
+.description__textarea--input {
   border: solid 1px $main-lighten-color;
   border-radius: 5px;
 }
