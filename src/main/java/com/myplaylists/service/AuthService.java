@@ -3,7 +3,7 @@ package com.myplaylists.service;
 import com.myplaylists.client.KakaoClient;
 import com.myplaylists.domain.User;
 import com.myplaylists.dto.auth.LoginUser;
-import com.myplaylists.dto.oauth.KakaoAccount;
+import com.myplaylists.dto.oauth.KakaoOauthDto;
 import com.myplaylists.dto.oauth.OauthDto;
 import com.myplaylists.exception.InvalidEmailException;
 import com.myplaylists.repository.UserRepository;
@@ -23,8 +23,8 @@ public class AuthService {
     /**
      * 내플리스 로그인 처리
      */
-    public LoginUser authenticate(OauthRequest oauthRequest) {
-        User user = signUpOrLogin(oauthRequest);
+    public LoginUser authenticate(OauthDto oauthDto) {
+        User user = signUpOrLogin(oauthDto);
         return new LoginUser(user);
     }
 
@@ -32,23 +32,30 @@ public class AuthService {
      * 이미 존재하는 이메일이면 최신 정보로 업데이트 후 로그인 처리,
      * 처음 로그인하는 이메일이면 회원 가입 후 로그인 처리
      */
-    private User signUpOrLogin(OauthRequest oauthRequest) {
-        if (!StringUtils.hasText(oauthRequest.getEmail())) {
+    private User signUpOrLogin(OauthDto oauthDto) {
+        if (!StringUtils.hasText(oauthDto.getEmail())) {
             throw new InvalidEmailException();
         }
 
-        User user = userRepository.findByEmail(oauthRequest.getEmail())
-                .map(entity -> entity.updateName(oauthRequest.getName()))
-                .orElse(oauthRequest.toEntity());
+        // TODO AuthService.kt 으로 리팩토링해서 확장함수 사용하자.
+        User user = userRepository.findByEmail(oauthDto.getEmail())
+                .map(entity -> {
+                    if (oauthDto.getOauthType() == entity.getOauthType()) {
+                        return entity.updateName(oauthDto.getName());
+                    }
+
+                    return oauthDto.toEntity();
+                })
+                .orElse(oauthDto.toEntity());
 
         return userRepository.save(user);
     }
 
-
     /**
      * 내플리스 로그인을 위해 필요한 Oauth 객체를 카카오 로그인 정보로부터 가져온다.
      */
-    public KakaoAccount getKakaoUserInfo(String code) {
-        return kakaoClient.getKakaoUserInfo(code);
+    public OauthDto getKakaoUserInfo(String code) {
+        KakaoOauthDto kakaoAccount = kakaoClient.getKakaoUserInfo(code);
+        return kakaoAccount.toOauthDto();
     }
 }

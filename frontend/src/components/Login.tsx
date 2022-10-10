@@ -64,7 +64,8 @@ const authenticate = (oauthRequest: any) => {
   axios
     .post("/login", {
       email: oauthRequest.email,
-      name: oauthRequest.profile.nickname
+      name: oauthRequest.name,
+      oauthType: oauthRequest.oauthType
     })
     .then((res) => {
       const response = res.data

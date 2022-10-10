@@ -1,7 +1,6 @@
 package com.myplaylists.client;
 
 import com.google.gson.Gson;
-import com.myplaylists.dto.oauth.KakaoAccount;
 import com.myplaylists.dto.oauth.KakaoOauthDto;
 import com.myplaylists.exception.ApiException;
 import org.slf4j.Logger;
@@ -34,7 +33,7 @@ public class KakaoClient {
     /**
      * 카카오 로그인 정보로부터 유저 정보를 가져온다.
      */
-    public KakaoAccount getKakaoUserInfo(String code) {
+    public KakaoOauthDto getKakaoUserInfo(String code) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(KAKAO_USER_INFO))
@@ -44,7 +43,7 @@ public class KakaoClient {
                     .build();
 
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-            return GSON.fromJson(response.body(), KakaoOauthDto.class).getKakaoAccount();
+            return GSON.fromJson(response.body(), KakaoOauthDto.class);
         } catch (Exception e) {
             throw new ApiException("카카오 로그인에 실패했습니다.", 500);
         }

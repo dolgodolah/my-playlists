@@ -58,13 +58,16 @@ create table playlist (
 ```
 
 ```mysql
-create table user (
-   user_id bigint not null auto_increment,
-   email varchar(255) not null,
-   name varchar(255),
-   nickname varchar(255),
-   primary key (user_id)
-) engine=InnoDB
+CREATE TABLE `user` (
+    `user_id` bigint NOT NULL AUTO_INCREMENT,
+    `created_date` datetime(6) DEFAULT NULL,
+    `updated_date` datetime(6) DEFAULT NULL,
+    `email` varchar(255) NOT NULL,
+    `name` varchar(255) DEFAULT NULL,
+    `nickname` varchar(255) DEFAULT NULL,
+    `oauth_type` int NOT NULL,
+    PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB
 ```
 
 ```mysql

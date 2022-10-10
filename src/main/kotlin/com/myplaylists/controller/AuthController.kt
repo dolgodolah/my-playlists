@@ -1,8 +1,7 @@
 package com.myplaylists.controller
 
 import com.myplaylists.dto.BaseResponse
-import com.myplaylists.dto.auth.OauthRequest
-import com.myplaylists.dto.oauth.KakaoAccount
+import com.myplaylists.dto.oauth.OauthDto
 import com.myplaylists.service.AuthService
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpSession
@@ -12,14 +11,14 @@ class AuthController(
     private val authService: AuthService
 ) {
     @PostMapping("/login")
-    fun login(@RequestBody oauthRequest: OauthRequest, session: HttpSession): BaseResponse {
-        val loginUser = authService.authenticate(oauthRequest)
+    fun login(@RequestBody oauthDto: OauthDto, session: HttpSession): BaseResponse {
+        val loginUser = authService.authenticate(oauthDto)
         session.setAttribute("user", loginUser)
         return BaseResponse.ok()
     }
 
     @GetMapping("/login/kakao")
-    fun loginKakao(@RequestParam code: String): KakaoAccount {
+    fun loginKakao(@RequestParam code: String): OauthDto {
         return authService.getKakaoUserInfo(code)
     }
 
