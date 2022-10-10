@@ -1,4 +1,4 @@
-# **내플리스(My Playlist) 프론트**
+# **내플리스(My Playlists) 프론트**
 
 - [내플리스 Notion](https://mirror-oatmeal-27d.notion.site/e534804381b5409ab51b070076202822)
 

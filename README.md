@@ -1,4 +1,4 @@
-# 내플리스(My Playlist)
+# 내플리스(My Playlists)
 
 - ~~[내플리스 홈페이지](www.myplaylists.shop)~~ AWS 프리티어 기간이 끝났습니다..
 
@@ -28,9 +28,11 @@
 
 ### :hammer_and_wrench: 기술 스택
 
-`Spring Boot`, `Spraing Data JPA`, `Spring Security`
+`Java`, `Kotlin`, `Spring Boot`, `Spraing Data JPA`, `MySQL`
 
 `React`, `Typescript`
+
+`Google Youtube Data API`, `Kakao Developers API`
 
 ~~`AWS EC2`~~
 
