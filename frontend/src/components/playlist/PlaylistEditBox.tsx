@@ -2,16 +2,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import classNames from "classnames";
 import {useEffect, useState} from "react";
-import { PlaylistProps } from "../shared/Props";
+import { PlaylistProps } from "../../shared/Props";
 import axios from "axios";
-import StatusCode from "../shared/StatusCode";
-import alertError from "../shared/Error";
+import StatusCode from "../../shared/StatusCode";
+import alertError from "../../shared/Error";
 
-interface EditBoxProps {
+interface PlaylistEditBoxProps {
   playlist: PlaylistProps;
 }
 
-const EditBox = ({ playlist }: EditBoxProps) => {
+const PlaylistEditBox = ({ playlist }: PlaylistEditBoxProps) => {
   const navigate = useNavigate();
   const [isBookmark, setBookmark] = useState(false);
   useEffect(() => {
@@ -68,7 +68,7 @@ const EditBox = ({ playlist }: EditBoxProps) => {
         onClick={toggleBookmark}
       />
       <Link
-        to="/playlist"
+        to="/songs"
         state={{
           page: "searchSong",
           playlist: playlist,
@@ -81,4 +81,4 @@ const EditBox = ({ playlist }: EditBoxProps) => {
   );
 };
 
-export default EditBox;
+export default PlaylistEditBox;

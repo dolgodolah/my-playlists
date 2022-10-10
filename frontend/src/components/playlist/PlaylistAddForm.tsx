@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import StatusCode from "../shared/StatusCode";
-import alertError from "../shared/Error";
+import StatusCode from "../../shared/StatusCode";
+import alertError from "../../shared/Error";
 
 const PlaylistAddForm = () => {
   const [title, setTitle] = useState("");

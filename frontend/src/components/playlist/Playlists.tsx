@@ -1,12 +1,12 @@
-import { PlaylistProps } from "../shared/Props";
+import { PlaylistProps } from "../../shared/Props";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import StatusCode from "../shared/StatusCode";
-import alertError from "../shared/Error";
+import StatusCode from "../../shared/StatusCode";
+import alertError from "../../shared/Error";
 import Playlist from "./Playlist";
 import PlaylistsHeader from "./PlaylistsHeader";
-import { useSearch } from "./hooks/useSearch";
-import usePageObserver from "./hooks/usePageObserver";
+import { useSearch } from "../hooks/useSearch";
+import usePageObserver from "../hooks/usePageObserver";
 
 export const MyPlaylists = () => {
   const { keyword, setKeyword, search } = useSearch();

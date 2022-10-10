@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from "react";
-import {SongProps} from "../shared/Props";
+import {SongProps} from "../../shared/Props";
 import axios from "axios";
-import StatusCode from "../shared/StatusCode";
-import alertError from "../shared/Error";
-import {useNavigate} from "react-router-dom";
+import StatusCode from "../../shared/StatusCode";
+import alertError from "../../shared/Error";
 
 interface SearchSongsProps {
   playlistId: number;
@@ -41,7 +40,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:
-          window.location.href = "/playlist";
+          window.location.href = "/songs";
           break;
         default:
           alertError(response)

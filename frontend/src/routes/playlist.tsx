@@ -1,70 +1,65 @@
-import { useLocation } from "react-router-dom";
-import PlayBox from "../components/PlayBox";
-import { PlaylistDescription, PlaylistTitle } from "../components/PlaylistDetail";
-import Songs from "../components/Songs";
-import YoutubeVideo from "../components/YoutubeVideo";
-import SearchSongs from "../components/SearchSongs";
-import { PlaylistProps, SongProps } from "../shared/Props";
+import ContainerBox from "../components/ContainerBox";
+import {AllPlaylists, Bookmarks, MyPlaylists, SearchPlaylists} from "../components/playlist/Playlists";
+import PlaylistAddForm from "../components/playlist/PlaylistAddForm";
+import {useLocation} from "react-router-dom";
+import PlaylistCategory from "../components/playlist/PlaylistCategory";
 
 interface StateProps {
   page: string;
-  playlist: PlaylistProps;
-  playedSong?: SongProps;
-  nextSongs?: Array<SongProps>;
 }
 
-const Playlist = () => {
-  const { page, playlist, playedSong, nextSongs } = useLocation().state as StateProps;
-  const Render = () => {
-    switch (page) {
-      // 선택 플레이리스트 상세화면
-      case "showSongs": {
-        return (
-          <PlayBox
-            left={<Songs playlist={playlist} />}
-            right={
-              <>
-                <PlaylistTitle playlist={playlist} />
-                <PlaylistDescription playlist={playlist} />
-              </>
-            }
-          />
-        );
-      }
-
-      // 선택 플레이리스트 노래 재생화면
-      case "playSong": {
-        return (
-          <PlayBox
-            left={<Songs playlist={playlist} playedSong={playedSong}/>}
-            right={
-              <>
-                <PlaylistTitle playlist={playlist} />
-                <YoutubeVideo playlist={playlist} playedSong={playedSong!} nextSongs={nextSongs!} />
-              </>
-            }
-          />
-        );
-      }
-
-      // 선택 플레이리스트 노래 제목 검색화면
-      case "searchSong": {
-        return (
-          <PlayBox
-            left={<Songs playlist={playlist} />}
-            right={
-              <>
-                <PlaylistTitle playlist={playlist} />
-                <SearchSongs playlistId={playlist.playlistId} />
-              </>
-            }
-          />
-        );
-      }
-    }
-    return null;
+export const Playlist = () => {
+  const { page } = (useLocation().state as StateProps) || {
+    page: "myPlaylist",
   };
-  return Render();
+
+  const render = () => {
+    switch (page) {
+      case "myPlaylist":
+        return (
+          <ContainerBox
+            left={<MyPlaylists />}
+            right={<PlaylistCategory page={page} />}
+          />
+        );
+        break;
+      case "allPlaylist":
+        return (
+          <ContainerBox
+            left={<AllPlaylists />}
+            right={<PlaylistCategory page={page} />}
+          />
+        );
+        break;
+      case "bookmarks":
+        return (
+          <ContainerBox
+            left={<Bookmarks />}
+            right={<PlaylistCategory page={page} />}
+          />
+        );
+      default:
+        return null;
+    }
+  }
+
+  return render();
 };
 
-export default Playlist;
+export const PlaylistAdd = () => {
+  return (
+    <ContainerBox
+      left={<MyPlaylists />}
+      right={<PlaylistAddForm />}
+    />
+  );
+}
+
+export const PlaylistSearch = () => {
+  return (
+    <ContainerBox
+      left={<SearchPlaylists />}
+      right={null}
+    />
+  );
+};

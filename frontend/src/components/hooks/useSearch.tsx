@@ -11,7 +11,7 @@ export const useSearch = () => {
 
   const onPressEnter = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      window.location.href = "/search?keyword=" + keyword;
+      window.location.href = "/playlist/search?keyword=" + keyword;
     }
   };
 

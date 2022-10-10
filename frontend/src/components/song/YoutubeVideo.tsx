@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { PlaylistProps, SongProps } from "../shared/Props";
-import StatusCode from "../shared/StatusCode";
+import { PlaylistProps, SongProps } from "../../shared/Props";
+import StatusCode from "../../shared/StatusCode";
 import { useNavigate } from "react-router-dom";
-import alertError from "../shared/Error";
+import alertError from "../../shared/Error";
 import ReactPlayer from "react-player";
 
 export interface YoutubeVideoProps {
@@ -41,7 +41,7 @@ const YoutubeVideo = ({ playlist, playedSong, nextSongs }: YoutubeVideoProps) =>
 
   const playNextSong = () => {
     if (nextSongs.length > 0) {
-      navigate("/playlist", {
+      navigate("/songs", {
         state: {
           page: "playSong",
           playlist: playlist,
@@ -50,7 +50,7 @@ const YoutubeVideo = ({ playlist, playedSong, nextSongs }: YoutubeVideoProps) =>
         },
       });
     } else {
-      navigate("/playlist", {
+      navigate("/songs", {
         state: {
           page: "showSongs",
           playlist: playlist,

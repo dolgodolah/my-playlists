@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface PlayBoxProps {
+export interface ContainerBoxProps {
   left: ReactNode;
   right: ReactNode;
 }

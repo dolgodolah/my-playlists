@@ -1,5 +1,5 @@
-import EditBox from "./EditBox";
-import { PlaylistProps } from "../shared/Props";
+import PlaylistEditBox from "./PlaylistEditBox";
+import { PlaylistProps } from "../../shared/Props";
 
 interface PlaylistDeatilProps {
   playlist: PlaylistProps;
@@ -8,7 +8,7 @@ interface PlaylistDeatilProps {
 export const PlaylistTitle = ({ playlist }: PlaylistDeatilProps) => {
   return (
     <div className="title__container">
-      <EditBox playlist={playlist} />
+      <PlaylistEditBox playlist={playlist} />
       <p className="page__p--title">{playlist.title}</p>
       <p className="page__p--author">{playlist.author}님의 플레이리스트</p>
     </div>

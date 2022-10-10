@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import moment from "moment";
 import { Dispatch, SetStateAction } from "react";
 import { Link } from "react-router-dom";
-import { PlaylistProps } from "../shared/Props";
+import { PlaylistProps } from "../../shared/Props";
 
 interface NewPlaylistProps {
   playlist: PlaylistProps;
@@ -12,7 +12,7 @@ interface NewPlaylistProps {
 const Playlist = ({ playlist, setLastPlaylist }: NewPlaylistProps) => {
   return (
     <Link
-      to="/playlist"
+      to="/songs"
       state={{
         page: "showSongs",
         playlist: playlist,

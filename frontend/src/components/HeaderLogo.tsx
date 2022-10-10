@@ -5,7 +5,7 @@ const HeaderLogo = () => {
   return (
     <>
       <div className="logo__container">
-        <Link to="/">내플리스</Link>
+        <Link to="/playlist">내플리스</Link>
       </div>
       <div className="button__container--header">
         <Link to="/playlist/add" className="add__button--header">

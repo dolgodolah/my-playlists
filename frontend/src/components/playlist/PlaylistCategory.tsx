@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import { PlaylistCategoryProps } from "../shared/Props";
+import { PlaylistCategoryProps } from "../../shared/Props";
 
 const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
   return (
     <div className="category__container">
       <Link
-        to="/"
+        to="/playlist"
         state={{ page: "myPlaylist" }}
         className={classNames("category__link", {
           isBright: page === "myPlaylist",
@@ -15,7 +15,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
         내 플레이리스트
       </Link>
       <Link
-        to="/"
+        to="/playlist"
         state={{ page: "allPlaylist" }}
         className={classNames("category__link", {
           isBright: page === "allPlaylist",
@@ -24,7 +24,7 @@ const PlaylistCategory = ({ page }: PlaylistCategoryProps) => {
         모든 플레이리스트
       </Link>
       <Link
-        to="/"
+        to="/playlist"
         state={{ page: "bookmarks" }}
         className={classNames("category__link", {
           isBright: page === "bookmarks",

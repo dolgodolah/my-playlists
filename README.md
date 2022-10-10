@@ -1,4 +1,4 @@
-# 내플리스(My Playlists)
+# 내플리스(My Playlist)
 
 - ~~[내플리스 홈페이지](www.myplaylists.shop)~~ AWS 프리티어 기간이 끝났습니다..
 

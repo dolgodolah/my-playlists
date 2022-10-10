@@ -2,12 +2,12 @@ import { Icon } from "@iconify/react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import StatusCode from "../shared/StatusCode";
-import alertError from "../shared/Error";
-import { PlaylistProps, SongProps } from "../shared/Props";
-import HeaderLogo from "./HeaderLogo";
+import StatusCode from "../../shared/StatusCode";
+import alertError from "../../shared/Error";
+import { PlaylistProps, SongProps } from "../../shared/Props";
+import HeaderLogo from "../HeaderLogo";
 import moment from "moment";
-import { useAsyncSearch, useSearch } from "./hooks/useSearch";
+import { useAsyncSearch, useSearch } from "../hooks/useSearch";
 
 interface SongsProps {
   playlist: PlaylistProps;
@@ -101,7 +101,7 @@ const Songs = ({ playlist, playedSong }: SongsProps) => {
         {songs?.map((song: SongProps, index) => (
           <div className="song-link__container" key={song.songId}>
             <Link
-              to="/playlist"
+              to="/songs"
               state={{
                 page: "playSong",
                 playlist: playlist,

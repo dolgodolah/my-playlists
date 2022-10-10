@@ -1,4 +1,4 @@
-import HeaderLogo from "./HeaderLogo";
+import HeaderLogo from "../HeaderLogo";
 
 interface HeaderProps {
   keyword: string;
