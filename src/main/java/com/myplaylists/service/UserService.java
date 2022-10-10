@@ -4,8 +4,10 @@ import com.myplaylists.dto.UserDto;
 import com.myplaylists.exception.InvalidNicknameException;
 import com.myplaylists.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ public class UserService {
 	}
 
 	@CachePut(key = "#userId", value = "user")
+	@CacheEvict(key = "#userId", value = "playlist")
 	public UserDto updateUserInfo(Long userId, UserDto userDto) {
 		String nickname = userDto.getNickname();
 		if (!StringUtils.hasText(nickname)) {
