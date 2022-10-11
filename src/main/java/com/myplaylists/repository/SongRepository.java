@@ -6,10 +6,10 @@ import com.myplaylists.domain.Playlist;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.myplaylists.domain.Song;
+import org.springframework.data.jpa.repository.Query;
 
 public interface SongRepository extends JpaRepository<Song, Long>{
-	List<Song> findAllByPlaylistOrderByIdDesc(Playlist playlist);
-	List<Song> findSongsByPlaylist(Playlist playlist);
 	List<Song> findByPlaylistAndTitleContaining(Playlist playlist, String keyword);
-	List<Song> findByPlaylistId(Long playlistId);
+	@Query("SELECT s FROM Song s WHERE s.playlist.id = ?1")
+	List<Song> findAllByPlaylistId(Long playlistId);
 }

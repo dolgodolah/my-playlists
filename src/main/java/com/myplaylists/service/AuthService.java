@@ -40,7 +40,7 @@ public class AuthService {
             throw new InvalidEmailException();
         }
 
-        List<User> users = userRepository.findByEmail(oauthDto.getEmail());
+        List<User> users = userRepository.findAllByEmail(oauthDto.getEmail());
         if (CollectionUtils.isEmpty(users)) {
             return userRepository.save(oauthDto.toEntity());
         }

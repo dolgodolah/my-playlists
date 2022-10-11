@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 	@Query(value = "SELECT p FROM Playlist p WHERE p.user.id = ?1")
-	List<Playlist> findByUserId(Long userId);
+	List<Playlist> findAllByUserId(Long userId);
 	@Query(value = "SELECT p FROM Playlist p WHERE p.user.id = ?1 AND p.title LIKE %?2%")
-	List<Playlist> findByUserIdAndTitleContaining(Long userId, String title);
+	List<Playlist> findAllByUserIdAndTitleContaining(Long userId, String title);
 	Page<Playlist> findByVisibility(Pageable pageable, boolean visibility);
 	Page<Playlist> findByTitleContaining(Pageable pageable, String title);
 	Page<Playlist> findByVisibilityAndTitleContaining(Pageable pageable, boolean visibility, String title);

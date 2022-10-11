@@ -29,7 +29,7 @@ class PlaylistService(
 
     @CacheEvict(key = "#userId", value = ["playlist"])
     fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
-        playlistRepository.findByUserId(userId).checkLimitCount()
+        playlistRepository.findAllByUserId(userId).checkLimitCount()
 
         val user = userService.findUserByIdOrElseThrow(userId)
         val playlist = playlistRequest.toEntity(user)
@@ -43,7 +43,7 @@ class PlaylistService(
     @Cacheable(key = "#userId", value = ["playlist"])
     fun findMyPlaylists(userId: Long): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findByUserId(userId).stream()
+        val playlists = playlistRepository.findAllByUserId(userId).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
@@ -92,7 +92,7 @@ class PlaylistService(
     @Transactional(readOnly = true)
     fun searchMyPlaylists(userId: Long, keyword: String): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findByUserIdAndTitleContaining(userId, keyword).stream()
+        val playlists = playlistRepository.findAllByUserIdAndTitleContaining(userId, keyword).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)

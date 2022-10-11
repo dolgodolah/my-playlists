@@ -15,6 +15,4 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 	Page<Bookmark> findByUserId(Pageable pageable, Long userId);
 	@Query(value = "SELECT b FROM Bookmark b WHERE b.user.id = ?1 AND b.playlist.id = ?2")
 	Optional<Bookmark> findByUserIdAndPlaylistId(Long userId, Long playlistId);
-	Optional<Bookmark> findAllByUserId(Long userId);
-
 }

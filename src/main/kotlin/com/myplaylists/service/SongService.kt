@@ -28,7 +28,7 @@ class SongService(
         val playlist = playlistRepository.findById(songRequestDto.playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
         playlist.validateUser(user.userId)
 
-        songRepository.findByPlaylistId(playlist.id).checkLimitCount()
+        songRepository.findAllByPlaylistId(playlist.id).checkLimitCount()
 
         val song = songRequestDto.toEntity(userId = user.userId, playlist = playlist)
 
@@ -51,8 +51,7 @@ class SongService(
 
     @Transactional(readOnly = true)
     fun findSongsByPlaylistId(playlistId: Long): SongsDto {
-        val playlist = playlistRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
-        return SongsDto.of(songRepository.findSongsByPlaylist(playlist))
+        return SongsDto.of(songRepository.findAllByPlaylistId(playlistId))
     }
 
     @Transactional(readOnly = true)
@@ -62,7 +61,7 @@ class SongService(
         return SongsDto.of(songs)
     }
 
-    fun getSongCount(playlistId: Long): Int = songRepository.findByPlaylistId(playlistId).size
+    fun getSongCount(playlistId: Long): Int = songRepository.findAllByPlaylistId(playlistId).size
 
     fun searchYoutube(keyword: String): YoutubeDto = youtubeClient.search(keyword)
 
