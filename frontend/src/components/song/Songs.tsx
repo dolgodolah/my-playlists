@@ -55,7 +55,7 @@ const Songs = ({ playlist, playedSong }: SongsProps) => {
         case StatusCode.OK:
           // 재생되고 있는 노래가 삭제된 경우 해당 플레이리스트 초기 화면으로 간다.
           if (playedSong?.songId === song.songId) {
-            navigate("/playlist", {
+            navigate("/songs", {
               state: {
                 page: "showSongs",
                 playlist: playlist,
