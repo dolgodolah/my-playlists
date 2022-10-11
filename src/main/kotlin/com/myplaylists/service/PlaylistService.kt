@@ -19,6 +19,7 @@ import java.util.stream.Collectors
 class PlaylistService(
     private val userService: UserService,
     private val bookmarkService: BookmarkService,
+    private val songService: SongService,
     private val playlistRepository: PlaylistRepository,
 ) {
 
@@ -45,7 +46,8 @@ class PlaylistService(
         val playlists = playlistRepository.findByUserId(userId).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
-                PlaylistResponseDto.from(playlist, user.nickname, isBookmark)
+                val songCount = songService.getSongCount(playlist.id!!)
+                PlaylistResponseDto.from(playlist, user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -59,7 +61,8 @@ class PlaylistService(
         val playlists = playlistRepository.findByVisibility(pageable, PUBLIC).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
-                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark)
+                val songCount = songService.getSongCount(playlist.id!!)
+                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }
@@ -72,7 +75,8 @@ class PlaylistService(
         val playlists = bookmarkService.findByUserId(userId, pageable).stream()
             .map { bookmark ->
                 val playlist = bookmark.playlist
-                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark = true)
+                val songCount = songService.getSongCount(playlist.id!!)
+                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark = true, songCount)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -91,7 +95,8 @@ class PlaylistService(
         val playlists = playlistRepository.findByUserIdAndTitleContaining(userId, keyword).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
-                PlaylistResponseDto.from(playlist, user.nickname, isBookmark)
+                val songCount = songService.getSongCount(playlist.id!!)
+                PlaylistResponseDto.from(playlist, user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -102,7 +107,8 @@ class PlaylistService(
         val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
-                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark)
+                val songCount = songService.getSongCount(playlist.id!!)
+                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }

@@ -11,4 +11,5 @@ public interface SongRepository extends JpaRepository<Song, Long>{
 	List<Song> findAllByPlaylistOrderByIdDesc(Playlist playlist);
 	List<Song> findSongsByPlaylist(Playlist playlist);
 	List<Song> findByPlaylistAndTitleContaining(Playlist playlist, String keyword);
+	List<Song> findByPlaylistId(Long playlistId);
 }

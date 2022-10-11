@@ -5,7 +5,6 @@ import com.myplaylists.exception.ExceedLimitException
 import javax.persistence.*
 
 const val MAX_PLAYLIST_COUNT = 50
-const val MAX_SONG_COUNT = 100
 
 @Entity
 class Playlist(
@@ -27,20 +26,7 @@ class Playlist(
 
     @Column(nullable = false)
     var visibility: Boolean = false,
-    var songCount: Int = 0,
 ): BaseTime() {
-
-    fun addSong() {
-        if (this.songCount >= MAX_SONG_COUNT) {
-            throw ExceedLimitException("수록곡은 최대 100개까지 담을 수 있습니다.")
-        }
-
-        songCount++
-    }
-
-    fun deleteSong() {
-        songCount--
-    }
 
     fun isSameUser(userId: Long) = user.id == userId
 

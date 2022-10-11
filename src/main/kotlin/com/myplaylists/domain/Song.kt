@@ -2,8 +2,11 @@ package com.myplaylists.domain
 
 import com.myplaylists.dto.SongUpdateRequestDto
 import com.myplaylists.exception.ApiException
+import com.myplaylists.exception.ExceedLimitException
 import java.util.*
 import javax.persistence.*
+
+const val MAX_SONG_COUNT = 100
 
 @Entity
 @Table(indexes = [Index(name = "idx_user_id", columnList = "userId")])
@@ -63,5 +66,11 @@ class Song(
 
     override fun hashCode(): Int {
         return Objects.hash(id)
+    }
+}
+
+fun List<Song>.checkLimitCount() {
+    if (this.size >= MAX_SONG_COUNT) {
+        throw ExceedLimitException("수록곡은 최대 100개까지 담을 수 있습니다.")
     }
 }

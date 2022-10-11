@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myplaylists.domain.Bookmark;
 import com.myplaylists.repository.BookmarkRepository;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional

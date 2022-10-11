@@ -29,7 +29,7 @@ class PlaylistResponseDto(
     val songCount: Int
 ): BaseResponse() {
     companion object {
-        fun from(playlist: Playlist, author: String, isBookmark: Boolean): PlaylistResponseDto {
+        fun from(playlist: Playlist, author: String, isBookmark: Boolean, songCount: Int): PlaylistResponseDto {
             return PlaylistResponseDto(
                 playlistId = playlist.id!!,
                 title = playlist.title,
@@ -37,8 +37,8 @@ class PlaylistResponseDto(
                 updatedDate = playlist.updatedDate,
                 visibility = playlist.visibility,
                 author = author,
-                songCount = playlist.songCount,
-                isBookmark = isBookmark
+                isBookmark = isBookmark,
+                songCount = songCount
             )
         }
     }

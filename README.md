@@ -42,19 +42,18 @@
 
 ### :mag:  DB 설계
 ```mysql
-create table playlist (
-   playlist_id bigint not null auto_increment,
-   created_date datetime(6),
-   updated_date datetime(6),
-   description varchar(255),
-   song_count integer not null,
-   title varchar(255),
-   visibility bit not null,
-   user_id bigint,
-   primary key (playlist_id),
-   foreign key (user_id)
-   references user (user_id)
-) engine=InnoDB
+CREATE TABLE `playlist` (
+    `playlist_id` bigint NOT NULL AUTO_INCREMENT,
+    `created_date` datetime(6) DEFAULT NULL,
+    `updated_date` datetime(6) DEFAULT NULL,
+    `description` varchar(255) DEFAULT NULL,
+    `title` varchar(255) DEFAULT NULL,
+    `visibility` bit(1) NOT NULL,
+    `user_id` bigint NOT NULL,
+    PRIMARY KEY (`playlist_id`),
+    KEY `FK_USER_ID_PLAYLIST` (`user_id`),
+    CONSTRAINT `FK_USER_ID_PLAYLIST` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB
 ```
 
 ```mysql
