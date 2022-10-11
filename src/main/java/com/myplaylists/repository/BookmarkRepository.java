@@ -9,10 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.myplaylists.domain.Bookmark;
+import org.springframework.data.jpa.repository.Query;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 	Page<Bookmark> findByUserId(Pageable pageable, Long userId);
-	Optional<Bookmark> findByUserIdAndPlaylistId(Long userId, Long playlistId); // TODO 테이블 JOIN 성능 체크하기 (QueryDSL 혹은 JPQL 적용해서 불필요한 JOIN은 제거할 수 있어보임)
+	@Query(value = "SELECT b FROM Bookmark b WHERE b.user.id = ?1 AND b.playlist.id = ?2")
+	Optional<Bookmark> findByUserIdAndPlaylistId(Long userId, Long playlistId);
 	Optional<Bookmark> findAllByUserId(Long userId);
 
 }

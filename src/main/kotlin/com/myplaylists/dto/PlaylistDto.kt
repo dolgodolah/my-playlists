@@ -1,13 +1,9 @@
 package com.myplaylists.dto
 
-import com.myplaylists.domain.Bookmark
 import com.myplaylists.domain.Playlist
 import com.myplaylists.domain.User
-import org.springframework.data.domain.Page
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Comparator
-import java.util.stream.Collectors
 
 class PlaylistRequestDto(
     private val title: String,
@@ -29,25 +25,11 @@ class PlaylistResponseDto(
     val updatedDate: LocalDateTime,
     val visibility: Boolean,
     val author: String,
+    val isBookmark: Boolean,
     val songCount: Int
 ): BaseResponse() {
     companion object {
-        fun of(playlist: Playlist): PlaylistResponseDto {
-            return PlaylistResponseDto(
-                playlistId = playlist.id!!,
-                title = playlist.title,
-                description = playlist.description,
-                updatedDate = playlist.updatedDate,
-                visibility = playlist.visibility,
-                author = playlist.user.nickname,
-                songCount = playlist.songCount
-            )
-        }
-
-        /**
-         * `내 플레이리스트`처럼 `author`가 하나로 고정되어 있는 경우 사용
-         */
-        fun from(playlist: Playlist, author: String): PlaylistResponseDto {
+        fun from(playlist: Playlist, author: String, isBookmark: Boolean): PlaylistResponseDto {
             return PlaylistResponseDto(
                 playlistId = playlist.id!!,
                 title = playlist.title,
@@ -55,7 +37,8 @@ class PlaylistResponseDto(
                 updatedDate = playlist.updatedDate,
                 visibility = playlist.visibility,
                 author = author,
-                songCount = playlist.songCount
+                songCount = playlist.songCount,
+                isBookmark = isBookmark
             )
         }
     }
@@ -65,37 +48,8 @@ class PlaylistsDto(
     val playlists: List<PlaylistResponseDto>,
 ): BaseResponse() {
     companion object {
-        fun of(playlists: Page<Playlist>): PlaylistsDto {
-            val playlistDtoList = playlists.stream()
-                .map(PlaylistResponseDto::of)
-                .sorted(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
-                .collect(Collectors.toList())
-
-            return PlaylistsDto(
-                playlists = playlistDtoList
-            )
-        }
-
-        /**
-         * `내 플레이리스트`처럼 `author`가 하나로 고정되어 있는 경우 사용
-         */
-        fun from(playlists: List<Playlist>, author: String): PlaylistsDto {
-            val playlistDtoList = playlists.stream()
-                .map { playlist -> PlaylistResponseDto.from(playlist, author) }
-                .sorted(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
-                .collect(Collectors.toList())
-
-            return PlaylistsDto(
-                playlists = playlistDtoList
-            )
-        }
-
-        fun of(bookmarksDto: BookmarksDto): PlaylistsDto {
-            val playlistDtoList = bookmarksDto.bookmarks.stream()
-                .map(Bookmark::playlist)
-                .map(PlaylistResponseDto::of)
-                .sorted(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
-                .collect(Collectors.toList())
+        fun of(playlists: List<PlaylistResponseDto>): PlaylistsDto {
+            val playlistDtoList = playlists.sortedWith(Comparator.comparing(PlaylistResponseDto::updatedDate).reversed())
 
             return PlaylistsDto(
                 playlists = playlistDtoList

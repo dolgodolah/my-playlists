@@ -2,8 +2,11 @@ package com.myplaylists.service;
 
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.User;
-import com.myplaylists.dto.BookmarkDto;
+import com.myplaylists.exception.NotFoundException;
+import com.myplaylists.repository.PlaylistRepository;
+import com.myplaylists.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,13 +23,8 @@ import java.util.Optional;
 public class BookmarkService {
 
 	private final BookmarkRepository bookmarkRepository;
-	private final UserService userService;
-	private final PlaylistService playlistService;
-
-	@Transactional(readOnly = true)
-	public Optional<Bookmark> findAllByUserId(Long userId) {
-		return bookmarkRepository.findAllByUserId(userId);
-	}
+	private final UserRepository userRepository;
+	private final PlaylistRepository playlistRepository;
 
 	@Transactional(readOnly = true)
 	public Page<Bookmark> findByUserId(Long userId, Pageable pageable) {
@@ -34,11 +32,11 @@ public class BookmarkService {
 	}
 
 	@Transactional(readOnly = true)
-	public BookmarkDto checkBookmark(Long userId, Long playlistId) {
-		boolean isBookmark = bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId).isPresent();
-		return BookmarkDto.Companion.of(isBookmark);
+	public boolean isBookmark(Long userId, Long playlistId) {
+		return bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId).isPresent();
 	}
 
+	@CacheEvict(key = "#userId", value = "playlist")
 	public void toggleBookmark(Long userId, Long playlistId) {
 		bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId)
 				.ifPresentOrElse(
@@ -48,8 +46,8 @@ public class BookmarkService {
 	}
 
 	private void addBookmark(Long userId, Long playlistId) {
-		User user = userService.findUserByIdOrElseThrow(userId);
-		Playlist playlist = playlistService.findPlaylistByIdOrElseThrow(playlistId);
+		User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("해당 사용자는 존재하지 않는 사용자입니다."));
+		Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다."));
 
 		Bookmark bookmark = Bookmark.builder()
 				.playlist(playlist)

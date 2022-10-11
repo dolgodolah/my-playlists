@@ -2,7 +2,6 @@ package com.myplaylists.controller
 
 import com.myplaylists.config.auth.Login
 import com.myplaylists.dto.*
-import com.myplaylists.dto.PlaylistsDto.Companion.of
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.service.BookmarkService
 import com.myplaylists.service.PlaylistService
@@ -35,11 +34,6 @@ class PlaylistController(
         return BaseResponse.ok()
     }
 
-    @GetMapping("/playlist/{playlistId}")
-    fun checkBookmarkPlaylist(@PathVariable("playlistId") playlistId: Long, @Login user: LoginUser): BookmarkDto {
-        return bookmarkService.checkBookmark(user.userId, playlistId)
-    }
-
     @DeleteMapping("/playlist/{playlistId}")
     fun deletePlaylist(@Login user: LoginUser, @PathVariable("playlistId") playlistId: Long): BaseResponse {
         playlistService.deletePlaylist(user.userId, playlistId)
@@ -51,10 +45,7 @@ class PlaylistController(
         @Login user: LoginUser,
         @PageableDefault(sort = ["createdDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        // TODO 1. 즐겨찾기 플리 조회도 author 가 고정이라서 from 으로 바꾸자
-        // TODO 2. playlistService 에서 즐겨찾기 플리 조회하자
-        val bookmarks = BookmarksDto.of(bookmarkService.findByUserId(user.userId, pageable))
-        return of(bookmarks)
+        return playlistService.findBookmarkPlaylists(user.userId, pageable)
     }
 
     @PostMapping("/bookmark/{playlistId}")

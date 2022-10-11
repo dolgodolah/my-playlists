@@ -12,12 +12,14 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors
 
 @Service
 @Transactional
 class PlaylistService(
     private val userService: UserService,
-    private val playlistRepository: PlaylistRepository
+    private val bookmarkService: BookmarkService,
+    private val playlistRepository: PlaylistRepository,
 ) {
 
     companion object {
@@ -40,9 +42,13 @@ class PlaylistService(
     @Cacheable(key = "#userId", value = ["playlist"])
     fun findMyPlaylists(userId: Long): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findByUserId(userId)
+        val playlists = playlistRepository.findByUserId(userId).stream()
+            .map { playlist ->
+                val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
+                PlaylistResponseDto.from(playlist, user.nickname, isBookmark)
+            }.collect(Collectors.toList())
 
-        return PlaylistsDto.from(playlists, user.nickname)
+        return PlaylistsDto.of(playlists)
     }
 
     /**
@@ -50,14 +56,26 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findAllPlaylists(pageable: Pageable): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibility(pageable, PUBLIC)
+        val playlists = playlistRepository.findByVisibility(pageable, PUBLIC).stream()
+            .map { playlist ->
+                val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
+                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark)
+            }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }
 
+    /**
+     * 즐겨찾기한 플레이리스트 목록을 업데이트 최신순으로 조회
+     */
     @Transactional(readOnly = true)
-    fun findPlaylistById(playlistId: Long): PlaylistResponseDto {
-        val playlist = findPlaylistByIdOrElseThrow(playlistId)
-        return PlaylistResponseDto.of(playlist)
+    fun findBookmarkPlaylists(userId: Long, pageable: Pageable): PlaylistsDto {
+        val playlists = bookmarkService.findByUserId(userId, pageable).stream()
+            .map { bookmark ->
+                val playlist = bookmark.playlist
+                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark = true)
+            }.collect(Collectors.toList())
+
+        return PlaylistsDto.of(playlists)
     }
 
     @CacheEvict(key = "#userId", value = ["playlist"])
@@ -70,13 +88,22 @@ class PlaylistService(
     @Transactional(readOnly = true)
     fun searchMyPlaylists(userId: Long, keyword: String): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findByUserIdAndTitleContaining(userId, keyword)
-        return PlaylistsDto.from(playlists, user.nickname)
+        val playlists = playlistRepository.findByUserIdAndTitleContaining(userId, keyword).stream()
+            .map { playlist ->
+                val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
+                PlaylistResponseDto.from(playlist, user.nickname, isBookmark)
+            }.collect(Collectors.toList())
+
+        return PlaylistsDto.of(playlists)
     }
 
     @Transactional(readOnly = true)
     fun searchAllPlaylists(pageable: Pageable, keyword: String): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword)
+        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword).stream()
+            .map { playlist ->
+                val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
+                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark)
+            }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }
 

@@ -18,6 +18,7 @@ export interface PlaylistProps {
   updatedDate: string;
   visibility: boolean;
   songCount: number;
+  isBookmark: boolean;
 }
 
 export interface SongProps {

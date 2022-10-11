@@ -13,20 +13,7 @@ interface PlaylistEditBoxProps {
 
 const PlaylistEditBox = ({ playlist }: PlaylistEditBoxProps) => {
   const navigate = useNavigate();
-  const [isBookmark, setBookmark] = useState(false);
-  useEffect(() => {
-    axios.get(`/playlist/${playlist.playlistId}`).then((res) => {
-      const response = res.data
-      switch (response.statusCode) {
-        case StatusCode.OK:
-          setBookmark(response.isBookmark)
-          break;
-        default:
-          alertError(response)
-          break;
-      }
-    })
-  }, [playlist && playlist.playlistId])
+  const [isBookmark, setBookmark] = useState(playlist.isBookmark);
 
   const toggleBookmark = () => {
     axios.post(`/bookmark/${playlist.playlistId}`).then((res) => {
