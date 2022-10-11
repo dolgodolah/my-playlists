@@ -10,7 +10,10 @@ import com.myplaylists.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,15 +40,15 @@ public class AuthService {
             throw new InvalidEmailException();
         }
 
-        // TODO AuthService.kt 으로 리팩토링해서 확장함수 사용하자.
-        User user = userRepository.findByEmail(oauthDto.getEmail())
-                .map(entity -> {
-                    if (oauthDto.getOauthType() == entity.getOauthType()) {
-                        return entity.updateName(oauthDto.getName());
-                    }
+        List<User> users = userRepository.findByEmail(oauthDto.getEmail());
+        if (CollectionUtils.isEmpty(users)) {
+            return userRepository.save(oauthDto.toEntity());
+        }
 
-                    return oauthDto.toEntity();
-                })
+        User user = users.stream()
+                .filter(e -> e.getOauthType() == oauthDto.getOauthType())
+                .findAny()
+                .map(e -> e.updateName(oauthDto.getName()))
                 .orElse(oauthDto.toEntity());
 
         return userRepository.save(user);
