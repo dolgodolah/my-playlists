@@ -29,15 +29,13 @@ class PlaylistController(
     }
 
     @PostMapping("/playlist")
-    fun createPlaylist(@RequestBody playlistRequestDto: PlaylistRequestDto, @Login user: LoginUser): BaseResponse {
+    fun createPlaylist(@RequestBody playlistRequestDto: PlaylistRequestDto, @Login user: LoginUser) {
         playlistService.createPlaylist(user.userId, playlistRequestDto)
-        return BaseResponse.ok()
     }
 
     @DeleteMapping("/playlist/{playlistId}")
-    fun deletePlaylist(@Login user: LoginUser, @PathVariable("playlistId") playlistId: Long): BaseResponse {
+    fun deletePlaylist(@Login user: LoginUser, @PathVariable("playlistId") playlistId: Long) {
         playlistService.deletePlaylist(user.userId, playlistId)
-        return BaseResponse.ok()
     }
 
     @GetMapping("/bookmarks")
@@ -49,9 +47,8 @@ class PlaylistController(
     }
 
     @PostMapping("/bookmark/{playlistId}")
-    fun toggleBookmark(@Login user: LoginUser, @PathVariable("playlistId") playlistId: Long): BaseResponse {
+    fun toggleBookmark(@Login user: LoginUser, @PathVariable("playlistId") playlistId: Long) {
         bookmarkService.toggleBookmark(user.userId, playlistId)
-        return BaseResponse.ok()
     }
 
     @GetMapping("/playlist/search")

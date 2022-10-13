@@ -9,6 +9,7 @@ public class BaseResponse {
 
     private int statusCode;
 
+    // 응답 DTO 들이 상속받아야 해서 public 으로 열어둠.
     public BaseResponse() {
         this.statusCode = 200;
     }

@@ -24,21 +24,18 @@ public class SongController {
     }
 
     @PostMapping("/songs")
-    public BaseResponse addSong(@Login LoginUser user, @RequestBody SongAddRequestDto songRequestDto) {
+    public void addSong(@Login LoginUser user, @RequestBody SongAddRequestDto songRequestDto) {
         songService.addSong(user, songRequestDto);
-        return BaseResponse.ok();
     }
 
     @PutMapping("/songs/{songId}")
-    public BaseResponse updateSong(@Login LoginUser user, @PathVariable("songId") Long songId, @RequestBody SongUpdateRequestDto songRequestDto) {
+    public void updateSong(@Login LoginUser user, @PathVariable("songId") Long songId, @RequestBody SongUpdateRequestDto songRequestDto) {
         songService.updateSong(user, songId, songRequestDto);
-        return BaseResponse.ok();
     }
 
     @DeleteMapping("/songs/{songId}")
-    public BaseResponse deleteSong(@Login LoginUser user, @PathVariable("songId") Long songId) {
+    public void deleteSong(@Login LoginUser user, @PathVariable("songId") Long songId) {
         songService.deleteSong(user, songId);
-        return BaseResponse.ok();
     }
 
     @GetMapping("/songs/search")
