@@ -73,7 +73,7 @@ const authenticate = (oauthRequest: any) => {
         case StatusCode.OK:
           window.location.href = "/";
           break;
-        case StatusCode.INVALID_EMAIL:
+        case StatusCode.BAD_REQUEST:
           alertError(response)
           window.location.href = "/login";
           break;

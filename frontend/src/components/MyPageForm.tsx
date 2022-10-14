@@ -32,7 +32,7 @@ const MyPageForm = () => {
           case StatusCode.OK:
             navigate("/");
             break;
-          case StatusCode.INVALID_NICKNAME:
+          case StatusCode.BAD_REQUEST:
             setErrorMessage(response.message);
             setError(true);
             break;

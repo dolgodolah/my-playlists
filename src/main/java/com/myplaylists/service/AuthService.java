@@ -5,7 +5,7 @@ import com.myplaylists.domain.User;
 import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.oauth.KakaoOauthDto;
 import com.myplaylists.dto.oauth.OauthDto;
-import com.myplaylists.exception.InvalidEmailException;
+import com.myplaylists.exception.BadRequestException;
 import com.myplaylists.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class AuthService {
      */
     private User signUpOrLogin(OauthDto oauthDto) {
         if (!StringUtils.hasText(oauthDto.getEmail())) {
-            throw new InvalidEmailException();
+            throw new BadRequestException("이메일은 필수입니다. 카카오로 로그인 시 이메일 제공에 동의하지 않았다면 카카오 계정 > 연결된 서비스 관리 > 내플리스 > 연결 끊기 후 이메일 제공에 동의해주세요.");
         }
 
         List<User> users = userRepository.findAllByEmail(oauthDto.getEmail());

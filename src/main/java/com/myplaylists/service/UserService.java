@@ -1,13 +1,12 @@
 package com.myplaylists.service;
 
 import com.myplaylists.dto.UserDto;
-import com.myplaylists.exception.InvalidNicknameException;
+import com.myplaylists.exception.BadRequestException;
 import com.myplaylists.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +32,7 @@ public class UserService {
 	public UserDto updateUserInfo(Long userId, UserDto userDto) {
 		String nickname = userDto.getNickname();
 		if (!StringUtils.hasText(nickname)) {
-			throw new InvalidNicknameException();
+			throw new BadRequestException("닉네임이 공백이거나 입력되지 않았습니다.");
 		}
 
 		User user = findUserByIdOrElseThrow(userId).updateNickname(nickname);
