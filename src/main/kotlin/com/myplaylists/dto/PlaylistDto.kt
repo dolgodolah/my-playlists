@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.util.Comparator
 
 class PlaylistRequestDto(
-    private val title: String,
+    val title: String,
     private val description: String,
     private val visibility: Boolean,
 ) {

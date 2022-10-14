@@ -6,12 +6,14 @@ import com.myplaylists.dto.PlaylistRequestDto
 import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.dto.PlaylistsDto
 import com.myplaylists.exception.ApiException
+import com.myplaylists.exception.BadRequestException
 import com.myplaylists.repository.PlaylistRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.StringUtils
 import java.util.stream.Collectors
 
 @Service
@@ -29,6 +31,10 @@ class PlaylistService(
 
     @CacheEvict(key = "#userId", value = ["playlist"])
     fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
+        if (!StringUtils.hasText(playlistRequest.title)) {
+            throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
+        }
+
         playlistRepository.findAllByUserId(userId).checkLimitCount()
 
         val user = userService.findUserByIdOrElseThrow(userId)
