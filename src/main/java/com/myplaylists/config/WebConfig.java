@@ -2,8 +2,8 @@ package com.myplaylists.config;
 
 import java.util.List;
 
-import com.myplaylists.interceptor.LoginInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.myplaylists.interceptor.AuthInterceptor;
+import com.myplaylists.interceptor.LogInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.myplaylists.config.auth.LoginUserArgumentResolver;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 
@@ -30,9 +29,14 @@ public class WebConfig implements WebMvcConfigurer{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginInterceptor())
+		registry.addInterceptor(new LogInterceptor())
 				.order(1)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/login", "/logout", "/login/kakao", "/error", "/api-docs/**", "/swagger-ui/**", "/favicon.ico");
+				.excludePathPatterns("/error", "/api-docs/**", "/swagger-ui/**", "/*.ico");
+
+		registry.addInterceptor(new AuthInterceptor())
+				.order(2)
+				.addPathPatterns("/**")
+				.excludePathPatterns("/login", "/logout", "/login/kakao", "/error", "/api-docs/**", "/swagger-ui/**", "/*.ico");
 	}
 }
