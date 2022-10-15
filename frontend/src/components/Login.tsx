@@ -11,7 +11,6 @@ export const LoginMenu = () => {
   };
 
   const googleLogin = () => {
-    console.log(process.env.REACT_APP_GOOGLE_REST_KEY)
     window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?" +
       "scope=https%3A//www.googleapis.com/auth/userinfo.profile https%3A//www.googleapis.com/auth/userinfo.email&" +
       "access_type=offline&" +
