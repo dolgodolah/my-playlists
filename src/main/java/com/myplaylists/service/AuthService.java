@@ -1,8 +1,10 @@
 package com.myplaylists.service;
 
+import com.myplaylists.client.GoogleClient;
 import com.myplaylists.client.KakaoClient;
 import com.myplaylists.domain.User;
 import com.myplaylists.dto.auth.LoginUser;
+import com.myplaylists.dto.oauth.GoogleOauthDto;
 import com.myplaylists.dto.oauth.KakaoOauthDto;
 import com.myplaylists.dto.oauth.OauthDto;
 import com.myplaylists.exception.BadRequestException;
@@ -22,6 +24,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final KakaoClient kakaoClient;
+    private final GoogleClient googleClient;
 
     /**
      * 내플리스 로그인 처리
@@ -58,7 +61,12 @@ public class AuthService {
      * 내플리스 로그인을 위해 필요한 Oauth 객체를 카카오 로그인 정보로부터 가져온다.
      */
     public OauthDto getKakaoUserInfo(String code) {
-        KakaoOauthDto kakaoAccount = kakaoClient.getKakaoUserInfo(code);
-        return kakaoAccount.toOauthDto();
+        KakaoOauthDto kakaoUserInfo = kakaoClient.getKakaoUserInfo(code);
+        return kakaoUserInfo.toOauthDto();
+    }
+
+    public OauthDto getGoogleUserInfo(String code) {
+        GoogleOauthDto googleUserInfo = googleClient.getGoogleUserInfo(code);
+        return googleUserInfo.toOauthDto();
     }
 }

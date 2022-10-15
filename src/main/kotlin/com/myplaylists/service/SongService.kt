@@ -1,6 +1,6 @@
 package com.myplaylists.service
 
-import com.myplaylists.client.YoutubeClient
+import com.myplaylists.client.GoogleClient
 import com.myplaylists.domain.Song
 import com.myplaylists.domain.checkLimitCount
 import com.myplaylists.dto.SongAddRequestDto
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 class SongService(
     private val songRepository: SongRepository,
     private val playlistRepository: PlaylistRepository,
-    private val youtubeClient: YoutubeClient
+    private val googleClient: GoogleClient
 ) {
 
     @CacheEvict(key = "#user.userId", value = ["playlist"])
@@ -63,7 +63,7 @@ class SongService(
 
     fun getSongCount(playlistId: Long): Int = songRepository.findAllByPlaylistId(playlistId).size
 
-    fun searchYoutube(keyword: String): YoutubeDto = youtubeClient.search(keyword)
+    fun searchYoutube(keyword: String): YoutubeDto = googleClient.searchYoutube(keyword)
 
     private fun findSongByIdOrElseThrow(songId: Long): Song = songRepository.findById(songId).orElseThrow { NotFoundException("해당 곡은 삭제되었거나 존재하지 않는 곡입니다.") }
 

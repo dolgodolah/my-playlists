@@ -11,6 +11,13 @@ export const LoginMenu = () => {
   };
 
   const googleLogin = () => {
+    console.log(process.env.REACT_APP_GOOGLE_REST_KEY)
+    window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?" +
+      "scope=https%3A//www.googleapis.com/auth/userinfo.profile https%3A//www.googleapis.com/auth/userinfo.email&" +
+      "access_type=offline&" +
+      "response_type=code&" +
+      "redirect_uri=http%3A//localhost:3000/login/google&" +
+      "client_id=" + process.env.REACT_APP_GOOGLE_REST_KEY
   }
 
   return (
@@ -42,17 +49,42 @@ export const KakaoLogin = () => {
         }
       })
       .then((res) => {
-        switch (res.status) {
+        const response = res.data;
+        switch (response.statusCode) {
           case StatusCode.OK:
-            authenticate(res.data);
+            authenticate(response);
             break;
           default:
-            alertError(res.data);
+            alertError(response);
             break;
         }
       })
   })
 
+  return null;
+}
+
+export const GoogleLogin = () => {
+  const [params] = useSearchParams();
+  useEffect(() => {
+    axios
+      .get("/login/google", {
+        params: {
+          code: params.get("code")
+        }
+      })
+      .then((res) => {
+        const response = res.data
+        switch (response.statusCode) {
+          case StatusCode.OK:
+            authenticate(response)
+            break;
+          default:
+            alertError(response)
+            break;
+        }
+      })
+  })
   return null;
 }
 

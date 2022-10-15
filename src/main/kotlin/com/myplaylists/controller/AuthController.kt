@@ -20,10 +20,10 @@ class AuthController(
         return authService.getKakaoUserInfo(code)
     }
 
-//    @GetMapping("/login/google")
-//    fun loginGoogle(@RequestParam code: String): GoogleAccount {
-//        return authService.getGoogleUserInfo(code)
-//    }
+    @GetMapping("/login/google")
+    fun loginGoogle(@RequestParam code: String): OauthDto {
+        return authService.getGoogleUserInfo(code)
+    }
 
     @PostMapping("/logout")
     fun logout(session: HttpSession) {

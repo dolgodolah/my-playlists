@@ -1,4 +1,4 @@
-import { LoginMenu, KakaoLogin } from "../components/Login"
+import {LoginMenu, KakaoLogin, GoogleLogin} from "../components/Login"
 
 interface LoginProps {
   loginType?: string;
@@ -10,10 +10,10 @@ const login = ({loginType}: LoginProps) => {
       return (
         <KakaoLogin />
       );
-    // case "google":
-    //   return (
-    //     <GoogleLogin />
-    //   );
+    case "google":
+      return (
+        <GoogleLogin />
+      );
     default:
       return (
         <LoginMenu />
