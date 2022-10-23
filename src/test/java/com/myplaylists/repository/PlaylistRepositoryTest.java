@@ -1,5 +1,6 @@
 package com.myplaylists.repository;
 
+import com.myplaylists.domain.OauthType;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,17 +38,19 @@ class PlaylistRepositoryTest {
 
     @BeforeEach
     void saveUser() {
-        user = new User(null, USER_NAME, USER_NICKNAME, USER_EMAIL);
+        user = new User(null, USER_NAME, USER_NICKNAME, USER_EMAIL, OauthType.KAKAO);
         userRepository.save(user);
     }
 
-    @DisplayName("검색어에 포함되는 해당 유저의 플레이리스트 조회")
+    @DisplayName("내 플레이리스트 검색")
     @ParameterizedTest
     @ValueSource(strings = {"코딩", "코딩하면서", "노래", "듣기 좋은 노래", "코딩하면서 듣기 좋은 노래"})
-    void findByTitleContainingAndUserId(String input) {
-        Playlist playlist = new Playlist(null, user, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC, 0);
+    void findAllByUserIdAndTitleContaining(String input) {
+        // set user's playlist
+        Playlist playlist = new Playlist(null, user, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC);
         playlistRepository.save(playlist);
 
+        // search my playlist
         Optional<Playlist> result = playlistRepository.findAllByUserIdAndTitleContaining(user.getId(), input)
                 .stream().findAny();
 
@@ -58,18 +61,21 @@ class PlaylistRepositoryTest {
         assertThat(result.get().getVisibility()).isTrue();
     }
 
-    @DisplayName("검색어에 포함되는 모든 유저의 플레이리스트 조회")
+    @DisplayName("모든 플레이리스트 검색")
     @ParameterizedTest
     @ValueSource(strings = {"코딩", "코딩하면서", "노래", "듣기 좋은 노래", "코딩하면서 듣기 좋은 노래"})
     void findByTitleContaining(String input) {
-        playlistRepository.save(new Playlist(null, user, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC, 0));
+        // set user's playlist
+        playlistRepository.save(new Playlist(null, user, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC));
 
-        User other = userRepository.save(new User(null, "심청이", "심봉사", "test@myplaylists.test"));
-        playlistRepository.save(new Playlist(null, other, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC, 0));
+        // set other user's playlist
+        User other = userRepository.save(new User(null, "심청이", "심봉사", "test@myplaylists.test", OauthType.KAKAO));
+        playlistRepository.save(new Playlist(null, other, "코딩하면서 듣기 좋은 노래", PLAYLIST_DESCRIPTION, PUBLIC));
 
+        // search all playlist
         Page<Playlist> result = playlistRepository.findByTitleContaining(FIRST_PAGE, input);
 
-        assertThat(result.stream().count()).isEqualTo(2L);
+        assertThat(result.get().count()).isEqualTo(2);
         result.stream().forEach(playlist -> {
             assertThat(playlist.getTitle()).isEqualTo("코딩하면서 듣기 좋은 노래");
             assertThat(playlist.getUser()).isIn(user, other);
