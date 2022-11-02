@@ -1,5 +1,7 @@
 package com.myplaylists.domain
 
+import com.myplaylists.dto.PlaylistRequestDto
+import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
 import javax.persistence.*
@@ -28,12 +30,34 @@ class Playlist(
     var visibility: Boolean = false,
 ): BaseTime() {
 
+    companion object {
+        fun of(playlist: PlaylistRequestDto, user: User): Playlist = Playlist(
+                user = user,
+                title = playlist.title,
+                description = playlist.description,
+                visibility = playlist.visibility
+            )
+    }
+
     fun isSameUser(userId: Long) = user.id == userId
 
     fun validateUser(userId: Long) {
         if (!isSameUser(userId)) {
             throw ApiException("잘못된 요청입니다.", 1)
         }
+    }
+
+    fun toDTO(author: String, isBookmark: Boolean, songCount: Int): PlaylistResponseDto {
+        return PlaylistResponseDto(
+            playlistId = this.id!!,
+            title = this.title,
+            description = this.description,
+            updatedDate = this.updatedDate,
+            visibility = this.visibility,
+            author = author,
+            isBookmark = isBookmark,
+            songCount = songCount
+        )
     }
 }
 

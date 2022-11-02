@@ -3,6 +3,7 @@ package com.myplaylists.service
 import com.myplaylists.client.GoogleClient
 import com.myplaylists.domain.Song
 import com.myplaylists.domain.checkLimitCount
+import com.myplaylists.domain.toDTO
 import com.myplaylists.dto.SongAddRequestDto
 import com.myplaylists.dto.SongUpdateRequestDto
 import com.myplaylists.dto.SongsDto
@@ -30,7 +31,7 @@ class SongService(
 
         songRepository.findAllByPlaylistId(playlist.id).checkLimitCount()
 
-        val song = songRequestDto.toEntity(userId = user.userId, playlist = playlist)
+        val song = Song.of(song = songRequestDto, userId = user.userId, playlist = playlist)
 
         return songRepository.save(song).id!!
     }
@@ -51,14 +52,13 @@ class SongService(
 
     @Transactional(readOnly = true)
     fun findSongsByPlaylistId(playlistId: Long): SongsDto {
-        return SongsDto.of(songRepository.findAllByPlaylistId(playlistId))
+        return songRepository.findAllByPlaylistId(playlistId).toDTO()
     }
 
     @Transactional(readOnly = true)
     fun searchSongs(playlistId: Long, keyword: String): SongsDto {
         val playlist = playlistRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
-        val songs = songRepository.findByPlaylistAndTitleContaining(playlist, keyword)
-        return SongsDto.of(songs)
+        return songRepository.findByPlaylistAndTitleContaining(playlist, keyword).toDTO()
     }
 
     fun getSongCount(playlistId: Long): Int = songRepository.findAllByPlaylistId(playlistId).size

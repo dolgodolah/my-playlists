@@ -38,7 +38,7 @@ class PlaylistService(
         playlistRepository.findAllByUserId(userId).checkLimitCount()
 
         val user = userService.findUserByIdOrElseThrow(userId)
-        val playlist = playlistRequest.toEntity(user)
+        val playlist = Playlist.of(playlistRequest, user)
         playlistRepository.save(playlist)
     }
 
@@ -53,7 +53,7 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                PlaylistResponseDto.from(playlist, user.nickname, isBookmark, songCount)
+                playlist.toDTO(user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -68,7 +68,7 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark, songCount)
+                playlist.toDTO(playlist.user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }
@@ -82,7 +82,7 @@ class PlaylistService(
             .map { bookmark ->
                 val playlist = bookmark.playlist
                 val songCount = songService.getSongCount(playlist.id!!)
-                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark = true, songCount)
+                playlist.toDTO(playlist.user.nickname, isBookmark = true, songCount)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -102,7 +102,7 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                PlaylistResponseDto.from(playlist, user.nickname, isBookmark, songCount)
+                playlist.toDTO(user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -114,7 +114,7 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                PlaylistResponseDto.from(playlist, playlist.user.nickname, isBookmark, songCount)
+                playlist.toDTO(playlist.user.nickname, isBookmark, songCount)
             }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }

@@ -1,8 +1,6 @@
 package com.myplaylists.dto.oauth
 
 import com.google.gson.annotations.SerializedName
-import com.myplaylists.domain.OauthType
-import com.myplaylists.domain.User
 import com.myplaylists.dto.BaseResponse
 
 class OauthDto(
@@ -10,13 +8,12 @@ class OauthDto(
     val name: String,
     val oauthType: OauthType
 ): BaseResponse() {
-    fun toEntity(): User =
-        User(
-            email = email,
-            name = name,
-            nickname = name,
-            oauthType = oauthType
-        )
+}
+
+enum class OauthType(
+    val value: Int
+) {
+    NONE(0), KAKAO(1), GOOGLE(2)
 }
 
 class KakaoOauthDto(

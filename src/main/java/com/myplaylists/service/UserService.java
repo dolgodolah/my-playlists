@@ -24,7 +24,8 @@ public class UserService {
 	@Transactional(readOnly = true)
 	@Cacheable(key = "#userId", value = "user")
 	public UserDto findUserById(Long userId) {
-		return UserDto.of(findUserByIdOrElseThrow(userId));
+		User user = findUserByIdOrElseThrow(userId);
+		return user.toDTO();
 	}
 
 	@CachePut(key = "#userId", value = "user")
@@ -36,7 +37,7 @@ public class UserService {
 		}
 
 		User user = findUserByIdOrElseThrow(userId).updateNickname(nickname);
-		return UserDto.of(user);
+		return user.toDTO();
 	}
 
 	@Transactional(readOnly = true)

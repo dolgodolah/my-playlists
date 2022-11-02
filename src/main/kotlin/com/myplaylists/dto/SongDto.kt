@@ -1,22 +1,12 @@
 package com.myplaylists.dto
 
-import com.myplaylists.domain.Playlist
-import com.myplaylists.domain.Song
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.stream.Collectors
 
 class SongAddRequestDto(
     val playlistId: Long,
     val title: String,
-    private val videoId: String,
+    val videoId: String,
 ) {
-    fun toEntity(userId: Long, playlist: Playlist): Song = Song(
-        userId = userId,
-        title = title,
-        videoId = videoId,
-        playlist = playlist
-    )
 }
 
 class SongUpdateRequestDto(
@@ -32,23 +22,9 @@ class SongResponseDto(
     val description: String?,
     val createdDate: LocalDateTime,
 ) {
-    companion object {
-        fun of(song: Song) = SongResponseDto(
-            songId = song.id!!,
-            title = song.title,
-            videoId = song.videoId,
-            description = song.description,
-            createdDate = song.createdDate)
-    }
 }
 
-class SongsDto(val songs: List<SongResponseDto>): BaseResponse() {
-    companion object {
-        fun of(songs: List<Song>) = SongsDto(
-            songs = songs.stream()
-                .map(SongResponseDto::of)
-                .sorted(Comparator.comparing(SongResponseDto::createdDate).reversed())
-                .collect(Collectors.toList())
-        )
-    }
+class SongsDto(
+    val songs: List<SongResponseDto>
+): BaseResponse() {
 }

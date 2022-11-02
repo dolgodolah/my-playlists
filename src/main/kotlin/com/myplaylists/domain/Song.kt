@@ -1,9 +1,13 @@
 package com.myplaylists.domain
 
+import com.myplaylists.dto.SongAddRequestDto
+import com.myplaylists.dto.SongResponseDto
 import com.myplaylists.dto.SongUpdateRequestDto
+import com.myplaylists.dto.SongsDto
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
 import java.util.*
+import java.util.stream.Collectors
 import javax.persistence.*
 
 const val MAX_SONG_COUNT = 100
@@ -31,6 +35,15 @@ class Song(
     val playlist: Playlist,
 ): BaseTime() {
 
+    companion object {
+        fun of(song: SongAddRequestDto, userId: Long, playlist: Playlist): Song = Song(
+            userId = userId,
+            title = song.title,
+            videoId = song.videoId,
+            playlist = playlist
+        )
+    }
+
     fun updateSongDetail(song: SongUpdateRequestDto) {
         updateTitle(song.title)
         updateDescription(song.description)
@@ -57,6 +70,14 @@ class Song(
         }
     }
 
+    fun toDTO(): SongResponseDto = SongResponseDto(
+        songId = this.id!!,
+        title = this.title,
+        videoId = this.videoId,
+        description = this.description,
+        createdDate = this.createdDate
+    )
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -73,4 +94,12 @@ fun List<Song>.checkLimitCount() {
     if (this.size >= MAX_SONG_COUNT) {
         throw ExceedLimitException("수록곡은 최대 100개까지 담을 수 있습니다.")
     }
+}
+
+fun List<Song>.toDTO(): SongsDto {
+    val songs = this.stream()
+        .map(Song::toDTO)
+        .sorted(Comparator.comparing(SongResponseDto::createdDate).reversed())
+        .collect(Collectors.toList())
+    return SongsDto(songs)
 }

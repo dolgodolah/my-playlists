@@ -1,6 +1,8 @@
 package com.myplaylists.domain
 
-import java.util.*
+import com.myplaylists.dto.UserDto
+import com.myplaylists.dto.oauth.OauthDto
+import com.myplaylists.dto.oauth.OauthType
 import javax.persistence.*
 
 @Entity
@@ -14,6 +16,17 @@ class User(
     @Column(nullable = false)
     val oauthType: OauthType
 ): BaseTime() {
+
+    companion object {
+        fun of(oauthDto: OauthDto): User =
+            User(
+                email = oauthDto.email,
+                name = oauthDto.name,
+                nickname = oauthDto.name,
+                oauthType = oauthDto.oauthType
+            )
+    }
+
     fun updateName(name: String): User {
         this.name = name
         return this
@@ -23,14 +36,8 @@ class User(
         this.nickname = nickname
         return this
     }
+
+    fun toDTO(): UserDto = UserDto(this.email, this.name, this.nickname)
 }
 
-enum class OauthType(
-    val value: Int
-) {
-    NONE(0), KAKAO(1), GOOGLE(2)
-}
 
-fun Optional<User>.signUpOrLogin() {
-    // TODO
-}

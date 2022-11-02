@@ -45,14 +45,15 @@ public class AuthService {
 
         List<User> users = userRepository.findAllByEmail(oauthDto.getEmail());
         if (CollectionUtils.isEmpty(users)) {
-            return userRepository.save(oauthDto.toEntity());
+            User user = User.Companion.of(oauthDto);
+            return userRepository.save(user);
         }
 
         User user = users.stream()
                 .filter(e -> e.getOauthType() == oauthDto.getOauthType())
                 .findAny()
                 .map(e -> e.updateName(oauthDto.getName()))
-                .orElse(oauthDto.toEntity());
+                .orElse(User.Companion.of(oauthDto));
 
         return userRepository.save(user);
     }
