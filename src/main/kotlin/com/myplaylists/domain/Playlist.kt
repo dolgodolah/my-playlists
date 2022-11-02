@@ -9,7 +9,7 @@ const val MAX_PLAYLIST_COUNT = 50
 @Entity
 class Playlist(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "playlist_id")
-    val id: Long? = null,
+    var id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
