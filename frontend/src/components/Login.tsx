@@ -104,6 +104,26 @@ const authenticate = (oauthRequest: any) => {
         case StatusCode.OK:
           window.location.href = "/";
           break;
+        case StatusCode.SIGNUP_REQUIRED:
+          signup(oauthRequest)
+          break;
+      }
+    })
+}
+
+const signup = (oauthRequest: any) => {
+  axios
+    .post("/signup", {
+      email: oauthRequest.email,
+      name: oauthRequest.name,
+      oauthType: oauthRequest.oauthType
+    })
+    .then((res) => {
+      const response = res.data
+      switch (response.statusCode) {
+        case StatusCode.OK:
+          window.location.href = "/";
+          break;
         case StatusCode.BAD_REQUEST:
           alertError(response)
           window.location.href = "/login";

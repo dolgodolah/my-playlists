@@ -9,9 +9,16 @@ import javax.servlet.http.HttpSession
 class AuthController(
     private val authService: AuthService
 ) {
+
+    @PostMapping("/signup")
+    fun signup(@RequestBody oauthDto: OauthDto, session: HttpSession) {
+        val signupUser = authService.signup(oauthDto)
+        session.setAttribute("user", signupUser)
+    }
+
     @PostMapping("/login")
     fun login(@RequestBody oauthDto: OauthDto, session: HttpSession) {
-        val loginUser = authService.authenticate(oauthDto)
+        val loginUser = authService.login(oauthDto)
         session.setAttribute("user", loginUser)
     }
 

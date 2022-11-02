@@ -7,6 +7,7 @@ private const val NOT_AUTHORIZED = 401
 private const val NOT_FOUND = 404
 private const val YOUTUBE_API = 450
 private const val EXCEED_LIMIT = 460
+private const val SIGNUP_REQUIRED = 470
 
 open class ApiException(
     override val message: String,
@@ -32,4 +33,8 @@ class ExceedLimitException(
 class YoutubeApiException(
     message: String = "유튜브 검색에 실패했습니다. 잠시 후 다시 시도해보세요."
 ): ApiException(message, YOUTUBE_API)
+
+class SignupRequiredException(
+    message: String = "회원가입을 먼저 진행해주세요.",
+): ApiException(message, SIGNUP_REQUIRED)
 
