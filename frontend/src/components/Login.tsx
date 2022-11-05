@@ -7,16 +7,11 @@ import {Link, useSearchParams} from "react-router-dom";
 
 export const LoginMenu = () => {
   const kakaoLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=http://localhost:3000/login/kakao&response_type=code`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
   };
 
   const googleLogin = () => {
-    window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?" +
-      "scope=https%3A//www.googleapis.com/auth/userinfo.profile https%3A//www.googleapis.com/auth/userinfo.email&" +
-      "access_type=offline&" +
-      "response_type=code&" +
-      "redirect_uri=http%3A//localhost:3000/login/google&" +
-      "client_id=" + process.env.REACT_APP_GOOGLE_REST_KEY
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A//www.googleapis.com/auth/userinfo.profile https%3A//www.googleapis.com/auth/userinfo.email&access_type=offline&response_type=code&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&client_id=${process.env.REACT_APP_GOOGLE_REST_KEY}`
   }
 
   const guestLogin = () => {

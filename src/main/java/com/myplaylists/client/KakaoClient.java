@@ -17,13 +17,15 @@ public class KakaoClient {
     private static final Gson GSON = new Gson();
     private static final String KAKAO_ACCESS_TOKEN = "https://kauth.kakao.com/oauth/token";
     private static final String KAKAO_USER_INFO = "https://kapi.kakao.com/v2/user/me";
-    private static final String REDIRECT_URI = "http://localhost:3000/login/kakao";
 
     @Value("${kakao.api.key}")
     private String kakaoApiKey;
 
     @Value("${kakao.client.secret}")
     private String kakaoClientSecret;
+
+    @Value("${kakao.login.redirect-uri}")
+    private String redirectURI;
 
     /**
      * 카카오 로그인 정보로부터 유저 정보를 가져온다.
@@ -48,7 +50,7 @@ public class KakaoClient {
             String data = new StringBuilder()
                     .append("grant_type=").append("authorization_code")
                     .append("&client_id=").append(kakaoApiKey)
-                    .append("&redirect_uri=").append(REDIRECT_URI)
+                    .append("&redirect_uri=").append(redirectURI)
                     .append("&client_secret=").append(kakaoClientSecret)
                     .append("&code=").append(code)
                     .toString();

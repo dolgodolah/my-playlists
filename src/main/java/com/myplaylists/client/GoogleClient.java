@@ -25,7 +25,6 @@ public class GoogleClient {
     private static final String YOUTUBE_SEARCH_API = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&videoEmbeddable=true";
     private static final String GOOGLE_ACCESS_TOKEN_API = "https://oauth2.googleapis.com/token";
     private static final String GOOGLE_USER_INFO_API = "https://www.googleapis.com/oauth2/v2/userinfo";
-    private static final String REDIRECT_URI = "http://localhost:3000/login/google";
 
     @Value("${youtube.api.key}")
     private String youtubeApikey;
@@ -35,6 +34,9 @@ public class GoogleClient {
 
     @Value("${google.client.secret}")
     private String googleClientSecret;
+
+    @Value("${google.login.redirect-uri}")
+    private String redirectURI;
 
     public YoutubeDto searchYoutube(String q) {
         try {
@@ -85,7 +87,7 @@ public class GoogleClient {
             String data = new StringBuilder()
                     .append("grant_type=").append("authorization_code")
                     .append("&client_id=").append(googleApikey)
-                    .append("&redirect_uri=").append(REDIRECT_URI)
+                    .append("&redirect_uri=").append(redirectURI)
                     .append("&client_secret=").append(googleClientSecret)
                     .append("&code=").append(code)
                     .toString();
