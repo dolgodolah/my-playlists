@@ -28,18 +28,6 @@ public class AuthService {
     private final GoogleClient googleClient;
 
     /**
-     * 내플리스 회원가입 처리
-     */
-    public LoginUser signup(OauthDto oauthDto) {
-        if (!StringUtils.hasText(oauthDto.getEmail())) {
-            throw new BadRequestException("이메일은 필수입니다. 카카오로 로그인 시 이메일 제공에 동의하지 않았다면 카카오 계정 > 연결된 서비스 관리 > 내플리스 > 연결 끊기 후 이메일 제공에 동의해주세요.");
-        }
-
-        User user = userRepository.save(User.Companion.of(oauthDto));
-        return new LoginUser(user);
-    }
-
-    /**
      * 내플리스 로그인 처리
      */
     public LoginUser login(OauthDto oauthDto) {

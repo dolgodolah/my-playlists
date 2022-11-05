@@ -10,12 +10,6 @@ class AuthController(
     private val authService: AuthService
 ) {
 
-    @PostMapping("/signup")
-    fun signup(@RequestBody oauthDto: OauthDto, session: HttpSession) {
-        val signupUser = authService.signup(oauthDto)
-        session.setAttribute("user", signupUser)
-    }
-
     @PostMapping("/login")
     fun login(@RequestBody oauthDto: OauthDto, session: HttpSession) {
         val loginUser = authService.login(oauthDto)
