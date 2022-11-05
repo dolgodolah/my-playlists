@@ -16,6 +16,7 @@ import com.myplaylists.repository.SongRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 @Transactional
@@ -32,9 +33,16 @@ class SongService(
 
         songRepository.findAllByPlaylistId(playlist.id).checkLimitCount()
 
-        val song = Song.of(song = songRequestDto, userId = user.userId, playlist = playlist)
+        val song = songRepository.save(
+            Song.of(
+                song = songRequestDto,
+                userId = user.userId,
+                playlist = playlist
+            )
+        )
 
-        return songRepository.save(song).id!!
+        playlist.updatedDate = LocalDateTime.now()
+        return song.id!!
     }
 
     fun updateSong(user: LoginUser, songId: Long, songRequestDto: SongUpdateRequestDto) {
