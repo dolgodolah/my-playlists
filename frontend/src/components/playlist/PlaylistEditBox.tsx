@@ -54,16 +54,22 @@ const PlaylistEditBox = ({ playlist }: PlaylistEditBoxProps) => {
         })}
         onClick={toggleBookmark}
       />
-      <Link
-        to="/songs"
-        state={{
-          page: "searchSong",
-          playlist: playlist,
-        }}
-      >
-        <Icon icon="carbon:music-add" />
-      </Link>
-      <Icon icon="carbon:delete" onClick={deletePlaylist} />
+      {playlist.isEditable ?
+        <>
+          <Link
+            to="/songs"
+            state={{
+              page: "searchSong",
+              playlist: playlist,
+            }}
+          >
+            <Icon icon="carbon:music-add" />
+          </Link>
+          <Icon icon="carbon:delete" onClick={deletePlaylist} />
+        </>
+        : null
+      }
+
     </div>
   );
 };

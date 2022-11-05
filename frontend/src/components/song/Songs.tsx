@@ -81,7 +81,7 @@ const Songs = ({ playlist, playedSong }: SongsProps) => {
     }
   };
 
-  useEffect(() => callGetSongsApi(), [playlist]);
+  useEffect(() => callGetSongsApi(), [playlist && playedSong?.songId]);
 
   return (
     <>
@@ -125,7 +125,10 @@ const Songs = ({ playlist, playedSong }: SongsProps) => {
                 </div>
               </div>
             </Link>
-            <Icon className="song-delete__icon" icon="carbon:delete" onClick={() => deleteSong(song)} />
+            {playlist.isEditable ?
+              <Icon className="song-delete__icon" icon="carbon:delete" onClick={() => deleteSong(song)} />
+              : null
+            }
           </div>
         ))}
       </div>

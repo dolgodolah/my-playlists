@@ -14,6 +14,11 @@ export interface YoutubeVideoProps {
 
 const YoutubeVideo = ({ playlist, playedSong, nextSongs }: YoutubeVideoProps) => {
   const [description, setDescription] = useState(playedSong.description || "");
+
+  useEffect(() => {
+    setDescription(playedSong.description || "")
+  }, [playedSong.songId])
+
   const navigate = useNavigate();
   const onChange = useCallback((e) => {
     setDescription(e.target.value);
@@ -71,10 +76,14 @@ const YoutubeVideo = ({ playlist, playedSong, nextSongs }: YoutubeVideoProps) =>
       <div className="description__container--youtube">
         <textarea className="description__textarea--youtube" value={description} onChange={onChange} />
       </div>
+
       <div className="button__container--youtube">
-        <span className="button__span--edit" onClick={onClickEdit}>
-          수정
-        </span>
+        {playlist.isEditable ?
+          <span className="button__span--edit" onClick={onClickEdit}>
+            수정
+          </span>
+          : null
+        }
       </div>
       <div className="thumbnail__container--youtube">
         <img

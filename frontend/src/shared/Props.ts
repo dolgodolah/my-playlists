@@ -19,6 +19,7 @@ export interface PlaylistProps {
   visibility: boolean;
   songCount: number;
   isBookmark: boolean;
+  isEditable: boolean;
 }
 
 export interface SongProps {

@@ -23,9 +23,10 @@ class PlaylistController(
 
     @GetMapping("/all-playlists")
     fun getAllPlaylists(
+        @Login user: LoginUser?, // 비회원도 모든 플레이리스트 최신 2페이지는 조회 가능하므로 nullable
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        return playlistService.findAllPlaylists(pageable)
+        return playlistService.findAllPlaylists(user, pageable)
     }
 
     @PostMapping("/playlist")
@@ -61,9 +62,10 @@ class PlaylistController(
 
     @GetMapping("/playlist/search-all")
     fun searchAllPlaylists(
+        @Login user: LoginUser,
         keyword: String,
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        return playlistService.searchAllPlaylists(pageable, keyword)
+        return playlistService.searchAllPlaylists(user, pageable, keyword)
     }
 }

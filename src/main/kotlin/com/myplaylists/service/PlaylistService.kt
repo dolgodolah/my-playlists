@@ -5,6 +5,7 @@ import com.myplaylists.domain.checkLimitCount
 import com.myplaylists.dto.PlaylistRequestDto
 import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.dto.PlaylistsDto
+import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.BadRequestException
 import com.myplaylists.repository.PlaylistRepository
@@ -53,7 +54,7 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                playlist.toDTO(user.nickname, isBookmark, songCount)
+                playlist.toDTO(user.nickname, isBookmark, songCount, isEditable = true)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -63,12 +64,13 @@ class PlaylistService(
      * 해당 페이지의 모든 공개 플레이리스트 목록을 업데이트 최신순으로 조회
      */
     @Transactional(readOnly = true)
-    fun findAllPlaylists(pageable: Pageable): PlaylistsDto {
+    fun findAllPlaylists(user: LoginUser?, pageable: Pageable): PlaylistsDto {
         val playlists = playlistRepository.findByVisibility(pageable, PUBLIC).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                playlist.toDTO(playlist.user.nickname, isBookmark, songCount)
+                val isEditable = playlist.user.id == user?.let { it.userId }
+                playlist.toDTO(playlist.user.nickname, isBookmark, songCount, isEditable)
             }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }
@@ -82,7 +84,8 @@ class PlaylistService(
             .map { bookmark ->
                 val playlist = bookmark.playlist
                 val songCount = songService.getSongCount(playlist.id!!)
-                playlist.toDTO(playlist.user.nickname, isBookmark = true, songCount)
+                val isEditable = userId == playlist.user.id
+                playlist.toDTO(playlist.user.nickname, isBookmark = true, songCount, isEditable)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
@@ -102,19 +105,20 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                playlist.toDTO(user.nickname, isBookmark, songCount)
+                playlist.toDTO(user.nickname, isBookmark, songCount, isEditable = true)
             }.collect(Collectors.toList())
 
         return PlaylistsDto.of(playlists)
     }
 
     @Transactional(readOnly = true)
-    fun searchAllPlaylists(pageable: Pageable, keyword: String): PlaylistsDto {
+    fun searchAllPlaylists(user: LoginUser, pageable: Pageable, keyword: String): PlaylistsDto {
         val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword).stream()
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                playlist.toDTO(playlist.user.nickname, isBookmark, songCount)
+                val isEditable = playlist.user.id == user.userId
+                playlist.toDTO(playlist.user.nickname, isBookmark, songCount, isEditable)
             }.collect(Collectors.toList())
         return PlaylistsDto.of(playlists)
     }

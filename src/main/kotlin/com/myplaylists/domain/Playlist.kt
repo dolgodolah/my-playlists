@@ -47,7 +47,7 @@ class Playlist(
         }
     }
 
-    fun toDTO(author: String, isBookmark: Boolean, songCount: Int): PlaylistResponseDto {
+    fun toDTO(author: String, isBookmark: Boolean, songCount: Int, isEditable: Boolean): PlaylistResponseDto {
         return PlaylistResponseDto(
             playlistId = this.id!!,
             title = this.title,
@@ -56,7 +56,8 @@ class Playlist(
             visibility = this.visibility,
             author = author,
             isBookmark = isBookmark,
-            songCount = songCount
+            songCount = songCount,
+            isEditable = isEditable
         )
     }
 }
