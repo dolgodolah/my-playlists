@@ -14,7 +14,7 @@ const SearchSongs = ({ playlistId }: SearchSongsProps) => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    axios.get("/youtube_search", { params: { keyword: keyword } }).then((res) => {
+    axios.get("/youtube-search", { params: { keyword: keyword } }).then((res) => {
       const response = res.data
       switch (response.statusCode) {
         case StatusCode.OK:

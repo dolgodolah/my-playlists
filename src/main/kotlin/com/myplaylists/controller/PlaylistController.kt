@@ -16,12 +16,12 @@ class PlaylistController(
     private val bookmarkService: BookmarkService
 ) {
 
-    @GetMapping("/my_playlists")
+    @GetMapping("/my-playlists")
     fun getMyPlaylists(@Login user: LoginUser): PlaylistsDto {
         return playlistService.findMyPlaylists(user.userId)
     }
 
-    @GetMapping("/all_playlists")
+    @GetMapping("/all-playlists")
     fun getAllPlaylists(
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
@@ -59,7 +59,7 @@ class PlaylistController(
         return playlistService.searchMyPlaylists(user.userId, keyword)
     }
 
-    @GetMapping("/playlist/search_all")
+    @GetMapping("/playlist/search-all")
     fun searchAllPlaylists(
         keyword: String,
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable

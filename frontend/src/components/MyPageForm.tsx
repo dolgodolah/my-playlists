@@ -21,7 +21,7 @@ const MyPageForm = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     axios
-      .post("/my_info", {
+      .post("/my-info", {
         name,
         email,
         nickname,
@@ -48,7 +48,7 @@ const MyPageForm = () => {
   };
 
   useEffect(() => {
-    axios.get("/my_info").then((res) => {
+    axios.get("/my-info").then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:

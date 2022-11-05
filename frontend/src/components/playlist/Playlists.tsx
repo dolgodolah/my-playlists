@@ -13,7 +13,7 @@ export const MyPlaylists = () => {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
-    axios.get(`/my_playlists`).then((res) => {
+    axios.get(`/my-playlists`).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:
@@ -46,7 +46,7 @@ export const AllPlaylists = () => {
   const { page, setLast: setLastPlaylist } = usePageObserver();
 
   useEffect(() => {
-    axios.get(`/all_playlists?page=${page}`).then((res) => {
+    axios.get(`/all-playlists?page=${page}`).then((res) => {
       const response = res.data;
       switch (response.statusCode) {
         case StatusCode.OK:

@@ -17,7 +17,6 @@ public class UserController {
 
 	private final UserService userService;
 
-	@GetMapping("/my_info")
 	@PostMapping("/signup")
 	public void signup(@RequestBody OauthDto oauthDto, HttpSession session) {
 		LoginUser signupUser = userService.signup(oauthDto);
@@ -29,7 +28,7 @@ public class UserController {
 		return userService.findUserById(user.getUserId());
 	}
 
-	@PostMapping("/my_info")
+	@PostMapping("/my-info")
 	public UserDto updateMyInfo(@Login LoginUser user, @RequestBody UserDto userDto) {
 		return userService.updateUserInfo(user.getUserId(), userDto);
 	}
