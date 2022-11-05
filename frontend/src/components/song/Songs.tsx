@@ -114,7 +114,7 @@ const Songs = ({ playlist, playedSong }: SongsProps) => {
                   <span className="song__span--title">{song.title}</span>
                   <div>
                     <span className="song__span--createdDate">
-                      {moment(song.createdDate).format("YYYY년 MM월 DD일 HH:mm:ss")}
+                      {moment(song.updatedDate).format("YYYY년 MM월 DD일 HH:mm:ss")}
                     </span>
                   </div>
                 </div>

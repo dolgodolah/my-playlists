@@ -27,4 +27,5 @@ export interface SongProps {
   videoId: string;
   description: string;
   createdDate: string;
+  updatedDate: string;
 }

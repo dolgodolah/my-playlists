@@ -75,7 +75,8 @@ class Song(
         title = this.title,
         videoId = this.videoId,
         description = this.description,
-        createdDate = this.createdDate
+        createdDate = this.createdDate,
+        updatedDate = this.updatedDate
     )
 
     override fun equals(other: Any?): Boolean {
@@ -99,7 +100,7 @@ fun List<Song>.checkLimitCount() {
 fun List<Song>.toDTO(): SongsDto {
     val songs = this.stream()
         .map(Song::toDTO)
-        .sorted(Comparator.comparing(SongResponseDto::createdDate).reversed())
+        .sorted(Comparator.comparing(SongResponseDto::updatedDate).reversed())
         .collect(Collectors.toList())
     return SongsDto(songs)
 }
