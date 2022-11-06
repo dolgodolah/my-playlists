@@ -1,8 +1,8 @@
 package com.myplaylists.repository;
 
-import com.myplaylists.domain.OauthType;
 import com.myplaylists.domain.Playlist;
 import com.myplaylists.domain.User;
+import com.myplaylists.dto.oauth.OauthType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
