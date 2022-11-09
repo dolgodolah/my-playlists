@@ -40,7 +40,7 @@ public class KakaoClient {
             String response = AsyncHttpClient.getWithHeaders(KAKAO_USER_INFO, headers);
             return GSON.fromJson(response, KakaoOauthDto.class);
         } catch (Exception e) {
-            log.error("failed to request {}", KAKAO_USER_INFO);
+            log.error("failed to request {}", KAKAO_USER_INFO, e);
             throw new ApiException("카카오 로그인에 실패했습니다.", 500);
         }
     }
@@ -58,7 +58,7 @@ public class KakaoClient {
             String response = AsyncHttpClient.post(KAKAO_ACCESS_TOKEN, data, Map.of(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8"));
             return GSON.fromJson(response, HashMap.class).get("access_token").toString();
         } catch (Exception e) {
-            log.error("failed to request {}", KAKAO_ACCESS_TOKEN);
+            log.error("failed to request {}", KAKAO_ACCESS_TOKEN, e);
             throw new ApiException("카카오 액세스 토큰 발급을 실패했습니다.", 500);
         }
     }

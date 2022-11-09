@@ -77,7 +77,7 @@ public class GoogleClient {
             String response = AsyncHttpClient.getWithQueryParams(GOOGLE_USER_INFO_API, Map.of("access_token", getAccessToken(code)));
             return GSON.fromJson(response, GoogleOauthDto.class);
         } catch (Exception e) {
-            log.error("failed to request {}", GOOGLE_USER_INFO_API);
+            log.error("failed to request {}", GOOGLE_USER_INFO_API, e);
             throw new ApiException("구글 로그인에 실패했습니다.", 500);
         }
     }
@@ -95,7 +95,7 @@ public class GoogleClient {
             String response = AsyncHttpClient.post(GOOGLE_ACCESS_TOKEN_API, data, Map.of(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded"));
             return GSON.fromJson(response, HashMap.class).get("access_token").toString();
         } catch (Exception e) {
-            log.error("failed to request {}", GOOGLE_ACCESS_TOKEN_API);
+            log.error("failed to request {}", GOOGLE_ACCESS_TOKEN_API, e);
             throw new ApiException("구글 액세스 토큰 발급을 실패했습니다.", 500);
         }
 
