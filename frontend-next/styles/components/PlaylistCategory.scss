@@ -1,0 +1,23 @@
+.category__container {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 2px solid rgba($color: #fff, $alpha: 0.9);
+}
+
+.category__link {
+  font-size: 25px;
+  font-weight: 400;
+  color: gray;
+  margin: 0 15px;
+  &:hover {
+    transform: scale(105%);
+  }
+}
+
+.isBright {
+  color: white;
+}

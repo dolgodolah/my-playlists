@@ -1,0 +1,87 @@
+.form__container {
+  width: 100%;
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  form {
+    width: 100%;
+  }
+  .name-input__container,
+  .description-textarea__container--input,
+  .button__container--inputForm {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 40px 0;
+  }
+}
+
+.input-title__p {
+  width: 500px;
+  margin: 0 auto 12px auto;
+  padding-left: 5px;
+  color: white;
+  font-size: 18px;
+}
+
+.name__input,
+.description__textarea,
+.button__container--inputForm button,
+.description__textarea--input {
+  border: solid 1px $main-lighten-color;
+  border-radius: 5px;
+}
+
+.name__input {
+  width: 500px;
+  font-size: 17px;
+  padding: 10px;
+}
+
+.description__textarea--input {
+  width: 500px;
+  height: 120px;
+  font-size: 17px;
+  padding: 10px;
+  resize: none;
+}
+
+.visibility-input__container {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  margin: 40px auto;
+  label {
+    color: darken(white, 10%);
+    font-size: 17px;
+  }
+}
+
+.button__container--inputForm {
+  button {
+    background-color: inherit;
+    color: darken(white, 10%);
+    border: solid 1px darken(white, 30%);
+    cursor: pointer;
+    font-size: 15px;
+    margin: 0 10px;
+    padding: 10px;
+    &:hover {
+      background-color: $main-lighten-color;
+    }
+  }
+}
+
+.input-error {
+  border: 1.5px solid rgba(255, 0, 0, 0.9) !important;
+}
+
+.warning-message__span {
+  width: 500px;
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 10px;
+}

@@ -1,0 +1,71 @@
+.song-link__container {
+  position: relative;
+}
+
+.song__container {
+  position: relative;
+  width: 300px;
+  height: 81px;
+  display: grid;
+  grid-template-columns: 300px 300px;
+  overflow: hidden;
+}
+
+.song-link__container:hover {
+  .song-delete__icon {
+    display: block;
+  }
+  .song__container--forward {
+    animation: disappear 0.2s linear forwards;
+    @keyframes disappear {
+      to {
+        opacity: 0;
+      }
+    }
+  }
+
+  .hidden-background__container {
+    animation: hidden-content-translateX 0.4s linear forwards;
+    @keyframes hidden-content-translateX {
+      to {
+        transform: translateX(-300px);
+      }
+    }
+  }
+}
+
+.song__container--forward {
+  position: relative;
+  width: 300px;
+  height: 81px;
+  overflow: hidden;
+  @extend .playlist__container--left;
+}
+
+.song__span--title {
+  @extend .playlist__span--title;
+}
+
+.song__span--createdDate {
+  @extend .playlist__span--updatedDate;
+}
+
+.song__container:hover {
+  @include mixin-background-color($main-background-color, 0.5);
+}
+
+.song-delete__icon {
+  display: none;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translate(0, -50%);
+  opacity: 0.4;
+  color: white;
+  font-size: 25px;
+  font-weight: 300;
+  &:hover {
+    opacity: 1;
+  }
+  z-index: 55;
+}

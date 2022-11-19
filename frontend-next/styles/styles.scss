@@ -1,0 +1,59 @@
+// Config
+@import "./config/_reset.scss";
+@import "./config/_font.scss";
+@import "./config/color";
+
+// Routes
+@import "styles/pages/login.scss";
+@import "styles/pages/home.scss";
+
+// Components
+@import "styles/components/EditBox";
+@import "styles/components/ContainerBox";
+@import "styles/components/Playlist";
+@import "styles/components/PlaylistCategory";
+@import "styles/components/Song";
+@import "styles/components/YoutubeVideo";
+@import "styles/components/PlaylistDetail";
+@import "styles/components/SearchSongs";
+@import "styles/components/ProfileMenu";
+@import "./components/PlaylistAddForm.scss";
+@import "styles/components/MyPageForm";
+
+// GlobalStyles
+body {
+  width: 1200px;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  background-color: #2a373a;
+}
+
+div,
+input {
+  box-sizing: border-box;
+}
+
+span,
+p,
+a,
+textarea,
+input {
+  font-family: "KoPub Dotum";
+}
+
+.shadow__container::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-width: 1200px;
+  height: 100vh;
+  background-image: url(/images/background.jpeg);
+  background-size: cover;
+  filter: blur(10px);
+  z-index: -1;
+}
