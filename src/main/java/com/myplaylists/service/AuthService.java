@@ -7,6 +7,7 @@ import com.myplaylists.dto.auth.LoginUser;
 import com.myplaylists.dto.oauth.GoogleOauthDto;
 import com.myplaylists.dto.oauth.KakaoOauthDto;
 import com.myplaylists.dto.oauth.OauthDto;
+import com.myplaylists.dto.oauth.OauthType;
 import com.myplaylists.exception.BadRequestException;
 import com.myplaylists.exception.SignupRequiredException;
 import com.myplaylists.repository.UserRepository;
@@ -30,9 +31,16 @@ public class AuthService {
     /**
      * 내플리스 로그인 처리
      */
-    public LoginUser login(OauthDto oauthDto) {
-        User user = authenticate(oauthDto);
-        return new LoginUser(user);
+    public LoginUser login(String code, OauthType oauthType) {
+        if (oauthType == OauthType.GOOGLE) {
+            OauthDto oauthDto = getGoogleUserInfo(code);
+            User user = authenticate(oauthDto);
+            return new LoginUser(user);
+        } else {
+            OauthDto oauthDto = getKakaoUserInfo(code);
+            User user = authenticate(oauthDto);
+            return new LoginUser(user);
+        }
     }
 
     /**
