@@ -1,4 +1,5 @@
 import {LoginMenu} from "../components/Login"
+import withPageContext from "../components/hoc/withPageContext"
 
 const LoginPage = () => {
   return (
@@ -6,4 +7,4 @@ const LoginPage = () => {
   )
 };
 
-export default LoginPage;
+export default withPageContext()(LoginPage);
