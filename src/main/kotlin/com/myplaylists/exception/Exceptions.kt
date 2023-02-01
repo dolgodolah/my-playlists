@@ -23,7 +23,7 @@ class NotFoundException(
 ): ApiException(message, NOT_FOUND)
 
 class BadRequestException(
-    message: String
+    message: String = "올바르지 않은 요청입니다."
 ): ApiException(message, BAD_REQUEST)
 
 class ExceedLimitException(
