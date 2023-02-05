@@ -57,3 +57,306 @@ input {
   filter: blur(10px);
   z-index: -1;
 }
+
+// 로그인
+.login__container {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login__span {
+  font-size: 32px;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 45px;
+  animation: appear__span 0.8s linear 1 forwards;
+  animation-delay: 0.8s;
+  opacity: 0;
+  @keyframes appear__span {
+    to {
+      opacity: 0.9;
+    }
+  }
+}
+
+.login__button {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  width: 220px;
+  height: 60px;
+  margin: 15px;
+  padding: 10px 0px 13px 5px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 300;
+  color: white;
+  border: none;
+  background: $main-background-color;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  animation: appear__button 0.8s linear 1 forwards;
+  animation-delay: 0.8s;
+  opacity: 0;
+  @keyframes appear__button {
+    to {
+      opacity: 0.9;
+    }
+  }
+}
+
+.icon__container,
+.button__span {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon__container {
+  justify-content: center;
+}
+
+.button__span {
+  padding-left: 4px;
+}
+
+
+// 컨테이너 박스
+.container-box {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 300px 900px;
+  grid-template-rows: 700px;
+  grid-template-areas:
+    "content-left  content-right";
+}
+
+.container-box .container-box--left {
+  grid-area: content-left;
+  @include mixin-background-color($main-background-color, 0.5);
+}
+
+.container-box .container-box--right {
+  grid-area: content-right;
+  @include mixin-background-color($main-background-color, 0.7);
+}
+
+.header__container {
+  position: relative;
+  height: 100px;
+  padding: 15px 0 0 0;
+}
+
+.logo__container {
+  width: 100%;
+  text-align: center;
+  font-size: 35px;
+  font-weight: 500;
+  a {
+    color: white;
+  }
+}
+
+.button__container--header {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  width: 30px;
+}
+
+.add__button--header {
+  color: white;
+  font-size: 37px;
+}
+
+.logo__container a:hover,
+.add__button--header:hover {
+  color: darken(white, 40%);
+}
+
+.search__input--header {
+  position: absolute;
+  left: 10px;
+  bottom: -15px;
+  border-radius: 3px;
+  border: none;
+  padding: 10px;
+  background: white;
+  outline: 0;
+  width: 93%;
+  font-size: 14px;
+}
+
+.lists__container {
+  width: 100%;
+  height:500px;
+  margin-top: 35px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.lists__container::-webkit-scrollbar {
+  width: 5px;
+}
+.lists__container::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+}
+
+// 플레이리스트
+.playlist__container {
+  position: relative;
+  width: 300px;
+  height: 81px;
+  display: grid;
+  grid-template-columns: 230px 70px 300px;
+  overflow: hidden;
+}
+
+.playlist__container:hover {
+  .playlist__container--left {
+    animation: disappear 0.2s linear forwards;
+    @keyframes disappear {
+      to {
+        opacity: 0;
+      }
+    }
+  }
+  .playlist__container--right {
+    @include mixin-background-color($main-lighten-color, 0);
+  }
+  .playlist__container--right span,
+  div {
+    animation: playlist-right-content-translateX 0.4s linear forwards;
+    @keyframes playlist-right-content-translateX {
+      from {
+        z-index: 11;
+      }
+      to {
+        z-index: 11;
+        transform: translateX(-63px);
+      }
+    }
+  }
+  .hidden-background__container {
+    animation: hidden-content-translateX 0.4s linear forwards;
+    @keyframes hidden-content-translateX {
+      to {
+        transform: translateX(-300px);
+      }
+    }
+  }
+}
+
+.playlist__container--left {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 10px 12px 15px;
+  .playlist__span--title {
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+  }
+  div {
+    margin-top: 5px;
+  }
+  .playlist__span--author,
+  .playlist__span--updatedDate {
+    font-size: 14px;
+    color: darken(white, 30%);
+  }
+  .playlist__span--author {
+    margin-top: 7px;
+    margin-left: 7px;
+  }
+}
+
+.playlist__container--right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @include mixin-background-color(black, 0.6);
+  span,
+  .playlist-icon__container {
+    color: white;
+  }
+  span {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .playlist-icon__container {
+    font-size: 20px;
+  }
+}
+
+.hidden-background__container {
+  width: 300px;
+  height: 81px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 12px;
+  @include mixin-background-color(black, 0.6);
+  span {
+    color: white;
+    font-size: 30px;
+    font-weight: 300;
+  }
+}
+
+// 플레이리스트 카테고리
+.category__container {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 2px solid rgba($color: #fff, $alpha: 0.9);
+}
+
+.category__link {
+  font-size: 25px;
+  font-weight: 400;
+  color: gray;
+  margin: 0 15px;
+  &:hover {
+    transform: scale(105%);
+  }
+}
+
+.isBright {
+  color: white;
+}
+
+// 프로필 메뉴
+.profile-menu__container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  span {
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0 25px;
+  }
+}
+
+.profile-menu__span,
+.profile-menu__span--logout {
+  color: white;
+  cursor: pointer;
+  &:hover {
+    color: darken(white, 40%);
+  }
+}
+
