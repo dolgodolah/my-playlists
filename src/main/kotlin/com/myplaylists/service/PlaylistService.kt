@@ -1,9 +1,9 @@
 package com.myplaylists.service
 
+import com.myplaylists.domain.Bookmark
 import com.myplaylists.domain.Playlist
 import com.myplaylists.domain.checkLimitCount
 import com.myplaylists.dto.PlaylistRequestDto
-import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.dto.PlaylistsDto
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.exception.ApiException
@@ -15,7 +15,8 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StringUtils
-import java.util.stream.Collectors
+import java.time.LocalDateTime
+import java.util.Comparator
 
 @Service
 @Transactional
@@ -50,12 +51,13 @@ class PlaylistService(
     @Cacheable(key = "#userId", value = ["playlist"])
     fun findMyPlaylists(userId: Long): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findAllByUserId(userId).stream()
+        val playlists = playlistRepository.findAllByUserId(userId)
+            .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
                 playlist.toDTO(user.nickname, isBookmark, songCount, isEditable = true)
-            }.collect(Collectors.toList())
+            }.toList()
 
         return PlaylistsDto.of(playlists)
     }
@@ -65,13 +67,14 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findAllPlaylists(user: LoginUser?, pageable: Pageable): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibility(pageable, PUBLIC).stream()
+        val playlists = playlistRepository.findByVisibility(pageable, PUBLIC)
+            .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
                 val isEditable = playlist.user.id == user?.let { it.userId }
                 playlist.toDTO(playlist.user.nickname, isBookmark, songCount, isEditable)
-            }.collect(Collectors.toList())
+            }.toList()
         return PlaylistsDto.of(playlists)
     }
 
@@ -80,13 +83,14 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findBookmarkPlaylists(userId: Long, pageable: Pageable): PlaylistsDto {
-        val playlists = bookmarkService.findByUserId(userId, pageable).stream()
+        val playlists = bookmarkService.findByUserId(userId, pageable)
+            .sortedWith(Comparator.comparing<Bookmark?, LocalDateTime?> { it.playlist.updatedDate }.reversed())
             .map { bookmark ->
                 val playlist = bookmark.playlist
                 val songCount = songService.getSongCount(playlist.id!!)
                 val isEditable = userId == playlist.user.id
                 playlist.toDTO(playlist.user.nickname, isBookmark = true, songCount, isEditable)
-            }.collect(Collectors.toList())
+            }.toList()
 
         return PlaylistsDto.of(playlists)
     }
@@ -101,25 +105,27 @@ class PlaylistService(
     @Transactional(readOnly = true)
     fun searchMyPlaylists(userId: Long, keyword: String): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findAllByUserIdAndTitleContaining(userId, keyword).stream()
+        val playlists = playlistRepository.findAllByUserIdAndTitleContaining(userId, keyword)
+            .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
                 playlist.toDTO(user.nickname, isBookmark, songCount, isEditable = true)
-            }.collect(Collectors.toList())
+            }.toList()
 
         return PlaylistsDto.of(playlists)
     }
 
     @Transactional(readOnly = true)
     fun searchAllPlaylists(user: LoginUser, pageable: Pageable, keyword: String): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword).stream()
+        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword)
+            .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
                 val isEditable = playlist.user.id == user.userId
                 playlist.toDTO(playlist.user.nickname, isBookmark, songCount, isEditable)
-            }.collect(Collectors.toList())
+            }.toList()
         return PlaylistsDto.of(playlists)
     }
 

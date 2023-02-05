@@ -4,6 +4,9 @@ import com.myplaylists.dto.PlaylistRequestDto
 import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.ResolverStyle
 import javax.persistence.*
 
 const val MAX_PLAYLIST_COUNT = 50
@@ -31,6 +34,10 @@ class Playlist(
 ): BaseTime() {
 
     companion object {
+        val DATE_DISPLAY_FORMATTER: DateTimeFormatter = DateTimeFormatter
+            .ofPattern("uuuu-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault())
+            .withResolverStyle(ResolverStyle.STRICT)
         fun of(playlist: PlaylistRequestDto, user: User): Playlist = Playlist(
                 user = user,
                 title = playlist.title,
@@ -52,7 +59,7 @@ class Playlist(
             playlistId = this.id!!,
             title = this.title,
             description = this.description,
-            updatedDate = this.updatedDate,
+            updatedDate = DATE_DISPLAY_FORMATTER.format(this.updatedDate),
             visibility = this.visibility,
             author = author,
             isBookmark = isBookmark,
