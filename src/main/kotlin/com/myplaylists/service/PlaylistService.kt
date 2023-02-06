@@ -45,7 +45,7 @@ class PlaylistService(
     }
 
     /**
-     * 해당 페이지의 내 플레이리스트 목록을 업데이트 최신순으로 조회
+     * 내 플레이리스트 목록을 업데이트 최신순으로 조회
      */
     @Transactional(readOnly = true)
     @Cacheable(key = "#userId", value = ["playlist"])
