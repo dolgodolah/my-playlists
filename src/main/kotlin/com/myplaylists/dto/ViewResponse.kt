@@ -18,7 +18,6 @@ class ViewResponse(
     companion object {
         private val mapper = jacksonObjectMapper()
         fun ok() = ViewResponse(HttpStatus.OK)
-        fun redirect() = ViewResponse(HttpStatus.MOVED_PERMANENTLY)
     }
 
     fun render(
@@ -45,12 +44,6 @@ class ViewResponse(
         nextDataElement.html(mapper.writeValueAsString(root))
 
         return doc.outerHtml()
-    }
-
-    fun to(url: String): ResponseEntity<String> {
-        val headers = HttpHeaders()
-        headers.location = URI.create(url)
-        return ResponseEntity(headers, this.status)
     }
 }
 
