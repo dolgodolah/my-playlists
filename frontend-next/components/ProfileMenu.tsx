@@ -23,12 +23,16 @@ const ProfileMenu = () => {
     location.href = "/login"
   }
 
+  const goToMe = () => {
+    location.href = "/me"
+  }
+
   return (
     <div className="profile-menu__container">
       {context.isGuest ?
         <span className="profile-menu__span--logout" onClick={goToLogin}>로그인</span>
         : <>
-          <span className="profile-menu__span">내 정보</span>
+          <span className="profile-menu__span" onClick={goToMe}>내 정보</span>
           <span className="profile-menu__span--logout" onClick={logout}>로그아웃</span>
         </>
       }
