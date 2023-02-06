@@ -103,9 +103,9 @@ class PlaylistService(
     }
 
     @Transactional(readOnly = true)
-    fun searchMyPlaylists(userId: Long, keyword: String): PlaylistsDto {
+    fun searchMyPlaylists(userId: Long, title: String): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findAllByUserIdAndTitleContaining(userId, keyword)
+        val playlists = playlistRepository.findAllByUserIdAndTitleContaining(userId, title)
             .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
@@ -117,8 +117,8 @@ class PlaylistService(
     }
 
     @Transactional(readOnly = true)
-    fun searchAllPlaylists(user: LoginUser, pageable: Pageable, keyword: String): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, keyword)
+    fun searchAllPlaylists(user: LoginUser, pageable: Pageable, title: String): PlaylistsDto {
+        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, title)
             .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)

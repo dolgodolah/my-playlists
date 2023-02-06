@@ -1,7 +1,7 @@
 import withPageContext, {PageContext} from "../../components/hoc/withPageContext"
 import React, {useState} from "react";
 import ContainerBox from "../../components/ContainerBox";
-import {Playlists} from "../../components/playlists/Playlists";
+import {AllPlaylists, MyPlaylists} from "../../components/playlists/Playlists";
 import Category, {CategoryType} from "../../components/playlists/Category";
 import StatusCode from "../../shared/StatusCode";
 import useClient from "../../components/hooks/useClient";
@@ -28,8 +28,11 @@ const PlaylistPage = () => {
 
   return (
     <ContainerBox
-      left={<Playlists playlists={playlists}/>}
-      right={<Category page={page} getPlaylists={(pageType) => getPlaylists(pageType)} />}
+      left={category === "all-playlists" ?
+        <AllPlaylists playlists={playlists}/>
+        :<MyPlaylists playlists={playlists}/>
+      }
+      right={<Category category={category} getPlaylists={(category) => getPlaylists(category)} />}
     />
   )
 }

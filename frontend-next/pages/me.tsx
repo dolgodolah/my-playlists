@@ -1,5 +1,5 @@
 import ContainerBox from "../components/ContainerBox";
-import {Playlists} from "../components/playlists/Playlists";
+import {MyPlaylists} from "../components/playlists/Playlists";
 import React, {useState} from "react";
 import withPageContext, {PageContext} from "../components/hoc/withPageContext";
 import {MeForm} from "../components/MeForm";
@@ -10,7 +10,7 @@ const MePage = () => {
 
   return (
     <ContainerBox
-      left={<Playlists playlists={playlists}/>}
+      left={<MyPlaylists playlists={playlists}/>}
       right={<MeForm context={context}/>}
     />
   )

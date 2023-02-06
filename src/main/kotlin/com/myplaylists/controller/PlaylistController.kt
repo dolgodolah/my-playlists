@@ -93,18 +93,18 @@ class PlaylistController(
     @GetMapping("/playlists/search")
     fun searchMyPlaylists(
         @Login user: LoginUser,
-        @RequestParam keyword: String,
+        @RequestParam q: String,
     ): PlaylistsDto {
-        return playlistService.searchMyPlaylists(user.userId, keyword)
+        return playlistService.searchMyPlaylists(user.userId, q)
     }
 
     @ResponseBody
     @GetMapping("/playlists/search-all")
     fun searchAllPlaylists(
         @Login user: LoginUser,
-        keyword: String,
+        @RequestParam q: String,
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        return playlistService.searchAllPlaylists(user, pageable, keyword)
+        return playlistService.searchAllPlaylists(user, pageable, q)
     }
 }

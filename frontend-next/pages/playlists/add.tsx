@@ -2,7 +2,7 @@ import ContainerBox from "../../components/ContainerBox";
 import React, {useState} from "react";
 import withPageContext, {PageContext} from "../../components/hoc/withPageContext";
 import {PlaylistAddForm} from "../../components/playlists/PlaylistAddForm";
-import {Playlists} from "../../components/playlists/Playlists";
+import {MyPlaylists} from "../../components/playlists/Playlists";
 
 export const PlaylistAddPage = () => {
   const context = { ...React.useContext(PageContext) }
@@ -10,7 +10,7 @@ export const PlaylistAddPage = () => {
 
   return (
     <ContainerBox
-      left={<Playlists playlists={playlists} />}
+      left={<MyPlaylists playlists={playlists} />}
       right={<PlaylistAddForm />}
     />
   );
