@@ -4,19 +4,18 @@ import React from "react";
 export type CategoryType = "my-playlists" | "all-playlists" | "bookmarks"
 
 interface CategoryProps {
-  page: string
-  getPlaylists: (pageType: CategoryType) => void
+  category: CategoryType
+  getPlaylists: (category: CategoryType) => void
 }
 
-const Category = ({ page, getPlaylists }: CategoryProps) => {
-  const currentCategory = page || "my-playlists"
+const Category = ({ category, getPlaylists }: CategoryProps) => {
 
   return (
     <div className="category__container">
       <a
         href="#"
         className={classNames("category__link", {
-          isBright: currentCategory === "my-playlists"
+          isBright: category === "my-playlists"
         })}
         onClick={() => getPlaylists("my-playlists")}
       >
@@ -25,7 +24,7 @@ const Category = ({ page, getPlaylists }: CategoryProps) => {
       <a
         href="#"
         className={classNames("category__link", {
-          isBright: currentCategory === "all-playlists",
+          isBright: category === "all-playlists",
         })}
         onClick={() => getPlaylists("all-playlists")}
       >
@@ -34,7 +33,7 @@ const Category = ({ page, getPlaylists }: CategoryProps) => {
       <a
         href="#"
         className={classNames("category__link", {
-          isBright: currentCategory === "bookmarks",
+          isBright: category === "bookmarks",
         })}
         onClick={() => getPlaylists("bookmarks")}
       >

@@ -9,7 +9,7 @@ import alertError from "../../shared/Error";
 
 const PlaylistPage = () => {
   const context = { ...React.useContext(PageContext) }
-  const [page, setPage] = useState(context.page)
+  const [category, setCategory] = useState(context.category)
   const [playlists, setPlaylists] = useState(context.playlists)
   const client = useClient()
 
@@ -18,7 +18,7 @@ const PlaylistPage = () => {
     switch (res.statusCode) {
       case StatusCode.OK:
         setPlaylists(res.playlists)
-        setPage(category)
+        setCategory(category)
         break
       default:
         alertError(res)

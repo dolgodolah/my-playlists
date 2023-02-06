@@ -31,7 +31,7 @@ class PlaylistController(
     @GetMapping("/playlists")
     fun playlistView(@Login user: LoginUser): ResponseEntity<String> {
         val playlistsDto = playlistService.findMyPlaylists(user.userId)
-        val context = PlaylistsViewContext(page = MY_PLAYLISTS, playlists = playlistsDto.playlists)
+        val context = PlaylistsViewContext(category = MY_PLAYLISTS, playlists = playlistsDto.playlists)
 
         return ViewResponse.ok().render("playlists/playlists.html", context = context)
     }
@@ -39,7 +39,7 @@ class PlaylistController(
     @GetMapping("/playlists/add")
     fun playlistAddView(@Login user: LoginUser): ResponseEntity<String> {
         val playlistsDto = playlistService.findMyPlaylists(user.userId)
-        val context = PlaylistsViewContext(page = MY_PLAYLISTS, playlists = playlistsDto.playlists)
+        val context = PlaylistsViewContext(category = MY_PLAYLISTS, playlists = playlistsDto.playlists)
         return ViewResponse.ok().render("playlists/add.html", context = context)
     }
 
