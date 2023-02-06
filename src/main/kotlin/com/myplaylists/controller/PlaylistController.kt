@@ -36,6 +36,12 @@ class PlaylistController(
         return ViewResponse.ok().render("playlists/playlists.html", context = context)
     }
 
+    @GetMapping("/playlists/add")
+    fun playlistAddView(@Login user: LoginUser): ResponseEntity<String> {
+        val playlistsDto = playlistService.findMyPlaylists(user.userId)
+        val context = PlaylistsViewContext(page = MY_PLAYLISTS, playlists = playlistsDto.playlists)
+        return ViewResponse.ok().render("playlists/add.html", context = context)
+    }
 
 
     /**
