@@ -78,7 +78,7 @@ class SongService(
 
     fun getSongCount(playlistId: Long): Int = songRepository.findAllByPlaylistId(playlistId).size
 
-    fun searchYoutube(keyword: String): YoutubeDto = googleClient.searchYoutube(keyword)
+    fun searchYoutube(q: String): YoutubeDto = googleClient.searchYoutube(q)
 
     private fun findSongByIdOrElseThrow(songId: Long): Song = songRepository.findById(songId).orElseThrow { NotFoundException("해당 곡은 삭제되었거나 존재하지 않는 곡입니다.") }
 
