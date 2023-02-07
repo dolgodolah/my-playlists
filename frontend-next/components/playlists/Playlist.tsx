@@ -1,25 +1,34 @@
 import { Icon } from "@iconify/react";
-import { Dispatch, SetStateAction } from "react";
-import moment from "moment";
+import React, { Dispatch, SetStateAction } from "react";
 
 export interface PlaylistProps {
-  author: string;
   playlistId: number;
   title: string;
+  description: string;
   updatedDate: string;
+  author: string;
+  isBookmark: boolean;
   songCount: number;
+  isEditable: boolean
   setLastPlaylist?: Dispatch<SetStateAction<HTMLAnchorElement | null | undefined>>;
 }
 
 const Playlist = (
   {
     author,
+    playlistId,
     title,
     updatedDate,
     songCount,
     setLastPlaylist,
   }: PlaylistProps
 ) => {
+  const goToSongs = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    // TODO playlistId 암호화
+    location.href = `/songs?p=${playlistId}`
+  }
+
   return (
     <a href="#" className="playlist__link" ref={setLastPlaylist && setLastPlaylist}>
       <div className="playlist__container">

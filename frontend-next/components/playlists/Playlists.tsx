@@ -56,6 +56,9 @@ export const MyPlaylists = ({ playlists }: PlaylistsProps) => {
             title={playlist.title}
             updatedDate={playlist.updatedDate}
             songCount={playlist.songCount}
+            description={playlist.description}
+            isBookmark={playlist.isBookmark}
+            isEditable={playlist.isEditable}
           />
         ))}
       </div>
@@ -123,6 +126,9 @@ export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
             title={playlist.title}
             updatedDate={playlist.updatedDate}
             songCount={playlist.songCount}
+            description={playlist.description}
+            isBookmark={playlist.isBookmark}
+            isEditable={playlist.isEditable}
             // 모든 플레이리스트 조회의 경우 무한 스크롤 페이징 처리를 위해 `observer`를 넘겨준다.
             setLastPlaylist={setLastPlaylist}
           />
