@@ -24,7 +24,7 @@ export const Songs = ({ playlist, songs }: SongsProps) => {
   const client = useClient()
   const [currentSongs, setCurrentSongs] = useState(songs)
 
-  const searchSongs = async () => {
+  const searchSongs = async (keyword: string) => {
     const res = await client.get("/songs/search", {
       playlistId: playlist.playlistId,
       q: keyword
