@@ -72,7 +72,7 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                val isEditable = playlist.user.id == user?.let { it.userId }
+                val isEditable = user?.let { playlist.user.id == it.userId } ?: false
                 playlist.toDTO(playlist.user.nickname, isBookmark, songCount, isEditable)
             }.toList()
         return PlaylistsDto.of(playlists)

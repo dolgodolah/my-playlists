@@ -4,6 +4,7 @@ import com.myplaylists.config.auth.Login
 import com.myplaylists.dto.*
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.service.SongService
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
@@ -12,6 +13,14 @@ class SongController(
     private val songService: SongService,
 ) {
 
+    /**
+     * View Controller
+     */
+    @GetMapping("/songs")
+    fun songsView(@Login user: LoginUser, @RequestParam p: Long): ResponseEntity<String> {
+        val context = songService.createViewContext(user, p)
+        return ViewResponse.ok().render("songs/songs.html", context = context)
+    }
 
     /**
      * API Controller
@@ -49,8 +58,8 @@ class SongController(
     fun searchSongs(
         @Login user: LoginUser,
         @RequestParam playlistId: Long,
-        @RequestParam keyword: String
+        @RequestParam q: String
     ): SongsDto {
-        return songService.searchSongs(playlistId, keyword)
+        return songService.searchSongs(playlistId, q)
     }
 }

@@ -6,6 +6,9 @@ import com.myplaylists.dto.SongUpdateRequestDto
 import com.myplaylists.dto.SongsDto
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.ResolverStyle
 import java.util.*
 import java.util.stream.Collectors
 import javax.persistence.*
@@ -36,6 +39,10 @@ class Song(
 ): BaseTime() {
 
     companion object {
+        val DATE_DISPLAY_FORMATTER: DateTimeFormatter = DateTimeFormatter
+            .ofPattern("uuuu-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault())
+            .withResolverStyle(ResolverStyle.STRICT)
         fun of(song: SongAddRequestDto, userId: Long, playlist: Playlist): Song = Song(
             userId = userId,
             title = song.title,
@@ -75,8 +82,8 @@ class Song(
         title = this.title,
         videoId = this.videoId,
         description = this.description,
-        createdDate = this.createdDate,
-        updatedDate = this.updatedDate
+        createdDate = DATE_DISPLAY_FORMATTER.format(this.createdDate),
+        updatedDate = DATE_DISPLAY_FORMATTER.format(this.updatedDate)
     )
 
     override fun equals(other: Any?): Boolean {

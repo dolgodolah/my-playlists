@@ -20,8 +20,8 @@ class SongResponseDto(
     val title: String,
     val videoId: String,
     val description: String?,
-    val createdDate: LocalDateTime,
-    val updatedDate: LocalDateTime,
+    val createdDate: String,
+    val updatedDate: String,
 ) {
 }
 
