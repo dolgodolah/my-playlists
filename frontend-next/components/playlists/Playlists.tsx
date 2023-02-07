@@ -1,5 +1,6 @@
 import Playlist, {PlaylistProps} from "./Playlist";
 import HeaderLogo from "../HeaderLogo";
+import usePageObserver from "../hooks/usePageObserver";
 import {useState} from "react";
 import useClient from "../hooks/useClient";
 import StatusCode from "../../shared/StatusCode";
@@ -68,6 +69,9 @@ export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
   const { keyword, setKeyword, onPressEnter } = useSearch({
     callback: () => searchPlaylists()
   })
+  const { setLast: setLastPlaylist } = usePageObserver({
+    callback: (page) => getMorePlaylists(page)
+  })
 
   const searchPlaylists = async () => {
     const res = await client.get("/playlists/search-all", {
@@ -76,6 +80,18 @@ export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
     switch (res.statusCode) {
       case StatusCode.OK:
         setAllPlaylists(res.playlists)
+        break
+      default:
+        alertError(res)
+        break
+    }
+  }
+
+  const getMorePlaylists = async (page: number) => {
+    const res = await client.get(`/all-playlists?page=${page}`)
+    switch (res.statusCode) {
+      case StatusCode.OK:
+        setAllPlaylists(allPlaylists.concat(res.playlists))
         break
       default:
         alertError(res)
@@ -107,6 +123,8 @@ export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
             title={playlist.title}
             updatedDate={playlist.updatedDate}
             songCount={playlist.songCount}
+            // 모든 플레이리스트 조회의 경우 무한 스크롤 페이징 처리를 위해 `observer`를 넘겨준다.
+            setLastPlaylist={setLastPlaylist}
           />
         ))}
       </div>

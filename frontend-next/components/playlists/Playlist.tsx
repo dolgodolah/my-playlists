@@ -21,7 +21,7 @@ const Playlist = (
   }: PlaylistProps
 ) => {
   return (
-    <a href="#" className="playlist__link">
+    <a href="#" className="playlist__link" ref={setLastPlaylist && setLastPlaylist}>
       <div className="playlist__container">
         <div className="playlist__container--left">
           <span className="playlist__span--title">{title}</span>
