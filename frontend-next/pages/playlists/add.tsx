@@ -6,11 +6,11 @@ import {MyPlaylists} from "../../components/playlists/Playlists";
 
 export const PlaylistAddPage = () => {
   const context = { ...React.useContext(PageContext) }
-  const [playlists] = useState(context.playlists)
+  const [playlists, setPlaylists] = useState(context.playlists)
 
   return (
     <ContainerBox
-      left={<MyPlaylists playlists={playlists} />}
+      left={<MyPlaylists playlists={playlists} setPlaylists={setPlaylists} />}
       right={<PlaylistAddForm />}
     />
   );

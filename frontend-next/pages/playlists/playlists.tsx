@@ -29,11 +29,10 @@ const PlaylistPage = () => {
   const renderPlaylists = () => {
     switch (category) {
       case "my-playlists":
-        return <MyPlaylists playlists={playlists} />
-      case "all-playlists":
-        return <AllPlaylists playlists={playlists} />
       case "bookmarks":
-        return <></>
+        return <MyPlaylists playlists={playlists} setPlaylists={setPlaylists} />
+      case "all-playlists":
+        return <AllPlaylists playlists={playlists} setPlaylists={setPlaylists} />
     }
   }
 

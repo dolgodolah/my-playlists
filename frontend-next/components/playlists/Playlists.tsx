@@ -1,7 +1,6 @@
 import Playlist, {PlaylistProps} from "./Playlist";
 import HeaderLogo from "../HeaderLogo";
 import usePageObserver from "../hooks/usePageObserver";
-import {useState} from "react";
 import useClient from "../hooks/useClient";
 import StatusCode from "../../shared/StatusCode";
 import alertError from "../../shared/Error";
@@ -9,11 +8,11 @@ import {useSearch} from "../hooks/useSearch";
 
 interface PlaylistsProps {
   playlists: PlaylistProps[]
+  setPlaylists: (playlists: PlaylistProps[]) => void
 }
 
-export const MyPlaylists = ({ playlists }: PlaylistsProps) => {
+export const MyPlaylists = ({ playlists, setPlaylists }: PlaylistsProps) => {
   const client = useClient()
-  const [currentPlaylists, setCurrentPlaylists] = useState(playlists)
   const { keyword, setKeyword, onPressEnter } = useSearch({
     callback: () => searchPlaylists()
   })
@@ -24,7 +23,7 @@ export const MyPlaylists = ({ playlists }: PlaylistsProps) => {
     })
     switch (res.statusCode) {
       case StatusCode.OK:
-        setCurrentPlaylists(res.playlists)
+        setPlaylists(res.playlists)
         break
       default:
         alertError(res)
@@ -48,7 +47,7 @@ export const MyPlaylists = ({ playlists }: PlaylistsProps) => {
         </div>
       </div>
       <div className="lists__container">
-        {currentPlaylists && currentPlaylists.map((playlist: PlaylistProps) => (
+        {playlists && playlists.map((playlist: PlaylistProps) => (
           <Playlist
             key={playlist.playlistId}
             author={playlist.author}
@@ -66,9 +65,8 @@ export const MyPlaylists = ({ playlists }: PlaylistsProps) => {
   );
 }
 
-export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
+export const AllPlaylists = ({ playlists, setPlaylists }: PlaylistsProps) => {
   const client = useClient()
-  const [allPlaylists, setAllPlaylists] = useState(playlists)
   const { keyword, setKeyword, onPressEnter } = useSearch({
     callback: () => searchPlaylists()
   })
@@ -82,7 +80,7 @@ export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
     })
     switch (res.statusCode) {
       case StatusCode.OK:
-        setAllPlaylists(res.playlists)
+        setPlaylists(res.playlists)
         break
       default:
         alertError(res)
@@ -94,7 +92,7 @@ export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
     const res = await client.get(`/all-playlists?page=${page}`)
     switch (res.statusCode) {
       case StatusCode.OK:
-        setAllPlaylists(allPlaylists.concat(res.playlists))
+        setPlaylists(playlists.concat(res.playlists))
         break
       default:
         alertError(res)
@@ -118,7 +116,7 @@ export const AllPlaylists = ({ playlists }: PlaylistsProps) => {
         </div>
       </div>
       <div className="lists__container">
-        {allPlaylists && allPlaylists.map((playlist: PlaylistProps) => (
+        {playlists && playlists.map((playlist: PlaylistProps) => (
           <Playlist
             key={playlist.playlistId}
             author={playlist.author}
