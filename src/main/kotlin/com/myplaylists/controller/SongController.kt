@@ -22,6 +22,12 @@ class SongController(
         return ViewResponse.ok().render("songs/songs.html", context = context)
     }
 
+    @GetMapping("/songs/add")
+    fun songAddView(@Login user: LoginUser, @RequestParam p: Long): ResponseEntity<String> {
+        val context = songService.createViewContext(user, p)
+        return ViewResponse.ok().render("songs/add.html", context = context)
+    }
+
     /**
      * API Controller
      */

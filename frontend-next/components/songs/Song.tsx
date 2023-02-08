@@ -36,7 +36,6 @@ export const Song = ({ title, updatedDate, isEditable }: SongProps) => {
         <Icon className="song-delete__icon" icon="carbon:delete" onClick={deleteSong} />
         : null
       }
-      ))
     </>
   )
 }

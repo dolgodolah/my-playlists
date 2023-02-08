@@ -20,7 +20,7 @@ export const PlaylistEditBox = ({ playlist }: PlaylistEditBoxProps) => {
 
   const goToSongAddForm = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
-    location.href = "/songs/add"
+    location.href = `/songs/add?p=${playlist.playlistId}`
   }
 
   return (
