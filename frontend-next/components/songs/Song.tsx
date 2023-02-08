@@ -6,20 +6,24 @@ export interface SongProps {
   songId: number
   title: string
   videoId: string
-  description?: string
+  description: string
   createdDate: string
   updatedDate: string
   isEditable: boolean
+  setPlayedSong?: (song: SongProps) => void
   setStep?: (stepType: StepType) => void
 }
 
-export const Song = ({ title, updatedDate, isEditable, videoId, ...props }: SongProps) => {
+export const Song = ({ songId, title, videoId, description, createdDate, updatedDate, isEditable, ...props }: SongProps) => {
   const deleteSong = () => {
     console.log("노래 삭제")
   }
 
   const playSong = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
+    props.setPlayedSong && props.setPlayedSong({
+      songId, title, videoId, description, createdDate, updatedDate, isEditable
+    })
     props.setStep && props.setStep(StepType.PLAY)
   }
 

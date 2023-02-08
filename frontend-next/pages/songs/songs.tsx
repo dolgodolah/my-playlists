@@ -4,6 +4,10 @@ import {Songs} from "../../components/songs/Songs";
 import {PlaylistDescription, PlaylistTitle} from "../../components/playlists/PlaylistDetail";
 import {useContext, useState} from "react";
 import {YoutubeSearch} from "../../components/songs/YoutubeSearch";
+import {YoutubeVideo} from "../../components/songs/YoutubeVideo";
+import {SongProps} from "../../components/songs/Song";
+import useClient from "../../components/hooks/useClient";
+import StatusCode from "../../shared/StatusCode";
 
 export enum StepType {
   MAIN,
@@ -12,17 +16,37 @@ export enum StepType {
 }
 
 const SongsPage = () => {
+  const client = useClient()
   const context = useContext(PageContext)
   const [currentPlaylist] = useState(context.currentPlaylist)
-  const [songs] = useState(context.songs)
+  const [songs, setSongs] = useState(context.songs)
+  const [playedSong, setPlayedSong] = useState<SongProps>()
   const [step, setStep] = useState(StepType.MAIN)
+
+  const refreshSongs = async () => {
+    const res = await client.get(`/songs/${currentPlaylist.playlistId}`)
+    switch (res.statusCode) {
+      case StatusCode.OK:
+        setSongs(res.songs)
+        break
+      default:
+        break
+    }
+  }
 
   const render = () => {
     switch (step) {
       case StepType.MAIN:
         return (
           <ContainerBox
-            left={<Songs playlist={currentPlaylist} songs={songs} setVideoId={setVideoId}/>}
+            left={
+              <Songs
+                playlist={currentPlaylist}
+                songs={songs}
+                setPlayedSong={setPlayedSong}
+                setStep={setStep}
+              />
+            }
             right={
               <>
                 <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
@@ -34,11 +58,35 @@ const SongsPage = () => {
       case StepType.ADD:
         return (
           <ContainerBox
-            left={<Songs playlist={currentPlaylist} songs={songs} setVideoId={setVideoId} />}
+            left={
+              <Songs
+                playlist={currentPlaylist}
+                songs={songs}
+                setPlayedSong={setPlayedSong}
+                setStep={setStep}
+              />}
             right={
               <>
                 <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
                 <YoutubeSearch playlist={currentPlaylist} />
+              </>
+            }
+          />
+        )
+      case StepType.PLAY:
+        return (
+          <ContainerBox
+            left={
+              <Songs
+                playlist={currentPlaylist}
+                songs={songs}
+                setPlayedSong={setPlayedSong}
+                setStep={setStep}
+              />}
+            right={
+              <>
+                <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
+                {playedSong && <YoutubeVideo playlist={currentPlaylist} song={playedSong} refreshSongs={refreshSongs} />}
               </>
             }
           />

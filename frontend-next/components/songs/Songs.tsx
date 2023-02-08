@@ -13,11 +13,12 @@ import {StepType} from "../../pages/songs/songs";
 interface SongsProps {
   playlist: PlaylistProps
   songs: SongProps[]
+  setPlayedSong?: (song: SongProps) => void
   setStep?: (stepType: StepType) => void
+  setSongs?: (songs: SongProps[]) => void
 }
 export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
   const client = useClient()
-  const [currentSongs, setCurrentSongs] = useState(songs)
 
   const searchSongs = async (keyword: string) => {
     const res = await client.get("/songs/search", {
@@ -27,7 +28,7 @@ export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
 
     switch (res.statusCode) {
       case StatusCode.OK:
-        setCurrentSongs(res.songs)
+        props.setSongs && props.setSongs(res.songs)
         break
       default:
         alertError(res)
@@ -51,18 +52,20 @@ export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
         </div>
       </div>
       <div className="lists__container">
-          {currentSongs?.map((song: SongProps) => (
-            <Song
-              key={song.songId}
-              songId={song.songId}
-              title={song.title}
-              videoId={song.videoId}
-              createdDate={song.createdDate}
-              updatedDate={song.updatedDate}
-              isEditable={playlist.isEditable}
-              setStep={props.setStep}
-            />
-          ))}
+        {songs?.map((song: SongProps) => (
+          <Song
+            key={song.songId}
+            songId={song.songId}
+            title={song.title}
+            description={song.description}
+            videoId={song.videoId}
+            createdDate={song.createdDate}
+            updatedDate={song.updatedDate}
+            isEditable={playlist.isEditable}
+            setPlayedSong={props.setPlayedSong}
+            setStep={props.setStep}
+          />
+        ))}
       </div>
     </>
   );
