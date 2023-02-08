@@ -37,7 +37,17 @@ export default function useClient() {
     })
   }
 
-  return { get, post, put }
+  function _delete(url: string): Record<string, any> {
+    return axios.delete(url, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.data
+    })
+  }
+
+  return { get, post, put, _delete }
 }
 
 function appendQueryParams(url: string, params: Record<string, any> = {}): string {

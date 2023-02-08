@@ -3,6 +3,9 @@ import React, {useState} from "react";
 import {Icon} from "@iconify/react";
 import classNames from "classnames";
 import {StepType} from "../../pages/songs/songs";
+import useClient from "../hooks/useClient";
+import StatusCode from "../../shared/StatusCode";
+import alertError from "../../shared/Error";
 
 interface PlaylistEditBoxProps {
   playlist: PlaylistProps
@@ -10,14 +13,33 @@ interface PlaylistEditBoxProps {
 }
 
 export const PlaylistEditBox = ({ playlist, setStep }: PlaylistEditBoxProps) => {
+  const client = useClient()
   const [isBookmark, setBookmark] = useState(playlist.isBookmark);
 
-  const toggleBookmark = () => {
-    console.log("즐겨찾기 toggle")
+  const toggleBookmark = async () => {
+    const res = await client.post(`/bookmarks?playlistId=${playlist.playlistId}`)
+    switch (res.statusCode) {
+      case StatusCode.OK:
+        setBookmark(!isBookmark)
+        break
+      default:
+        alertError(res)
+    }
   }
 
-  const deletePlaylist = () => {
-    console.log("플레이리스트 삭제")
+  const deletePlaylist = async () => {
+    const ok = window.confirm("플레이리스트를 삭제하시겠습니까?")
+    if (ok) {
+      const res = await client._delete(`/playlists/${playlist.playlistId}`)
+      switch (res.statusCode) {
+        case StatusCode.OK:
+          location.href = "/playlists"
+          break
+        default:
+          alertError(res)
+          break
+      }
+    }
   }
 
   const goToSongAddStep = (e: React.MouseEvent<HTMLAnchorElement>) => {

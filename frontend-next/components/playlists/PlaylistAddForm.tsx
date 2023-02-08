@@ -32,8 +32,6 @@ export const PlaylistAddForm = () => {
       visibility
     })
 
-    console.log(res)
-
     switch (res.statusCode) {
       case StatusCode.OK:
         location.href = "/playlists"
@@ -107,7 +105,7 @@ export const PlaylistAddForm = () => {
           </div>
         </div>
         <div className="button__container--inputForm">
-          <button type="button" onClick={() => console.log("취소")}>
+          <button type="button" onClick={() => history.back()}>
             취소
           </button>
           <button type="submit">생성</button>

@@ -84,8 +84,8 @@ class PlaylistController(
     }
 
     @ResponseBody
-    @PostMapping("/bookmarks/{playlistId}")
-    fun toggleBookmark(@Login user: LoginUser, @PathVariable("playlistId") playlistId: Long) {
+    @PostMapping("/bookmarks")
+    fun toggleBookmark(@Login user: LoginUser, @RequestParam("playlistId") playlistId: Long) {
         bookmarkService.toggleBookmark(user.userId, playlistId)
     }
 
