@@ -18,8 +18,7 @@ export default function useClient() {
   }
 
   function post(url: string, params: Record<string, any> = {}): Record<string, any> {
-    const request = appendQueryParams(url, params)
-    return axios.post(request, { ...params }, {
+    return axios.post(url, { ...params }, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -28,7 +27,17 @@ export default function useClient() {
     })
   }
 
-  return { get, post }
+  function put(url: string, params: Record<string, any> = {}): Record<string, any> {
+    return axios.put(url, { ...params }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.data
+    })
+  }
+
+  return { get, post, put }
 }
 
 function appendQueryParams(url: string, params: Record<string, any> = {}): string {
