@@ -51,7 +51,6 @@ export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
         </div>
       </div>
       <div className="lists__container">
-        <div className="song-link__container">
           {currentSongs?.map((song: SongProps) => (
             <Song
               key={song.songId}
@@ -64,7 +63,6 @@ export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
               setStep={props.setStep}
             />
           ))}
-        </div>
       </div>
     </>
   );

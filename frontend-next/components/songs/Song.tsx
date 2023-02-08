@@ -24,7 +24,7 @@ export const Song = ({ title, updatedDate, isEditable, videoId, ...props }: Song
   }
 
   return (
-    <>
+    <div className="song-link__container">
       <a href="#" onClick={playSong}>
         <div className="song__container">
           <div className="song__container--forward">
@@ -44,6 +44,6 @@ export const Song = ({ title, updatedDate, isEditable, videoId, ...props }: Song
         <Icon className="song-delete__icon" icon="carbon:delete" onClick={deleteSong} />
         : null
       }
-    </>
+    </div>
   )
 }
