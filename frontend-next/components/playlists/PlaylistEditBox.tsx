@@ -2,12 +2,14 @@ import {PlaylistProps} from "./Playlist";
 import React, {useState} from "react";
 import {Icon} from "@iconify/react";
 import classNames from "classnames";
+import {StepType} from "../../pages/songs/songs";
 
 interface PlaylistEditBoxProps {
   playlist: PlaylistProps
+  setStep?: (stepType: StepType) => void
 }
 
-export const PlaylistEditBox = ({ playlist }: PlaylistEditBoxProps) => {
+export const PlaylistEditBox = ({ playlist, setStep }: PlaylistEditBoxProps) => {
   const [isBookmark, setBookmark] = useState(playlist.isBookmark);
 
   const toggleBookmark = () => {
@@ -18,9 +20,9 @@ export const PlaylistEditBox = ({ playlist }: PlaylistEditBoxProps) => {
     console.log("플레이리스트 삭제")
   }
 
-  const goToSongAddForm = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const goToSongAddStep = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
-    location.href = `/songs/add?p=${playlist.playlistId}`
+    setStep && setStep(StepType.ADD)
   }
 
   return (
@@ -32,7 +34,7 @@ export const PlaylistEditBox = ({ playlist }: PlaylistEditBoxProps) => {
       />
       {playlist.isEditable ?
         <>
-          <a href="#" onClick={goToSongAddForm}><Icon icon="carbon:music-add" /></a>
+          <a href="#" onClick={goToSongAddStep}><Icon icon="carbon:music-add" /></a>
           <Icon icon="carbon:delete" onClick={deletePlaylist} />
         </>
         : null

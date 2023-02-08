@@ -1,23 +1,31 @@
-import { Icon } from "@iconify/react";
+import {Icon} from "@iconify/react";
+import React from "react";
+import {StepType} from "../../pages/songs/songs";
 
 export interface SongProps {
   songId: number
   title: string
-  videoId: String
+  videoId: string
   description?: string
   createdDate: string
   updatedDate: string
   isEditable: boolean
+  setStep?: (stepType: StepType) => void
 }
 
-export const Song = ({ title, updatedDate, isEditable }: SongProps) => {
+export const Song = ({ title, updatedDate, isEditable, videoId, ...props }: SongProps) => {
   const deleteSong = () => {
     console.log("노래 삭제")
   }
 
+  const playSong = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    props.setStep && props.setStep(StepType.PLAY)
+  }
+
   return (
     <>
-      <a href="#">
+      <a href="#" onClick={playSong}>
         <div className="song__container">
           <div className="song__container--forward">
             <span className="song__span--title">{title}</span>

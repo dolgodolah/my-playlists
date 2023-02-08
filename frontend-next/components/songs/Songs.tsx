@@ -6,14 +6,16 @@ import HeaderLogo from "../HeaderLogo";
 import {useState} from "react";
 import alertError from "../../shared/Error";
 import {Song, SongProps} from "./Song";
+import {StepType} from "../../pages/songs/songs";
 
 
 
 interface SongsProps {
   playlist: PlaylistProps
   songs: SongProps[]
+  setStep?: (stepType: StepType) => void
 }
-export const Songs = ({ playlist, songs }: SongsProps) => {
+export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
   const client = useClient()
   const [currentSongs, setCurrentSongs] = useState(songs)
 
@@ -59,6 +61,7 @@ export const Songs = ({ playlist, songs }: SongsProps) => {
               createdDate={song.createdDate}
               updatedDate={song.updatedDate}
               isEditable={playlist.isEditable}
+              setStep={props.setStep}
             />
           ))}
         </div>
