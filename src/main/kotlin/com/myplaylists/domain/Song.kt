@@ -24,7 +24,7 @@ class Song(
     val userId: Long,
     var title: String,
     val videoId: String,
-    var description: String? = null,
+    var description: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

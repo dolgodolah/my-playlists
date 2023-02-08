@@ -26,12 +26,20 @@ const PlaylistPage = () => {
     }
   }
 
+  const renderPlaylists = () => {
+    switch (category) {
+      case "my-playlists":
+        return <MyPlaylists playlists={playlists} />
+      case "all-playlists":
+        return <AllPlaylists playlists={playlists} />
+      case "bookmarks":
+        return <></>
+    }
+  }
+
   return (
     <ContainerBox
-      left={category === "all-playlists" ?
-        <AllPlaylists playlists={playlists}/>
-        :<MyPlaylists playlists={playlists}/>
-      }
+      left={renderPlaylists()}
       right={<Category category={category} getPlaylists={(category) => getPlaylists(category)} />}
     />
   )
