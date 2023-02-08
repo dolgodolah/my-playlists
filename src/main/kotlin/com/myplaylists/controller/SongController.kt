@@ -31,6 +31,13 @@ class SongController(
         songService.addSong(user, songRequestDto)
     }
 
+
+    @ResponseBody
+    @GetMapping("/songs/{p}")
+    fun findSongsByPlaylistId(@Login user: LoginUser, @PathVariable p: Long): SongsDto {
+        return songService.findSongsByPlaylistId(p)
+    }
+
     @ResponseBody
     @PutMapping("/songs")
     fun updateSong(
