@@ -32,18 +32,18 @@ class SongController(
     }
 
     @ResponseBody
-    @PutMapping("/songs/{songId}")
+    @PutMapping("/songs")
     fun updateSong(
         @Login user: LoginUser,
-        @PathVariable("songId") songId: Long,
+        @RequestParam("songId") songId: Long,
         @RequestBody songRequestDto: SongUpdateRequestDto
     ) {
         songService.updateSong(user, songId, songRequestDto)
     }
 
     @ResponseBody
-    @DeleteMapping("/songs/{songId}")
-    fun deleteSong(@Login user: LoginUser, @PathVariable("songId") songId: Long) {
+    @DeleteMapping("/songs")
+    fun deleteSong(@Login user: LoginUser, @RequestParam("songId") songId: Long) {
         songService.deleteSong(user, songId)
     }
 
