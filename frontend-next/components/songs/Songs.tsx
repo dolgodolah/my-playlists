@@ -12,11 +12,13 @@ import {StepType} from "../../pages/songs/songs";
 interface SongsProps {
   playlist: PlaylistProps
   songs: SongProps[]
+  playedSongId?: number
+  refreshSongs?: () => void
   setPlayedSong?: (song: SongProps) => void
   setStep?: (stepType: StepType) => void
   setSongs?: (songs: SongProps[]) => void
 }
-export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
+export const Songs = ({ playlist, songs, playedSongId, ...props }: SongsProps) => {
   const client = useClient()
 
   const searchSongs = async (keyword: string) => {
@@ -51,7 +53,7 @@ export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
         </div>
       </div>
       <div className="lists__container">
-        {songs?.map((song: SongProps) => (
+        {songs?.map((song) => (
           <Song
             key={song.songId}
             songId={song.songId}
@@ -61,8 +63,10 @@ export const Songs = ({ playlist, songs, ...props }: SongsProps) => {
             createdDate={song.createdDate}
             updatedDate={song.updatedDate}
             isEditable={playlist.isEditable}
+            refreshSongs={props.refreshSongs}
             setPlayedSong={props.setPlayedSong}
             setStep={props.setStep}
+            isPlay={playedSongId === song.songId}
           />
         ))}
       </div>

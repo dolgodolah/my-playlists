@@ -1,6 +1,9 @@
 import {Icon} from "@iconify/react";
 import React from "react";
 import {StepType} from "../../pages/songs/songs";
+import useClient from "../hooks/useClient";
+import StatusCode from "../../shared/StatusCode";
+import alertError from "../../shared/Error";
 
 export interface SongProps {
   songId: number
@@ -10,19 +13,37 @@ export interface SongProps {
   createdDate: string
   updatedDate: string
   isEditable: boolean
+  isPlay: boolean
+  refreshSongs?: () => void
   setPlayedSong?: (song: SongProps) => void
   setStep?: (stepType: StepType) => void
 }
 
-export const Song = ({ songId, title, videoId, description, createdDate, updatedDate, isEditable, ...props }: SongProps) => {
-  const deleteSong = () => {
-    console.log("노래 삭제")
+export const Song = ({ songId, title, videoId, description, createdDate, updatedDate, isEditable, isPlay, ...props }: SongProps) => {
+  const client = useClient()
+
+  const deleteSong = async () => {
+    const res = await client._delete(`/songs?songId=${songId}`)
+    switch (res.statusCode) {
+      case StatusCode.OK:
+        // 재생되고 있는 노래를 삭제한 경우 페이지 새로고침
+        if (isPlay) {
+          location.reload()
+        } else {
+          // 다른 노래를 삭제한 경우 수록곡 목록만 리랜더링
+          props.refreshSongs && props.refreshSongs()
+        }
+        break
+      default:
+        alertError(res)
+        break
+    }
   }
 
   const playSong = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     props.setPlayedSong && props.setPlayedSong({
-      songId, title, videoId, description, createdDate, updatedDate, isEditable
+      songId, title, videoId, description, createdDate, updatedDate, isEditable, isPlay: true
     })
     props.setStep && props.setStep(StepType.PLAY)
   }

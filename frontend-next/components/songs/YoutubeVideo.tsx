@@ -8,22 +8,24 @@ import alertError from "../../shared/Error";
 
 interface YoutubeVideoProps {
   playlist: PlaylistProps
-  song: SongProps
+  songs: SongProps[]
+  playedSong: SongProps
   refreshSongs: () => void
+  setPlayedSong?: (song: SongProps) => void
 }
-export const YoutubeVideo = ({ song, playlist, refreshSongs }: YoutubeVideoProps) => {
+export const YoutubeVideo = ({ playedSong, songs, playlist, refreshSongs, ...props }: YoutubeVideoProps) => {
   const client = useClient()
-  const [description, setDescription] = useState(song.description)
+  const [description, setDescription] = useState(playedSong.description)
 
   useEffect(() => {
-    setDescription(song.description)
-  }, [song.songId])
+    setDescription(playedSong.description)
+  }, [playedSong.description])
 
   const onClickEdit = async () => {
     const ok = window.confirm("노래 설명을 수정하시겠습니까?")
     if (ok) {
-      const res = await client.put(`/songs?songId=${song.songId}`, {
-        title: song.title,
+      const res = await client.put(`/songs?songId=${playedSong.songId}`, {
+        title: playedSong.title,
         description
       })
 
@@ -39,14 +41,24 @@ export const YoutubeVideo = ({ song, playlist, refreshSongs }: YoutubeVideoProps
   }
 
   const playNextSong = () => {
-    console.log("다음 노래 재생")
+    const playedSongIndex = songs.findIndex((song) => song.songId === playedSong.songId)
+
+    // 재생되고 있는 노래가 마지막 노래면 페이지 새로고침
+    if (songs.length === playedSongIndex + 1) {
+      location.reload()
+      return
+    }
+
+    // 다음 노래가 있으면 화면 리랜더링
+    const nextSong = songs[playedSongIndex + 1]
+    props.setPlayedSong && props.setPlayedSong(nextSong)
   }
 
   return (
     <div className="youtube__container">
       <ReactPlayer
         className="youtube__video"
-        url={`https://www.youtube.com/watch?v=${song.videoId}`}
+        url={`https://www.youtube.com/watch?v=${playedSong.videoId}`}
         playing={true}
         onEnded={playNextSong}
         controls={true}
@@ -66,7 +78,7 @@ export const YoutubeVideo = ({ song, playlist, refreshSongs }: YoutubeVideoProps
       <div className="thumbnail__container--youtube">
         <img
           className="thumbnail__img--youtube"
-          src={`https://i.ytimg.com/vi/${song.videoId}/mqdefault.jpg`}
+          src={`https://i.ytimg.com/vi/${playedSong.videoId}/mqdefault.jpg`}
           alt="youtube_thumbnail"
         />
       </div>

@@ -43,8 +43,10 @@ const SongsPage = () => {
               <Songs
                 playlist={currentPlaylist}
                 songs={songs}
+                playedSongId={playedSong?.songId}
                 setPlayedSong={setPlayedSong}
                 setStep={setStep}
+                refreshSongs={refreshSongs}
               />
             }
             right={
@@ -62,8 +64,10 @@ const SongsPage = () => {
               <Songs
                 playlist={currentPlaylist}
                 songs={songs}
+                playedSongId={playedSong?.songId}
                 setPlayedSong={setPlayedSong}
                 setStep={setStep}
+                refreshSongs={refreshSongs}
               />}
             right={
               <>
@@ -80,13 +84,23 @@ const SongsPage = () => {
               <Songs
                 playlist={currentPlaylist}
                 songs={songs}
+                playedSongId={playedSong?.songId}
                 setPlayedSong={setPlayedSong}
                 setStep={setStep}
+                refreshSongs={refreshSongs}
               />}
             right={
               <>
                 <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
-                {playedSong && <YoutubeVideo playlist={currentPlaylist} song={playedSong} refreshSongs={refreshSongs} />}
+                {playedSong &&
+                  <YoutubeVideo
+                    playlist={currentPlaylist}
+                    songs={songs}
+                    playedSong={playedSong}
+                    refreshSongs={refreshSongs}
+                    setPlayedSong={setPlayedSong}
+                  />
+                }
               </>
             }
           />
