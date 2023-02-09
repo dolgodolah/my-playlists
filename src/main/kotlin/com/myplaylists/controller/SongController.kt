@@ -35,7 +35,7 @@ class SongController(
     @ResponseBody
     @GetMapping("/songs/{p}")
     fun findSongsByPlaylistId(@Login user: LoginUser, @PathVariable p: Long): SongsDto {
-        return songService.findSongsByPlaylistId(p)
+        return songService.findSongsByPlaylistId(p, user.userId)
     }
 
     @ResponseBody
