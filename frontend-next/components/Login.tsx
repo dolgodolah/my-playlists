@@ -11,7 +11,7 @@ export const LoginMenu = () => {
 
   const guestLogin = () => {
     alert("비회원의 경우 최대 20개의 플레이리스트를 즐기실 수 있습니다. 더 많은 기능을 이용하시려면 간편 로그인을 통해 내플리스를 이용하세요!")
-    location.href="/playlist"
+    location.href="/playlists"
   }
 
   return (

@@ -6,6 +6,7 @@ import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.dto.context.PlaylistsViewContext
 import com.myplaylists.service.BookmarkService
 import com.myplaylists.service.PlaylistService
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
@@ -29,10 +30,13 @@ class PlaylistController(
      * View Controller
      */
     @GetMapping("/playlists")
-    fun playlistView(@Login user: LoginUser): ResponseEntity<String> {
-        val playlistsDto = playlistService.findMyPlaylists(user.userId)
-        val context = PlaylistsViewContext(category = MY_PLAYLISTS, playlists = playlistsDto.playlists)
+    fun playlistView(@Login user: LoginUser?): ResponseEntity<String> {
+        val category = user?.let { MY_PLAYLISTS } ?: ALL_PLAYLISTS
+        val playlistsDto = user?.let {
+            playlistService.findMyPlaylists(user.userId)
+        } ?: playlistService.findAllPlaylists(user, PageRequest.of(0, 10))
 
+        val context = PlaylistsViewContext(category = category, playlists = playlistsDto.playlists, isGuest = user == null)
         return ViewResponse.ok().render("playlists/playlists.html", context = context)
     }
 

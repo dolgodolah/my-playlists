@@ -17,7 +17,7 @@ class SongController(
      * View Controller
      */
     @GetMapping("/songs")
-    fun songsView(@Login user: LoginUser, @RequestParam p: Long): ResponseEntity<String> {
+    fun songsView(@Login user: LoginUser?, @RequestParam p: Long): ResponseEntity<String> {
         val context = songService.createViewContext(user, p)
         return ViewResponse.ok().render("songs/songs.html", context = context)
     }

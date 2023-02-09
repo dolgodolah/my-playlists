@@ -32,11 +32,11 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new LogInterceptor())
 				.order(1)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/error", "/api-docs/**", "/swagger-ui/**", "/*.ico");
+				.excludePathPatterns("/error", "/api-docs/**", "/swagger-ui/**", "/*.ico", "/_next/**");
 
 		registry.addInterceptor(new AuthInterceptor())
 				.order(2)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/signup", "/login", "/logout", "/login/kakao", "/login/google", "/error", "/api-docs/**", "/swagger-ui/**", "/*.ico");
+				.excludePathPatterns("/signup", "/login", "/logout", "/login/kakao", "/login/google", "/error", "/api-docs/**", "/swagger-ui/**", "/*.ico", "/_next/**");
 	}
 }

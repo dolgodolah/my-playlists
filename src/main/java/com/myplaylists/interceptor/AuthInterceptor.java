@@ -15,9 +15,10 @@ import java.util.Set;
 public class AuthInterceptor implements HandlerInterceptor {
 
     private static final Set<String> ALLOWED_GUEST_PAGES = new HashSet<>(Arrays.asList("0", "1"));
-    private static final String ALL_PLAYLIST_PATH = "/all-playlists";
-    private static final String SONGS_PATH = "/songs";
-    private static final String GET = "GET";
+    private static final String PLAYLISTS_URL = "/playlists";
+    private static final String ALL_PLAYLISTS_URL = "/all-playlists";
+    private static final String SONGS_URL = "/songs";
+    private static final String GET_METHOD = "GET";
     private static final String PAGE = "page";
 
     @Override
@@ -25,7 +26,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
 
-        if (isGuestRequest(request)) {
+        if (isAllowedRequest(request)) {
             return true;
         }
 
@@ -37,16 +38,26 @@ public class AuthInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private boolean isGuestRequest(HttpServletRequest request) {
+    private boolean isAllowedRequest(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         String requestMethod = request.getMethod();
         String pageParameter = request.getParameter(PAGE);
 
-        if (GET.equals(requestMethod) && SONGS_PATH.equals(requestURI)) {
+        // 플레이리스트 뷰
+        if (PLAYLISTS_URL.equals(requestURI) && GET_METHOD.equals(requestMethod)) {
             return true;
         }
 
-        if (ALL_PLAYLIST_PATH.equals(requestURI) && ALLOWED_GUEST_PAGES.contains(pageParameter)) {
+        // 모든 플레이리스트 조회 API
+        if (ALL_PLAYLISTS_URL.equals(requestURI)
+                && GET_METHOD.equals(requestMethod)
+                && ALLOWED_GUEST_PAGES.contains(pageParameter)
+        ) {
+            return true;
+        }
+
+        // 수록곡 조회 API
+        if (SONGS_URL.equals(requestURI) && GET_METHOD.equals(requestMethod)) {
             return true;
         }
 

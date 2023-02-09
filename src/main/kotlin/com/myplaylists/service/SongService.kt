@@ -43,7 +43,8 @@ class SongService(
                 isBookmark,
                 songs.size,
                 isEditable
-            )
+            ),
+            isGuest = user == null
         )
     }
 
