@@ -1,7 +1,0 @@
-$main-background-color: #17202a;
-$main-shadow-color: darken($main-background-color, 10%);
-$main-lighten-color: lighten($main-background-color, 15%);
-
-@mixin mixin-background-color($color, $opacity) {
-  background-color: rgba($color: $color, $alpha: $opacity);
-}
