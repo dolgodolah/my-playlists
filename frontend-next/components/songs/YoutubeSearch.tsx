@@ -1,9 +1,9 @@
-import {SongProps} from "../../../frontend/src/shared/Props";
 import useClient from "../hooks/useClient";
 import React, {useState} from "react";
 import StatusCode from "../../shared/StatusCode";
 import alertError from "../../shared/Error";
 import {PlaylistProps} from "../playlists/Playlist";
+import {SongProps} from "./Song";
 
 interface YoutubeSearchProps {
   playlist: PlaylistProps
