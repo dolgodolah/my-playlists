@@ -1,5 +1,7 @@
 package com.myplaylists.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 class PlaylistRequestDto(
     val title: String,
     val description: String,
@@ -7,8 +9,9 @@ class PlaylistRequestDto(
 ) {
 }
 
-class PlaylistResponseDto(
-    val playlistId: Long,               // 식별값
+data class PlaylistResponseDto(
+    @JsonProperty("playlistId")
+    val encryptedId: String,            // 암호화된 식별값
     val title: String,                  // 제목
     val description: String,            // 설명
     val updatedDate: String,            // 갱신일시

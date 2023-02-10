@@ -24,7 +24,7 @@ const SongsPage = () => {
   const [step, setStep] = useState(StepType.MAIN)
 
   const refreshSongs = async () => {
-    const res = await client.get(`/songs/${currentPlaylist.playlistId}`)
+    const res = await client.get(`/refresh-songs?p=${currentPlaylist.playlistId}`)
     switch (res.statusCode) {
       case StatusCode.OK:
         setSongs(res.songs)

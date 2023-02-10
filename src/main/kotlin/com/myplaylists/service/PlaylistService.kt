@@ -9,12 +9,15 @@ import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.BadRequestException
 import com.myplaylists.repository.PlaylistRepository
+import com.myplaylists.utils.CryptoUtils
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StringUtils
+import java.net.URLEncoder
 import java.time.LocalDateTime
 import java.util.Comparator
 
@@ -25,6 +28,7 @@ class PlaylistService(
     private val bookmarkService: BookmarkService,
     private val songService: SongService,
     private val playlistRepository: PlaylistRepository,
+    @Value("\${playlist.secret}") private val secretKey: String
 ) {
 
     companion object {
@@ -56,7 +60,8 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                playlist.toDTO(user.nickname, isBookmark, songCount, isEditable = true)
+                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
+                playlist.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
             }.toList()
 
         return PlaylistsDto.of(playlists)
@@ -73,7 +78,8 @@ class PlaylistService(
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
                 val isEditable = user?.let { playlist.user.id == it.userId } ?: false
-                playlist.toDTO(playlist.user.nickname, isBookmark, songCount, isEditable)
+                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
+                playlist.toDTO(encryptedId, playlist.user.nickname, isBookmark, songCount, isEditable)
             }.toList()
         return PlaylistsDto.of(playlists)
     }
@@ -89,7 +95,8 @@ class PlaylistService(
                 val playlist = bookmark.playlist
                 val songCount = songService.getSongCount(playlist.id!!)
                 val isEditable = userId == playlist.user.id
-                playlist.toDTO(playlist.user.nickname, isBookmark = true, songCount, isEditable)
+                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
+                playlist.toDTO(encryptedId, playlist.user.nickname, isBookmark = true, songCount, isEditable)
             }.toList()
 
         return PlaylistsDto.of(playlists)
@@ -110,7 +117,8 @@ class PlaylistService(
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                playlist.toDTO(user.nickname, isBookmark, songCount, isEditable = true)
+                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
+                playlist.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
             }.toList()
 
         return PlaylistsDto.of(playlists)
@@ -124,7 +132,8 @@ class PlaylistService(
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
                 val isEditable = playlist.user.id == user.userId
-                playlist.toDTO(playlist.user.nickname, isBookmark, songCount, isEditable)
+                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
+                playlist.toDTO(encryptedId, playlist.user.nickname, isBookmark, songCount, isEditable)
             }.toList()
         return PlaylistsDto.of(playlists)
     }

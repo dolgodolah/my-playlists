@@ -1,6 +1,7 @@
 package com.myplaylists.controller
 
 import com.myplaylists.config.auth.Login
+import com.myplaylists.crypto.Decrypted
 import com.myplaylists.dto.*
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.dto.context.PlaylistsViewContext
@@ -73,8 +74,8 @@ class PlaylistController(
     }
 
     @ResponseBody
-    @DeleteMapping("/playlists/{playlistId}")
-    fun deletePlaylist(@Login user: LoginUser, @PathVariable("playlistId") playlistId: Long) {
+    @DeleteMapping("/playlists")
+    fun deletePlaylist(@Login user: LoginUser, @RequestParam p: String, @Decrypted playlistId: Long) {
         playlistService.deletePlaylist(user.userId, playlistId)
     }
 
@@ -89,7 +90,7 @@ class PlaylistController(
 
     @ResponseBody
     @PostMapping("/bookmarks")
-    fun toggleBookmark(@Login user: LoginUser, @RequestParam("playlistId") playlistId: Long) {
+    fun toggleBookmark(@Login user: LoginUser, @RequestParam p: String, @Decrypted playlistId: Long) {
         bookmarkService.toggleBookmark(user.userId, playlistId)
     }
 

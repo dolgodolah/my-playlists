@@ -31,7 +31,7 @@ export const YoutubeSearch = ({ playlist }: YoutubeSearchProps) => {
 
   const addSong = async (song: SongProps) => {
     const res = await client.post("/songs", {
-      playlistId: playlist.playlistId,
+      p: playlist.playlistId,
       title: song.title,
       videoId: song.videoId
     })

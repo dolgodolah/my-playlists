@@ -54,9 +54,9 @@ class Playlist(
         }
     }
 
-    fun toDTO(author: String, isBookmark: Boolean, songCount: Int, isEditable: Boolean): PlaylistResponseDto {
+    fun toDTO(encryptedId: String, author: String, isBookmark: Boolean, songCount: Int, isEditable: Boolean): PlaylistResponseDto {
         return PlaylistResponseDto(
-            playlistId = this.id!!,
+            encryptedId = encryptedId,
             title = this.title,
             description = this.description,
             updatedDate = DATE_DISPLAY_FORMATTER.format(this.updatedDate),

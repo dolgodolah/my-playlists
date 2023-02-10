@@ -10,11 +10,12 @@ import com.myplaylists.dto.SongsDto
 import com.myplaylists.dto.YoutubeDto
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.dto.context.SongsViewContext
-import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.BadRequestException
 import com.myplaylists.exception.NotFoundException
 import com.myplaylists.repository.PlaylistRepository
 import com.myplaylists.repository.SongRepository
+import com.myplaylists.utils.CryptoUtils
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,6 +28,7 @@ class SongService(
     private val playlistRepository: PlaylistRepository,
     private val googleClient: GoogleClient,
     private val bookmarkService: BookmarkService,
+    @Value("\${playlist.secret}") private val secretKey: String
 ) {
 
     @Transactional(readOnly = true)
@@ -35,10 +37,11 @@ class SongService(
         val songs = songRepository.findAllByPlaylistId(playlistId)
         val isBookmark = user?.let { bookmarkService.isBookmark(it.userId, playlistId) } ?: false
         val isEditable = user?.let { playlist.user.id == it.userId } ?: false
-
+        val encryptedId = CryptoUtils.encrypt(playlistId, secretKey)
         return SongsViewContext(
             songs = songs.toDTO().songs,
             currentPlaylist = playlist.toDTO(
+                encryptedId,
                 playlist.user.nickname,
                 isBookmark,
                 songs.size,
@@ -50,7 +53,8 @@ class SongService(
 
     @CacheEvict(key = "#user.userId", value = ["playlist"])
     fun addSong(user: LoginUser, songRequestDto: SongAddRequestDto): Long {
-        val playlist = playlistRepository.findById(songRequestDto.playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
+        val playlistId = CryptoUtils.decrypt(songRequestDto.encryptedId, secretKey).toLong()
+        val playlist = playlistRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
         playlist.validateUser(user.userId)
 
         songRepository.findAllByPlaylistId(playlist.id).checkLimitCount()

@@ -1,9 +1,10 @@
 package com.myplaylists.dto
 
-import java.time.LocalDateTime
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class SongAddRequestDto(
-    val playlistId: Long,
+    @JsonProperty("p")
+    val encryptedId: String,
     val title: String,
     val videoId: String,
 ) {

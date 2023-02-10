@@ -17,7 +17,7 @@ export const PlaylistEditBox = ({ playlist, setStep }: PlaylistEditBoxProps) => 
   const [isBookmark, setBookmark] = useState(playlist.isBookmark);
 
   const toggleBookmark = async () => {
-    const res = await client.post(`/bookmarks?playlistId=${playlist.playlistId}`)
+    const res = await client.post(`/bookmarks?p=${playlist.playlistId}`)
     switch (res.statusCode) {
       case StatusCode.OK:
         setBookmark(!isBookmark)
@@ -30,7 +30,7 @@ export const PlaylistEditBox = ({ playlist, setStep }: PlaylistEditBoxProps) => 
   const deletePlaylist = async () => {
     const ok = window.confirm("플레이리스트를 삭제하시겠습니까?")
     if (ok) {
-      const res = await client._delete(`/playlists/${playlist.playlistId}`)
+      const res = await client._delete(`/playlists?p=${playlist.playlistId}`)
       switch (res.statusCode) {
         case StatusCode.OK:
           location.href = "/playlists"

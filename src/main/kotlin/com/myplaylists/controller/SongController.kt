@@ -1,5 +1,6 @@
 package com.myplaylists.controller
 
+import com.myplaylists.crypto.Decrypted
 import com.myplaylists.config.auth.Login
 import com.myplaylists.dto.*
 import com.myplaylists.dto.auth.LoginUser
@@ -17,8 +18,8 @@ class SongController(
      * View Controller
      */
     @GetMapping("/songs")
-    fun songsView(@Login user: LoginUser?, @RequestParam p: Long): ResponseEntity<String> {
-        val context = songService.createViewContext(user, p)
+    fun songsView(@Login user: LoginUser?, @RequestParam p: String, @Decrypted playlistId: Long): ResponseEntity<String> {
+        val context = songService.createViewContext(user, playlistId)
         return ViewResponse.ok().render("songs/songs.html", context = context)
     }
 
@@ -33,9 +34,9 @@ class SongController(
 
 
     @ResponseBody
-    @GetMapping("/songs/{p}")
-    fun findSongsByPlaylistId(@Login user: LoginUser, @PathVariable p: Long): SongsDto {
-        return songService.findSongsByPlaylistId(p, user.userId)
+    @GetMapping("/refresh-songs")
+    fun findSongsByPlaylistId(@Login user: LoginUser, @RequestParam p: String, @Decrypted playlistId: Long): SongsDto {
+        return songService.findSongsByPlaylistId(playlistId, user.userId)
     }
 
     @ResponseBody
