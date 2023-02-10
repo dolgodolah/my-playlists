@@ -21,7 +21,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private static final String SONGS_URL = "/songs";
     private static final String GET_METHOD = "GET";
     private static final String PAGE = "page";
-    private static final String ME_URL = "/me";
+    private static final Set<String> LOGIN_REQUIRED_PAGES = new HashSet<>(Arrays.asList("/me", "/playlists/add"));
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -35,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (session == null || session.getAttribute("user") == null) {
             log.info("not authorized user, request uri = {}", request.getRequestURI());
 
-            if (ME_URL.equals(request.getRequestURI())) {
+            if (LOGIN_REQUIRED_PAGES.contains(request.getRequestURI())) {
                 throw new AuthRequiredException();
             }
 
