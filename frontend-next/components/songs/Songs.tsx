@@ -23,7 +23,7 @@ export const Songs = ({ playlist, songs, playedSongId, ...props }: SongsProps) =
 
   const searchSongs = async (keyword: string) => {
     const res = await client.get("/songs/search", {
-      playlistId: playlist.playlistId,
+      p: playlist.playlistId,
       q: keyword
     })
 

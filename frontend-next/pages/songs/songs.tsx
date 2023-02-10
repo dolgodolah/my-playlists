@@ -47,6 +47,7 @@ const SongsPage = () => {
                 setPlayedSong={setPlayedSong}
                 setStep={setStep}
                 refreshSongs={refreshSongs}
+                setSongs={setSongs}
               />
             }
             right={
@@ -68,6 +69,7 @@ const SongsPage = () => {
                 setPlayedSong={setPlayedSong}
                 setStep={setStep}
                 refreshSongs={refreshSongs}
+                setSongs={setSongs}
               />}
             right={
               <>
@@ -88,6 +90,7 @@ const SongsPage = () => {
                 setPlayedSong={setPlayedSong}
                 setStep={setStep}
                 refreshSongs={refreshSongs}
+                setSongs={setSongs}
               />}
             right={
               <>

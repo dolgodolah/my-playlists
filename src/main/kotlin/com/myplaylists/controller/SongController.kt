@@ -65,7 +65,8 @@ class SongController(
     @GetMapping("/songs/search")
     fun searchSongs(
         @Login user: LoginUser,
-        @RequestParam playlistId: Long,
+        @RequestParam p: String,
+        @Decrypted playlistId: Long,
         @RequestParam q: String
     ): SongsDto {
         return songService.searchSongs(playlistId, q)
