@@ -11,9 +11,12 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
+import java.net.URI
 
 @Controller
 class PlaylistController(
@@ -111,5 +114,12 @@ class PlaylistController(
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
         return playlistService.searchAllPlaylists(user, pageable, q)
+    }
+
+    @GetMapping("/")
+    fun redirectPlaylistsView(): ResponseEntity<String> {
+        val headers = HttpHeaders()
+        headers.location = URI.create("/playlists")
+        return ResponseEntity(headers, HttpStatus.MOVED_PERMANENTLY)
     }
 }
