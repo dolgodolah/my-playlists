@@ -2,6 +2,7 @@ package com.myplaylists.config;
 
 import java.util.List;
 
+import com.myplaylists.crypto.DecryptedArgumentResolver;
 import com.myplaylists.interceptor.AuthInterceptor;
 import com.myplaylists.interceptor.LogInterceptor;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +18,12 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer{
-	/*
-	 * LoginUserArgumentResolver를 스프링에서 인식할 수 있도록 WebMvcConfigurer에 추가
-	 */
 	private final LoginUserArgumentResolver loginUserArgumentResolver;
+	private final DecryptedArgumentResolver decryptedArgumentResolver;
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(decryptedArgumentResolver);
 		argumentResolvers.add(loginUserArgumentResolver);
 	}
 
