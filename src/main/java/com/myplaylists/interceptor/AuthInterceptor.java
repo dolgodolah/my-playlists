@@ -1,5 +1,6 @@
 package com.myplaylists.interceptor;
 
+import com.myplaylists.exception.AuthRequiredException;
 import com.myplaylists.exception.NotAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,6 +21,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private static final String SONGS_URL = "/songs";
     private static final String GET_METHOD = "GET";
     private static final String PAGE = "page";
+    private static final String ME_URL = "/me";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -32,6 +34,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         if (session == null || session.getAttribute("user") == null) {
             log.info("not authorized user, request uri = {}", request.getRequestURI());
+
+            if (ME_URL.equals(request.getRequestURI())) {
+                throw new AuthRequiredException();
+            }
+
             throw new NotAuthorizedException();
         }
 

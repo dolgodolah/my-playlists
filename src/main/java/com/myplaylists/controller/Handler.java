@@ -3,16 +3,30 @@ package com.myplaylists.controller;
 import com.myplaylists.dto.BaseResponse;
 import com.myplaylists.dto.ErrorResponse;
 import com.myplaylists.exception.ApiException;
+import com.myplaylists.exception.AuthRequiredException;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.net.URI;
+
 @RestControllerAdvice
 public class Handler implements ResponseBodyAdvice {
+
+    @ExceptionHandler(AuthRequiredException.class)
+    public ResponseEntity<String> redirectToLogin() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/login"));
+
+        return new ResponseEntity(headers, HttpStatus.MOVED_PERMANENTLY);
+    }
 
     /**
      * 현재 사용 중인 axios 클라이언트는 `error handling`을 하지 못한다.
