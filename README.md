@@ -1,6 +1,6 @@
 # 내플리스(My Playlists)
 
-- ~~[내플리스 홈페이지](www.myplaylists.shop)~~ AWS 프리티어 기간이 끝났습니다..
+- [내플리스 홈페이지](www.myplaylists.shop)
 
 - [내플리스 Notion](https://mirror-oatmeal-27d.notion.site/e534804381b5409ab51b070076202822)
 
