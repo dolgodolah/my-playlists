@@ -32,11 +32,11 @@
 
 `Java`, `Kotlin`, `Spring Boot`, `Spring Data JPA`, `MySQL`
 
-`React`, `Typescript`
+`React`, `Typescript`, `Next.js`
 
 `Google Youtube Data API`, `Kakao Developers API`
 
-~~`AWS EC2`~~
+`AWS EC2`
 
 
 #
