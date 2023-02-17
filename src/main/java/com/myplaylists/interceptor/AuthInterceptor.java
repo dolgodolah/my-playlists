@@ -15,8 +15,8 @@ import java.util.Set;
 @Slf4j
 public class AuthInterceptor implements HandlerInterceptor {
 
-    private static final Set<String> ALLOWED_GUEST_PAGES = new HashSet<>(Arrays.asList("0", "1"));
-    private static final String PLAYLISTS_URL = "/playlists";
+    private static final Set<String> ALLOWED_GUEST_PAGES = new HashSet<>(Arrays.asList(null, "0", "1"));
+    private static final Set<String> PLAYLISTS_URL = new HashSet<>(Arrays.asList("/playlists", "/playlists/"));
     private static final String ALL_PLAYLISTS_URL = "/all-playlists";
     private static final String SONGS_URL = "/songs";
     private static final String GET_METHOD = "GET";
