@@ -38,7 +38,7 @@ class PlaylistController(
         val category = user?.let { MY_PLAYLISTS } ?: ALL_PLAYLISTS
         val playlistsDto = user?.let {
             playlistService.findMyPlaylists(user.userId)
-        } ?: playlistService.findAllPlaylists(user, PageRequest.of(0, 10))
+        } ?: playlistService.findAllPlaylists(user, PageRequest.of(0, 10, Sort.Direction.DESC, "updatedDate"))
 
         val context = PlaylistsViewContext(category = category, playlists = playlistsDto.playlists, isGuest = user == null)
         return ViewResponse.ok().render("playlists/playlists.html", context = context)

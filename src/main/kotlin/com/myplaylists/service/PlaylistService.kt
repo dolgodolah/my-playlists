@@ -73,7 +73,6 @@ class PlaylistService(
     @Transactional(readOnly = true)
     fun findAllPlaylists(user: LoginUser?, pageable: Pageable): PlaylistsDto {
         val playlists = playlistRepository.findByVisibility(pageable, PUBLIC)
-            .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
