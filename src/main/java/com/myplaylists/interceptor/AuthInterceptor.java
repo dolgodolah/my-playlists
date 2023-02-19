@@ -16,7 +16,7 @@ import java.util.Set;
 public class AuthInterceptor implements HandlerInterceptor {
 
     private static final Set<String> ALLOWED_GUEST_PAGES = new HashSet<>(Arrays.asList(null, "0", "1"));
-    private static final Set<String> PLAYLISTS_URL = new HashSet<>(Arrays.asList("/playlists", "/playlists/"));
+    private static final Set<String> PLAYLISTS_URLS = new HashSet<>(Arrays.asList("/playlists", "/playlists/"));
     private static final String ALL_PLAYLISTS_URL = "/all-playlists";
     private static final String SONGS_URL = "/songs";
     private static final String GET_METHOD = "GET";
@@ -51,7 +51,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String pageParameter = request.getParameter(PAGE);
 
         // 플레이리스트 뷰
-        if (PLAYLISTS_URL.equals(requestURI) && GET_METHOD.equals(requestMethod)) {
+        if (PLAYLISTS_URLS.contains(requestURI) && GET_METHOD.equals(requestMethod)) {
             return true;
         }
 
