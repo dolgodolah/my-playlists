@@ -43,8 +43,7 @@ class PlaylistService(
 
         playlistRepository.findAllByUserId(userId).checkLimitCount()
 
-        val user = userService.findUserByIdOrElseThrow(userId)
-        val playlist = Playlist.of(playlistRequest, user)
+        val playlist = Playlist.of(playlistRequest, userId)
         playlistRepository.save(playlist)
     }
 
@@ -74,11 +73,12 @@ class PlaylistService(
     fun findAllPlaylists(user: LoginUser?, pageable: Pageable): PlaylistsDto {
         val playlists = playlistRepository.findByVisibility(pageable, PUBLIC)
             .map { playlist ->
-                val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
+                val author = userService.findUserById(playlist.userId).nickname
+                val isBookmark = user?.let { bookmarkService.isBookmark(it.userId, playlist.id) } ?: false
+                val isEditable = user?.let { playlist.userId == it.userId } ?: false
                 val songCount = songService.getSongCount(playlist.id!!)
-                val isEditable = user?.let { playlist.user.id == it.userId } ?: false
                 val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
-                playlist.toDTO(encryptedId, playlist.user.nickname, isBookmark, songCount, isEditable)
+                playlist.toDTO(encryptedId, author, isBookmark, songCount, isEditable)
             }.toList()
         return PlaylistsDto.of(playlists)
     }
@@ -92,10 +92,11 @@ class PlaylistService(
             .sortedWith(Comparator.comparing<Bookmark?, LocalDateTime?> { it.playlist.updatedDate }.reversed())
             .map { bookmark ->
                 val playlist = bookmark.playlist
+                val author = userService.findUserById(playlist.userId).nickname
                 val songCount = songService.getSongCount(playlist.id!!)
-                val isEditable = userId == playlist.user.id
+                val isEditable = userId == playlist.userId
                 val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
-                playlist.toDTO(encryptedId, playlist.user.nickname, isBookmark = true, songCount, isEditable)
+                playlist.toDTO(encryptedId, author, isBookmark = true, songCount, isEditable)
             }.toList()
 
         return PlaylistsDto.of(playlists)
@@ -128,11 +129,12 @@ class PlaylistService(
         val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, title)
             .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
-                val isBookmark = bookmarkService.isBookmark(playlist.user.id, playlist.id)
+                val author = userService.findUserById(playlist.userId).nickname
+                val isBookmark = bookmarkService.isBookmark(user.userId, playlist.id)
                 val songCount = songService.getSongCount(playlist.id!!)
-                val isEditable = playlist.user.id == user.userId
+                val isEditable = playlist.userId == user.userId
                 val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
-                playlist.toDTO(encryptedId, playlist.user.nickname, isBookmark, songCount, isEditable)
+                playlist.toDTO(encryptedId, author, isBookmark, songCount, isEditable)
             }.toList()
         return PlaylistsDto.of(playlists)
     }

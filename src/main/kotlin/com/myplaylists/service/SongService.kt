@@ -28,21 +28,23 @@ class SongService(
     private val playlistRepository: PlaylistRepository,
     private val googleClient: GoogleClient,
     private val bookmarkService: BookmarkService,
+    private val userService: UserService,
     @Value("\${playlist.secret}") private val secretKey: String
 ) {
 
     @Transactional(readOnly = true)
     fun createViewContext(user: LoginUser?, playlistId: Long): SongsViewContext {
         val playlist = playlistRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
+        val author = userService.findUserById(playlist.userId).nickname
         val songs = songRepository.findAllByPlaylistId(playlistId)
         val isBookmark = user?.let { bookmarkService.isBookmark(it.userId, playlistId) } ?: false
-        val isEditable = user?.let { playlist.user.id == it.userId } ?: false
+        val isEditable = user?.let { playlist.userId == it.userId } ?: false
         val encryptedId = CryptoUtils.encrypt(playlistId, secretKey)
         return SongsViewContext(
             songs = songs.toDTO().songs,
             currentPlaylist = playlist.toDTO(
                 encryptedId,
-                playlist.user.nickname,
+                author,
                 isBookmark,
                 songs.size,
                 isEditable
@@ -89,7 +91,7 @@ class SongService(
     fun findSongsByPlaylistId(playlistId: Long, userId: Long): SongsDto {
         val playlist = playlistRepository.findById(playlistId).orElseThrow{ NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
 
-        if (playlist.user.id != userId && !playlist.visibility) {
+        if (playlist.userId != userId && !playlist.visibility) {
             throw BadRequestException("해당 플레이리스트는 비공개 플레이리스트입니다.")
         }
 

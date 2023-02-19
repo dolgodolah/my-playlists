@@ -15,17 +15,7 @@ const val MAX_PLAYLIST_COUNT = 50
 class Playlist(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "playlist_id")
     var id: Long? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "user_id",
-        nullable = false,
-        foreignKey = ForeignKey(
-            name = "FK_USER_ID_PLAYLIST",
-            foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE"
-        )
-    )
-    val user: User,
+    val userId: Long,
     var title: String,
     var description: String,
 
@@ -38,15 +28,15 @@ class Playlist(
             .ofPattern("uuuu-MM-dd HH:mm:ss")
             .withZone(ZoneId.systemDefault())
             .withResolverStyle(ResolverStyle.STRICT)
-        fun of(playlist: PlaylistRequestDto, user: User): Playlist = Playlist(
-                user = user,
+        fun of(playlist: PlaylistRequestDto, userId: Long): Playlist = Playlist(
+                userId = userId,
                 title = playlist.title,
                 description = playlist.description,
                 visibility = playlist.visibility
             )
     }
 
-    fun isSameUser(userId: Long) = user.id == userId
+    fun isSameUser(userId: Long) = this.userId == userId
 
     fun validateUser(userId: Long) {
         if (!isSameUser(userId)) {
