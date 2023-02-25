@@ -20,22 +20,11 @@ const val MAX_SONG_COUNT = 100
 class Song(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "song_id")
     var id: Long? = null,
-
+    val playlistId: Long,
     val userId: Long,
     var title: String,
     val videoId: String,
     var description: String = "",
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "playlist_id",
-        nullable = false,
-        foreignKey = ForeignKey(
-            name = "fk_playlist_id_song",
-            foreignKeyDefinition = "FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id) ON DELETE CASCADE"
-        )
-    )
-    val playlist: Playlist,
 ): BaseTime() {
 
     companion object {
@@ -43,11 +32,11 @@ class Song(
             .ofPattern("uuuu-MM-dd HH:mm:ss")
             .withZone(ZoneId.systemDefault())
             .withResolverStyle(ResolverStyle.STRICT)
-        fun of(song: SongAddRequestDto, userId: Long, playlist: Playlist): Song = Song(
+        fun of(song: SongAddRequestDto, userId: Long, playlistId: Long): Song = Song(
             userId = userId,
             title = song.title,
             videoId = song.videoId,
-            playlist = playlist
+            playlistId = playlistId
         )
     }
 

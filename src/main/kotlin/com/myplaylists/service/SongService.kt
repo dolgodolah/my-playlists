@@ -65,7 +65,7 @@ class SongService(
             Song.of(
                 song = songRequestDto,
                 userId = user.userId,
-                playlist = playlist
+                playlistId = playlistId
             )
         )
 
@@ -100,8 +100,7 @@ class SongService(
 
     @Transactional(readOnly = true)
     fun searchSongs(playlistId: Long, title: String): SongsDto {
-        val playlist = playlistRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
-        return songRepository.findByPlaylistAndTitleContaining(playlist, title).toDTO()
+        return songRepository.findByPlaylistIdAndTitleContaining(playlistId, title).toDTO()
     }
 
     fun getSongCount(playlistId: Long): Int = songRepository.findAllByPlaylistId(playlistId).size
