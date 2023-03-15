@@ -30,6 +30,11 @@ public class BookmarkService {
 	}
 
 	@Transactional(readOnly = true)
+	public int findByPlaylistId(Long playlistId) {
+		return bookmarkRepository.findAllByPlaylistId(playlistId).size();
+	}
+
+	@Transactional(readOnly = true)
 	public boolean isBookmark(Long userId, Long playlistId) {
 		return bookmarkRepository.findByUserIdAndPlaylistId(userId, playlistId).isPresent();
 	}

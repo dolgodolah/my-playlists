@@ -26,13 +26,49 @@
 }
 
 .description__container {
-  width: 600px;
-  margin: 30px auto 0 auto;
+  width: 100%;
+  padding: 40px 40px 15px 40px;
 }
 
 .page__p--description {
+  border-radius: 15px;
+  padding: 25px;
+  background-color: rgba(23,32,42,.5);
   color: white;
   font-size: 18px;
   line-height: 25px;
   font-weight: 300;
+}
+
+.details__container {
+  width: 100%;
+  padding: 0 40px 0 40px;
+}
+
+.page__p--update_button {
+  color: white;
+  width: 49%;
+  border-radius: 15px;
+  background-color: rgba(23,32,42,.5);
+  padding: 15px 15px 15px 25px;
+  float: left;
+}
+
+.page__p--bookmark__container {
+  color: white;
+  width: 49%;
+  border-radius: 15px;
+  background-color: rgba(23,32,42,.5);
+  padding: 15px 15px 15px 25px;
+  float: right;
+}
+
+.page__p--bookmark__count {
+  padding: 5px;
+  float: left;
+  border-radius: 15px;
+  text-align: center;
+  background-color: white;
+  color: black;
+  min-width: 35px;
 }

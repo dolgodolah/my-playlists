@@ -7,5 +7,6 @@ import com.myplaylists.dto.ViewContext
 data class SongsViewContext(
     val songs: List<SongResponseDto>,
     val currentPlaylist: PlaylistResponseDto,
-    val isGuest: Boolean = false
+    val isGuest: Boolean = false,
+    val bookmarkCount: Int
 ) : ViewContext

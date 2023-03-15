@@ -1,7 +1,7 @@
 import withPageContext, {PageContext} from "../../components/hoc/withPageContext"
 import ContainerBox from "../../components/ContainerBox";
 import {Songs} from "../../components/songs/Songs";
-import {PlaylistDescription, PlaylistTitle} from "../../components/playlists/PlaylistDetail";
+import {PlaylistDetails, PlaylistTitle} from "../../components/playlists/PlaylistInfos";
 import {useContext, useState} from "react";
 import {YoutubeSearch} from "../../components/songs/YoutubeSearch";
 import {YoutubeVideo} from "../../components/songs/YoutubeVideo";
@@ -53,7 +53,7 @@ const SongsPage = () => {
             right={
               <>
                 <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
-                <PlaylistDescription playlist={currentPlaylist} />
+                <PlaylistDetails playlist={currentPlaylist} bookmarkCount={context.bookmarkCount}/>
               </>
             }
           />
