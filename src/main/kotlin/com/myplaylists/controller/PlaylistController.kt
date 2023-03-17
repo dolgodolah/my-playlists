@@ -77,6 +77,12 @@ class PlaylistController(
     }
 
     @ResponseBody
+    @PutMapping("/playlists")
+    fun updatePlaylist(@RequestBody playlistRequestDto: PlaylistRequestDto, @Login user: LoginUser) {
+        playlistService.updatePlaylist(user.userId, playlistRequestDto)
+    }
+
+    @ResponseBody
     @DeleteMapping("/playlists")
     fun deletePlaylist(@Login user: LoginUser, @RequestParam p: String, @Decrypted playlistId: Long) {
         playlistService.deletePlaylist(user.userId, playlistId)

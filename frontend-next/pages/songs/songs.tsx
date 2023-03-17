@@ -23,6 +23,7 @@ const SongsPage = () => {
   const [playedSong, setPlayedSong] = useState<SongProps>()
   const [step, setStep] = useState(StepType.MAIN)
   const [bookmarkCount, setBookmarkCount] = useState(context.bookmarkCount)
+  const [isEditMode, setEditMode] = useState(false)
 
   const refreshSongs = async () => {
     const res = await client.get(`/refresh-songs?p=${currentPlaylist.playlistId}`)
@@ -33,6 +34,19 @@ const SongsPage = () => {
       default:
         break
     }
+  }
+
+  const onClickEdit = (title: string, description: string) => {
+    if (isEditMode) {
+      client.put("/playlists", {
+        playlistId: currentPlaylist.playlistId,
+        visibility: currentPlaylist.visibility,
+        title,
+        description
+      })
+    }
+
+    setEditMode(!isEditMode)
   }
 
   const render = () => {
@@ -57,10 +71,13 @@ const SongsPage = () => {
                   playlist={currentPlaylist}
                   setStep={setStep}
                   setBookmarkCount={setBookmarkCount}
+                  isEditMode={isEditMode}
                 />
                 <PlaylistDetails
                   playlist={currentPlaylist}
                   bookmarkCount={bookmarkCount}
+                  isEditMode={isEditMode}
+                  onClickEdit={(title, description) => onClickEdit(title, description)}
                 />
               </>
             }
@@ -103,13 +120,15 @@ const SongsPage = () => {
                 setStep={setStep}
                 refreshSongs={refreshSongs}
                 setSongs={setSongs}
-              />}
+              />
+            }
             right={
               <>
                 <PlaylistTitle
                   playlist={currentPlaylist}
                   setStep={setStep}
-                  setBookmarkCount={setBookmarkCount}/>
+                  setBookmarkCount={setBookmarkCount}
+                />
                 {playedSong &&
                   <YoutubeVideo
                     playlist={currentPlaylist}

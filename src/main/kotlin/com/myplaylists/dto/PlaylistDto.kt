@@ -2,7 +2,9 @@ package com.myplaylists.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class PlaylistRequestDto(
+data class PlaylistRequestDto(
+    @JsonProperty("playlistId")
+    val encryptedId: String?,
     val title: String,
     val description: String,
     val visibility: Boolean,

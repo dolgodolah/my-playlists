@@ -47,6 +47,21 @@ class PlaylistService(
         playlistRepository.save(playlist)
     }
 
+    @CacheEvict(key = "#userId", value = ["playlist"])
+    fun updatePlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
+        if (!StringUtils.hasText(playlistRequest.title)) {
+            throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
+        }
+
+        playlistRequest.encryptedId?.let {
+            val playlistId = CryptoUtils.decrypt(it, secretKey).toLong()
+            val playlist = findPlaylistByIdOrElseThrow(playlistId)
+            playlist.validateUser(userId)
+            playlist.title = playlistRequest.title
+            playlist.description = playlistRequest.description
+        } ?: throw BadRequestException()
+    }
+
     /**
      * 내 플레이리스트 목록을 업데이트 최신순으로 조회
      */
