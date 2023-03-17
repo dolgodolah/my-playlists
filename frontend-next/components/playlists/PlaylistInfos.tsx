@@ -4,22 +4,30 @@ import {StepType} from "../../pages/songs/songs";
 import {Icon} from "@iconify/react";
 import React from "react";
 
-interface PlaylistInfosProps {
+interface PlaylistTitleProps {
   playlist: PlaylistProps
-  setStep?: (stepType: StepType) => void
-  bookmarkCount?: number
+  setStep: (stepType: StepType) => void
+  setBookmarkCount: (bookmarkCount: number) => void
 }
-export const PlaylistTitle = ({ playlist, setStep }: PlaylistInfosProps ) => {
+export const PlaylistTitle = ({ playlist, setStep, setBookmarkCount }: PlaylistTitleProps ) => {
   return (
     <div className="title__container">
-      <PlaylistEditBox playlist={playlist} setStep={setStep} />
+      <PlaylistEditBox
+        playlist={playlist}
+        setStep={setStep}
+        setBookmarkCount={setBookmarkCount} />
       <p className="page__p--title">{playlist.title}</p>
       <p className="page__p--author">{playlist.author}님의 플레이리스트</p>
     </div>
   );
 }
 
-export const PlaylistDetails = ({ playlist, bookmarkCount }: PlaylistInfosProps) => {
+interface PlaylistDetailsProps {
+  playlist: PlaylistProps
+  bookmarkCount?: number
+}
+
+export const PlaylistDetails = ({ playlist, bookmarkCount }: PlaylistDetailsProps) => {
   return (
     <>
       <div className="description__container">

@@ -40,7 +40,7 @@ class SongService(
         val isBookmark = user?.let { bookmarkService.isBookmark(it.userId, playlistId) } ?: false
         val isEditable = user?.let { playlist.userId == it.userId } ?: false
         val encryptedId = CryptoUtils.encrypt(playlistId, secretKey)
-        val bookmarkCount = bookmarkService.findByPlaylistId(playlistId)
+        val bookmarkCount = bookmarkService.getBookmarkCount(playlistId)
         return SongsViewContext(
             songs = songs.toDTO().songs,
             currentPlaylist = playlist.toDTO(

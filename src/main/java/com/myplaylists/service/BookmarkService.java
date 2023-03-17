@@ -30,7 +30,7 @@ public class BookmarkService {
 	}
 
 	@Transactional(readOnly = true)
-	public int findByPlaylistId(Long playlistId) {
+	public int getBookmarkCount(Long playlistId) {
 		return bookmarkRepository.findAllByPlaylistId(playlistId).size();
 	}
 

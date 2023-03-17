@@ -9,10 +9,11 @@ import alertError from "../../shared/Error";
 
 interface PlaylistEditBoxProps {
   playlist: PlaylistProps
-  setStep?: (stepType: StepType) => void
+  setStep: (stepType: StepType) => void
+  setBookmarkCount: (bookmarkCount: number) => void
 }
 
-export const PlaylistEditBox = ({ playlist, setStep }: PlaylistEditBoxProps) => {
+export const PlaylistEditBox = ({ playlist, setStep, setBookmarkCount }: PlaylistEditBoxProps) => {
   const client = useClient()
   const [isBookmark, setBookmark] = useState(playlist.isBookmark);
 
@@ -21,10 +22,16 @@ export const PlaylistEditBox = ({ playlist, setStep }: PlaylistEditBoxProps) => 
     switch (res.statusCode) {
       case StatusCode.OK:
         setBookmark(!isBookmark)
+        const _res = await getBookmarkCount()
+        setBookmarkCount(_res.bookmarkCount)
         break
       default:
         alertError(res)
     }
+  }
+
+  const getBookmarkCount = () => {
+    return client.get(`/count-bookmarks?p=${playlist.playlistId}`);
   }
 
   const deletePlaylist = async () => {
@@ -44,7 +51,7 @@ export const PlaylistEditBox = ({ playlist, setStep }: PlaylistEditBoxProps) => 
 
   const goToSongAddStep = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
-    setStep && setStep(StepType.ADD)
+    setStep(StepType.ADD)
   }
 
   return (

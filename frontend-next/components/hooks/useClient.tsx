@@ -6,7 +6,7 @@ export interface JsonResponse extends Record<string, any> {
 }
 
 export default function useClient() {
-  function get(url: string, params: Record<string, any> = {}): Promise<JsonResponse> {
+  function get(url: string, params: Record<string, any> = {}): Record<string, any> {
     const request = appendQueryParams(url, params)
     return axios.get(request, {
       headers: {

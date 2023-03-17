@@ -22,6 +22,7 @@ const SongsPage = () => {
   const [songs, setSongs] = useState(context.songs)
   const [playedSong, setPlayedSong] = useState<SongProps>()
   const [step, setStep] = useState(StepType.MAIN)
+  const [bookmarkCount, setBookmarkCount] = useState(context.bookmarkCount)
 
   const refreshSongs = async () => {
     const res = await client.get(`/refresh-songs?p=${currentPlaylist.playlistId}`)
@@ -52,8 +53,15 @@ const SongsPage = () => {
             }
             right={
               <>
-                <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
-                <PlaylistDetails playlist={currentPlaylist} bookmarkCount={context.bookmarkCount}/>
+                <PlaylistTitle
+                  playlist={currentPlaylist}
+                  setStep={setStep}
+                  setBookmarkCount={setBookmarkCount}
+                />
+                <PlaylistDetails
+                  playlist={currentPlaylist}
+                  bookmarkCount={bookmarkCount}
+                />
               </>
             }
           />
@@ -73,7 +81,11 @@ const SongsPage = () => {
               />}
             right={
               <>
-                <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
+                <PlaylistTitle
+                  playlist={currentPlaylist}
+                  setStep={setStep}
+                  setBookmarkCount={setBookmarkCount}
+                />
                 <YoutubeSearch playlist={currentPlaylist} />
               </>
             }
@@ -94,7 +106,10 @@ const SongsPage = () => {
               />}
             right={
               <>
-                <PlaylistTitle playlist={currentPlaylist} setStep={setStep} />
+                <PlaylistTitle
+                  playlist={currentPlaylist}
+                  setStep={setStep}
+                  setBookmarkCount={setBookmarkCount}/>
                 {playedSong &&
                   <YoutubeVideo
                     playlist={currentPlaylist}

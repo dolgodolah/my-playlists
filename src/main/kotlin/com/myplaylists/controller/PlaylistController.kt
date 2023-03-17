@@ -92,6 +92,15 @@ class PlaylistController(
     }
 
     @ResponseBody
+    @GetMapping("/count-bookmarks")
+    fun getBookmarkCount(
+        @RequestParam p: String,
+        @Decrypted playlistId: Long
+    ): BookmarkDto {
+        return BookmarkDto(bookmarkService.getBookmarkCount(playlistId))
+    }
+
+    @ResponseBody
     @PostMapping("/bookmarks")
     fun toggleBookmark(@Login user: LoginUser, @RequestParam p: String, @Decrypted playlistId: Long) {
         bookmarkService.toggleBookmark(user.userId, playlistId)

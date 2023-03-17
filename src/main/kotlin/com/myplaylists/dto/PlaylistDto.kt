@@ -23,7 +23,7 @@ data class PlaylistResponseDto(
 ): BaseResponse() {
 }
 
-class PlaylistsDto(
+data class PlaylistsDto(
     val playlists: List<PlaylistResponseDto>,
 ): BaseResponse() {
     companion object {
