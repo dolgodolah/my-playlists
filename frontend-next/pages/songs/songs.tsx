@@ -79,6 +79,8 @@ const SongsPage = () => {
                   onClickEdit={onClickEdit}
                 />
                 <PlaylistDetails
+                  description={description}
+                  setNewDescription={setNewDescription}
                   playlist={currentPlaylist}
                   bookmarkCount={bookmarkCount}
                   isEditMode={isEditMode}

@@ -46,15 +46,16 @@ export const PlaylistTitle = ({ title, setNewTitle, playlist, setStep, setBookma
 }
 
 interface PlaylistDetailsProps {
+  description: string
+  setNewDescription: (description: string) => void
   playlist: PlaylistProps
   bookmarkCount: number
   isEditMode?: boolean
   onClickEdit: () => void
 }
 
-export const PlaylistDetails = ({ playlist, bookmarkCount, isEditMode = false, onClickEdit }: PlaylistDetailsProps) => {
+export const PlaylistDetails = ({ description, setNewDescription, playlist, bookmarkCount, isEditMode = false, onClickEdit }: PlaylistDetailsProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [description, setNewDescription] = useState(playlist.description)
 
   const onChangeDescription = (e: FormEvent<HTMLInputElement>) => {
     setNewDescription(e.currentTarget.value)
