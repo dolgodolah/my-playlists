@@ -5,19 +5,41 @@ import {Icon} from "@iconify/react";
 import {KeyboardEvent, FormEvent, useEffect, useRef, useState} from "react";
 
 interface PlaylistTitleProps {
+  title: string
+  setNewTitle?: (title: string) => void
   playlist: PlaylistProps
   setStep: (stepType: StepType) => void
   setBookmarkCount: (bookmarkCount: number) => void
   isEditMode?: boolean
+  onClickEdit?: () => void
 }
-export const PlaylistTitle = ({ playlist, setStep, setBookmarkCount, isEditMode = false }: PlaylistTitleProps ) => {
+export const PlaylistTitle = ({ title, setNewTitle, playlist, setStep, setBookmarkCount, isEditMode = false, onClickEdit }: PlaylistTitleProps ) => {
+  const onChangeTitle = (e: FormEvent<HTMLInputElement>) => {
+    setNewTitle && setNewTitle(e.currentTarget.value)
+  }
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onClickEdit && onClickEdit()
+    }
+  }
+
   return (
     <div className="title__container">
       <PlaylistEditBox
         playlist={playlist}
         setStep={setStep}
-        setBookmarkCount={setBookmarkCount} />
-      <p className="page__p--title">{playlist.title}</p>
+        setBookmarkCount={setBookmarkCount}
+      />
+      {isEditMode &&
+        <input
+          className="page__p--title-input"
+          value={title}
+          onChange={onChangeTitle}
+          onKeyPress={handleKeyPress}
+        />
+      }
+      {!isEditMode && <p className="page__p--title">{title}</p>}
       <p className="page__p--author">{playlist.author}님의 플레이리스트</p>
     </div>
   );
@@ -27,12 +49,12 @@ interface PlaylistDetailsProps {
   playlist: PlaylistProps
   bookmarkCount: number
   isEditMode?: boolean
-  onClickEdit: (title: string, description: string) => void
+  onClickEdit: () => void
 }
 
 export const PlaylistDetails = ({ playlist, bookmarkCount, isEditMode = false, onClickEdit }: PlaylistDetailsProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [newDescription, setNewDescription] = useState(playlist.description)
+  const [description, setNewDescription] = useState(playlist.description)
 
   const onChangeDescription = (e: FormEvent<HTMLInputElement>) => {
     setNewDescription(e.currentTarget.value)
@@ -40,7 +62,7 @@ export const PlaylistDetails = ({ playlist, bookmarkCount, isEditMode = false, o
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onClickEdit(playlist.title, newDescription)
+      onClickEdit()
     }
   }
 
@@ -56,18 +78,16 @@ export const PlaylistDetails = ({ playlist, bookmarkCount, isEditMode = false, o
         {isEditMode &&
           <input
             ref={inputRef}
-            style={{ resize: 'none' }}
-            className="page__p--description"
-            value={newDescription}
+            className="page__p--description-input"
+            value={description}
             onKeyPress={handleKeyPress}
-            onChange={onChangeDescription}>
-          </input>
+            onChange={onChangeDescription}/>
         }
-        {!isEditMode && <p className="page__p--description">{newDescription}</p>}
+        {!isEditMode && <p className="page__p--description">{description}</p>}
       </div>
       <div className="details__container">
         {playlist.isEditable &&
-          <a href="#" onClick={() => onClickEdit(playlist.title, newDescription)} className="page__p--update_button">
+          <a href="#" onClick={onClickEdit} className="page__p--update_button">
             <p style={{ padding: '5px' }}>수정하기</p>
           </a>
         }

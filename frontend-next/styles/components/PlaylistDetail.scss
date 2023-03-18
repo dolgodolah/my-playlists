@@ -17,6 +17,19 @@
   font-weight: 300;
 }
 
+.page__p--title-input {
+  border: 1px solid #4d4d4d;
+  border-radius: 10px;
+  background-color: rgba(23,32,42,.5);
+  color: white;
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 300;
+  word-break: break-all;
+  padding: 3px;
+  width: 700px;
+}
+
 .page__p--author {
   width: 700px;
   color: darken(white, 20%);
@@ -30,7 +43,8 @@
   padding: 40px 40px 15px 40px;
 }
 
-.page__p--description {
+.page__p--description,
+.page__p--description-input {
   width: 100%;
   border-radius: 15px;
   padding: 25px;
@@ -39,6 +53,11 @@
   font-size: 18px;
   line-height: 25px;
   font-weight: 300;
+  word-break: break-all;
+}
+
+.page__p--description-input {
+  border: 1px solid #4d4d4d;
 }
 
 .details__container {

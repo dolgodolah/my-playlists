@@ -19,6 +19,8 @@ const SongsPage = () => {
   const client = useClient()
   const context = useContext(PageContext)
   const [currentPlaylist] = useState(context.currentPlaylist)
+  const [title, setNewTitle] = useState(currentPlaylist.title)
+  const [description, setNewDescription] = useState(currentPlaylist.description)
   const [songs, setSongs] = useState(context.songs)
   const [playedSong, setPlayedSong] = useState<SongProps>()
   const [step, setStep] = useState(StepType.MAIN)
@@ -36,7 +38,7 @@ const SongsPage = () => {
     }
   }
 
-  const onClickEdit = (title: string, description: string) => {
+  const onClickEdit = () => {
     if (isEditMode) {
       client.put("/playlists", {
         playlistId: currentPlaylist.playlistId,
@@ -68,16 +70,19 @@ const SongsPage = () => {
             right={
               <>
                 <PlaylistTitle
+                  title={title}
+                  setNewTitle={setNewTitle}
                   playlist={currentPlaylist}
                   setStep={setStep}
                   setBookmarkCount={setBookmarkCount}
                   isEditMode={isEditMode}
+                  onClickEdit={onClickEdit}
                 />
                 <PlaylistDetails
                   playlist={currentPlaylist}
                   bookmarkCount={bookmarkCount}
                   isEditMode={isEditMode}
-                  onClickEdit={(title, description) => onClickEdit(title, description)}
+                  onClickEdit={onClickEdit}
                 />
               </>
             }
@@ -99,6 +104,7 @@ const SongsPage = () => {
             right={
               <>
                 <PlaylistTitle
+                  title={title}
                   playlist={currentPlaylist}
                   setStep={setStep}
                   setBookmarkCount={setBookmarkCount}
@@ -125,6 +131,7 @@ const SongsPage = () => {
             right={
               <>
                 <PlaylistTitle
+                  title={title}
                   playlist={currentPlaylist}
                   setStep={setStep}
                   setBookmarkCount={setBookmarkCount}
