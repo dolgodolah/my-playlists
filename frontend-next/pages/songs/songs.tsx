@@ -38,14 +38,19 @@ const SongsPage = () => {
     }
   }
 
-  const onClickEdit = () => {
+  const onClickEdit = async () => {
     if (isEditMode) {
-      client.put("/playlists", {
+      const res = await client.put("/playlists", {
         playlistId: currentPlaylist.playlistId,
         visibility: currentPlaylist.visibility,
         title,
         description
       })
+
+      if (res.statusCode === StatusCode.BAD_REQUEST) {
+        alert(res.message)
+        return
+      }
     }
 
     setEditMode(!isEditMode)
