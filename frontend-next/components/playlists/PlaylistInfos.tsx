@@ -66,7 +66,11 @@ export const PlaylistDetails = ({ playlist, bookmarkCount, isEditMode = false, o
         {!isEditMode && <p className="page__p--description">{newDescription}</p>}
       </div>
       <div className="details__container">
-        <a href="#" onClick={() => onClickEdit(playlist.title, newDescription)} className="page__p--update_button"><p style={{ padding: '5px' }}>수정하기</p></a>
+        {playlist.isEditable &&
+          <a href="#" onClick={() => onClickEdit(playlist.title, newDescription)} className="page__p--update_button">
+            <p style={{ padding: '5px' }}>수정하기</p>
+          </a>
+        }
         <div className="page__p--bookmark__container">
           <Icon style={{ float: 'left', padding: '5px'}} icon="bi:star-fill"/>
           <p style={{ padding: '5px', float: 'left' }}>즐겨찾기 수</p>
