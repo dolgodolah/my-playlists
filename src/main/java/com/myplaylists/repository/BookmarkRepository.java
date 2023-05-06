@@ -11,7 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.myplaylists.domain.Bookmark;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 	Page<Bookmark> findByUserId(Pageable pageable, Long userId);
 	@Query(value = "SELECT b FROM Bookmark b WHERE b.user.id = ?1 AND b.playlist.id = ?2")
