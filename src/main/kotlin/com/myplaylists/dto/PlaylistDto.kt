@@ -1,6 +1,14 @@
 package com.myplaylists.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.myplaylists.exception.ApiException
+import com.myplaylists.exception.ExceedLimitException
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.ResolverStyle
+
+const val MAX_PLAYLIST_COUNT = 50
 
 data class PlaylistRequestDto(
     @JsonProperty("playlistId")
@@ -30,5 +38,42 @@ data class PlaylistsDto(
 ): BaseResponse() {
     companion object {
         fun of(playlists: List<PlaylistResponseDto>): PlaylistsDto = PlaylistsDto(playlists = playlists)
+    }
+}
+
+data class PlaylistCacheDTO(
+    val playlistId: Long,
+    val userId: Long,
+    val title: String,
+    val description: String,
+    val updatedDate: LocalDateTime,
+    val createdDate: LocalDateTime,
+    val visibility: Boolean
+) {
+    companion object {
+        val DATE_DISPLAY_FORMATTER: DateTimeFormatter = DateTimeFormatter
+            .ofPattern("uuuu-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault())
+            .withResolverStyle(ResolverStyle.STRICT)
+    }
+
+    fun toDTO(encryptedId: String, author: String, isBookmark: Boolean, songCount: Int, isEditable: Boolean): PlaylistResponseDto {
+        return PlaylistResponseDto(
+            encryptedId = encryptedId,
+            title = this.title,
+            description = this.description,
+            updatedDate = DATE_DISPLAY_FORMATTER.format(this.updatedDate),
+            visibility = this.visibility,
+            author = author,
+            isBookmark = isBookmark,
+            songCount = songCount,
+            isEditable = isEditable
+        )
+    }
+}
+
+fun List<PlaylistCacheDTO>.checkLimitCount() {
+    if (this.size >= MAX_PLAYLIST_COUNT) {
+        throw ExceedLimitException("플레이리스트는 최대 50개까지 생성 가능합니다.")
     }
 }

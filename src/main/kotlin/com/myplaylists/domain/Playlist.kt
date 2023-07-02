@@ -1,9 +1,11 @@
 package com.myplaylists.domain
 
+import com.myplaylists.dto.PlaylistCacheDTO
 import com.myplaylists.dto.PlaylistRequestDto
 import com.myplaylists.dto.PlaylistResponseDto
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.ResolverStyle
@@ -42,6 +44,24 @@ class Playlist(
         if (!isSameUser(userId)) {
             throw ApiException("잘못된 요청입니다.", 1)
         }
+    }
+
+    fun updateTitleAndDescription(playlist: PlaylistRequestDto): Playlist {
+        this.title = playlist.title
+        this.description = playlist.description
+        return this
+    }
+
+    fun toCacheDTO(updatedDate: LocalDateTime = this.updatedDate): PlaylistCacheDTO {
+        return PlaylistCacheDTO(
+            playlistId = this.id!!,
+            userId = this.userId,
+            title = this.title,
+            description = this.description,
+            updatedDate = updatedDate,
+            createdDate = this.createdDate,
+            visibility = this.visibility
+        )
     }
 
     fun toDTO(encryptedId: String, author: String, isBookmark: Boolean, songCount: Int, isEditable: Boolean): PlaylistResponseDto {

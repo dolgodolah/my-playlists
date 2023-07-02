@@ -2,32 +2,32 @@ package com.myplaylists.service
 
 import com.myplaylists.domain.Bookmark
 import com.myplaylists.domain.Playlist
-import com.myplaylists.domain.checkLimitCount
+import com.myplaylists.dto.PlaylistCacheDTO
 import com.myplaylists.dto.PlaylistRequestDto
 import com.myplaylists.dto.PlaylistsDto
 import com.myplaylists.dto.auth.LoginUser
-import com.myplaylists.exception.ApiException
+import com.myplaylists.dto.checkLimitCount
 import com.myplaylists.exception.BadRequestException
-import com.myplaylists.repository.PlaylistRepository
+import com.myplaylists.repository.cache.PlaylistCacheRepository
+import com.myplaylists.repository.PlaylistJpaRepository
 import com.myplaylists.utils.CryptoUtils
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StringUtils
-import java.net.URLEncoder
 import java.time.LocalDateTime
 import java.util.Comparator
 
+// TODO: MyPlaylistService, AllPlaylistService 분리하자.
 @Service
 @Transactional
 class PlaylistService(
     private val userService: UserService,
     private val bookmarkService: BookmarkService,
     private val songService: SongService,
-    private val playlistRepository: PlaylistRepository,
+    private val playlistJpaRepository: PlaylistJpaRepository,
+    private val playlistCacheRepository: PlaylistCacheRepository,
     @Value("\${playlist.secret}") private val secretKey: String
 ) {
 
@@ -35,19 +35,18 @@ class PlaylistService(
         const val PUBLIC = true
     }
 
-    @CacheEvict(key = "#userId", value = ["playlist"])
     fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
         if (!StringUtils.hasText(playlistRequest.title)) {
             throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
         }
 
-        playlistRepository.findAllByUserId(userId).checkLimitCount()
-
-        val playlist = Playlist.of(playlistRequest, userId)
-        playlistRepository.save(playlist)
+        playlistCacheRepository.findAllByUserId(userId).checkLimitCount()
+        playlistCacheRepository.create(
+            playlist = Playlist.of(playlistRequest, userId),
+            userId = userId
+        )
     }
 
-    @CacheEvict(key = "#userId", value = ["playlist"])
     fun updatePlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
         if (!StringUtils.hasText(playlistRequest.title)) {
             throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
@@ -55,10 +54,7 @@ class PlaylistService(
 
         playlistRequest.encryptedId?.let {
             val playlistId = CryptoUtils.decrypt(it, secretKey).toLong()
-            val playlist = findPlaylistByIdOrElseThrow(playlistId)
-            playlist.validateUser(userId)
-            playlist.title = playlistRequest.title
-            playlist.description = playlistRequest.description
+            playlistCacheRepository.update(playlistId, playlistRequest)
         } ?: throw BadRequestException()
     }
 
@@ -66,17 +62,16 @@ class PlaylistService(
      * 내 플레이리스트 목록을 업데이트 최신순으로 조회
      */
     @Transactional(readOnly = true)
-    @Cacheable(key = "#userId", value = ["playlist"])
     fun findMyPlaylists(userId: Long): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findAllByUserId(userId)
-            .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
-            .map { playlist ->
-                val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
-                val songCount = songService.getSongCount(playlist.id!!)
-                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
-                playlist.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
-            }.toList()
+        val playlists = playlistCacheRepository.findAllByUserId(userId)
+            .sortedWith(Comparator.comparing(PlaylistCacheDTO::updatedDate).reversed())
+            .map {
+                val isBookmark = bookmarkService.isBookmark(userId, it.playlistId)
+                val songCount = songService.getSongCount(it.playlistId)
+                val encryptedId = CryptoUtils.encrypt(it.playlistId, secretKey)
+                it.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
+            }
 
         return PlaylistsDto.of(playlists)
     }
@@ -86,7 +81,7 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findAllPlaylists(user: LoginUser?, pageable: Pageable): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibility(pageable, PUBLIC)
+        val playlists = playlistJpaRepository.findByVisibility(pageable, PUBLIC)
             .map { playlist ->
                 val author = userService.findUserById(playlist.userId).nickname
                 val isBookmark = user?.let { bookmarkService.isBookmark(it.userId, playlist.id) } ?: false
@@ -117,23 +112,22 @@ class PlaylistService(
         return PlaylistsDto.of(playlists)
     }
 
-    @CacheEvict(key = "#userId", value = ["playlist"])
     fun deletePlaylist(userId: Long, playlistId: Long) {
-        val playlist = findPlaylistByIdOrElseThrow(playlistId)
-        playlist.validateUser(userId)
-        playlistRepository.delete(playlist)
+        playlistCacheRepository.deleteById(playlistId, userId)
     }
 
     @Transactional(readOnly = true)
     fun searchMyPlaylists(userId: Long, title: String): PlaylistsDto {
         val user = userService.findUserById(userId)
-        val playlists = playlistRepository.findAllByUserIdAndTitleContaining(userId, title)
-            .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
-            .map { playlist ->
-                val isBookmark = bookmarkService.isBookmark(userId, playlist.id)
-                val songCount = songService.getSongCount(playlist.id!!)
-                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
-                playlist.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
+        val playlists = playlistCacheRepository.findAllByUserId(userId)
+            .filter {
+                it.title.contains(title, ignoreCase = true)
+            }.sortedWith(Comparator.comparing(PlaylistCacheDTO::updatedDate).reversed())
+            .map {
+                val isBookmark = bookmarkService.isBookmark(userId, it.playlistId)
+                val songCount = songService.getSongCount(it.playlistId)
+                val encryptedId = CryptoUtils.encrypt(it.playlistId, secretKey)
+                it.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
             }.toList()
 
         return PlaylistsDto.of(playlists)
@@ -141,7 +135,7 @@ class PlaylistService(
 
     @Transactional(readOnly = true)
     fun searchAllPlaylists(user: LoginUser, pageable: Pageable, title: String): PlaylistsDto {
-        val playlists = playlistRepository.findByVisibilityAndTitleContaining(pageable, true, title)
+        val playlists = playlistJpaRepository.findByVisibilityAndTitleContaining(pageable, true, title)
             .sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
             .map { playlist ->
                 val author = userService.findUserById(playlist.userId).nickname
@@ -153,7 +147,4 @@ class PlaylistService(
             }.toList()
         return PlaylistsDto.of(playlists)
     }
-
-    fun findPlaylistByIdOrElseThrow(playlistId: Long): Playlist =
-        playlistRepository.findById(playlistId).orElseThrow { ApiException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.", 1) }
 }

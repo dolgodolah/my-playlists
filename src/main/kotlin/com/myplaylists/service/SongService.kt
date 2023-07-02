@@ -12,7 +12,7 @@ import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.dto.context.SongsViewContext
 import com.myplaylists.exception.BadRequestException
 import com.myplaylists.exception.NotFoundException
-import com.myplaylists.repository.PlaylistRepository
+import com.myplaylists.repository.PlaylistJpaRepository
 import com.myplaylists.repository.SongRepository
 import com.myplaylists.utils.CryptoUtils
 import org.springframework.beans.factory.annotation.Value
@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 @Transactional
 class SongService(
     private val songRepository: SongRepository,
-    private val playlistRepository: PlaylistRepository,
+    private val playlistJpaRepository: PlaylistJpaRepository,
     private val googleClient: GoogleClient,
     private val bookmarkService: BookmarkService,
     private val userService: UserService,
@@ -34,7 +34,7 @@ class SongService(
 
     @Transactional(readOnly = true)
     fun createViewContext(user: LoginUser?, playlistId: Long): SongsViewContext {
-        val playlist = playlistRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
+        val playlist = playlistJpaRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
         val author = userService.findUserById(playlist.userId).nickname
         val songs = songRepository.findAllByPlaylistId(playlistId)
         val isBookmark = user?.let { bookmarkService.isBookmark(it.userId, playlistId) } ?: false
@@ -58,7 +58,7 @@ class SongService(
     @CacheEvict(key = "#user.userId", value = ["playlist"])
     fun addSong(user: LoginUser, songRequestDto: SongAddRequestDto): Long {
         val playlistId = CryptoUtils.decrypt(songRequestDto.encryptedId, secretKey).toLong()
-        val playlist = playlistRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
+        val playlist = playlistJpaRepository.findById(playlistId).orElseThrow { NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
         playlist.validateUser(user.userId)
 
         songRepository.findAllByPlaylistId(playlist.id).checkLimitCount()
@@ -91,7 +91,7 @@ class SongService(
 
     @Transactional(readOnly = true)
     fun findSongsByPlaylistId(playlistId: Long, userId: Long): SongsDto {
-        val playlist = playlistRepository.findById(playlistId).orElseThrow{ NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
+        val playlist = playlistJpaRepository.findById(playlistId).orElseThrow{ NotFoundException("해당 플레이리스트는 삭제되었거나 존재하지 않는 플레이리스트입니다.") }
 
         if (playlist.userId != userId && !playlist.visibility) {
             throw BadRequestException("해당 플레이리스트는 비공개 플레이리스트입니다.")
