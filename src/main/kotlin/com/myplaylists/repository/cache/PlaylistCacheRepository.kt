@@ -4,11 +4,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.myplaylists.domain.Playlist
 import com.myplaylists.dto.PlaylistCacheDTO
-import com.myplaylists.dto.PlaylistRequestDto
+import com.myplaylists.dto.PlaylistUpdateRequestDto
 import com.myplaylists.exception.NotFoundException
 import com.myplaylists.repository.PlaylistJpaRepository
 import org.springframework.stereotype.Repository
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Repository
@@ -68,7 +67,7 @@ open class PlaylistCacheRepository(
         }
     }
 
-    open fun update(playlistId: Long, playlistRequestDto: PlaylistRequestDto) {
+    open fun update(playlistId: Long, playlistRequestDto: PlaylistUpdateRequestDto) {
         val now = LocalDateTime.now()
 
         // DB 갱신

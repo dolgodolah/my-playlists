@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.net.URI
+import javax.validation.Valid
 
 @Controller
 class PlaylistController(
@@ -72,13 +73,13 @@ class PlaylistController(
 
     @ResponseBody
     @PostMapping("/playlists")
-    fun createPlaylist(@RequestBody playlistRequestDto: PlaylistRequestDto, @Login user: LoginUser) {
+    fun createPlaylist(@RequestBody @Valid playlistRequestDto: PlaylistAddRequestDto, @Login user: LoginUser) {
         playlistService.createPlaylist(user.userId, playlistRequestDto)
     }
 
     @ResponseBody
     @PutMapping("/playlists")
-    fun updatePlaylist(@RequestBody playlistRequestDto: PlaylistRequestDto, @Login user: LoginUser) {
+    fun updatePlaylist(@RequestBody @Valid playlistRequestDto: PlaylistUpdateRequestDto, @Login user: LoginUser) {
         playlistService.updatePlaylist(user.userId, playlistRequestDto)
     }
 

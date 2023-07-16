@@ -3,20 +3,30 @@ package com.myplaylists.dto
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
+import com.myplaylists.utils.CryptoUtils
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.ResolverStyle
+import javax.validation.constraints.NotBlank
 
 const val MAX_PLAYLIST_COUNT = 50
 
-data class PlaylistRequestDto(
+data class PlaylistAddRequestDto(
+    val title: String,
+    val description: String,
+    val visibility: Boolean,
+)
+
+data class PlaylistUpdateRequestDto(
     @JsonProperty("playlistId")
-    val encryptedId: String?,
+    val encryptedId: String,
     val title: String,
     val description: String,
     val visibility: Boolean,
 ) {
+    fun getDecryptedId(secretKey: String): Long = CryptoUtils.decrypt(this.encryptedId, secretKey).toLong()
+
 }
 
 data class PlaylistResponseDto(

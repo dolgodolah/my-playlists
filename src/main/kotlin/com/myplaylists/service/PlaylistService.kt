@@ -2,11 +2,8 @@ package com.myplaylists.service
 
 import com.myplaylists.domain.Bookmark
 import com.myplaylists.domain.Playlist
-import com.myplaylists.dto.PlaylistCacheDTO
-import com.myplaylists.dto.PlaylistRequestDto
-import com.myplaylists.dto.PlaylistsDto
+import com.myplaylists.dto.*
 import com.myplaylists.dto.auth.LoginUser
-import com.myplaylists.dto.checkLimitCount
 import com.myplaylists.exception.BadRequestException
 import com.myplaylists.repository.cache.PlaylistCacheRepository
 import com.myplaylists.repository.PlaylistJpaRepository
@@ -35,11 +32,11 @@ class PlaylistService(
         const val PUBLIC = true
     }
 
-    fun createPlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
         if (!StringUtils.hasText(playlistRequest.title)) {
             throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
         }
 
+    fun createPlaylist(userId: Long, playlistRequest: PlaylistAddRequestDto) {
         playlistCacheRepository.findAllByUserId(userId).checkLimitCount()
         playlistCacheRepository.create(
             playlist = Playlist.of(playlistRequest, userId),
@@ -47,15 +44,14 @@ class PlaylistService(
         )
     }
 
-    fun updatePlaylist(userId: Long, playlistRequest: PlaylistRequestDto) {
         if (!StringUtils.hasText(playlistRequest.title)) {
             throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
         }
-
-        playlistRequest.encryptedId?.let {
-            val playlistId = CryptoUtils.decrypt(it, secretKey).toLong()
-            playlistCacheRepository.update(playlistId, playlistRequest)
-        } ?: throw BadRequestException()
+    fun updatePlaylist(userId: Long, playlistRequest: PlaylistUpdateRequestDto) {
+        playlistCacheRepository.update(
+            playlistId = playlistRequest.getDecryptedId(secretKey),
+            playlistRequestDto = playlistRequest
+        )
     }
 
     /**

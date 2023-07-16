@@ -1,8 +1,6 @@
 package com.myplaylists.domain
 
-import com.myplaylists.dto.PlaylistCacheDTO
-import com.myplaylists.dto.PlaylistRequestDto
-import com.myplaylists.dto.PlaylistResponseDto
+import com.myplaylists.dto.*
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
 import java.time.LocalDateTime
@@ -30,7 +28,7 @@ class Playlist(
             .ofPattern("uuuu-MM-dd HH:mm:ss")
             .withZone(ZoneId.systemDefault())
             .withResolverStyle(ResolverStyle.STRICT)
-        fun of(playlist: PlaylistRequestDto, userId: Long): Playlist = Playlist(
+        fun of(playlist: PlaylistAddRequestDto, userId: Long): Playlist = Playlist(
                 userId = userId,
                 title = playlist.title,
                 description = playlist.description,
@@ -46,7 +44,7 @@ class Playlist(
         }
     }
 
-    fun updateTitleAndDescription(playlist: PlaylistRequestDto): Playlist {
+    fun updateTitleAndDescription(playlist: PlaylistUpdateRequestDto): Playlist {
         this.title = playlist.title
         this.description = playlist.description
         return this
