@@ -1,10 +1,8 @@
 package com.myplaylists.service
 
-import com.myplaylists.domain.Bookmark
-import com.myplaylists.domain.Playlist
+import com.myplaylists.domain.*
 import com.myplaylists.dto.*
 import com.myplaylists.dto.auth.LoginUser
-import com.myplaylists.exception.BadRequestException
 import com.myplaylists.repository.cache.PlaylistCacheRepository
 import com.myplaylists.repository.PlaylistJpaRepository
 import com.myplaylists.utils.CryptoUtils
@@ -12,8 +10,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.util.StringUtils
-import java.time.LocalDateTime
 import java.util.Comparator
 
 // TODO: MyPlaylistService, AllPlaylistService 분리하자.
@@ -52,17 +48,17 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findMyPlaylists(userId: Long): PlaylistsDto {
-        val user = userService.findUserById(userId)
-        val playlists = playlistCacheRepository.findAllByUserId(userId)
-            .sortedWith(Comparator.comparing(PlaylistCacheDTO::updatedDate).reversed())
-            .map {
-                val isBookmark = bookmarkService.isBookmark(userId, it.playlistId)
-                val songCount = songService.getSongCount(it.playlistId)
-                val encryptedId = CryptoUtils.encrypt(it.playlistId, secretKey)
-                it.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
-            }
+        val me = userService.findUserById(userId)
+        val myPlaylists = playlistCacheRepository.findAllByUserId(userId)
+            .sortByLatest()
+            .toResponseDTO(
+                isBookmark = { playlistId: Long -> bookmarkService.isBookmark(userId, playlistId) },
+                getSongCount = { playlistId: Long -> songService.getSongCount(playlistId) },
+                myNickname = me.nickname,
+                secretKey = secretKey
+            )
 
-        return PlaylistsDto.of(playlists)
+        return PlaylistsDto.of(myPlaylists)
     }
 
     /**
@@ -76,7 +72,7 @@ class PlaylistService(
                 val isBookmark = user?.let { bookmarkService.isBookmark(it.userId, playlist.id) } ?: false
                 val isEditable = user?.let { playlist.userId == it.userId } ?: false
                 val songCount = songService.getSongCount(playlist.id!!)
-                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
+                val encryptedId = playlist.getEncryptedId(secretKey)
                 playlist.toDTO(encryptedId, author, isBookmark, songCount, isEditable)
             }.toList()
         return PlaylistsDto.of(playlists)
@@ -87,16 +83,15 @@ class PlaylistService(
      */
     @Transactional(readOnly = true)
     fun findBookmarkPlaylists(userId: Long, pageable: Pageable): PlaylistsDto {
-        val playlists = bookmarkService.findByUserId(userId, pageable)
-            .sortedWith(Comparator.comparing<Bookmark?, LocalDateTime?> { it.playlist.updatedDate }.reversed())
-            .map { bookmark ->
-                val playlist = bookmark.playlist
-                val author = userService.findUserById(playlist.userId).nickname
-                val songCount = songService.getSongCount(playlist.id!!)
-                val isEditable = userId == playlist.userId
-                val encryptedId = CryptoUtils.encrypt(playlist.id!!, secretKey)
-                playlist.toDTO(encryptedId, author, isBookmark = true, songCount, isEditable)
-            }.toList()
+        val bookmarks = Bookmarks(bookmarkService.findByUserId(userId, pageable))
+        val playlists = bookmarks.toPlaylists()
+            .sortByLatest()
+            .toResponseDTO(
+                getNickname = { playlistUserId: Long -> userService.findUserById(playlistUserId).nickname },
+                getSongCount = { playlistId: Long -> songService.getSongCount(playlistId) },
+                isEditable = { playlistUserId: Long -> userId == playlistUserId},
+                secretKey = secretKey
+            )
 
         return PlaylistsDto.of(playlists)
     }
@@ -107,17 +102,16 @@ class PlaylistService(
 
     @Transactional(readOnly = true)
     fun searchMyPlaylists(userId: Long, title: String): PlaylistsDto {
-        val user = userService.findUserById(userId)
+        val me = userService.findUserById(userId)
         val playlists = playlistCacheRepository.findAllByUserId(userId)
-            .filter {
-                it.title.contains(title, ignoreCase = true)
-            }.sortedWith(Comparator.comparing(PlaylistCacheDTO::updatedDate).reversed())
-            .map {
-                val isBookmark = bookmarkService.isBookmark(userId, it.playlistId)
-                val songCount = songService.getSongCount(it.playlistId)
-                val encryptedId = CryptoUtils.encrypt(it.playlistId, secretKey)
-                it.toDTO(encryptedId, user.nickname, isBookmark, songCount, isEditable = true)
-            }.toList()
+            .filterContainingTitle(title)
+            .sortByLatest()
+            .toResponseDTO(
+                isBookmark = { playlistId: Long -> bookmarkService.isBookmark(userId, playlistId) },
+                getSongCount = { playlistId: Long -> songService.getSongCount(playlistId) },
+                myNickname = me.nickname,
+                secretKey = secretKey
+            )
 
         return PlaylistsDto.of(playlists)
     }

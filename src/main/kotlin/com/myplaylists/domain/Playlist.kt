@@ -3,6 +3,7 @@ package com.myplaylists.domain
 import com.myplaylists.dto.*
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
+import com.myplaylists.utils.CryptoUtils
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -35,6 +36,8 @@ class Playlist(
                 visibility = playlist.visibility
             )
     }
+
+    fun getEncryptedId(secretKey: String): String = CryptoUtils.encrypt(this.id!!, secretKey)
 
     fun isSameUser(userId: Long) = this.userId == userId
 
@@ -80,5 +83,25 @@ class Playlist(
 fun List<Playlist>.checkLimitCount() {
     if (this.size >= MAX_PLAYLIST_COUNT) {
         throw ExceedLimitException("플레이리스트는 최대 50개까지 생성 가능합니다.")
+    }
+}
+
+fun List<Playlist>.sortByLatest() = this.sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
+
+typealias BookmarkPlaylists = List<Playlist>
+fun BookmarkPlaylists.toResponseDTO(
+    getNickname: (userId: Long) -> String,
+    isEditable: (userId: Long) -> Boolean,
+    getSongCount: (playlistId: Long) -> Int,
+    secretKey: String,
+): List<PlaylistResponseDto> {
+    return this.map {
+        it.toDTO(
+            encryptedId = it.getEncryptedId(secretKey),
+            author = getNickname(it.userId),
+            isBookmark = true,
+            isEditable = isEditable(it.userId),
+            songCount = getSongCount(it.id!!)
+        )
     }
 }

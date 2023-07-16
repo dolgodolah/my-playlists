@@ -7,10 +7,14 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.ResolverStyle
+import java.util.Comparator
 import javax.validation.constraints.NotBlank
 
 const val MAX_PLAYLIST_COUNT = 50
 
+/**
+ * 플레이리스트 생성 요청
+ */
 data class PlaylistAddRequestDto(
     @field:NotBlank(message = "플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
     val title: String,
@@ -18,6 +22,9 @@ data class PlaylistAddRequestDto(
     val visibility: Boolean,
 )
 
+/**
+ * 플레이리스트 수정 요청
+ */
 data class PlaylistUpdateRequestDto(
     @JsonProperty("playlistId")
     val encryptedId: String,
@@ -30,6 +37,9 @@ data class PlaylistUpdateRequestDto(
 
 }
 
+/**
+ * 플레이리스트 응답
+ */
 data class PlaylistResponseDto(
     @JsonProperty("playlistId")
     val encryptedId: String,            // 암호화된 식별값
@@ -41,9 +51,11 @@ data class PlaylistResponseDto(
     val isBookmark: Boolean,            // 즐겨찾기 여부
     val songCount: Int,                 // 수록곡 수
     val isEditable: Boolean,            // 편집 가능 여부
-): BaseResponse() {
-}
+): BaseResponse()
 
+/**
+ * List<플레이리스트> 응답
+ */
 data class PlaylistsDto(
     val playlists: List<PlaylistResponseDto>,
 ): BaseResponse() {
@@ -68,6 +80,9 @@ data class PlaylistCacheDTO(
             .withResolverStyle(ResolverStyle.STRICT)
     }
 
+    fun getEncryptedId(secretKey: String): String = CryptoUtils.encrypt(this.playlistId, secretKey)
+
+
     fun toDTO(encryptedId: String, author: String, isBookmark: Boolean, songCount: Int, isEditable: Boolean): PlaylistResponseDto {
         return PlaylistResponseDto(
             encryptedId = encryptedId,
@@ -86,5 +101,27 @@ data class PlaylistCacheDTO(
 fun List<PlaylistCacheDTO>.checkLimitCount() {
     if (this.size >= MAX_PLAYLIST_COUNT) {
         throw ExceedLimitException("플레이리스트는 최대 50개까지 생성 가능합니다.")
+    }
+}
+
+fun List<PlaylistCacheDTO>.sortByLatest() = this.sortedWith(Comparator.comparing(PlaylistCacheDTO::updatedDate).reversed())
+fun List<PlaylistCacheDTO>.filterContainingTitle(title: String) = this.filter { it.title.contains(title, ignoreCase = true) }
+
+typealias CachedMyPlaylists = List<PlaylistCacheDTO>
+
+fun CachedMyPlaylists.toResponseDTO(
+    isBookmark: (playlistId: Long) -> Boolean,
+    getSongCount: (playlistId: Long) -> Int,
+    myNickname: String,
+    secretKey: String
+): List<PlaylistResponseDto> {
+    return this.map {
+        it.toDTO(
+            encryptedId = it.getEncryptedId(secretKey),
+            author = myNickname,
+            isBookmark = isBookmark(it.playlistId),
+            songCount = getSongCount(it.playlistId),
+            isEditable = true
+        )
     }
 }
