@@ -4,6 +4,7 @@ import com.myplaylists.dto.BaseResponse;
 import com.myplaylists.dto.ErrorResponse;
 import com.myplaylists.exception.ApiException;
 import com.myplaylists.exception.AuthRequiredException;
+import com.myplaylists.exception.BadRequestException;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -19,6 +22,18 @@ import java.net.URI;
 
 @RestControllerAdvice
 public class Handler implements ResponseBodyAdvice {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse exceptionHandler(final MethodArgumentNotValidException e) {
+        FieldError error = e.getBindingResult().getFieldError();
+        if (error == null || error.getDefaultMessage() == null) {
+            return new ErrorResponse(new BadRequestException());
+        }
+
+        String errorMessage = error.getDefaultMessage();
+        BadRequestException badRequestException = new BadRequestException(errorMessage);
+        return new ErrorResponse(badRequestException);
+    }
 
     @ExceptionHandler(AuthRequiredException.class)
     public ResponseEntity<String> redirectToLogin() {

@@ -32,10 +32,6 @@ class PlaylistService(
         const val PUBLIC = true
     }
 
-        if (!StringUtils.hasText(playlistRequest.title)) {
-            throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
-        }
-
     fun createPlaylist(userId: Long, playlistRequest: PlaylistAddRequestDto) {
         playlistCacheRepository.findAllByUserId(userId).checkLimitCount()
         playlistCacheRepository.create(
@@ -44,9 +40,6 @@ class PlaylistService(
         )
     }
 
-        if (!StringUtils.hasText(playlistRequest.title)) {
-            throw BadRequestException("플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
-        }
     fun updatePlaylist(userId: Long, playlistRequest: PlaylistUpdateRequestDto) {
         playlistCacheRepository.update(
             playlistId = playlistRequest.getDecryptedId(secretKey),

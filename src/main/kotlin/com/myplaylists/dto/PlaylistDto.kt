@@ -1,7 +1,6 @@
 package com.myplaylists.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
 import com.myplaylists.utils.CryptoUtils
 import java.time.LocalDateTime
@@ -13,6 +12,7 @@ import javax.validation.constraints.NotBlank
 const val MAX_PLAYLIST_COUNT = 50
 
 data class PlaylistAddRequestDto(
+    @field:NotBlank(message = "플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
     val title: String,
     val description: String,
     val visibility: Boolean,
@@ -21,6 +21,7 @@ data class PlaylistAddRequestDto(
 data class PlaylistUpdateRequestDto(
     @JsonProperty("playlistId")
     val encryptedId: String,
+    @field:NotBlank(message = "플레이리스트 타이틀이 공백이거나 입력되지 않았습니다.")
     val title: String,
     val description: String,
     val visibility: Boolean,
