@@ -28,25 +28,21 @@ open class PlaylistCacheRepository(
         jdbcRepository.save(playlist)
     }
 
-    open fun deleteById(playlistId: Long, userId: Long) {
+    open fun deletePlaylistCache(playlistId: Long, userId: Long) {
         evictCache(userId = userId, playlistId = playlistId)
         jdbcRepository.deleteById(playlistId)
     }
 
-    open fun findById(playlistId: Long): PlaylistCacheDTO? {
+    open fun findById(playlistId: Long): PlaylistCacheDTO {
         val key = "$PLAYLIST_BY_ID_PREFIX$playlistId"
 
         return redisJsonDao.get(key)?.let { cache ->
             gson.fromJson(cache, PlaylistCacheDTO::class.java)
         } ?: run {
-            val dbValue = jdbcRepository.findById(playlistId)
-            if (dbValue.isPresent) {
-                val returnValue = dbValue.get().toCacheDTO()
-                redisJsonDao.setIfAbsent(key, gson.toJson(returnValue))
-                return returnValue
-            }
-
-            return null
+            val dbValue = jdbcRepository.findById(playlistId).orElseThrow { NotFoundException("not found playlist, playlistId=$playlistId") }
+            val returnValue = dbValue.toCacheDTO()
+            redisJsonDao.setIfAbsent(key, gson.toJson(returnValue))
+            return returnValue
         }
     }
 

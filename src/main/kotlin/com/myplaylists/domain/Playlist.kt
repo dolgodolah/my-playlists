@@ -4,6 +4,7 @@ import com.myplaylists.dto.*
 import com.myplaylists.exception.ApiException
 import com.myplaylists.exception.ExceedLimitException
 import com.myplaylists.utils.CryptoUtils
+import org.springframework.data.domain.Page
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -88,8 +89,8 @@ fun List<Playlist>.checkLimitCount() {
 
 fun List<Playlist>.sortByLatest() = this.sortedWith(Comparator.comparing(Playlist::updatedDate).reversed())
 
-typealias BookmarkPlaylists = List<Playlist>
-fun BookmarkPlaylists.toResponseDTO(
+fun List<Playlist>.toResponseDTO(
+    isBookmark: Boolean,
     getNickname: (userId: Long) -> String,
     isEditable: (userId: Long) -> Boolean,
     getSongCount: (playlistId: Long) -> Int,
@@ -99,7 +100,7 @@ fun BookmarkPlaylists.toResponseDTO(
         it.toDTO(
             encryptedId = it.getEncryptedId(secretKey),
             author = getNickname(it.userId),
-            isBookmark = true,
+            isBookmark = isBookmark,
             isEditable = isEditable(it.userId),
             songCount = getSongCount(it.id!!)
         )

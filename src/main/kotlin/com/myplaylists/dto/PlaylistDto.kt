@@ -1,6 +1,7 @@
 package com.myplaylists.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.myplaylists.exception.BadRequestException
 import com.myplaylists.exception.ExceedLimitException
 import com.myplaylists.utils.CryptoUtils
 import java.time.LocalDateTime
@@ -80,6 +81,12 @@ data class PlaylistCacheDTO(
             .withResolverStyle(ResolverStyle.STRICT)
     }
 
+    fun throwIfNotMyPlaylist(meId: Long) {
+        if (this.userId != meId) {
+            throw BadRequestException()
+        }
+    }
+
     fun getEncryptedId(secretKey: String): String = CryptoUtils.encrypt(this.playlistId, secretKey)
 
 
@@ -105,15 +112,14 @@ fun List<PlaylistCacheDTO>.checkLimitCount() {
 }
 
 fun List<PlaylistCacheDTO>.sortByLatest() = this.sortedWith(Comparator.comparing(PlaylistCacheDTO::updatedDate).reversed())
-fun List<PlaylistCacheDTO>.filterContainingTitle(title: String) = this.filter { it.title.contains(title, ignoreCase = true) }
+fun List<PlaylistResponseDto>.filterContainingTitle(title: String) = this.filter { it.title.contains(title, ignoreCase = true) }
 
-typealias CachedMyPlaylists = List<PlaylistCacheDTO>
-
-fun CachedMyPlaylists.toResponseDTO(
+fun List<PlaylistCacheDTO>.toResponseDTO(
     isBookmark: (playlistId: Long) -> Boolean,
     getSongCount: (playlistId: Long) -> Int,
     myNickname: String,
-    secretKey: String
+    secretKey: String,
+    isEditable: Boolean
 ): List<PlaylistResponseDto> {
     return this.map {
         it.toDTO(
@@ -121,7 +127,7 @@ fun CachedMyPlaylists.toResponseDTO(
             author = myNickname,
             isBookmark = isBookmark(it.playlistId),
             songCount = getSongCount(it.playlistId),
-            isEditable = true
+            isEditable = isEditable
         )
     }
 }

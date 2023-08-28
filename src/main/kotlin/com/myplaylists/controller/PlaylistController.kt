@@ -6,7 +6,9 @@ import com.myplaylists.dto.*
 import com.myplaylists.dto.auth.LoginUser
 import com.myplaylists.dto.context.PlaylistsViewContext
 import com.myplaylists.service.BookmarkService
-import com.myplaylists.service.PlaylistService
+import com.myplaylists.service.playlist.BookmarkPlaylistService
+import com.myplaylists.service.playlist.AllPlaylistService
+import com.myplaylists.service.playlist.MyPlaylistService
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -21,8 +23,10 @@ import javax.validation.Valid
 
 @Controller
 class PlaylistController(
-    private val playlistService: PlaylistService,
-    private val bookmarkService: BookmarkService
+    private val myPlaylistService: MyPlaylistService,
+    private val allPlaylistService: AllPlaylistService,
+    private val bookmarkPlaylistService: BookmarkPlaylistService,
+    private val bookmarkService: BookmarkService,
 ) {
 
     companion object {
@@ -38,8 +42,8 @@ class PlaylistController(
     fun playlistView(@Login user: LoginUser?): ResponseEntity<String> {
         val category = user?.let { MY_PLAYLISTS } ?: ALL_PLAYLISTS
         val playlistsDto = user?.let {
-            playlistService.findMyPlaylists(user.userId)
-        } ?: playlistService.findAllPlaylists(user, PageRequest.of(0, 10, Sort.Direction.DESC, "updatedDate"))
+            myPlaylistService.findMyPlaylists(user.userId)
+        } ?: allPlaylistService.findAllPlaylists(null, PageRequest.of(0, 10, Sort.Direction.DESC, "updatedDate"))
 
         val context = PlaylistsViewContext(category = category, playlists = playlistsDto.playlists, isGuest = user == null)
         return ViewResponse.ok().render("playlists/playlists.html", context = context)
@@ -47,7 +51,7 @@ class PlaylistController(
 
     @GetMapping("/playlists/add")
     fun playlistAddView(@Login user: LoginUser): ResponseEntity<String> {
-        val playlistsDto = playlistService.findMyPlaylists(user.userId)
+        val playlistsDto = myPlaylistService.findMyPlaylists(user.userId)
         val context = PlaylistsViewContext(category = MY_PLAYLISTS, playlists = playlistsDto.playlists)
         return ViewResponse.ok().render("playlists/add.html", context = context)
     }
@@ -59,7 +63,7 @@ class PlaylistController(
     @ResponseBody
     @GetMapping("/my-playlists")
     fun getMyPlaylists(@Login user: LoginUser): PlaylistsDto {
-        return playlistService.findMyPlaylists(user.userId)
+        return myPlaylistService.findMyPlaylists(user.userId)
     }
 
     @ResponseBody
@@ -68,25 +72,25 @@ class PlaylistController(
         @Login user: LoginUser?, // 비회원도 모든 플레이리스트 최신 2페이지는 조회 가능하므로 nullable
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        return playlistService.findAllPlaylists(user, pageable)
+        return allPlaylistService.findAllPlaylists(user, pageable)
     }
 
     @ResponseBody
     @PostMapping("/playlists")
     fun createPlaylist(@RequestBody @Valid playlistRequestDto: PlaylistAddRequestDto, @Login user: LoginUser) {
-        playlistService.createPlaylist(user.userId, playlistRequestDto)
+        myPlaylistService.createPlaylist(user.userId, playlistRequestDto)
     }
 
     @ResponseBody
     @PutMapping("/playlists")
     fun updatePlaylist(@RequestBody @Valid playlistRequestDto: PlaylistUpdateRequestDto, @Login user: LoginUser) {
-        playlistService.updatePlaylist(user.userId, playlistRequestDto)
+        myPlaylistService.updatePlaylist(user.userId, playlistRequestDto)
     }
 
     @ResponseBody
     @DeleteMapping("/playlists")
     fun deletePlaylist(@Login user: LoginUser, @RequestParam p: String, @Decrypted playlistId: Long) {
-        playlistService.deletePlaylist(user.userId, playlistId)
+        myPlaylistService.deletePlaylist(user.userId, playlistId)
     }
 
     @ResponseBody
@@ -95,7 +99,7 @@ class PlaylistController(
         @Login user: LoginUser,
         @PageableDefault(sort = ["createdDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        return playlistService.findBookmarkPlaylists(user.userId, pageable)
+        return bookmarkPlaylistService.findBookmarkPlaylists(user.userId, pageable)
     }
 
     @ResponseBody
@@ -119,7 +123,7 @@ class PlaylistController(
         @Login user: LoginUser,
         @RequestParam q: String,
     ): PlaylistsDto {
-        return playlistService.searchMyPlaylists(user.userId, q)
+        return myPlaylistService.findMyPlaylistsByTitle(user.userId, q)
     }
 
     @ResponseBody
@@ -129,7 +133,7 @@ class PlaylistController(
         @RequestParam q: String,
         @PageableDefault(sort = ["updatedDate"], direction = Sort.Direction.DESC) pageable: Pageable
     ): PlaylistsDto {
-        return playlistService.searchAllPlaylists(user, pageable, q)
+        return allPlaylistService.findAllPlaylistsByTitle(user, pageable, q)
     }
 
     @GetMapping("/")
